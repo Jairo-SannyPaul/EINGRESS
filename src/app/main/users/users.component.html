@@ -5,15 +5,26 @@
     <div class="upper">
       <div class="upper-left">
         <app-searchfield></app-searchfield>
+        <button class="filter-icon" (click)="toggleFilter()">
+          <img src="/assets/images/filter-black.png">
+        </button>
       </div>
       <div class="upper-right">
         <app-delete-btn class="pointer"></app-delete-btn>
        <app-add-user-btn (addUserClicked)="onAddUserBtnClicked()" class="pointer"></app-add-user-btn>
       </div>
+      
     </div>
     <div class="lower">
+      <div *ngIf="filter" class="filterTab">
+        <span>Search by:</span>
+        <!-- <button class="filterName">Name</button>
+        <button class="filterRole">Role</button>
+        <button class="filterRFID"></button> -->
+      </div>
       <app-table></app-table>
       <app-add-user-form></app-add-user-form>
     </div>
+    
   </div>
 </div>
