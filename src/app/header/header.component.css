@@ -12,3 +12,50 @@ h1{
     color: white;
     margin-right: 20px;
 }
+.transparent-button {
+    background: transparent;
+    border: none;
+    color: black; /* Set the text color explicitly */
+    font-size: inherit; /* Inherit font size from parent */
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+}
+
+.transparent-button:hover {
+    text-decoration: underline; /* Optional: add underline on hover */
+}
+.button {
+    background: transparent;
+   
+    color: white;
+    font-size: 16px;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    position: relative; /* Ensure positioning for popup */
+  }
+  
+  .button:hover {
+    /* Increase size and appearance on hover */
+    padding: 20px 40px; /* Expand button size */
+    border-radius: 10px; /* Adjust border radius */
+  }
+  
+  .button:hover::after {
+    content: "Manage Account"; /* Content for popup */
+    position: absolute;
+    top: 100%; /* Position below the button */
+    left: 35%;
+    transform: translateX(-50%); /* Center horizontally */
+    background: var(--Icons-Primary, #314159); /* Popup background color */
+    border-radius: 10px; /* Rounded corners */
+    padding: 50px; /* Padding for content */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Background shadow */
+    color: white; /* Text color */
+    white-space: nowrap; /* Prevent text wrapping */
+    z-index: 10; /* Ensure popup is on top */
+    display: block; /* Make sure the popup is visible */
+  }
+  
