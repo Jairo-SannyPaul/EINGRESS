@@ -98,7 +98,7 @@
     margin-left: 5px;
     border-radius: 10px;
     width: 60px;
-    
+    color: black;
 }
 
 .filter:hover{
@@ -106,7 +106,10 @@
     color: white;
     cursor: pointer;
 }
-
+.active-filter {
+    background-color: var(--secondary);
+    color: white;
+}
 .fingerprint{
     width: 95px;
 }
