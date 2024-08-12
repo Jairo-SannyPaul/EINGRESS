@@ -5,57 +5,79 @@
     width: 100%;
     height: 48px;
     align-items: center;
+    position: relative;
 }   
 
-h1{
-    font-size: 1rem;
-    color: white;
-    margin-right: 20px;
-}
-.transparent-button {
-    background: transparent;
-    border: none;
-    color: black; /* Set the text color explicitly */
-    font-size: inherit; /* Inherit font size from parent */
-    cursor: pointer;
-    padding: 0;
-    margin: 0;
+h1 {
+  font-size: 1rem;
+  color: white;
+  margin-right: 20px;
+  cursor: pointer; 
+  user-select: none;
 }
 
-.transparent-button:hover {
-    text-decoration: underline; /* Optional: add underline on hover */
+h2{
+  font-size: 16px;
+  color: white;
+  margin: 0;
+  padding: 0;
+  margin-left: 5px;
 }
-.button {
-    background: transparent;
-   
-    color: white;
-    font-size: 16px;
-    padding: 10px 20px;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: all 0.3s ease;
-    position: relative; /* Ensure positioning for popup */
-  }
-  
-  .button:hover {
-    /* Increase size and appearance on hover */
-    padding: 20px 40px; /* Expand button size */
-    border-radius: 10px; /* Adjust border radius */
-  }
-  
-  .button:hover::after {
-    content: "Manage Account"; /* Content for popup */
-    position: absolute;
-    top: 100%; /* Position below the button */
-    left: 35%;
-    transform: translateX(-50%); /* Center horizontally */
-    background: var(--Icons-Primary, #314159); /* Popup background color */
-    border-radius: 10px; /* Rounded corners */
-    padding: 50px; /* Padding for content */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Background shadow */
-    color: white; /* Text color */
-    white-space: nowrap; /* Prevent text wrapping */
-    z-index: 10; /* Ensure popup is on top */
-    display: block; /* Make sure the popup is visible */
-  }
-  
+
+h5{
+  font-size: 12px;
+  color: var(--secondary);
+  margin: 0;
+  padding: 0;
+  margin-left: 5px;
+  margin-top: -5px;
+}
+
+.dropdown {
+  display: none; 
+  width: 210px;
+  height: 100px;
+  position: absolute; 
+  top: 100%; 
+  right: 0; 
+  background-color: var(--icons-primary);
+  color: black;
+  border-radius: 10px;
+  padding: 10px;
+  margin-top: -10px;
+  margin-right: 20px;
+  z-index: 1000; 
+}
+
+.dropdown.show {
+  display: block; 
+}
+
+.manage-account {
+  display: flex;
+  align-items: center;
+  width: 190px;
+  font-size: 14px;
+  color: #fff;
+  background-color: transparent; 
+  border: none; 
+  cursor: pointer; 
+  padding: 8px 12px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.manage-account .icon {
+  margin-right: 8px;
+  width: 18px; 
+  height: 18px;
+}
+
+.manage-account:hover {
+  border-radius: 10px;
+  background-color: var(--icons-tertiary); 
+}
+
+.manage-account:focus {
+  outline: none; 
+}
