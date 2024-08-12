@@ -16,7 +16,9 @@
       
     </div>
     <div class="lower">
+
       <div *ngIf="filterToggle" class="filterTab">
+        <div class="searchBy">
         <span>Search by:</span>
         <button 
           class="filter name" 
@@ -34,7 +36,16 @@
           class="filter fingerprint" 
           [ngClass]="{'active-filter': selectedFilter === 'fingerprint'}"
           (click)="selectFingerprint()">Fingerprint</button>
+        </div>
+        <div class="sortBy">
+            <select>
+              <option value="nameAsc">Sort by Name (A-Z)</option>
+              <option value="roleAsc">Sort by Role (A-Z)</option>
+            </select>
+        </div>
       </div>
+
+
       <app-table></app-table>
       <app-add-user-form></app-add-user-form>
     </div>
