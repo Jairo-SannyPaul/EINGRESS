@@ -5,7 +5,7 @@
     <div class="upper">
       <div class="upper-left">
         <app-searchfield></app-searchfield>
-        <button class="filter-icon" (click)="toggleFilter()">
+        <button class="filterbtn" (click)="toggleFilter()">
           <img src="/assets/images/filter-black.png">
         </button>
       </div>
@@ -16,11 +16,12 @@
       
     </div>
     <div class="lower">
-      <div *ngIf="filter" class="filterTab">
+      <div *ngIf="filterToggle" class="filterTab">
         <span>Search by:</span>
-        <!-- <button class="filterName">Name</button>
-        <button class="filterRole">Role</button>
-        <button class="filterRFID"></button> -->
+        <button class="filter name">Name</button>
+        <button class="filter role">Role</button>
+        <button class="filter rfid">RFID</button>
+        <button class="filter fingerprint">Fingerprint</button>
       </div>
       <app-table></app-table>
       <app-add-user-form></app-add-user-form>

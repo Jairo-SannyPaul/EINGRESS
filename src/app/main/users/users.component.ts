@@ -9,12 +9,12 @@ import { AddUserFormComponent } from './add-user-form/add-user-form.component';
 })
 export class UsersComponent {
   @ViewChild(AddUserFormComponent) addUserFormContainer!: AddUserFormComponent;
-  filter: boolean = false;
+  filterToggle: boolean = false;
   onAddUserBtnClicked(){
     this.addUserFormContainer.showAddUserForm();
   }
 
   toggleFilter(){
-    this.filter = !this.filter;
+    this.filterToggle = !this.filterToggle;
   }
 }
