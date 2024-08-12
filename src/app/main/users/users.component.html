@@ -38,14 +38,15 @@
           (click)="selectFingerprint()">Fingerprint</button>
         </div>
         <div class="sortBy">
-            <select>
-              <option value="nameAsc">Sort by Name (A-Z)</option>
-              <option value="roleAsc">Sort by Role (A-Z)</option>
-            </select>
+          <select [(ngModel)]="sortOption" (change)="onSortChange()">
+            <option value="nameAsc">Sort by Name (A-Z)</option>
+            <option value="nameDsc">Sort by Name (Z-A)</option>
+            <option value="roleAsc">Sort by Role (A-Z)</option>
+            <option value="roleDsc">Sort by Role (Z-A)</option>
+            <option value="logAsc">Sort by Last Log (Recent)</option>
+          </select>
         </div>
       </div>
-
-
       <app-table></app-table>
       <app-add-user-form></app-add-user-form>
     </div>

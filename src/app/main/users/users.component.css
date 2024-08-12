@@ -86,7 +86,7 @@
     align-items: center; /* Center items vertically */
     text-align: center; /* Optional: center the text */
     padding-left: 20px;
-    padding-right: 20px;
+    padding-right: 10px;
     justify-content: space-between;
 }
 
@@ -136,12 +136,13 @@
 }
 
 select{
+    padding-left: 10px;
     font-size: 1rem;
-    padding: 10px;
     height: 40px;
-    width: 200px;
+    width: 250px;
     border-radius: 10px;
     cursor: pointer;
+    border: 1px solid var(--background);
 }
 select:hover{
 background-color: var(--background);
