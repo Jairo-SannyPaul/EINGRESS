@@ -52,6 +52,7 @@ export class AddUserFormComponent {
   }
 
   hideAddUserForm() {
+    this.employeeService.triggerReload();
     this.addUserForm = false;
     this.resetForm();
     this.added = false;
@@ -104,7 +105,7 @@ export class AddUserFormComponent {
             response => {
               this.dialogService.openSuccessDialog('Employee Created Successfully').subscribe(confirmed => {
                 if (confirmed) {
-                  this.employeeService.reloadPage();
+
                   this.hideAddUserForm();
                 }
               });
@@ -119,7 +120,6 @@ export class AddUserFormComponent {
             response => {
               this.dialogService.openSuccessDialog('Employee Created Successfully').subscribe(confirmed => {
                 if (confirmed) {
-                  this.employeeService.reloadPage();
                   this.hideAddUserForm();
                 }
               });

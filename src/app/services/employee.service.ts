@@ -20,6 +20,8 @@ export class EmployeeService {
 
   private searchedUserTriggerSource = new Subject<string>();
   searchUserTrigger$ = this.searchedUserTriggerSource.asObservable();
+  private sortOptionSource = new BehaviorSubject<string>('nameAsc');
+  sortOption$ = this.sortOptionSource.asObservable();
 
   constructor(private http: HttpClient) { }
 
@@ -98,6 +100,9 @@ export class EmployeeService {
 
   triggerReload() {
     this.reloadSubject.next();
+  }
+  setSortOption(sortOption:string){
+    this.sortOptionSource.next(sortOption);
   }
 
 }
