@@ -75,19 +75,22 @@ export class EmployeeService {
   searchEmployee(searchInputValue: string): Observable<Employee[]> {
     return this.getEmployee().pipe(
       map(employees => {
-        const selectedFilter = this.selectedFilterSource.getValue(); // assuming you've stored the selected filter in the service
+        const selectedFilter = this.selectedFilterSource.getValue(); // Get the selected filter from the service
   
         const filteredEmployees = employees.filter(employee => {
+          const searchValueLower = searchInputValue.toLowerCase(); // Convert search input to lowercase for comparison
+  
           switch (selectedFilter) {
             case 'name':
-              return employee.fullname.toLowerCase().includes(searchInputValue.toLowerCase());
+              // Return employees whose names start with the search input
+              return employee.fullname.toLowerCase().startsWith(searchValueLower);
             case 'role':
-              return employee.role.toLowerCase().includes(searchInputValue.toLowerCase());
+              return employee.role.toLowerCase().includes(searchValueLower);
             case 'rfid':
-              return employee.rfidtag?.toLowerCase().includes(searchInputValue.toLowerCase()) || false;
+              return employee.rfidtag?.toLowerCase().includes(searchValueLower) || false;
             case 'fingerprint':
-              return employee.fingerprint1?.toLowerCase().includes(searchInputValue.toLowerCase()) ||
-                     employee.fingerprint2?.toLowerCase().includes(searchInputValue.toLowerCase());
+              return employee.fingerprint1?.toLowerCase().includes(searchValueLower) ||
+                     employee.fingerprint2?.toLowerCase().includes(searchValueLower);
             default:
               return false;
           }
@@ -97,6 +100,7 @@ export class EmployeeService {
       })
     );
   }
+  
   
 
   triggerDelete(){
