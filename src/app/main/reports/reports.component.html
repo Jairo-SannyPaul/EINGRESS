@@ -2,7 +2,7 @@
   <div class="users-list">
     <div class="header">
       <div class="left">
-      <app-reports-searchfield (searchChanged)="onSearchChanged($event)" [selectedReportsFilter]="selectedReportsFilter"></app-reports-searchfield>
+      <app-reports-searchfield [selectedReportsFilter]="selectedReportsFilter"></app-reports-searchfield>
       <button class="filterbtn" (click)="toggleFilter()">
         <img src="/assets/images/filter-black.png">
       </button>

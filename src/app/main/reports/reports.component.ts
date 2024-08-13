@@ -150,22 +150,27 @@ export class ReportsComponent implements OnInit {
 
   toggleFilter(){
     this.filterToggle = !this.filterToggle;
+    
   }
 
   selectName(){
     this.selectedReportsFilter ='name';
+    this.employeeService.setFilterOption(this.selectedReportsFilter);
   }
 
   selectRole(){
     this.selectedReportsFilter ='role';
+    this.employeeService.setFilterOption(this.selectedReportsFilter);
   }
 
   selectRfid(){
     this.selectedReportsFilter ='rfid';
+    this.employeeService.setFilterOption(this.selectedReportsFilter);
   }
 
   selectFingerprint(){
     this.selectedReportsFilter ='fingerprint';
+    this.employeeService.setFilterOption(this.selectedReportsFilter);
   }
 
 }
