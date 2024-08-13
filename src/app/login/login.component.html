@@ -19,11 +19,11 @@
         <form [formGroup]="form" class="login-form">  
 
             <div class="login-input">
-                <input formControlName="username" type="text" class="form-control" placeholder="Username" required>
+                <input formControlName="username" class="form-control" type="text" placeholder="Username" (focus)="clearText($event)" (blur)="resetPlaceholder($event)" required>
                 <div class="password-container">
-                    <input formControlName="password" type="password" class="form-control" placeholder="Password" required>
-                    <img src="/assets/images/show-password.png" alt="" id="show-icon">
-                </div>
+                    <input formControlName="password" class="form-control" [type]="showPassword ? 'text' : 'password'" placeholder="Password" (focus)="clearText($event)" (blur)="resetPlaceholder($event)">
+                    <img [src]="showPassword ? '/assets/images/show-password.png' : '/assets/images/hide-password.png'" alt="Toggle Password Visibility" id="show-icon" (click)="togglePasswordVisibility('password')" required>
+                </div>                
                 <div class="remember-me">
                     <input type="checkbox" name="remember" id="remember"> 
                     <label for="remember" class="remember">Remember me</label>

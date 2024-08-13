@@ -141,20 +141,20 @@
   
   .btn-clear {
     background-color: #FFE6E6; 
-    color: red; 
+    color: var(--error); 
   }
   
   .btn-clear:hover {
-    background-color: red; 
+    background-color: var(--error); 
     color: white; 
   }
   
   .btn-submit {
     background-color: #E3F2FF; 
-    color: blue; 
+    color: var(--secondary); 
   }
   
   .btn-submit:hover {
-    background-color: blue; 
+    background-color: var(--secondary); 
     color: white; 
   }

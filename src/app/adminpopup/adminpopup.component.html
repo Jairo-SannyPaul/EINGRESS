@@ -16,7 +16,7 @@
     <span>Old Password</span>
     <div class="password-container">
       <input formControlName="oldPassword" class="textbox" [type]="showOldPassword ? 'text' : 'password'" placeholder="Enter Old Password" (focus)="clearText($event)" (blur)="resetPlaceholder($event)">
-      <img [src]="showOldPassword ? '/assets/images/hide-password.png' : '/assets/images/show-password.png'" alt="Toggle Password Visibility" class="toggle-password" (click)="togglePasswordVisibility('oldPassword')">
+      <img [src]="showOldPassword ? '/assets/images/show-password.png' : '/assets/images/hide-password.png'" alt="Toggle Password Visibility" class="toggle-password" (click)="togglePasswordVisibility('oldPassword')">
     </div>
   </div>
   
@@ -24,7 +24,7 @@
     <span>New Password</span>
     <div class="password-container">
       <input formControlName="newPassword" class="textbox" [type]="showNewPassword ? 'text' : 'password'" placeholder="Enter New Password" (focus)="clearText($event)" (blur)="resetPlaceholder($event)">
-      <img [src]="showNewPassword ? '/assets/images/hide-password.png' : '/assets/images/show-password.png'" alt="Toggle Password Visibility" class="toggle-password" (click)="togglePasswordVisibility('newPassword')">
+      <img [src]="showNewPassword ? '/assets/images/show-password.png' : '/assets/images/hide-password.png'" alt="Toggle Password Visibility" class="toggle-password" (click)="togglePasswordVisibility('newPassword')">
     </div>
   </div>
   
@@ -32,7 +32,7 @@
     <span>Confirm Password</span>
     <div class="password-container">
       <input formControlName="confirmPassword" class="textbox" [type]="showConfirmPassword ? 'text' : 'password'" placeholder="Confirm Password" (focus)="clearText($event)" (blur)="resetPlaceholder($event)">
-      <img [src]="showConfirmPassword ? '/assets/images/hide-password.png' : '/assets/images/show-password.png'" alt="Toggle Password Visibility" class="toggle-password" (click)="togglePasswordVisibility('confirmPassword')">
+      <img [src]="showConfirmPassword ? '/assets/images/show-password.png' : '/assets/images/hide-password.png'" alt="Toggle Password Visibility" class="toggle-password" (click)="togglePasswordVisibility('confirmPassword')">
     </div>
   </div>  
 </div>
