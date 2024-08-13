@@ -11,31 +11,29 @@
       </div>
       <div class="upper-right">
         <app-delete-btn class="pointer"></app-delete-btn>
-       <app-add-user-btn (addUserClicked)="onAddUserBtnClicked()" class="pointer"></app-add-user-btn>
+        <app-add-user-btn (addUserClicked)="onAddUserBtnClicked()" class="pointer"></app-add-user-btn>
       </div>
-      
     </div>
     <div class="lower">
-
-      <div *ngIf="filterToggle" class="filterTab">
+      <div *ngIf="filterToggle" @slideIn class="filterTab" >
         <div class="searchBy">
-        <span>Search by:</span>
-        <button 
-          class="filter name" 
-          [ngClass]="{'active-filter': selectedFilter === 'name'}"
-          (click)="selectName()">Name</button>
-        <button 
-          class="filter role" 
-          [ngClass]="{'active-filter': selectedFilter === 'role'}"
-          (click)="selectRole()">Role</button>
-        <button 
-          class="filter rfid" 
-          [ngClass]="{'active-filter': selectedFilter === 'rfid'}"
-          (click)="selectRfid()">RFID</button>
-        <button 
-          class="filter fingerprint" 
-          [ngClass]="{'active-filter': selectedFilter === 'fingerprint'}"
-          (click)="selectFingerprint()">Fingerprint</button>
+          <span>Search by:</span>
+          <button 
+            class="filter name" 
+            [ngClass]="{'active-filter': selectedFilter === 'name'}"
+            (click)="selectName()">Name</button>
+          <button 
+            class="filter role" 
+            [ngClass]="{'active-filter': selectedFilter === 'role'}"
+            (click)="selectRole()">Role</button>
+          <button 
+            class="filter rfid" 
+            [ngClass]="{'active-filter': selectedFilter === 'rfid'}"
+            (click)="selectRfid()">RFID</button>
+          <button 
+            class="filter fingerprint" 
+            [ngClass]="{'active-filter': selectedFilter === 'fingerprint'}"
+            (click)="selectFingerprint()">Fingerprint</button>
         </div>
         <div class="sortBy">
           <select [(ngModel)]="sortOption" (change)="onSortChange()">
@@ -50,6 +48,5 @@
       <app-table></app-table>
       <app-add-user-form></app-add-user-form>
     </div>
-    
   </div>
 </div>

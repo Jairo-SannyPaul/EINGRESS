@@ -1,7 +1,13 @@
 <div class="contents">
   <div class="users-list">
     <div class="header">
-      <app-reports-searchfield (searchChanged)="onSearchChanged($event)"></app-reports-searchfield>
+      <div class="left">
+      <app-reports-searchfield (searchChanged)="onSearchChanged($event)" [selectedReportsFilter]="selectedReportsFilter"></app-reports-searchfield>
+      <button class="filterbtn" (click)="toggleFilter()">
+        <img src="/assets/images/filter-black.png">
+      </button>
+    </div>
+      <div class="right">
       <div class="datepicker">
         <mat-form-field appearance="fill">
           <input matInput [matDatepicker]="picker" placeholder="Choose a date" (dateChange)="onDateChanged($event)">
@@ -11,13 +17,47 @@
         </mat-form-field>
       </div>
     </div>
+    </div>
+
+
+    <div *ngIf="filterToggle" @slideIn class="filterTab" >
+      <div class="searchBy">
+        <span>Search by:</span>
+        <button 
+          class="filter name" 
+          [ngClass]="{'active-filter': selectedReportsFilter === 'name'}"
+          (click)="selectName()">Name</button>
+        <button 
+          class="filter role" 
+          [ngClass]="{'active-filter': selectedReportsFilter === 'role'}"
+          (click)="selectRole()">Role</button>
+        <button 
+          class="filter rfid" 
+          [ngClass]="{'active-filter': selectedReportsFilter === 'rfid'}"
+          (click)="selectRfid()">RFID</button>
+        <button 
+          class="filter fingerprint" 
+          [ngClass]="{'active-filter': selectedReportsFilter === 'fingerprint'}"
+          (click)="selectFingerprint()">Fingerprint</button>
+      </div>
+      <div class="sortBy">
+        <select [(ngModel)]="sortOption" (change)="onSortChange()">
+          <option value="nameAsc">Sort by Name (A-Z)</option>
+          <option value="nameDsc">Sort by Name (Z-A)</option>
+          <option value="roleAsc">Sort by Role (A-Z)</option>
+          <option value="roleDsc">Sort by Role (Z-A)</option>
+          <option value="logAsc">Sort by Last Log (Recent)</option>
+        </select>
+      </div>
+    </div>
+
 
     <app-table1 
   [employees]="filteredEmployees" 
   (employeeSelected)="handleEmployeeSelected($event)">
 </app-table1>
 
-  
+
   </div>
   <div class="user-details">
     <app-user-details 

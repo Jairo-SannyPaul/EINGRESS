@@ -33,7 +33,7 @@ export class UserSelectionComponent implements OnInit, OnDestroy {
       this.loadEmployeeInfo(); // Refresh employee info when reload is triggered
     });
 
-    // Subscribe to sortOption changes
+
     this.sortOptionSubscription = this.employeeService.sortOption$.subscribe(sortOption => {
       this.sortOption = sortOption;
       this.sortEmployees(this.sortOption);
