@@ -20,8 +20,11 @@ export class Table1Component implements OnInit {
   loginSessions: { accessDateTime: Date, date: string, time: string }[] = []; // Initialize as empty array
   noEmployeesFound: boolean = false; // Variable to track if no employees are found
   sortOption: string = 'nameAsc';
+  @Input() selectedFilter: string = 'name';  // Selected filter input
   cdr: any;
   private sortOptionSubscription: Subscription | undefined;
+  searchSubscription: any;
+  reloadSubscription: any;
   constructor(
     private employeeService: EmployeeService,
     private accessLogService: AccessLogService
@@ -30,10 +33,28 @@ export class Table1Component implements OnInit {
   ngOnInit() {
     this.loadEmployeeInfo();
 
+    this.reloadSubscription = this.employeeService.reload$.subscribe(() => {
+      this.loadEmployeeInfo(); // Refresh employee info when reload is triggered
+    });
+
     this.sortOptionSubscription = this.employeeService.sortOption$.subscribe(sortOption => {
       this.sortOption = sortOption;
       this.sortEmployees(this.sortOption);
     });
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['sortOption']) {
+      console.log('Sort option changed:', this.sortOption);
+      this.sortEmployees(this.sortOption);
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.searchSubscription) {
+      this.searchSubscription.unsubscribe();
+    }
+    this.reloadSubscription.unsubscribe();
   }
 
   loadEmployeeInfo() {
@@ -41,7 +62,7 @@ export class Table1Component implements OnInit {
       startWith(''),
       switchMap(searchInputValue => {
         return searchInputValue.trim()
-          ? this.employeeService.searchEmployee(searchInputValue)
+          ? this.employeeService.searchEmployee(searchInputValue) // Pass selectedFilter here
           : this.employeeService.getEmployee();
       })
     ).subscribe(employees => {

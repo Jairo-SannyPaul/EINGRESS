@@ -18,6 +18,7 @@ export class UserSelectionComponent implements OnInit, OnDestroy {
   private reloadSubscription: Subscription = new Subscription();
   private sortOptionSubscription: Subscription | undefined;
   sortOption: string = 'nameAsc';
+  @Input() selectedFilter: string = 'name';  // Selected filter input
   @Output() employeeSelected = new EventEmitter<Employee>();
 
   constructor(
@@ -33,18 +34,19 @@ export class UserSelectionComponent implements OnInit, OnDestroy {
       this.loadEmployeeInfo(); // Refresh employee info when reload is triggered
     });
 
-
     this.sortOptionSubscription = this.employeeService.sortOption$.subscribe(sortOption => {
       this.sortOption = sortOption;
       this.sortEmployees(this.sortOption);
     });
   }
+
   ngOnChanges(changes: SimpleChanges) {
     if (changes['sortOption']) {
       console.log('Sort option changed:', this.sortOption);
       this.sortEmployees(this.sortOption);
     }
   }
+
   ngOnDestroy() {
     if (this.searchSubscription) {
       this.searchSubscription.unsubscribe();
@@ -57,7 +59,7 @@ export class UserSelectionComponent implements OnInit, OnDestroy {
       startWith(''),
       switchMap(searchInputValue => {
         return searchInputValue.trim()
-          ? this.employeeService.searchEmployee(searchInputValue)
+          ? this.employeeService.searchEmployee(searchInputValue) // Pass selectedFilter here
           : this.employeeService.getEmployee();
       })
     ).subscribe(employees => {

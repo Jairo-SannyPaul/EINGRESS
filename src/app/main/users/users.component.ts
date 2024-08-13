@@ -2,6 +2,7 @@ import { Component, ViewChild, EventEmitter, Output } from '@angular/core';
 import { AddUserFormComponent } from './add-user-form/add-user-form.component';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { trigger, state, style, transition, animate } from '@angular/animations';
+
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
@@ -32,37 +33,42 @@ export class UsersComponent {
   filterToggle: boolean = false;
   selectedFilter: string = 'name';
   sortOption: string = 'nameAsc';
-  constructor(private employeeService: EmployeeService){}
+
+  constructor(private employeeService: EmployeeService) {}
 
   onSortChange() {
-    console.log('Sort option changed:', this.sortOption); // Debugging log
+    console.log('Sort option changed:', this.sortOption);
     this.sortOptionChanged.emit(this.sortOption);
 
     // Optional: you might also update the service or trigger other actions if needed
     this.employeeService.setSortOption(this.sortOption);
   }
-  onAddUserBtnClicked(){
+
+  onAddUserBtnClicked() {
     this.addUserFormContainer.showAddUserForm();
   }
 
-  toggleFilter(){
+  toggleFilter() {
     this.filterToggle = !this.filterToggle;
   }
 
   selectName(){
     this.selectedFilter ='name';
+    this.employeeService.setFilterOption(this.selectedFilter);
   }
 
   selectRole(){
     this.selectedFilter ='role';
+    this.employeeService.setFilterOption(this.selectedFilter);
   }
 
   selectRfid(){
     this.selectedFilter ='rfid';
+    this.employeeService.setFilterOption(this.selectedFilter);
   }
 
   selectFingerprint(){
     this.selectedFilter ='fingerprint';
+    this.employeeService.setFilterOption(this.selectedFilter);
   }
-
 }

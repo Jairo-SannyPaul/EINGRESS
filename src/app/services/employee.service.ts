@@ -22,7 +22,8 @@ export class EmployeeService {
   searchUserTrigger$ = this.searchedUserTriggerSource.asObservable();
   private sortOptionSource = new BehaviorSubject<string>('nameAsc');
   sortOption$ = this.sortOptionSource.asObservable();
-
+  private selectedFilterSource = new BehaviorSubject<string>('name');
+  selectedFilter$ = this.selectedFilterSource.asObservable();
   constructor(private http: HttpClient) { }
 
   getEmployee(): Observable<Employee[]> {
@@ -71,22 +72,38 @@ export class EmployeeService {
     return this.http.put<Employee>(updateEmployeeUrl, formData); // Send PUT request without image
   }
 
-  searchEmployee(searchInputValue: string): Observable<Employee[]>{
+  searchEmployee(searchInputValue: string): Observable<Employee[]> {
     return this.getEmployee().pipe(
       map(employees => {
-        const filteredEmployees = employees.filter(
-          employee => employee.fullname.toLowerCase().includes(searchInputValue.toLowerCase())
-        );
+        const selectedFilter = this.selectedFilterSource.getValue(); // assuming you've stored the selected filter in the service
+  
+        const filteredEmployees = employees.filter(employee => {
+          switch (selectedFilter) {
+            case 'name':
+              return employee.fullname.toLowerCase().includes(searchInputValue.toLowerCase());
+            case 'role':
+              return employee.role.toLowerCase().includes(searchInputValue.toLowerCase());
+            case 'rfid':
+              return employee.rfidtag?.toLowerCase().includes(searchInputValue.toLowerCase()) || false;
+            case 'fingerprint':
+              return employee.fingerprint1?.toLowerCase().includes(searchInputValue.toLowerCase()) ||
+                     employee.fingerprint2?.toLowerCase().includes(searchInputValue.toLowerCase());
+            default:
+              return false;
+          }
+        });
+  
         return filteredEmployees;
       })
     );
   }
+  
 
   triggerDelete(){
     this.deletedClickedSource.next();
   }
 
-  triggerSearchUser(searchInputValue: string){
+  triggerSearchUser(searchInputValue: string) {
     this.searchedUserTriggerSource.next(searchInputValue);
   }
 
@@ -103,6 +120,9 @@ export class EmployeeService {
   }
   setSortOption(sortOption:string){
     this.sortOptionSource.next(sortOption);
+  }
+  setFilterOption(filter: string) {
+    this.selectedFilterSource.next(filter);
   }
 
 }

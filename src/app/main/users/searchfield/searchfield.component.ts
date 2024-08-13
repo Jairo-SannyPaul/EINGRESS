@@ -23,7 +23,11 @@ export class SearchfieldComponent {
       this.searchInput.nativeElement.value = "";
     });
   }
-
+  ngOnDestroy() {
+    if (this.reloadSubscription) {
+      this.reloadSubscription.unsubscribe();
+    }
+  }
   onSearchUserInputChanged() {
     this.searchEmployee = this.searchInput.nativeElement.value;
     this.employeeService.triggerSearchUser(this.searchEmployee);
