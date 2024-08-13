@@ -1,5 +1,13 @@
 <div class="contents">
     <div class="banner">
-        <h1>Welcome Admin!</h1>
+        <h1 (click)="toggleDropdown()">Welcome Admin!</h1>
+        <div class="dropdown" [ngClass]="{ 'show': isDropdownOpen }">
+            <h2>Max Smith</h2>
+            <h5>Administrator</h5>
+            <button class="manage-account" (click)="openDialog()">
+                <img src="/assets/images/settings.png" alt="Manage Account Icon" class="icon">
+                <span>Manage account</span>
+            </button>        
+        </div>
     </div>    
 </div>

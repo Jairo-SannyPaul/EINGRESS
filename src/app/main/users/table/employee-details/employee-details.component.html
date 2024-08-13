@@ -39,7 +39,18 @@
               </div>
               <div class="details-holder">
                 <span>RFID</span>
-                <input formControlName="rfidtag" #rfidInput type="text" placeholder="ABC19021DC">
+                <div class="input-wrapper" [ngClass]="{'show-check': showCopyNotification}">
+                  <input formControlName="rfidtag" #rfidInput type="text" placeholder="ABC19021DC">
+                  <div class="copy" (click)="copyRFID()">
+                    <img src="/assets/images/copy-blue.png" alt="Copy RFID">
+                  </div>
+                </div>
+                
+                <div *ngIf="showCopyNotification" class="copy-notification">
+                  RFID copied to clipboard
+                </div>
+                
+                
               </div>
             </div>
           </div>

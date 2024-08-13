@@ -46,6 +46,7 @@ import { RecentLoginComponent } from './main/dashboard/recent-login/recent-login
 import { ConfirmDialogComponent } from './dialogs/confirm-dialog/confirm-dialog.component';
 import { AlertDialogComponent } from './dialogs/alert-dialog/alert-dialog.component';
 import { SuccessDialogComponent } from './dialogs/success-dialog/success-dialog.component';
+import { AdminpopupComponent } from './adminpopup/adminpopup.component';
 
 
 
@@ -79,6 +80,7 @@ import { SuccessDialogComponent } from './dialogs/success-dialog/success-dialog.
     ConfirmDialogComponent,
     AlertDialogComponent,
     SuccessDialogComponent,
+    AdminpopupComponent,
   ],
   imports: [
     BrowserModule,

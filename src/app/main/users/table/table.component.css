@@ -10,9 +10,6 @@ input[type="checkbox"] {
     height: 100%;
     grid-template-columns: 1fr; /* Assuming one column */
     grid-template-rows: 60px auto; /* Fixed height for header, rest fills remaining space */
-    padding-left: 20px;
-    padding-right: 20px;
-    
 }
 
 .table-header {

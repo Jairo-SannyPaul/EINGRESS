@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, ChangeDetectorRef, EventEmitter, Input, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Employee } from 'src/app/interface/employee.interface';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { startWith, switchMap } from 'rxjs/operators';
@@ -16,21 +16,35 @@ export class UserSelectionComponent implements OnInit, OnDestroy {
   filteredEmployees: Employee[] = [];
   searchSubscription: Subscription | undefined;
   private reloadSubscription: Subscription = new Subscription();
+  private sortOptionSubscription: Subscription | undefined;
+  sortOption: string = 'nameAsc';
+  @Input() selectedFilter: string = 'name';  // Selected filter input
+  @Output() employeeSelected = new EventEmitter<Employee>();
 
-  @Output() employeeSelected = new EventEmitter<any>();
-
-  constructor(private employeeService: EmployeeService, private dialogService: DialogService) {}
+  constructor(
+    private employeeService: EmployeeService,
+    private dialogService: DialogService,
+    private cdr: ChangeDetectorRef // Inject ChangeDetectorRef properly
+  ) {}
 
   ngOnInit() {
     this.loadEmployeeInfo();
 
-    this.employeeService.deletedClicked$.subscribe(() => {
-      this.deleteEmployee();
-    });
-
     this.reloadSubscription = this.employeeService.reload$.subscribe(() => {
       this.loadEmployeeInfo(); // Refresh employee info when reload is triggered
     });
+
+    this.sortOptionSubscription = this.employeeService.sortOption$.subscribe(sortOption => {
+      this.sortOption = sortOption;
+      this.sortEmployees(this.sortOption);
+    });
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['sortOption']) {
+      console.log('Sort option changed:', this.sortOption);
+      this.sortEmployees(this.sortOption);
+    }
   }
 
   ngOnDestroy() {
@@ -41,27 +55,74 @@ export class UserSelectionComponent implements OnInit, OnDestroy {
   }
 
   loadEmployeeInfo() {
-    this.searchSubscription = this.employeeService.searchUserTrigger$.pipe(
+    this.employeeService.searchUserTrigger$.pipe(
       startWith(''),
       switchMap(searchInputValue => {
-        if (!searchInputValue.trim()) {
-          return this.employeeService.getEmployee();
-        } else {
-          return this.employeeService.searchEmployee(searchInputValue);
-        }
+        return searchInputValue.trim()
+          ? this.employeeService.searchEmployee(searchInputValue) // Pass selectedFilter here
+          : this.employeeService.getEmployee();
       })
     ).subscribe(employees => {
       this.employees = employees;
       this.filteredEmployees = [...this.employees];
+      this.sortEmployees(this.sortOption); // Sort employees after loading
     });
   }
 
+  sortEmployees(sortOption: string) {
+    switch (sortOption) {
+      case 'nameAsc':
+        this.filteredEmployees.sort((a, b) => a.fullname.localeCompare(b.fullname));
+        break;
+      case 'nameDsc':
+        this.filteredEmployees.sort((a, b) => b.fullname.localeCompare(a.fullname));
+        break;
+      case 'roleAsc':
+        this.filteredEmployees.sort((a, b) => {
+          if (a.role === b.role) {
+            return a.fullname.localeCompare(b.fullname);
+          }
+          return a.role.localeCompare(b.role);
+        });
+        break;
+      case 'roleDsc':
+        this.filteredEmployees.sort((a, b) => {
+          if (a.role === b.role) {
+            return b.fullname.localeCompare(a.fullname);
+          }
+          return b.role.localeCompare(a.role);
+        });
+        break;
+        case 'logAsc':
+          this.filteredEmployees.sort((a, b) => {
+            const dateA = a.lastlogdate
+              ? new Date(a.lastlogdate.replace(/(\d{2})\/(\d{2})\/(\d{4}), (\d{2}):(\d{2}):(\d{2})/, '$3-$1-$2T$4:$5:$6'))
+              : new Date(0);
+            const dateB = b.lastlogdate
+              ? new Date(b.lastlogdate.replace(/(\d{2})\/(\d{2})\/(\d{4}), (\d{2}):(\d{2}):(\d{2})/, '$3-$1-$2T$4:$5:$6'))
+              : new Date(0);
+            return dateB.getTime() - dateA.getTime(); // Most recent first
+          });
+          break;
+      }
+      this.cdr.markForCheck(); // Ensure the changes are detected
+  }
+  
+
+  onSortChange(sortOption: string) {
+    this.sortOption = sortOption;
+    this.sortEmployees(this.sortOption);
+  }
+
   deleteEmployee() {
-    const selectedEmployee = this.employees.filter(employee => employee.selected).map(employee => employee.id);
-    if (selectedEmployee.length > 0) {
+    const selectedEmployeeIds = this.employees
+      .filter(employee => employee.selected)
+      .map(employee => employee.id);
+
+    if (selectedEmployeeIds.length > 0) {
       this.dialogService.openConfirmDialog('Do you want to Delete this user/s?', 'Cancel', 'Confirm').subscribe(confirmed => {
         if (confirmed) {
-          this.employeeService.deleteEmployee(selectedEmployee).subscribe(() => {
+          this.employeeService.deleteEmployee(selectedEmployeeIds).subscribe(() => {
             this.loadEmployeeInfo(); // Refresh employee info after deletion
           });
         }

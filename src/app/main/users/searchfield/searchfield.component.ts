@@ -1,6 +1,7 @@
-import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, EventEmitter, Output, ViewChild } from '@angular/core';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { Subscription } from 'rxjs';
+
 @Component({
   selector: 'app-searchfield',
   templateUrl: './searchfield.component.html',
@@ -9,7 +10,9 @@ import { Subscription } from 'rxjs';
 export class SearchfieldComponent {
 
   @ViewChild('searchInput') searchInput!: ElementRef;
-  searchEmployee: string = ''
+  @Input() selectedFilter: string = 'name';  // Accepts selectedFilter as an input
+
+  searchEmployee: string = '';
   isFocused: boolean = false;
   private reloadSubscription: Subscription = new Subscription();
 
@@ -20,19 +23,29 @@ export class SearchfieldComponent {
       this.searchInput.nativeElement.value = "";
     });
   }
-
-  onSearchUserInputChanged(){
+  ngOnDestroy() {
+    if (this.reloadSubscription) {
+      this.reloadSubscription.unsubscribe();
+    }
+  }
+  onSearchUserInputChanged() {
     this.searchEmployee = this.searchInput.nativeElement.value;
     this.employeeService.triggerSearchUser(this.searchEmployee);
   }
 
-  onInputBlur(){
-    if(!this.searchEmployee.trim()){
+  onInputBlur() {
+    if (!this.searchEmployee.trim()) {
       this.employeeService.triggerSearchUser('');
     }
   }
 
   toggleActive() {
     this.isFocused = !this.isFocused;
+  }
+
+  clearSearchField() {
+    this.searchEmployee = '';
+    this.searchInput.nativeElement.value = '';
+    this.employeeService.triggerSearchUser('');
   }
 }

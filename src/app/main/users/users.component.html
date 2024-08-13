@@ -1,17 +1,49 @@
-<!-- users.component.html -->
 <div class="main-container">
   <span>Users</span>
   <div class="inner-container">
     <div class="upper">
       <div class="upper-left">
-        <app-searchfield></app-searchfield>
+        <app-searchfield [selectedFilter]="selectedFilter"></app-searchfield>
+        <button class="filterbtn" (click)="toggleFilter()">
+          <img src="/assets/images/filter-black.png">
+        </button>
       </div>
       <div class="upper-right">
         <app-delete-btn class="pointer"></app-delete-btn>
-       <app-add-user-btn (addUserClicked)="onAddUserBtnClicked()" class="pointer"></app-add-user-btn>
+        <app-add-user-btn (addUserClicked)="onAddUserBtnClicked()" class="pointer"></app-add-user-btn>
       </div>
     </div>
     <div class="lower">
+      <div *ngIf="filterToggle" @slideIn class="filterTab" >
+        <div class="searchBy">
+          <span>Search by:</span>
+          <button 
+            class="filter name" 
+            [ngClass]="{'active-filter': selectedFilter === 'name'}"
+            (click)="selectName()">Name</button>
+          <button 
+            class="filter role" 
+            [ngClass]="{'active-filter': selectedFilter === 'role'}"
+            (click)="selectRole()">Role</button>
+          <button 
+            class="filter rfid" 
+            [ngClass]="{'active-filter': selectedFilter === 'rfid'}"
+            (click)="selectRfid()">RFID</button>
+          <button 
+            class="filter fingerprint" 
+            [ngClass]="{'active-filter': selectedFilter === 'fingerprint'}"
+            (click)="selectFingerprint()">Fingerprint</button>
+        </div>
+        <div class="sortBy">
+          <select [(ngModel)]="sortOption" (change)="onSortChange()">
+            <option value="nameAsc">Sort by Name (A-Z)</option>
+            <option value="nameDsc">Sort by Name (Z-A)</option>
+            <option value="roleAsc">Sort by Role (A-Z)</option>
+            <option value="roleDsc">Sort by Role (Z-A)</option>
+            <option value="logAsc">Sort by Last Log (Recent)</option>
+          </select>
+        </div>
+      </div>
       <app-table></app-table>
       <app-add-user-form></app-add-user-form>
     </div>

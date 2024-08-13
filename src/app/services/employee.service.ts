@@ -20,7 +20,10 @@ export class EmployeeService {
 
   private searchedUserTriggerSource = new Subject<string>();
   searchUserTrigger$ = this.searchedUserTriggerSource.asObservable();
-
+  private sortOptionSource = new BehaviorSubject<string>('nameAsc');
+  sortOption$ = this.sortOptionSource.asObservable();
+  private selectedFilterSource = new BehaviorSubject<string>('name');
+  selectedFilter$ = this.selectedFilterSource.asObservable();
   constructor(private http: HttpClient) { }
 
   getEmployee(): Observable<Employee[]> {
@@ -69,22 +72,42 @@ export class EmployeeService {
     return this.http.put<Employee>(updateEmployeeUrl, formData); // Send PUT request without image
   }
 
-  searchEmployee(searchInputValue: string): Observable<Employee[]>{
+  searchEmployee(searchInputValue: string): Observable<Employee[]> {
     return this.getEmployee().pipe(
       map(employees => {
-        const filteredEmployees = employees.filter(
-          employee => employee.fullname.toLowerCase().includes(searchInputValue.toLowerCase())
-        );
+        const selectedFilter = this.selectedFilterSource.getValue(); // Get the selected filter from the service
+  
+        const filteredEmployees = employees.filter(employee => {
+          const searchValueLower = searchInputValue.toLowerCase(); // Convert search input to lowercase for comparison
+  
+          switch (selectedFilter) {
+            case 'name':
+              // Return employees whose names start with the search input
+              return employee.fullname.toLowerCase().startsWith(searchValueLower);
+            case 'role':
+              return employee.role.toLowerCase().includes(searchValueLower);
+            case 'rfid':
+              return employee.rfidtag?.toLowerCase().includes(searchValueLower) || false;
+            case 'fingerprint':
+              return employee.fingerprint1?.toLowerCase().includes(searchValueLower) ||
+                     employee.fingerprint2?.toLowerCase().includes(searchValueLower);
+            default:
+              return false;
+          }
+        });
+  
         return filteredEmployees;
       })
     );
   }
+  
+  
 
   triggerDelete(){
     this.deletedClickedSource.next();
   }
 
-  triggerSearchUser(searchInputValue: string){
+  triggerSearchUser(searchInputValue: string) {
     this.searchedUserTriggerSource.next(searchInputValue);
   }
 
@@ -98,6 +121,12 @@ export class EmployeeService {
 
   triggerReload() {
     this.reloadSubject.next();
+  }
+  setSortOption(sortOption:string){
+    this.sortOptionSource.next(sortOption);
+  }
+  setFilterOption(filter: string) {
+    this.selectedFilterSource.next(filter);
   }
 
 }
