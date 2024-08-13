@@ -25,7 +25,7 @@ export class EmployeeDetailsComponent implements OnChanges {
   isUpdating: boolean = false;
   baseUrl = this.employeeService.apiUrl;
   added!: boolean;
-
+  showCopyNotification: boolean = false;
   constructor(private formBuilder: FormBuilder, private employeeService: EmployeeService, private dialogService: DialogService) {
     this.updateEmployeeForm = this.formBuilder.group({
       fullname: ['', Validators.required],
@@ -205,4 +205,35 @@ export class EmployeeDetailsComponent implements OnChanges {
       return;
     }
 }
+
+
+
+copyRFID() {
+  const rfidInput = this.rfidInput.nativeElement as HTMLInputElement;
+  
+  // Temporarily enable the input if it's disabled and editMode is not active
+  const wasDisabled = rfidInput.disabled && !this.editMode;
+  if (wasDisabled) {
+    rfidInput.disabled = false;
+  }
+
+  // Copy the value to the clipboard using the Clipboard API
+  navigator.clipboard.writeText(rfidInput.value).then(() => {
+    // Show the notification and change the icon
+    this.showCopyNotification = true;
+
+    // Automatically hide the notification and revert the icon after 1 second
+    setTimeout(() => {
+      this.showCopyNotification = false;
+      if (wasDisabled) {
+        rfidInput.disabled = true;
+      }
+    }, 1000);
+  }).catch(err => {
+    console.error('Failed to copy: ', err);
+  });
+}
+
+
+
 }

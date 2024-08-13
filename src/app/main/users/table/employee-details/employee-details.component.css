@@ -457,6 +457,82 @@ h5 {
       .addfingerprintbtn:hover .fingerprint-span {
         color: white;
       }
+
+
+      .details-holder {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .input-wrapper {
+        position: relative;
+        width: 100%;
+        display: flex;
+        align-items: center;
+      }
+      
+      input[formControlName="rfidtag"] {
+        width: 80%;
+        padding-right: 30px; /* Adjust padding to make space for the copy button */
+        box-sizing: border-box;
+        background-color: #f5f5f5;
+      }
+      
+      .copy {
+        height: 40px;
+        width: 40px;
+        position: absolute;
+        right: 0px;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        background-color: #f5f5f5;
+        justify-content: center;
+        border-radius: 10px;
+      }
+
+      .copy:hover {
+        background-color: var(--secondary);
+        transition: background-color 0.3s ease, color 0.2s ease;
+      }
+      
+      .input-wrapper .copy img {
+        width: 20px;
+        height: 20px;
+        transition: filter 0.2s ease;
+      }
+      
+      .input-wrapper .copy:hover img {
+        content: url('/assets/images/copy-white.png');
+      }
+      
+      .show-check .copy img {
+        content: url('/assets/images/check-blue.png');
+      }
+      
+      .show-check .copy:hover img {
+        content: url('/assets/images/check-white.png');
+      }
+
+      .copy-notification {
+        color: #fff;
+        background-color: var(--secondary); /* Green background */
+        padding: 5px 10px;
+        margin-top: 7px;
+        border-radius: 10px;
+        text-align: center;
+        font-size: 14px;
+        animation: fadeOut 3s forwards;
+      }
+      
+      @keyframes fadeOut {
+        0% { opacity: 1; }
+        100% { opacity: 0; }
+      }
+      
     span{
         margin-left: 10px;
         font-size: 1rem;
