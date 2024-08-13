@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
@@ -8,9 +8,19 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 export class AdminpopupComponent {
 
+  form:FormGroup;
   showOldPassword = false;
   showNewPassword = false;
   showConfirmPassword = false;
+
+  constructor(private fb: FormBuilder) {
+    this.form = this.fb.group({
+      newusername: [''],
+      oldPassword: [''],
+      newPassword: [''],
+      confirmPassword: ['']
+    });
+  }
 
   clearText(event: FocusEvent): void {
     const inputElement = event.target as HTMLInputElement;
@@ -48,10 +58,12 @@ export class AdminpopupComponent {
   }
 
   onClear(): void {
-    // Logic to clear the form fields
+    this.form.reset();
   }
 
   onSubmit(): void {
-    // Logic to handle form submission
+    if (this.form.valid) {
+      console.log(this.form.value);
+    }
   }
 }

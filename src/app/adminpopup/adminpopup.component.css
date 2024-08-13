@@ -1,3 +1,4 @@
+
 .manage-account-form {
     display: flex;
     justify-content: flex-end;
@@ -80,23 +81,9 @@
     border-radius: 5px;
 }
 
-
 .confirm:hover {
     background-color: var(--secondary);
 }
-.blank-button {
-    width: 90px; 
-    height: 40px; 
-    background: transparent; 
-    border-radius: 10px;
-    border: black; 
-    cursor: pointer; 
-   margin-left: 80px;
-  }
-  .blank-button:hover{
-    background: red;
-  }
-
   .textbox {
     width: 300px;
     height: 40px;
@@ -141,20 +128,20 @@
   
   .btn-clear {
     background-color: #FFE6E6; 
-    color: red; 
+    color: var(--error); 
   }
   
   .btn-clear:hover {
-    background-color: red; 
+    background-color: var(--error); 
     color: white; 
   }
   
   .btn-submit {
     background-color: #E3F2FF; 
-    color: blue; 
+    color: var(--secondary); 
   }
   
   .btn-submit:hover {
-    background-color: blue; 
+    background-color: var(--secondary); 
     color: white; 
   }
