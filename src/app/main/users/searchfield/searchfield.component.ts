@@ -42,4 +42,10 @@ export class SearchfieldComponent {
   toggleActive() {
     this.isFocused = !this.isFocused;
   }
+
+  clearSearchField() {
+    this.searchEmployee = '';
+    this.searchInput.nativeElement.value = '';
+    this.employeeService.triggerSearchUser('');
+  }
 }

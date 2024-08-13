@@ -1,9 +1,10 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { Employee } from 'src/app/interface/employee.interface';
 import { AccessLogService } from 'src/app/services/access-log.service';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { trigger, state, style, transition, animate } from '@angular/animations';
+import { ReportsSearchfieldComponent } from './reports-searchfield/reports-searchfield.component';
 type LoginSession = {
   date: string;
   time: string;
@@ -41,14 +42,14 @@ export class ReportsComponent implements OnInit {
   selectedDate: string = ''; // Store the selected date from the date picker
   isTable1Empty: boolean = true;
   @Output() sortOptionReportsChanged = new EventEmitter<string>();
-
+  @ViewChild(ReportsSearchfieldComponent) reportsSearchFieldComponent!: ReportsSearchfieldComponent;
   filterToggle: boolean = false;
   selectedReportsFilter: string = 'name';
   sortOption: string = 'nameAsc';
   constructor(
     private accessLogService: AccessLogService,
     private employeeService: EmployeeService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loadEmployeeInfo();
@@ -82,9 +83,9 @@ export class ReportsComponent implements OnInit {
             date: new Date(log.accessDateTime).toLocaleDateString(),
             time: new Date(log.accessDateTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
           }));
-  
+
           this.filterEmployeesByDate(); // Filter employees based on selected date
-          
+
           console.log('Updated login sessions:', this.loginSessions);
         },
         error => {
@@ -105,7 +106,7 @@ export class ReportsComponent implements OnInit {
       this.filteredEmployees = this.employeeList;
     }
   }
-  
+
 
   handleEmployeeSelected(employee: Employee) {
     this.selectedEmployee = employee;
@@ -115,15 +116,15 @@ export class ReportsComponent implements OnInit {
   onSearchChanged(searchTerm: string) {
     // Filter employees whose names start with the search term
     if (searchTerm) {
-      this.filteredEmployees = this.employeeList.filter(employee => 
+      this.filteredEmployees = this.employeeList.filter(employee =>
         employee.fullname.toLowerCase().startsWith(searchTerm.toLowerCase())
       );
     } else {
       this.filteredEmployees = [...this.employeeList]; // Reset to all employees if search term is empty
     }
-  
+
   }
-  
+
 
   onDateChanged(event: MatDatepickerInputEvent<Date>) {
     if (event.value) {
@@ -131,7 +132,7 @@ export class ReportsComponent implements OnInit {
     } else {
       this.selectedDate = '';
     }
-    
+
     if (this.selectedEmployee) {
       this.fetchLoginSessions(this.selectedEmployee);
     }
@@ -148,29 +149,33 @@ export class ReportsComponent implements OnInit {
   }
 
 
-  toggleFilter(){
+  toggleFilter() {
     this.filterToggle = !this.filterToggle;
-    
+
   }
 
-  selectName(){
-    this.selectedReportsFilter ='name';
+  selectName() {
+    this.selectedReportsFilter = 'name';
     this.employeeService.setFilterOption(this.selectedReportsFilter);
+    this.reportsSearchFieldComponent.clearSearchField();
   }
 
-  selectRole(){
-    this.selectedReportsFilter ='role';
+  selectRole() {
+    this.selectedReportsFilter = 'role';
     this.employeeService.setFilterOption(this.selectedReportsFilter);
+    this.reportsSearchFieldComponent.clearSearchField();
   }
 
-  selectRfid(){
-    this.selectedReportsFilter ='rfid';
+  selectRfid() {
+    this.selectedReportsFilter = 'rfid';
     this.employeeService.setFilterOption(this.selectedReportsFilter);
+    this.reportsSearchFieldComponent.clearSearchField();
   }
 
-  selectFingerprint(){
-    this.selectedReportsFilter ='fingerprint';
+  selectFingerprint() {
+    this.selectedReportsFilter = 'fingerprint';
     this.employeeService.setFilterOption(this.selectedReportsFilter);
+    this.reportsSearchFieldComponent.clearSearchField();
   }
 
 }

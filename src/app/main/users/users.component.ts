@@ -2,6 +2,7 @@ import { Component, ViewChild, EventEmitter, Output } from '@angular/core';
 import { AddUserFormComponent } from './add-user-form/add-user-form.component';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { trigger, state, style, transition, animate } from '@angular/animations';
+import { SearchfieldComponent } from './searchfield/searchfield.component';
 
 @Component({
   selector: 'app-users',
@@ -28,6 +29,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 })
 export class UsersComponent {
   @ViewChild(AddUserFormComponent) addUserFormContainer!: AddUserFormComponent;
+  @ViewChild(SearchfieldComponent) searchFieldComponent!: SearchfieldComponent;
   @Output() sortOptionChanged = new EventEmitter<string>();
 
   filterToggle: boolean = false;
@@ -55,20 +57,24 @@ export class UsersComponent {
   selectName(){
     this.selectedFilter ='name';
     this.employeeService.setFilterOption(this.selectedFilter);
+    this.searchFieldComponent.clearSearchField();
   }
 
   selectRole(){
     this.selectedFilter ='role';
     this.employeeService.setFilterOption(this.selectedFilter);
+    this.searchFieldComponent.clearSearchField();
   }
 
   selectRfid(){
     this.selectedFilter ='rfid';
     this.employeeService.setFilterOption(this.selectedFilter);
+    this.searchFieldComponent.clearSearchField();
   }
 
   selectFingerprint(){
     this.selectedFilter ='fingerprint';
     this.employeeService.setFilterOption(this.selectedFilter);
+    this.searchFieldComponent.clearSearchField();
   }
 }
