@@ -1,6 +1,6 @@
 <div class="search" [class.active]="isFocused">
     <img src="/assets/images/search.png">
-    <input type="text" name="user" placeholder="Search User" 
+    <input type="text" name="user"  [placeholder]="'Search ' + selectedReportsFilter" 
            (focus)="toggleActive()" (blur)="toggleActive()"
            (input)="onSearchChange($event)">
 </div>

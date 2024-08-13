@@ -15,11 +15,7 @@
       </div>
     </div>
     <div class="lower">
-      <div 
-        *ngIf="filterToggle"
-        @slideIn
-        class="filterTab"
-      >
+      <div *ngIf="filterToggle" @slideIn class="filterTab" >
         <div class="searchBy">
           <span>Search by:</span>
           <button 
@@ -49,7 +45,7 @@
           </select>
         </div>
       </div>
-      <app-table @slideIn></app-table>
+      <app-table></app-table>
       <app-add-user-form></app-add-user-form>
     </div>
   </div>
