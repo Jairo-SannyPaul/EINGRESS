@@ -9,6 +9,7 @@ import { DialogService } from '../services/dialog.service';
 })
 export class NavbarComponent {
   isLocked = false;
+  activeSection: string = 'dashboard';
   @Output() lockStateChange = new EventEmitter<boolean>();
 
   constructor(private router: Router, private dialogService: DialogService) {}
@@ -17,6 +18,10 @@ export class NavbarComponent {
     this.isLocked = !this.isLocked;
     this.lockStateChange.emit(this.isLocked);
     
+  }
+
+  setActive(section: string) {
+    this.activeSection = section;
   }
 
   logout() {

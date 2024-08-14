@@ -13,11 +13,15 @@
   overflow: hidden; 
 }
 
+.active {
+  border-radius: 10px;
+  background-color: var(--hover); 
+  color: white; 
+}
 
 .side-bar:not(.locked):hover {
   width: 216px;
 }
-
 
 .side-bar.locked {
   width: 216px; 
