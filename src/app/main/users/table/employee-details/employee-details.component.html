@@ -118,7 +118,12 @@
           </div>
   
           <div class="fingerprint-container">
-            <span>Fingerprint ID 1</span>
+            <span>Branch</span>
+                    <select formControlName="branch" name="branches" #employeeBranch class="roles-select">
+                        <option value="Davao">Davao</option>
+                        <option value="Cebu">Cebu</option>
+                        </select>
+            <span class="fingerprintspan">Fingerprint ID 1</span>
             <input formControlName="fingerprint1" #fingerprintInput1 type="text" placeholder="135135115161" class="textbox">
             <span class="fingerprintspan" *ngIf="added">Fingerprint ID 2</span>
             <input formControlName="fingerprint2" #fingerprintInput2 type="text" placeholder="135135115161" class="textbox fingerprint2" *ngIf="added">

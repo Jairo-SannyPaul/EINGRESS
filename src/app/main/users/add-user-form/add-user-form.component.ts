@@ -31,7 +31,8 @@ export class AddUserFormComponent {
       phone: ['', Validators.required],
       rfidtag: [''],
       fingerprint1: [''],
-      fingerprint2: ['']
+      fingerprint2: [''],
+      branch: ['', Validators.required],
     });
   }
 
@@ -44,7 +45,8 @@ export class AddUserFormComponent {
     rfidtag: '',
     profileImage: '' ,
     fingerprint1: '',
-    fingerprint2: ''
+    fingerprint2: '',
+    branch:''
   };
 
   showAddUserForm() {
@@ -69,7 +71,8 @@ export class AddUserFormComponent {
       rfidtag: '',
       profileImage: '',
       fingerprint1: '', 
-      fingerprint2: ''
+      fingerprint2: '',
+      branch:''
     };
     this.photoSrc = null;
     this.selectedImage = null!;
@@ -99,20 +102,26 @@ export class AddUserFormComponent {
     if (this.userForm.valid) {
       const newEmployee = this.userForm.value;
   
+      const handleError = (error: any) => {
+        let errorMessage = 'Error creating employee.';
+        if (error.status === 400 && error.error && error.error.message) {
+          // Extract the message from the backend response
+          errorMessage = error.error.message;
+        }
+        this.dialogService.openAlertDialog(errorMessage);
+      };
+  
       if (!this.selectedImage) {
         this.employeeService.addEmployeeWithoutImage(newEmployee)
           .subscribe(
             response => {
               this.dialogService.openSuccessDialog('Employee Created Successfully').subscribe(confirmed => {
                 if (confirmed) {
-
                   this.hideAddUserForm();
                 }
               });
             },
-            error => {
-              this.handleError(error);
-            }
+            handleError
           );
       } else {
         this.employeeService.addEmployee(newEmployee, this.selectedImage)
@@ -124,9 +133,7 @@ export class AddUserFormComponent {
                 }
               });
             },
-            error => {
-              this.handleError(error);
-            }
+            handleError
           );
       }
     } else {
@@ -137,11 +144,6 @@ export class AddUserFormComponent {
         this.dialogService.openAlertDialog('Please fill in all required fields correctly.');
       }
     }
-  }
-
-  handleError(error: any) {
-    console.error('An error occurred:', error);
-    this.dialogService.openAlertDialog('An error occurred while processing your request. Please try again.');
   }
 
   startRFIDScan(): void {
