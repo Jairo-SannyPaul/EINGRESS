@@ -30,6 +30,10 @@ export class UserSelectionComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.loadEmployeeInfo();
 
+    this.employeeService.deletedClicked$.subscribe(() => {
+      this.deleteEmployee();
+    });
+    
     this.reloadSubscription = this.employeeService.reload$.subscribe(() => {
       this.loadEmployeeInfo(); // Refresh employee info when reload is triggered
     });
