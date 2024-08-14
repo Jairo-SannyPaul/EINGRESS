@@ -36,6 +36,7 @@ export class EmployeeDetailsComponent implements OnChanges {
       rfidtag: [''],
       fingerprint1: [''],
       fingerprint2: [''],
+      branch: ['', Validators.required],
     });
     this.updateEmployeeForm.disable();
   }
@@ -163,7 +164,8 @@ export class EmployeeDetailsComponent implements OnChanges {
       phone: employee.phone,
       rfidtag: employee.rfidtag,
       fingerprint1: employee.fingerprint1,
-      fingerprint2: employee.fingerprint2
+      fingerprint2: employee.fingerprint2,
+      branch: employee.branch
     });
     this.employeeDetails = employee;
   

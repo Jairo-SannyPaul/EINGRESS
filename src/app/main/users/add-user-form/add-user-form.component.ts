@@ -31,7 +31,8 @@ export class AddUserFormComponent {
       phone: ['', Validators.required],
       rfidtag: [''],
       fingerprint1: [''],
-      fingerprint2: ['']
+      fingerprint2: [''],
+      branch: ['', Validators.required],
     });
   }
 
@@ -44,7 +45,8 @@ export class AddUserFormComponent {
     rfidtag: '',
     profileImage: '' ,
     fingerprint1: '',
-    fingerprint2: ''
+    fingerprint2: '',
+    branch:''
   };
 
   showAddUserForm() {
@@ -69,7 +71,8 @@ export class AddUserFormComponent {
       rfidtag: '',
       profileImage: '',
       fingerprint1: '', 
-      fingerprint2: ''
+      fingerprint2: '',
+      branch:''
     };
     this.photoSrc = null;
     this.selectedImage = null!;
@@ -111,7 +114,11 @@ export class AddUserFormComponent {
               });
             },
             error => {
-              this.handleError(error);
+              if (error.status === 400) { // Assuming 409 Conflict is returned for duplicate fingerprints
+                this.dialogService.openAlertDialog('Fingerprint already exists in this branch.');
+              } else {
+                this.handleError(error);
+              }
             }
           );
       } else {
@@ -125,7 +132,11 @@ export class AddUserFormComponent {
               });
             },
             error => {
-              this.handleError(error);
+              if (error.status === 400) { // Assuming 409 Conflict is returned for duplicate fingerprints
+                this.dialogService.openAlertDialog('Fingerprint already exists in this branch.');
+              } else {
+                this.handleError(error);
+              }
             }
           );
       }

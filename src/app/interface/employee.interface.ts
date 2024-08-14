@@ -13,4 +13,5 @@ export interface Employee {
   accessLogs?: AccessLog[]; // Add accessLogs property
   fingerprint1?: string;
   fingerprint2?: string;
+  branch?: string;
 }
