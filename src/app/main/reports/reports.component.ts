@@ -35,6 +35,7 @@ type LoginSession = {
   ]
 })
 export class ReportsComponent implements OnInit {
+  loading: boolean = true;
   employeeList: Employee[] = [];
   selectedEmployee: Employee | null = null;
   loginSessions: LoginSession[] = [];
@@ -111,6 +112,7 @@ export class ReportsComponent implements OnInit {
           this.filterEmployeesByDate(); // Filter employees based on selected date
 
           console.log('Updated login sessions:', this.loginSessions);
+          this.loading = false;
         },
         error => {
           console.error('Error fetching access logs:', error);

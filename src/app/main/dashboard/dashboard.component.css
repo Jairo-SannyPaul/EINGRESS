@@ -1,16 +1,13 @@
 .contents {
+  position: relative;
   width: calc(100vw - 285px);
-  /* Set the width of the container */
   height: 100%;
-  /* Set the height to 100% of viewport height */
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  /* 4 columns of equal width */
   grid-template-rows: repeat(2, 1fr);
-  /* 4 rows with height based on content */
   gap: 20px;
-  /* Gap between grid items */
 }
+
 .navbar:hover + .contents {
   width: calc(100% - 216px);
 }

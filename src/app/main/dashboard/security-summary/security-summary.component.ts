@@ -1,4 +1,4 @@
-import { Component, NgModule, HostListener } from '@angular/core';
+import { Component, NgModule, HostListener, Output, EventEmitter } from '@angular/core';
 import { multi } from './data';
 import { Color, ScaleType } from '@swimlane/ngx-charts';
 import { AccessLogService } from 'src/app/services/access-log.service';
@@ -14,6 +14,8 @@ import { totalLogs } from 'src/app/interface/logs-total.interface';
   styleUrls: ['./security-summary.component.css'],
 })
 export class SecuritySummaryComponent {
+  @Output() loadingChange: EventEmitter<boolean> = new EventEmitter<boolean>(); // New Output EventEmitter
+  loading: boolean = true;
   below: any;
   single: any[] = []; // Data array for the chart
   multi: any[] = [];
@@ -121,38 +123,6 @@ export class SecuritySummaryComponent {
     this.updateChart();
   }
   
-  
-
-  // processDataForChart(data: totalLogs[]) {
-  //   // Initialize multi array to hold chart data
-  //   this.multi = [];
-
-  //   // Loop through each data entry
-  //    // Loop through each data entry
-  //    data.forEach((entry) => {
-  //     // Check if entry.date is defined
-  //     if (entry.date) {
-  //       // Extract the day of the month from the date
-  //       const dayOfMonth = new Date(entry.date).getDate();
-    
-  //       // Push an object with the day of the month and series data to the multi array
-  //       this.multi.push({ 
-  //         'name': dayOfMonth, 
-  //         'series': [
-  //           { 'name': 'Login', 'value': Number(entry.loginstoday) },
-  //           { 'name': 'Not on Site', 'value': Number(entry.notlogin) }
-  //         ]
-  //       });
-  //     }
-  //   });
-  //   console.log('Multi Array:', this.multi);
-  //   // Sort the multi array based on date (optional)
-  //   // this.multi.sort((a, b) => new Date(a.name).getTime() - new Date(b.name).getTime());
-
-    
-  //   // Call a method to update the chart with the new data
-  //   this.updateChart();
-  // }
 
   updateChart() {
   }
@@ -226,6 +196,8 @@ updateLoginStatisticsInBackend() {
 this.logintotalService.updateTodayLoginStatistics(this.LoginsToday.toString(), this.NotOnSite.toString()).subscribe(
 () => {
   console.log('Login statistics updated successfully.');
+  this.loading = false;
+  this.loadingChange.emit(this.loading);
 },
 error => {
   console.error('Error updating login statistics:', error);
