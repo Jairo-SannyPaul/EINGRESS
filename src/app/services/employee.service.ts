@@ -100,8 +100,10 @@ export class EmployeeService {
       })
     );
   }
-  
-  
+
+  getEmployeeById(id: string): Observable<Employee> {
+    return this.http.get<Employee>(`${this.apiUrl}/${id}`);
+  }  
 
   triggerDelete(){
     this.deletedClickedSource.next();
