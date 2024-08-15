@@ -108,7 +108,6 @@ export class Table1Component implements OnInit {
           });
           break;
       }
-      this.cdr.markForCheck(); // Ensure the changes are detected
   }
 
   onSortChange(sortOption: string) {

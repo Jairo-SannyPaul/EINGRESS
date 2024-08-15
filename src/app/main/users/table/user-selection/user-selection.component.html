@@ -15,5 +15,14 @@
 </div>
 
 <ng-template #noMatch>
-  <div>No matching results found</div>
+  <div class="no-match-container">
+    <div class="no-match-icon">🔍</div>
+    <div class="no-match-message">No matching results found</div>
+  </div>
 </ng-template>
+
+<div [ngClass]="{'fade-out': !loading}" class="loading-overlay">
+  <div class="jairo-container">
+      <div class="jairoLoading">Jairosoft EINGRESS</div>
+      <div class="spinner"></div>
+  </div>

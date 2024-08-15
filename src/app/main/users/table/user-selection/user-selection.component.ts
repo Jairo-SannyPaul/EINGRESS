@@ -12,6 +12,7 @@ import { DialogService } from 'src/app/services/dialog.service';
 })
 export class UserSelectionComponent implements OnInit, OnDestroy {
   baseUrl = this.employeeService.apiUrl;
+  loading = true;
   employees: Employee[] = [];
   filteredEmployees: Employee[] = [];
   searchSubscription: Subscription | undefined;
@@ -30,6 +31,10 @@ export class UserSelectionComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.loadEmployeeInfo();
 
+    this.employeeService.deletedClicked$.subscribe(() => {
+      this.deleteEmployee();
+    });
+    
     this.reloadSubscription = this.employeeService.reload$.subscribe(() => {
       this.loadEmployeeInfo(); // Refresh employee info when reload is triggered
     });
@@ -66,7 +71,9 @@ export class UserSelectionComponent implements OnInit, OnDestroy {
       this.employees = employees;
       this.filteredEmployees = [...this.employees];
       this.sortEmployees(this.sortOption); // Sort employees after loading
+      this.loading = false;
     });
+    
   }
 
   sortEmployees(sortOption: string) {
@@ -104,8 +111,10 @@ export class UserSelectionComponent implements OnInit, OnDestroy {
             return dateB.getTime() - dateA.getTime(); // Most recent first
           });
           break;
+
+          
       }
-      this.cdr.markForCheck(); // Ensure the changes are detected
+      this.cdr.markForCheck();
   }
   
 

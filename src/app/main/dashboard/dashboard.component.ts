@@ -6,6 +6,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent {
-  
+  loading: boolean = true; // This will now be controlled by the child
+
+  onLoadingChange(isLoading: boolean) {
+    this.loading = isLoading;
+  }
 
 }

@@ -36,6 +36,7 @@ export class EmployeeDetailsComponent implements OnChanges {
       rfidtag: [''],
       fingerprint1: [''],
       fingerprint2: [''],
+      branch: ['', Validators.required],
     });
     this.updateEmployeeForm.disable();
   }
@@ -98,25 +99,32 @@ export class EmployeeDetailsComponent implements OnChanges {
   
       this.isUpdating = true; // Set update flag
   
+      const handleError = (error: any) => {
+        let errorMessage = 'Error updating employee.';
+        if (error.status === 400 && error.error && error.error.message) {
+          // Extract the message from the backend response
+          errorMessage = error.error.message;
+        }
+        this.dialogService.openAlertDialog(errorMessage);
+        this.isUpdating = false; // Reset update flag
+      };
+  
       if (file) {
         this.employeeService.updateEmployee(id, updateEmployee, file).subscribe(
           (response) => {
-            this.dialogService.openSuccessDialog('Employee update successfully').subscribe(confirmed => {
+            this.dialogService.openSuccessDialog('Employee updated successfully').subscribe(confirmed => {
               if (confirmed) {
                 this.isUpdating = false;
                 this.hideEmployeeDetails();
               }
             });
           },
-          (error) => {
-            this.dialogService.openAlertDialog('Error updating dialog');
-            this.isUpdating = false; // Reset update flag
-          }
+          handleError
         );
       } else {
         this.employeeService.updateEmployeeWithoutImage(id, updateEmployee).subscribe(
           (response) => {
-            this.dialogService.openSuccessDialog('Employee update successfully').subscribe(confirmed => {
+            this.dialogService.openSuccessDialog('Employee updated successfully').subscribe(confirmed => {
               if (confirmed) {
                 console.log('Employee update successful', response);
                 this.isUpdating = false;
@@ -124,14 +132,12 @@ export class EmployeeDetailsComponent implements OnChanges {
               }
             });
           },
-          (error) => {
-            this.dialogService.openAlertDialog('Error updating dialog');
-            this.isUpdating = false;
-          }
+          handleError
         );
       }
     }
   }
+  
   
 
   onClear(): void {
@@ -163,7 +169,8 @@ export class EmployeeDetailsComponent implements OnChanges {
       phone: employee.phone,
       rfidtag: employee.rfidtag,
       fingerprint1: employee.fingerprint1,
-      fingerprint2: employee.fingerprint2
+      fingerprint2: employee.fingerprint2,
+      branch: employee.branch
     });
     this.employeeDetails = employee;
   
