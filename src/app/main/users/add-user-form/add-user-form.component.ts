@@ -98,7 +98,7 @@ export class AddUserFormComponent {
   submitUser(): void {
     // Mark all fields as touched to trigger validation messages
     this.userForm.markAllAsTouched();
-  
+    this.userForm.get('fingerprint2')?.setValue('');
     if (this.userForm.valid) {
       const newEmployee = this.userForm.value;
   
