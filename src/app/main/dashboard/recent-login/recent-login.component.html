@@ -1,14 +1,14 @@
 <div class="main-container">
-    <div class="photoholder">
+    <div class="photoholder" (click)="redirectToReports()">
         <img [src]="getProfileImage(recentLogin)" alt="Profile Image">
     </div>
 
     <div class="below-container">
-        <div class="user-name">
+        <div class="user-name" (click)="redirectToReports()">
             <p>{{ recentLogin?.fullname }}</p>
         </div>
         <div class="date-time">
-            <p>{{ recentLogin?.lastlogdate}}</p>
+            <p>{{ recentLogin?.lastlogdate }}</p>
         </div>
     </div>
 </div>

@@ -12,9 +12,9 @@
     width: 150px;
     perspective: 1000px;
     background-color: var(--background);
-    border: 5px solid var(--secondary); /* Add border with 10px thickness and gray color */
+    border: 5px solid var(--secondary); 
+    cursor: pointer;
 }
-
 
 .photoholder img{
     border-radius: 50%;
@@ -35,6 +35,7 @@
 .user-name{
     font-size: 2rem;
     color: var(--secondary);
+    cursor: pointer;
 }
 
 .date-time{

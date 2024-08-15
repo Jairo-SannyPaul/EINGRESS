@@ -1,5 +1,5 @@
-import { Component, Output, EventEmitter } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, Output, EventEmitter, OnInit } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
 import { DialogService } from '../services/dialog.service';
 
 @Component({
@@ -7,12 +7,22 @@ import { DialogService } from '../services/dialog.service';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit{
   isLocked = false;
-  activeSection: string = 'dashboard';
+  activeSection: string = '';
   @Output() lockStateChange = new EventEmitter<boolean>();
 
   constructor(private router: Router, private dialogService: DialogService) {}
+
+  ngOnInit(): void {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.updateActiveSection();
+      }
+    });
+
+    this.updateActiveSection();
+  }
 
   toggleLock() {
     this.isLocked = !this.isLocked;
@@ -31,5 +41,18 @@ export class NavbarComponent {
         this.router.navigateByUrl('/login');
       }
     });
+  }
+
+  private updateActiveSection(): void {
+    const url = this.router.url;
+    if (url.startsWith('/main/reports')) {
+      this.activeSection = 'reports';
+    } else if (url.startsWith('/main/dashboard')) {
+      this.activeSection = 'dashboard';
+    } else if (url.startsWith('/main/users')) {
+      this.activeSection = 'users';
+    } else {
+      this.activeSection = ''; 
+    }
   }
 }

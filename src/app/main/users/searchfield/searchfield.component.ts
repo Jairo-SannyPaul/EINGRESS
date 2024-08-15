@@ -48,4 +48,16 @@ export class SearchfieldComponent {
     this.searchInput.nativeElement.value = '';
     this.employeeService.triggerSearchUser('');
   }
+
+  clearPlaceholder() {
+    this.isFocused = true;
+    this.searchInput.nativeElement.placeholder = '';
+  }
+
+  restorePlaceholder() {
+    this.isFocused = false;
+    if (!this.searchEmployee.trim()) {
+      this.searchInput.nativeElement.placeholder = `Search ${this.selectedFilter}`;
+    }
+  }
 }
