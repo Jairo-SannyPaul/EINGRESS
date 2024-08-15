@@ -178,3 +178,32 @@
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+
+/* Style for the no-match container */
+.no-match-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 200px; /* Adjust based on your needs */
+  background-color: #f9f9f9; /* Light background color */
+  border-radius: 10px; /* Rounded corners */
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow */
+}
+
+/* Style for the icon */
+.no-match-icon {
+  font-size: 50px; /* Larger icon size */
+  color: #ff6f61; /* Color for the icon */
+  margin-bottom: 10px;
+}
+
+/* Style for the message */
+.no-match-message {
+  font-size: 18px; /* Font size for the message */
+  color: #333; /* Darker text color */
+  font-weight: bold; /* Bold text */
+}

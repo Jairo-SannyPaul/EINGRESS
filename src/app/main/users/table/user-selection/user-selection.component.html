@@ -1,4 +1,5 @@
-<div *ngFor="let employee of filteredEmployees" class="user pointer" >
+<div *ngIf="filteredEmployees && filteredEmployees.length > 0; else noMatch">
+  <div *ngFor="let employee of filteredEmployees" class="user pointer" >
       <div class="checkbox-content">
           <input type="checkbox" [(ngModel)]="employee.selected" change="toggleSelection(employee)" >
       </div>
@@ -11,11 +12,17 @@
           <div class="last-login-content">{{ employee.lastlogdate }}</div>
       </div>    
   </div>
-  
-  <div [ngClass]="{'fade-out': !loading}" class="loading-overlay">
-    <div class="jairo-container">
-        <div class="jairoLoading">Jairosoft EINGRESS</div>
-        <div class="spinner"></div>
-    </div>
 </div>
 
+<ng-template #noMatch>
+  <div class="no-match-container">
+    <div class="no-match-icon">🔍</div>
+    <div class="no-match-message">No matching results found</div>
+  </div>
+</ng-template>
+
+<div [ngClass]="{'fade-out': !loading}" class="loading-overlay">
+  <div class="jairo-container">
+      <div class="jairoLoading">Jairosoft EINGRESS</div>
+      <div class="spinner"></div>
+  </div>
