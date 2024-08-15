@@ -121,3 +121,60 @@
 .fingerprint{
   width: 95px;
 }
+
+
+/* LOADING ANIMATION */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 1); /* Optional overlay background */
+  z-index: 1000;
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+
+.jairo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+}
+
+.jairoLoading {
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--secondary);
+  margin-bottom: 20px; /* Adds space between text and spinner */
+  animation: scaleUp 2s infinite;
+}
+
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid rgba(0, 0, 0, 0.1);
+  border-top: 5px solid #4b9cdb;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  
+}
+@keyframes scaleUp {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
