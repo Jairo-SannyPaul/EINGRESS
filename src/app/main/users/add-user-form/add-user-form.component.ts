@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { DialogService } from 'src/app/services/dialog.service';
@@ -34,6 +34,13 @@ export class AddUserFormComponent {
       fingerprint2: [''],
       branch: ['', Validators.required],
     });
+  }
+
+  @HostListener('window:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    if (event.key === 'Escape') {
+      this.hideAddUserForm();
+    }
   }
 
   newEmployee = {

@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, Output, SimpleChanges, ElementRef, ViewChild } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, Output, SimpleChanges, ElementRef, ViewChild, HostListener } from '@angular/core';
 import { Employee } from 'src/app/interface/employee.interface';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { EventEmitter } from '@angular/core';
@@ -41,8 +41,11 @@ export class EmployeeDetailsComponent implements OnChanges {
     this.updateEmployeeForm.disable();
   }
 
-  ngOnInit(): void {
-
+  @HostListener('window:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    if (event.key === 'Escape') {
+      this.hideEmployeeDetails();
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
