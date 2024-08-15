@@ -8,7 +8,7 @@
           </div>
           
 
-        <form [formGroup]="userForm" class="main-container">
+        <form [formGroup]="userForm" class="main-container" (keydown.enter)="preventDefault($event)">
             <div class="left-container">
                 <div class="photo-section">
                     <img class="photoholder" [src]="photoSrc ? photoSrc : (baseUrl + '/profile-image/' + (newEmployee.profileImage || 'max-smith.png'))" alt="Profile Image">

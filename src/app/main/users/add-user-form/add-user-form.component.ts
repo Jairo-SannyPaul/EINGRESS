@@ -152,7 +152,12 @@ export class AddUserFormComponent {
       this.rfidInput.nativeElement.focus();
     }
   }
-
+  preventDefault(event: Event): void {
+    if ((event as KeyboardEvent).key === 'Enter') {
+      event.preventDefault();
+    }
+  }
+  
   toggleFingerprint() {
     if(this.userForm.get('fingerprint1')?.value){
       this.added = !this.added;
