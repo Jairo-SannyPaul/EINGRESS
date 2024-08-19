@@ -164,5 +164,42 @@ export class AddUserFormComponent {
     }
 }
 
+// Method to clear the placeholder text when the input is focused
+clearText(event: FocusEvent): void {
+  const target = event.target as HTMLInputElement;
+
+  if (target.getAttribute('formControlName') === 'fullname') {
+    target.placeholder = ''; 
+  } else if (target.getAttribute('formControlName') === 'email') {
+    target.placeholder = ''; 
+  } else if (target.getAttribute('formControlName') === 'rfidtag') {
+    target.placeholder = ''; 
+  } else if (target.getAttribute('formControlName') === 'phone') {
+    target.placeholder = ''; 
+  } else if (target.getAttribute('formControlName') === 'fingerprint1') {
+    target.placeholder = ''; 
+  } else if (target.getAttribute('formControlName') === 'fingerprint2') {
+    target.placeholder = ''; 
+  }
+}
+
+// Method to reset the placeholder text when the input loses focus
+resetPlaceholder(event: FocusEvent): void {
+  const target = event.target as HTMLInputElement;
+
+  if (target.getAttribute('formControlName') === 'fullname') {
+    target.placeholder = 'Enter Name'; 
+  } else if (target.getAttribute('formControlName') === 'email') {
+    target.placeholder = 'Enter Email'; 
+  } else if (target.getAttribute('formControlName') === 'rfidtag') {
+    target.placeholder = 'ABC19021DC'; 
+  } else if (target.getAttribute('formControlName') === 'phone') {
+    target.placeholder = '+639 xxx xxx xxxx'; 
+  } else if (target.getAttribute('formControlName') === 'fingerprint1') {
+    target.placeholder = '135135115161'; 
+  } else if (target.getAttribute('formControlName') === 'fingerprint2') {
+    target.placeholder = '135135115161'; 
+  }
+}
 
 }
