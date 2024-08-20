@@ -60,7 +60,9 @@
 
     <app-table1 
   [employees]="filteredEmployees" 
-  (employeeSelected)="handleEmployeeSelected($event)">
+  (employeeSelected)="handleEmployeeSelected($event)"
+  [filterToggle]="filterToggle"
+  >
 </app-table1>
 
 

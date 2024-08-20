@@ -16,6 +16,7 @@ export class Table1Component implements OnInit {
   filteredEmployees: Employee[] = [];
   @Input() employees: Employee[] = [];
   @Output() employeeSelected = new EventEmitter<Employee>();
+  @Input() filterToggle: boolean = false;
   selectedEmployee: Employee | null = null;
   loginSessions: { accessDateTime: Date, date: string, time: string }[] = []; // Initialize as empty array
   noEmployeesFound: boolean = false; // Variable to track if no employees are found
@@ -25,11 +26,14 @@ export class Table1Component implements OnInit {
   private sortOptionSubscription: Subscription | undefined;
   searchSubscription: any;
   reloadSubscription: any;
+  
   constructor(
     private employeeService: EmployeeService,
     private accessLogService: AccessLogService
   ) {}
-
+  toggleFilter() {
+    this.filterToggle = !this.filterToggle;
+  }
   ngOnInit() {
     this.loadEmployeeInfo();
 
