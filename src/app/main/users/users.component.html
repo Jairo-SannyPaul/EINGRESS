@@ -33,6 +33,12 @@
             class="filter fingerprint" 
             [ngClass]="{'active-filter': selectedFilter === 'fingerprint'}"
             (click)="selectFingerprint()">Fingerprint</button>
+          
+        
+          <button 
+          class="filter branch" 
+          [ngClass]="{'active-filter': selectedFilter === 'branch'}"
+          (click)="selectBranch()">Branch</button>
         </div>
         <div class="sortBy">
           <select [(ngModel)]="sortOption" (change)="onSortChange()">
