@@ -22,11 +22,11 @@
   
           <div class="name">
             <span>Full Name</span>
-            <input formControlName="fullname" class="textbox" type="text" placeholder="Enter Name" (focus)="clearText($event)" (blur)="resetPlaceholder($event)">
+            <input formControlName="fullname" class="textbox" type="text">
           </div>
           <div class="email">
             <span>Email</span>
-            <input formControlName="email" class="textbox" type="text" placeholder="Enter Email" (focus)="clearText($event)" (blur)="resetPlaceholder($event)">
+            <input formControlName="email" class="textbox" type="text">
           </div>
           <div class="rfid-container">
             <span>RFID</span>
@@ -40,7 +40,7 @@
               <div class="details-holder">
                 <span>RFID</span>
                 <div class="input-wrapper" [ngClass]="{'show-check': showCopyNotification}">
-                  <input formControlName="rfidtag" #rfidInput type="text" placeholder="ABC19021DC" (focus)="clearText($event)" (blur)="resetPlaceholder($event)">
+                  <input formControlName="rfidtag" #rfidInput type="text" placeholder="ABC19021DC">
                   <div class="copy" (click)="copyRFID()">
                     <img src="/assets/images/copy-blue.png" alt="Copy RFID">
                   </div>
@@ -63,7 +63,7 @@
         <div class="right-container">
           <div class="contact-number">
             <span>Contact Number</span>
-            <input formControlName="phone" class="textbox" type="text" placeholder="+639 xxx xxx xxxx" (focus)="clearText($event)" (blur)="resetPlaceholder($event)">
+            <input formControlName="phone" class="textbox" type="text" placeholder="+639 xxx xxx xxxx">
           </div>
   
           <div class="roles">
@@ -124,9 +124,9 @@
                         <option value="Cebu">Cebu</option>
                         </select>
             <span class="fingerprintspan">Fingerprint ID 1</span>
-            <input formControlName="fingerprint1" #fingerprintInput1 type="text" placeholder="135135115161" class="textbox" (focus)="clearText($event)" (blur)="resetPlaceholder($event)">
+            <input formControlName="fingerprint1" #fingerprintInput1 type="text" placeholder="135135115161" class="textbox">
             <span class="fingerprintspan" *ngIf="added">Fingerprint ID 2</span>
-            <input formControlName="fingerprint2" #fingerprintInput2 type="text" placeholder="135135115161" class="textbox fingerprint2" *ngIf="added" (focus)="clearText($event)" (blur)="resetPlaceholder($event)">
+            <input formControlName="fingerprint2" #fingerprintInput2 type="text" placeholder="135135115161" class="textbox fingerprint2" *ngIf="added">
             <div class="addfingerprint">
                 <button class="addfingerprintbtn" [ngClass]="{ 'error': added }" (click)="toggleFingerprint()" *ngIf = "editMode">
                   <img [src]="added ? '/assets/images/delete-red.png' : '/assets/images/add-blue.png'">

@@ -12,7 +12,6 @@
     width: 220px;
     background-color: var(--background);
     margin-right: 20px;
-    cursor: pointer;
 }
 
 .photoholder img{
@@ -39,7 +38,6 @@
     padding: 20px;
     border-radius: 10px;
     width: 100%;
-    cursor: pointer;
 }
 
 img{

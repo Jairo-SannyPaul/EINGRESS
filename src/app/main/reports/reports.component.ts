@@ -50,48 +50,25 @@ export class ReportsComponent implements OnInit {
   sortOption: string = 'nameAsc';
   constructor(
     private accessLogService: AccessLogService,
-    private employeeService: EmployeeService,
-    private route: ActivatedRoute
+    private employeeService: EmployeeService
   ) { }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
-      const userId = params['userId'];
-      console.log('Navigated with userId:', userId);
-      this.loadEmployeeInfo(userId);
-    });
+    this.loadEmployeeInfo();
   }
 
-    getEmployeeById(userId: string) {
-      this.employeeService.getEmployeeById(userId).subscribe(
-        employee => {
-          this.selectedEmployee = employee;
-          this.fetchLoginSessions(employee);
-        },
-        error => {
-          console.error('Error fetching employee by ID:', error);
-        }
-      );
-    }
-  
-  loadEmployeeInfo(userId?: string) {
+  loadEmployeeInfo() {
     this.employeeService.getEmployee().subscribe(
       employees => {
         this.employeeList = employees;
         this.isTable1Empty = this.employeeList.length === 0; // Subaybayan kung walang nakapagpapakita sa table1
 
-        if (userId) {
-          this.selectedEmployee = this.employeeList.find(emp => emp.id === +userId) || null;
-        } else if (this.employeeList.length > 0) {
+        if (this.employeeList.length > 0) {
           this.selectedEmployee = this.employeeList[0];
-        } else {
-          this.selectedEmployee = null;
-        }
-
-        if (this.selectedEmployee) {
           this.fetchLoginSessions(this.selectedEmployee);
         } else {
-          this.loginSessions = [];
+          this.selectedEmployee = null; // Walang napiling empleyado kung walang nakapagpapakita sa table1
+          this.loginSessions = []; // Walang nakapag-log in na sesyon kung walang nakapagpapakita sa table1
         }
       },
       error => {
