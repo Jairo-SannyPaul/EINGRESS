@@ -24,6 +24,7 @@ export class EmployeeService {
   sortOption$ = this.sortOptionSource.asObservable();
   private selectedFilterSource = new BehaviorSubject<string>('name');
   selectedFilter$ = this.selectedFilterSource.asObservable();
+  setToggle: boolean = false;
   constructor(private http: HttpClient) { }
 
   getEmployee(): Observable<Employee[]> {
@@ -130,5 +131,6 @@ export class EmployeeService {
   setFilterOption(filter: string) {
     this.selectedFilterSource.next(filter);
   }
+
 
 }
