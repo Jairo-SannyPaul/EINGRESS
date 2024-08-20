@@ -59,6 +59,21 @@ export class AdminpopupComponent {
 
   onClear(): void {
     this.form.reset();
+    
+    // Reset placeholders after clearing the form
+    const placeholders: { [key: string]: string } = {
+      newusername: 'Enter New Username',
+      oldPassword: 'Enter Old Password',
+      newPassword: 'Enter New Password',
+      confirmPassword: 'Confirm Password'
+    };
+
+    Object.keys(this.form.controls).forEach(controlName => {
+      const inputElement = document.querySelector(`input[formControlName="${controlName}"]`) as HTMLInputElement;
+      if (inputElement) {
+        inputElement.placeholder = placeholders[controlName];
+      }
+    });
   }
 
   onSubmit(): void {
