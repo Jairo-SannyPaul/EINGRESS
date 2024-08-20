@@ -100,12 +100,20 @@ export class UserSelectionComponent implements OnInit, OnDestroy {
           return b.role.localeCompare(a.role);
         });
         break;
-        case 'branch':
+        case 'branchAsc':
         this.filteredEmployees.sort((a, b) => {
           if (a.branch === b.branch) {
             return a.fullname.localeCompare(b.fullname);
           }
           return a.branch.localeCompare(b.branch);
+        });
+        break;
+        case 'branchDsc':
+        this.filteredEmployees.sort((a, b) => {
+          if (a.branch === b.branch) {
+            return b.fullname.localeCompare(a.fullname);
+          }
+          return b.branch.localeCompare(a.branch);
         });
         break;
         case 'logAsc':

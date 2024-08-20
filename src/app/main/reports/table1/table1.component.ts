@@ -96,7 +96,7 @@ export class Table1Component implements OnInit {
           return b.role.localeCompare(a.role);
         });
         break;
-        case 'branch':
+        case 'branchAsc':
         this.filteredEmployees.sort((a, b) => {
           if (a.branch === b.branch) {
             return a.fullname.localeCompare(b.fullname);
@@ -104,6 +104,14 @@ export class Table1Component implements OnInit {
           return a.branch.localeCompare(b.branch);
         });
         break;
+        case 'branchDsc':
+          this.filteredEmployees.sort((a, b) => {
+            if (a.branch === b.branch) {
+              return b.fullname.localeCompare(a.fullname);
+            }
+            return b.branch.localeCompare(a.branch);
+          });
+          break;
         case 'logAsc':
           this.filteredEmployees.sort((a, b) => {
             const dateA = a.lastlogdate
