@@ -167,18 +167,7 @@ export class AddUserFormComponent {
 // Method to clear the placeholder text when the input is focused
 clearText(event: FocusEvent): void {
   const target = event.target as HTMLInputElement;
-
-  if (target.getAttribute('formControlName') === 'fullname') {
-    target.placeholder = ''; 
-  } else if (target.getAttribute('formControlName') === 'email') {
-    target.placeholder = ''; 
-  } else if (target.getAttribute('formControlName') === 'rfidtag') {
-    target.placeholder = ''; 
-  } else if (target.getAttribute('formControlName') === 'phone') {
-    target.placeholder = ''; 
-  } else if (target.getAttribute('formControlName') === 'fingerprint1') {
-    target.placeholder = ''; 
-  } else if (target.getAttribute('formControlName') === 'fingerprint2') {
+  if (target.hasAttribute('formControlName')) {
     target.placeholder = ''; 
   }
 }
@@ -186,19 +175,17 @@ clearText(event: FocusEvent): void {
 // Method to reset the placeholder text when the input loses focus
 resetPlaceholder(event: FocusEvent): void {
   const target = event.target as HTMLInputElement;
-
-  if (target.getAttribute('formControlName') === 'fullname') {
-    target.placeholder = 'Enter Name'; 
-  } else if (target.getAttribute('formControlName') === 'email') {
-    target.placeholder = 'Enter Email'; 
-  } else if (target.getAttribute('formControlName') === 'rfidtag') {
-    target.placeholder = 'ABC19021DC'; 
-  } else if (target.getAttribute('formControlName') === 'phone') {
-    target.placeholder = '+639 xxx xxx xxxx'; 
-  } else if (target.getAttribute('formControlName') === 'fingerprint1') {
-    target.placeholder = '135135115161'; 
-  } else if (target.getAttribute('formControlName') === 'fingerprint2') {
-    target.placeholder = '135135115161'; 
+  const placeholders: { [key: string]: string } = {
+    'fullname': 'Enter Name',
+    'email': 'Enter Email',
+    'rfidtag': 'ABC19021DC',
+    'phone': '+639 xxx xxx xxxx',
+    'fingerprint1': '135135115161',
+    'fingerprint2': '135135115161'
+  };
+  const formControlName = target.getAttribute('formControlName');
+  if (formControlName) {
+    target.placeholder = placeholders[formControlName] || '';
   }
 }
 
