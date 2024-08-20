@@ -1,4 +1,4 @@
-import { Component, NgModule, HostListener, Output, EventEmitter } from '@angular/core';
+import { Component, NgModule, HostListener } from '@angular/core';
 import { multi } from './data';
 import { Color, ScaleType } from '@swimlane/ngx-charts';
 import { AccessLogService } from 'src/app/services/access-log.service';
@@ -61,8 +61,7 @@ export class SecuritySummaryComponent {
     this.fetchLoginsToday(); // Fetch LoginsToday data
     this.loadEmployeeInfo(); // Fetch total employees data
   }
-  @Output() loadingChange: EventEmitter<boolean> = new EventEmitter<boolean>(); // New Output EventEmitter
-  loading: boolean = true;
+
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     this.calculateChartDimensions();
@@ -195,8 +194,6 @@ updateLoginStatisticsInBackend() {
 this.logintotalService.updateTodayLoginStatistics(this.LoginsToday.toString(), this.NotOnSite.toString()).subscribe(
 () => {
   console.log('Login statistics updated successfully.');
-  this.loading = false;
-  this.loadingChange.emit(this.loading);
 },
 error => {
   console.error('Error updating login statistics:', error);
