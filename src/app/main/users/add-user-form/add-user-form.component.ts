@@ -175,4 +175,30 @@ export class AddUserFormComponent {
       return;
     }
 }
+
+// Method to clear the placeholder text when the input is focused
+clearText(event: FocusEvent): void {
+  const target = event.target as HTMLInputElement;
+  if (target.hasAttribute('formControlName')) {
+    target.placeholder = ''; 
+  }
+}
+
+// Method to reset the placeholder text when the input loses focus
+resetPlaceholder(event: FocusEvent): void {
+  const target = event.target as HTMLInputElement;
+  const placeholders: { [key: string]: string } = {
+    'fullname': 'Enter Name',
+    'email': 'Enter Email',
+    'rfidtag': 'ABC19021DC',
+    'phone': '+639 xxx xxx xxxx',
+    'fingerprint1': '135135115161',
+    'fingerprint2': '135135115161'
+  };
+  const formControlName = target.getAttribute('formControlName');
+  if (formControlName) {
+    target.placeholder = placeholders[formControlName] || '';
+  }
+}
+
 }

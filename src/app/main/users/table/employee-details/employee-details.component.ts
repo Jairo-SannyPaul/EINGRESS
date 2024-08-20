@@ -4,6 +4,7 @@ import { EmployeeService } from 'src/app/services/employee.service';
 import { EventEmitter } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DialogService } from 'src/app/services/dialog.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-employee-details',
@@ -15,6 +16,7 @@ export class EmployeeDetailsComponent implements OnChanges {
   @ViewChild('rfidInput') rfidInput!: ElementRef<HTMLInputElement>;
   @ViewChild('fingerprintInput1') fingerprintInput1!: ElementRef<HTMLInputElement>;
   @ViewChild('fingerprintInput2') fingerprintInput2!: ElementRef<HTMLInputElement>;
+  
   hasVal: boolean = false;
   employeeDetails!: Employee | undefined;
   selectedImage!: File;
@@ -26,6 +28,8 @@ export class EmployeeDetailsComponent implements OnChanges {
   baseUrl = this.employeeService.apiUrl;
   added!: boolean;
   showCopyNotification: boolean = false;
+  route: any;
+  
   constructor(private formBuilder: FormBuilder, private employeeService: EmployeeService, private dialogService: DialogService) {
     this.updateEmployeeForm = this.formBuilder.group({
       fullname: ['', Validators.required],
@@ -41,13 +45,29 @@ export class EmployeeDetailsComponent implements OnChanges {
     this.updateEmployeeForm.disable();
   }
 
+  ngOnInit(): void {
+    this.route.queryParams.subscribe((params: { [x: string]: any; }) => {
+      const userId = params['userId'];
+      if (userId) {
+        this.loadEmployeeDetails(userId);
+      }
+    });
+  }
+
+  loadEmployeeDetails(userId: string): void {
+    this.employeeService.getEmployeeById(userId).subscribe(employee => {
+      this.employeeDetails = employee;
+      this.updateEmployeeForm.patchValue(employee);
+    }, error => {
+      console.error('Error fetching employee details:', error);
+    });
+  }
   @HostListener('window:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
     if (event.key === 'Escape') {
       this.hideEmployeeDetails();
     }
   }
-
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['employeeDetails'] && changes['employeeDetails'].currentValue) {
       this.updateEmployeeForm.patchValue(changes['employeeDetails'].currentValue);
@@ -141,8 +161,6 @@ export class EmployeeDetailsComponent implements OnChanges {
     }
   }
   
-  
-
   onClear(): void {
     Object.keys(this.updateEmployeeForm.controls).forEach(controlName => {
       const control = this.updateEmployeeForm.get(controlName);
@@ -216,8 +234,6 @@ export class EmployeeDetailsComponent implements OnChanges {
     }
 }
 
-
-
 copyRFID() {
   const rfidInput = this.rfidInput.nativeElement as HTMLInputElement;
   
@@ -242,6 +258,31 @@ copyRFID() {
   }).catch(err => {
     console.error('Failed to copy: ', err);
   });
+}
+
+// Method to clear the placeholder text when the input is focused
+clearText(event: FocusEvent): void {
+  const target = event.target as HTMLInputElement;
+  if (target.hasAttribute('formControlName')) {
+    target.placeholder = ''; 
+  }
+}
+
+// Method to reset the placeholder text when the input loses focus
+resetPlaceholder(event: FocusEvent): void {
+  const target = event.target as HTMLInputElement;
+  const placeholders: { [key: string]: string } = {
+    'fullname': 'Enter Name',
+    'email': 'Enter Email',
+    'rfidtag': 'ABC19021DC',
+    'phone': '+639 xxx xxx xxxx',
+    'fingerprint1': '135135115161',
+    'fingerprint2': '135135115161'
+  };
+  const formControlName = target.getAttribute('formControlName');
+  if (formControlName) {
+    target.placeholder = placeholders[formControlName] || '';
+  }
 }
 
 
