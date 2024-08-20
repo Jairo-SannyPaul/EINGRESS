@@ -1,5 +1,7 @@
+import { UserService } from './../services/user.service';
+import { DialogService } from './../services/dialog.service';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-adminpopup',
@@ -12,15 +14,23 @@ export class AdminpopupComponent {
   showOldPassword = false;
   showNewPassword = false;
   showConfirmPassword = false;
+  // baseUrl = this.UserService.apiUrl;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private UserService: UserService, private dialogService: DialogService) {
     this.form = this.fb.group({
       newusername: [''],
-      oldPassword: [''],
-      newPassword: [''],
-      confirmPassword: ['']
+      oldPassword: ['', Validators.required],
+      newPassword: ['', Validators.required],
+      confirmPassword: ['',Validators.required]
     });
   }
+
+  adminUpdate = {
+    newusername: '',
+    oldPassword: '',
+    newPassword: '',
+    confirmPassword: '',
+  };
 
   clearText(event: FocusEvent): void {
     const inputElement = event.target as HTMLInputElement;
@@ -76,9 +86,32 @@ export class AdminpopupComponent {
     });
   }
 
-  onSubmit(): void {
-    if (this.form.valid) {
-      console.log(this.form.value);
+//   onSubmit(): void {
+//     if (this.form.valid) {
+//       console.log(this.form.value);
+//     }
+//   }
+// }
+
+onSubmit(): void {
+  this.form.markAllAsTouched();
+  if (this.form.valid) {
+    const adminUpdate = this.form.value;
+
+    const handleError = (error: any) => {
+      let errorMessage = 'Error creating employee.';
+      if (error.status === 400 && error.error && error.error.message) {
+        // Extract the message from the backend response
+        errorMessage = error.error.message;
+      }
+      this.dialogService.openAlertDialog(errorMessage);
+    };
+
+    if(this.form.get('newusername')?.errors?.['newusername']){
+      this.dialogService.openAlertDialog('Please enter a new username');
+    } else{
+      this.dialogService.openAlertDialog('Please fill in all requiredfields correctly')
     }
   }
+}
 }
