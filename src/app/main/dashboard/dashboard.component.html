@@ -1,7 +1,7 @@
 <div class="contents">
     <div class="security-summary">
         <span>Security Summary</span>
-        <app-security-summary></app-security-summary>
+        <app-security-summary (loadingChange)="onLoadingChange($event)"></app-security-summary>
     </div>
     <div class="recent-alerts">
         <span>Recent Alerts</span>

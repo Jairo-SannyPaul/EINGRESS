@@ -1,4 +1,4 @@
-import { Component, NgModule, HostListener } from '@angular/core';
+import { Component, NgModule, HostListener, EventEmitter, Output } from '@angular/core';
 import { multi } from './data';
 import { Color, ScaleType } from '@swimlane/ngx-charts';
 import { AccessLogService } from 'src/app/services/access-log.service';
@@ -49,19 +49,20 @@ export class SecuritySummaryComponent {
   };
 
   constructor(private accessLogService: AccessLogService, private employeeService: EmployeeService, private logintotalService: LoginTotalService) {
+    
     Object.assign(this, { multi });
     this.fetchDataForCurrentMonth();
     // Set the xAxisLabel dynamically to the current month
     const currentDate = new Date();
     const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     this.xAxisLabel = monthNames[currentDate.getMonth()]; // Set the xAxisLabel to the current month
-
     this.calculateChartDimensions();
     this.onResize(null); // Initialize chart dimensions
     this.fetchLoginsToday(); // Fetch LoginsToday data
     this.loadEmployeeInfo(); // Fetch total employees data
   }
-
+  @Output() loadingChange: EventEmitter<boolean> = new EventEmitter<boolean>(); // New Output EventEmitter
+  loading: boolean = true;
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     this.calculateChartDimensions();
@@ -194,6 +195,8 @@ updateLoginStatisticsInBackend() {
 this.logintotalService.updateTodayLoginStatistics(this.LoginsToday.toString(), this.NotOnSite.toString()).subscribe(
 () => {
   console.log('Login statistics updated successfully.');
+  this.loading = false;
+  this.loadingChange.emit(this.loading);
 },
 error => {
   console.error('Error updating login statistics:', error);
