@@ -23,6 +23,11 @@ export class UserService {
     return this.http.post<User[]>(this.apiUrl, user);
   }
 
+  updateUser(user: User): Observable<User> {
+    const updateUrl = `${this.apiUrl}/${user.username}`; // Assumes the user has an `id` property
+    return this.http.put<User>(updateUrl, user);
+  }
+
   loginUser(credentials: {username: string, password: string}): Observable<any> { 
     const loginUrl = `${this.apiUrl}/login`;
     return this.http.post<any>(loginUrl, credentials);

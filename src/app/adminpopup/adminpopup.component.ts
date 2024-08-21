@@ -2,6 +2,7 @@ import { UserService } from './../services/user.service';
 import { DialogService } from './../services/dialog.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { id } from '@swimlane/ngx-charts';
 
 @Component({
   selector: 'app-adminpopup',
@@ -18,7 +19,7 @@ export class AdminpopupComponent {
 
   constructor(private fb: FormBuilder, private UserService: UserService, private dialogService: DialogService) {
     this.form = this.fb.group({
-      newusername: [''],
+      newusername: ['', Validators.required],
       oldPassword: ['', Validators.required],
       newPassword: ['', Validators.required],
       confirmPassword: ['',Validators.required]
@@ -29,7 +30,7 @@ export class AdminpopupComponent {
     newusername: '',
     oldPassword: '',
     newPassword: '',
-    confirmPassword: '',
+    confirmPassword: ''
   };
 
   clearText(event: FocusEvent): void {
@@ -86,32 +87,81 @@ export class AdminpopupComponent {
     });
   }
 
-//   onSubmit(): void {
-//     if (this.form.valid) {
-//       console.log(this.form.value);
-//     }
+// onSubmit(): void {
+//   this.form.markAllAsTouched();
+//   if (this.form.valid) {
+//     const adminUpdate = this.form.value;
+
+//     // Call the updateUser method to update the admin profile
+//     this.UserService.updateUser(adminUpdate).subscribe({
+//       next: (response) => {
+//         console.log('Response from backend:', response);
+//         this.dialogService.openSuccessDialog('Profile updated successfully!').subscribe(confirmed =>{
+//           if (confirmed) {
+//             this.hideadminpop();
+//           }
+//         });
+//       },
+//       error: (error) => {
+//         let errorMessage = 'Error updating profile.';
+//         if (error.status === 400 && error.error && error.error.message) {
+//           errorMessage = error.error.message;
+//         }
+//         this.dialogService.openAlertDialog(errorMessage);
+//       }
+//     });
+//   } else {
+//     this.dialogService.openAlertDialog('Please fill in all required fields correctly.');
 //   }
 // }
+//   hideadminpop() {
+//     throw new Error('Method not implemented.');
+//   }
 
 onSubmit(): void {
   this.form.markAllAsTouched();
-  if (this.form.valid) {
-    const adminUpdate = this.form.value;
+  
+  console.log('Form Valid:', this.form.valid);
+  console.log('Form Errors:', this.form.errors);
+  console.log('Form Controls:', this.form.controls);
 
-    const handleError = (error: any) => {
-      let errorMessage = 'Error creating employee.';
+  if (this.form.invalid) {
+    this.dialogService.openAlertDialog('Please fill in all required fields correctly.');
+    return;
+  }
+
+  const adminUpdate = this.form.value;
+
+  if (!adminUpdate.newusername || !adminUpdate.oldPassword || !adminUpdate.newPassword || !adminUpdate.confirmPassword) {
+    this.dialogService.openAlertDialog('All fields must be filled.');
+    return;
+  }
+
+  if (adminUpdate.newPassword !== adminUpdate.confirmPassword) {
+    this.dialogService.openAlertDialog('New password and confirmed password do not match.');
+    return;
+  }
+
+  this.UserService.updateUser(adminUpdate).subscribe({
+    next: (response) => {
+      console.log('Response from backend:', response);
+      this.dialogService.openSuccessDialog('Profile updated successfully!').subscribe(confirmed => {
+        if (confirmed) {
+          this.hideadminpop();
+        }
+      });
+    },
+    error: (error) => {
+      let errorMessage = 'Error updating profile.';
       if (error.status === 400 && error.error && error.error.message) {
-        // Extract the message from the backend response
         errorMessage = error.error.message;
       }
       this.dialogService.openAlertDialog(errorMessage);
-    };
-
-    if(this.form.get('newusername')?.errors?.['newusername']){
-      this.dialogService.openAlertDialog('Please enter a new username');
-    } else{
-      this.dialogService.openAlertDialog('Please fill in all requiredfields correctly')
     }
-  }
+  });
 }
+  hideadminpop() {
+    throw new Error('Method not implemented.');
+  }
+
 }
