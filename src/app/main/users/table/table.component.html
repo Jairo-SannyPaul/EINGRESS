@@ -8,7 +8,7 @@
         <div class="last-login-header">Last login</div>
     </div>
 
-    <div class="table-body">
+    <div class="table-body"  [ngClass]="{'filter-active': filterToggle}">
         <app-user-selection (employeeSelected)="onEmployeeSelected($event)"></app-user-selection>
         <app-employee-details></app-employee-details>
     </div>

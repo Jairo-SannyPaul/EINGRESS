@@ -49,10 +49,6 @@ export class RecentLoginComponent {
   }
 
   redirectToReports(): void {
-    if (this.recentLogin) {
-      this.router.navigate(['/main/reports'], {
-        queryParams: { userId: this.recentLogin.id }
-      });
-    }
+    this.router.navigate(['/main/reports']); 
   }  
 }

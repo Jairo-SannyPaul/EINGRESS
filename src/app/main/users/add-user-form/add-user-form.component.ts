@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { DialogService } from 'src/app/services/dialog.service';
@@ -34,6 +34,13 @@ export class AddUserFormComponent {
       fingerprint2: [''],
       branch: ['', Validators.required],
     });
+  }
+
+  @HostListener('window:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    if (event.key === 'Escape') {
+      this.hideAddUserForm();
+    }
   }
 
   newEmployee = {
@@ -152,7 +159,12 @@ export class AddUserFormComponent {
       this.rfidInput.nativeElement.focus();
     }
   }
-
+  preventDefault(event: Event): void {
+    if ((event as KeyboardEvent).key === 'Enter') {
+      event.preventDefault();
+    }
+  }
+  
   toggleFingerprint() {
     if(this.userForm.get('fingerprint1')?.value){
       this.added = !this.added;
@@ -163,30 +175,4 @@ export class AddUserFormComponent {
       return;
     }
 }
-
-// Method to clear the placeholder text when the input is focused
-clearText(event: FocusEvent): void {
-  const target = event.target as HTMLInputElement;
-  if (target.hasAttribute('formControlName')) {
-    target.placeholder = ''; 
-  }
-}
-
-// Method to reset the placeholder text when the input loses focus
-resetPlaceholder(event: FocusEvent): void {
-  const target = event.target as HTMLInputElement;
-  const placeholders: { [key: string]: string } = {
-    'fullname': 'Enter Name',
-    'email': 'Enter Email',
-    'rfidtag': 'ABC19021DC',
-    'phone': '+639 xxx xxx xxxx',
-    'fingerprint1': '135135115161',
-    'fingerprint2': '135135115161'
-  };
-  const formControlName = target.getAttribute('formControlName');
-  if (formControlName) {
-    target.placeholder = placeholders[formControlName] || '';
-  }
-}
-
 }
