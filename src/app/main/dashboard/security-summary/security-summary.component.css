@@ -19,10 +19,8 @@
 
 }
   .logins-today {
-    display: grid;
-    grid-template-rows: 1fr 1fr;
-    grid-column: 1 / 2;
-    grid-row: 1 / 2;
+    display: flex;
+    flex-direction: column;
     align-items: center;
     font-family: Poppins;
     font-style: normal;
@@ -36,10 +34,8 @@
   }
   
   .not-on-site {
-    display: grid;
-    grid-template-rows: 1fr 1fr;
-    grid-column: 2 / 3;
-    grid-row: 1 / 2;
+    display: flex;
+    flex-direction: column;
     align-items: center;
     font-family: Poppins;
     font-style: normal;
@@ -53,11 +49,11 @@
   }
   
   .total {
-    display: grid;
-    grid-template-rows: 1fr 1fr;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     grid-column: 3 / 4;
     grid-row: 1 / 2;
-    align-items: center;
     font-family: Poppins;
     font-style: normal;
     font-weight: 500;
@@ -79,15 +75,74 @@
     grid-column: 1 / 4;
     grid-row: 2 / 9;
     height: 100%;
+
   }
   
   .activity-content {
-    padding-top: 20px;
-    width: 80%; /* Set the width to a specific percentage */
-    max-width: 800px; /* Set a maximum width in pixels */
+    position: relative;
+    margin-top: 20px;  
+    width: 100%; 
+    max-width: 100px; 
     height: 100%;
-    display: grid;  
+    display: grid;
+    left: -40px;  
+  } 
+
+  @media screen and (max-width: 1620px){
+    .security-content{
+      width: 100%;
+      height: 850px;
+      display: grid;
+    }
+    .activity{
+      height: 650px;
+    }
   }
-  
-  
-  
+
+
+
+
+  @media screen and (max-width:925px) {
+    .logins-today, .not-on-site, .total{
+    padding-left: 0px;
+    padding-right: 0px;
+    }
+  }
+
+  @media screen and (max-width: 680px){
+    .count{
+      font-size: 2rem;
+      height: 40px;
+    }
+    .logins-today, .not-on-site, .total{
+      display: flex;
+      flex-direction: column;
+    }
+    span{
+      font-size: .8rem;
+    }
+    .upper{
+      gap:10px;
+    }
+    .activity{
+      height: 320px;
+    }
+    .upper{
+      margin:10px;
+    }
+    .security-content{
+      max-height: 480px;
+      padding-bottom: 0px;
+      gap:0px;
+    }
+  }
+
+  @media screen and (max-width: 500px){
+    span{
+      font-size: .5rem;
+    }
+    .upper{
+      gap:10px;
+      padding:0px;
+    }
+  }

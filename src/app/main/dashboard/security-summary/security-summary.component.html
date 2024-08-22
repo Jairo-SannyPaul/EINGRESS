@@ -1,21 +1,21 @@
 <div class="security-content">
   <div class="upper">
     <div class="logins-today">
-      <div>Logins Today</div><br>
+      <span>Logins Today</span>
       <div class="count">{{ LoginsToday }}</div>
     </div>
     <div class="not-on-site">
-      <div>Not on site</div><br>
+      <span>Not on site</span>
       <div class="count">{{ NotOnSite }}</div>
     </div>
     <div class="total">
-      <div>Total Registered Users</div><br>
+      <span>Total Registered Users</span>
       <div class="count">{{ total }}</div>
     </div>
   </div>
   <div class="lower">
-    <div class="activity">
-      <div>Activity Chart</div>
+    <div class="activity" #activityContainer>
+      <span>Activity Chart</span>
 
       <div class="activity-content">
         <ngx-charts-bar-vertical-2d
@@ -30,12 +30,9 @@
           [xAxis]="showXAxis"
           [yAxis]="showYAxis"
           [yScaleMax]="yScaleMax"
-          [legend]="showLegend"
-          [legendPosition]="below"
           [showXAxisLabel]="showXAxisLabel"
           [showYAxisLabel]="showYAxisLabel"
           [xAxisLabel]="xAxisLabel"
-          [legendTitle]="legendTitle"
           [xAxisTickFormatting]="xAxisTickFormatting"
           [yAxisTickFormatting]="yAxisTickFormatting"
           (select)="onSelect($event)"

@@ -1,15 +1,19 @@
+
 .main-container{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
 }
 
 .photoholder {
     border-radius: 50%;
-    height: 150px;
-    width: 150px;
+    height: 200px;
+    width: 200px;
     perspective: 1000px;
     background-color: var(--background);
     border: 5px solid var(--secondary); 
@@ -36,6 +40,7 @@
     font-size: 2rem;
     color: var(--secondary);
     cursor: pointer;
+
 }
 
 .date-time{
@@ -48,4 +53,20 @@
     border-radius: 5px;
     padding: 5px;
 
+}
+
+p{
+    font-size: 2rem;
+    text-align: center;
+    font-weight: bolder;
+}
+
+@media screen and (max-width: 680px){
+    .photoholder{
+        height: 150px;
+        width: 150px;
+    }
+    p{
+        font-size: 1rem;
+    }
 }

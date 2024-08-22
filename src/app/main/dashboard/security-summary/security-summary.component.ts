@@ -1,4 +1,4 @@
-import { Component, NgModule, HostListener, EventEmitter, Output } from '@angular/core';
+import { Component, NgModule, HostListener, EventEmitter, Output, ViewChild, ElementRef } from '@angular/core';
 import { multi } from './data';
 import { Color, ScaleType } from '@swimlane/ngx-charts';
 import { AccessLogService } from 'src/app/services/access-log.service';
@@ -14,6 +14,7 @@ import { totalLogs } from 'src/app/interface/logs-total.interface';
   styleUrls: ['./security-summary.component.css'],
 })
 export class SecuritySummaryComponent {
+  @ViewChild('activityContainer') activityContainer!: ElementRef; // Reference to the activity div
   below: any;
   single: any[] = []; // Data array for the chart
   multi: any[] = [];
@@ -67,6 +68,10 @@ export class SecuritySummaryComponent {
   onResize(event: any) {
     this.calculateChartDimensions();
   }
+  ngAfterViewInit() {
+    this.calculateChartDimensions();
+    this.updateChart(); // Trigger the chart update after the view is initialized
+  }
 //CODE
   fetchDataForCurrentMonth() {
     this.logintotalService.getLogsForCurrentMonth().subscribe(
@@ -79,7 +84,6 @@ export class SecuritySummaryComponent {
       }
     );
   }
-
   processDataForChart(data: totalLogs[]) {
     // Initialize multi array to hold chart data
     this.multi = [];
@@ -129,10 +133,13 @@ export class SecuritySummaryComponent {
 
 
   calculateChartDimensions() {
-    this.chartWidth = window.innerWidth * 0.63; 
-    this.chartHeight = window.innerHeight * 0.45;
+    if (this.activityContainer) {
+      const element = this.activityContainer.nativeElement;
+      this.chartWidth = element.clientWidth + 
+      60;
+      this.chartHeight = element.clientHeight;
+    }
   }
-
  
   fetchLoginsToday() {
     // Fetch employees and access logs in parallel
