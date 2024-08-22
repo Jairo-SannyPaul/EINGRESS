@@ -42,7 +42,7 @@
 
 @media screen and (max-width: 1300px){
 .table{
-    height: 200px;
+    max-height: 220px;
     overflow-y: auto;
 }
 }

@@ -16,14 +16,14 @@ input[type="checkbox"] {
     position: sticky;
     color: gray;
     display: grid;
-    grid-template-columns: 100px repeat(4, 1fr); /* Fixed width first column, rest are 1fr */
+    grid-template-columns: 115px repeat(4, 1fr); /* Fixed width first column, rest are 1fr */
     align-items: center;
     gap: 20px;
-    padding: 20px;
-    position: sticky; /* Keep the header fixed */
-    top: 0; /* Stick the header to the top */
-    background-color: white; /* Optional: set a background color */
-    z-index: 1; /* Ensure header is above table body */
+    padding: 20px 0px;
+    position: sticky; 
+    top: 0;
+    background-color: white;
+    z-index: 1; 
 }
 
 .table-body{
@@ -52,11 +52,3 @@ input[type="checkbox"] {
     grid-column: 5 / 6;
 }
 
-@media screen and (max-width: 1000px) {
-.table{
-    padding: 0;
-    height: auto;
-    width: auto;
-    overflow-x: auto;
-}
- }

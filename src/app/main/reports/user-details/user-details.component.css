@@ -69,10 +69,15 @@ span{
 @media screen and (max-width: 750px){
     .right-container{
         gap: 0;
+        width: 100%;
     }
 
     .photoholder{
-    width: 150px;
-    height: 150px;
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+    .main-container{
+        flex-direction: column;
+        align-items: center;
     }
 }
