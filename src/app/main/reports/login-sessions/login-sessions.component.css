@@ -1,8 +1,3 @@
-span {
-    padding: 20px;
-    margin-bottom: 20px;
-}
-
 .session{
     display: grid;
     grid-template-columns: 50% 50%;
@@ -43,3 +38,17 @@ span {
 .table-body {
     overflow-y: auto;
 }
+
+
+@media screen and (max-width: 1300px){
+.table{
+    height: 200px;
+    overflow-y: auto;
+}
+}
+
+@media screen and (max-width: 1000px){
+    p{
+       font-size: .8rem;
+    }
+    }

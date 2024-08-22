@@ -57,4 +57,22 @@ width: 20px;
 span{
     margin-left: 20px;
 }
-  
+
+
+@media screen and (max-width: 1000px){
+    span{
+       font-size: .8rem;
+    }
+}
+
+
+@media screen and (max-width: 750px){
+    .right-container{
+        gap: 0;
+    }
+
+    .photoholder{
+    width: 150px;
+    height: 150px;
+    }
+}
