@@ -11,7 +11,7 @@
     /* 4 rows with height based on content */
     gap: 20px;
     /* Gap between grid items */
-    overflow-x: hidden;
+    overflow: hidden;
 }
 .header{
     display: flex;

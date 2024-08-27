@@ -136,7 +136,7 @@ export class SecuritySummaryComponent {
     if (this.activityContainer) {
       const element = this.activityContainer.nativeElement;
       this.chartWidth = element.clientWidth + 
-      60;
+      50;
       this.chartHeight = element.clientHeight;
     }
   }
