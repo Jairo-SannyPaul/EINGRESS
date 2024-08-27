@@ -235,6 +235,7 @@ span {
     color: gray;
     width: 90px;
     height: 40px;
+    background-color: buttonface;
 }
 
 .dismiss-user:hover {
@@ -362,6 +363,7 @@ span {
     color: var(--secondary);
     width: 90px;
     height: 40px;
+    background-color: var(--secondary-background);
 }
 
 .submit-user:hover {

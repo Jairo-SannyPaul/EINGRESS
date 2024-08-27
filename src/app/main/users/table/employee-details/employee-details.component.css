@@ -253,6 +253,7 @@ h5 {
     color: gray;
     width: 90px;
     height: 40px;
+    background-color: buttonface;
 }
 
 .dismiss-user:hover {
@@ -362,6 +363,7 @@ h5 {
     color: var(--secondary);
     width: 90px;
     height: 40px;
+
 }
 
 .submit-fingerprint:hover {
@@ -382,6 +384,7 @@ h5 {
     color: var(--secondary);
     width: 90px;
     height: 40px;
+    background-color: var(--secondary-background);
 }
 
 .edit-user:hover {
@@ -398,6 +401,7 @@ h5 {
     color: var(--secondary);
     width: 90px;
     height: 40px;
+    background-color: var(--secondary-background);
 }
 
 .submit-user:hover {
