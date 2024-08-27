@@ -75,6 +75,8 @@ span{
     .photoholder{
         margin-right: 0;
         margin-bottom: 10px;
+        width: 150px;
+        height: 150px;
     }
     .main-container{
         flex-direction: column;
