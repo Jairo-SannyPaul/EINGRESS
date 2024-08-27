@@ -1,7 +1,7 @@
 <div class="employee-details-container" *ngIf="employeeDetails">
     <div class="container">
       <div class="header">
-        <h5 class="header-title">User Information</h5>
+        <span class="header-title">User Information</span>
         <button class="close pointer" (click)="hideEmployeeDetails()">
           <img class="icon pointer" src="/assets/images/exit.png">
         </button>
@@ -54,11 +54,7 @@
               </div>
             </div>
           </div>
-          <div class="dismiss-container">
-            <button (click)="onClear()" class="dismiss-user pointer" [disabled]="!editMode">
-              Clear
-            </button>
-          </div>
+
         </div>
         <div class="right-container">
           <div class="contact-number">
@@ -137,10 +133,15 @@
                 </button>
               </div>
         </div>
-          <button (click)="enableEdit()" class="edit-user pointer" *ngIf="!editMode">Edit</button>
-          <button (click)="updateEmployee($event)" class="submit-user pointer" *ngIf="editMode">Update</button>
+          
+          
         </div>
       </form>
+      <div class="bottom">
+        <button (click)="onClear()" class="dismiss-user pointer" [disabled]="!editMode">Clear</button>
+        <button (click)="enableEdit()" class="edit-user pointer" *ngIf="!editMode">Edit</button>
+      <button (click)="updateEmployee($event)" class="submit-user pointer" *ngIf="editMode">Update</button>
+    </div>
     </div>
   </div>
   

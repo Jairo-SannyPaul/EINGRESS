@@ -1,42 +1,43 @@
 .employee-details-container {
 
-    display: flex; 
-    position: fixed; 
+    display: flex;
+    position: fixed;
     justify-content: center;
-    z-index: 6; 
-    left: 0;
+    z-index: 6;
+    left: 20px;
     top: 0;
-    width: 100%; 
-    height: 100%; 
+    width: 100%;
+    height: 100%;
     /*overflow-y: scroll;*/
-    background-color: rgb(0,0,0); 
-    background-color: rgba(0,0,0,0.4); 
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
 }
 
 .disabled {
     pointer-events: none;
     opacity: 0.5;
-  }
-  
-  
+}
 
-.container{
-    display: flex; 
-    position: fixed; 
-    z-index: 6; 
+
+
+.container {
+    display: flex;
+    position: fixed;
+    z-index: 6;
     top: 68px;
-    max-width: 800px; 
-    max-height: 790px;
+    max-height: 750px;
     height: 90%;
-    background-color: white; 
+    background-color: white;
     border-radius: 20px;
     flex-direction: column;
     padding: 20px;
+    overflow: auto;
 }
 
 span {
     font-size: 12px;
 }
+
 h5 {
     font-size: 17px;
 }
@@ -56,10 +57,12 @@ h5 {
 
 .header {
     display: flex;
-    justify-content: center; /* Centers the content horizontally */
-    align-items: center;    /* Centers the content vertically */
+    justify-content: center;
+    /* Centers the content horizontally */
+    align-items: center;
+    /* Centers the content vertically */
     position: relative;
-  }
+}
 
 .close {
     border-radius: 5px;
@@ -75,25 +78,30 @@ h5 {
 
 .main-container {
     width: 100%;
-    height: calc(100% - 20px);
+    height: 645px;
     gap: 20px;
     display: grid;
     grid-template-columns: 1fr 1fr;
     padding: 20px;
+    padding-bottom: 0px;
 }
 
 .left-container {
     display: grid;
-  grid-template-rows: 160px 60px 60px 300px 40px;
-  grid-template-columns: auto; /* Adjust as needed */
-  grid-gap: 10px; /* Adjust the gap between grid items */
-}   
+    grid-template-rows: 160px 60px 60px 300px;
+    grid-template-columns: auto;
+    /* Adjust as needed */
+    grid-gap: 10px;
+    /* Adjust the gap between grid items */
+}
 
 .right-container {
     display: grid;
-    grid-template-rows: 160px 60px 60px 300px 40px;
-  grid-template-columns: auto; /* Adjust as needed */
-  grid-gap: 10px; /* Adjust the gap between grid items */
+    grid-template-rows: 160px 60px 60px 300px;
+    grid-template-columns: auto;
+    /* Adjust as needed */
+    grid-gap: 10px;
+    /* Adjust the gap between grid items */
 }
 
 .photo-section {
@@ -178,7 +186,7 @@ h5 {
 
 .rfid-content {
     background-color: var(--background);
-    height: 300px;
+    height: 270px;
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -187,21 +195,20 @@ h5 {
     padding-left: 20px;
     padding-right: 20px;
     padding-top: 10px;
-    padding-bottom: 10px;  
 }
 
-.rfid-icon{
+.rfid-icon {
     height: 40px;
     width: auto;
 }
 
-.rfid-confirmation{
+.rfid-confirmation {
     display: flex;
     flex-direction: row;
     padding: 20px;
 }
 
-.dismiss-rfid{
+.dismiss-rfid {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -210,12 +217,13 @@ h5 {
     width: 90px;
     height: 40px;
 }
-.dismiss-rfid:hover{
+
+.dismiss-rfid:hover {
     color: white;
     background-color: var(--error);
 }
 
-.submit-rfid{
+.submit-rfid {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -224,7 +232,8 @@ h5 {
     width: 90px;
     height: 40px;
 }
-.submit-rfid:hover{
+
+.submit-rfid:hover {
     color: white;
     background-color: var(--secondary);
 }
@@ -244,8 +253,6 @@ h5 {
     color: gray;
     width: 90px;
     height: 40px;
-    margin-top: 20px;
-
 }
 
 .dismiss-user:hover {
@@ -260,14 +267,14 @@ h5 {
     flex-direction: column;
 }
 
-.roles{
+.roles {
     grid-row: 3 / 4;
     display: flex;
-    flex-direction: column;  
-    
+    flex-direction: column;
+
 }
 
-.roles-select{
+.roles-select {
     width: 100%;
     height: 40px;
     border-radius: 10px;
@@ -275,17 +282,17 @@ h5 {
     background-color: var(--background);
 }
 
-.fingerprint-container{
+.fingerprint-container {
     grid-row: 4 / 5;
     display: flex;
     flex-direction: column;
 }
 
-.fingerprintspan{
+.fingerprintspan {
     margin-top: 20px;
 }
 
-.icon-holder{
+.icon-holder {
     width: 60px;
     height: 60px;
     border-radius: 60px;
@@ -296,7 +303,7 @@ h5 {
 }
 
 
-.begin-scan{
+.begin-scan {
     margin: 20px;
     display: flex;
     justify-content: center;
@@ -308,31 +315,31 @@ h5 {
     background-color: white;
 }
 
-.begin-scan:hover{
-    color:white;
+.begin-scan:hover {
+    color: white;
     background-color: var(--secondary);
 }
 
-.details-holder{
+.details-holder {
     display: flex;
     flex-direction: column;
     height: 60px;
     width: 100%;
 }
 
-.details-holder input{
+.details-holder input {
     height: 40px;
     border-radius: 10px;
     padding: 20px;
 }
 
-.fingerprint-confirmation{
+.fingerprint-confirmation {
     display: flex;
     flex-direction: row;
     padding: 20px;
 }
 
-.dismiss-fingerprint{
+.dismiss-fingerprint {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -341,12 +348,13 @@ h5 {
     width: 90px;
     height: 40px;
 }
-.dismiss-fingerprint:hover{
+
+.dismiss-fingerprint:hover {
     color: white;
     background-color: var(--error);
 }
 
-.submit-fingerprint{
+.submit-fingerprint {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -355,16 +363,17 @@ h5 {
     width: 90px;
     height: 40px;
 }
-.submit-fingerprint:hover{
+
+.submit-fingerprint:hover {
     color: white;
     background-color: var(--secondary);
 }
 
-.submit-container{
+.submit-container {
     padding: 20px;
 }
 
-.edit-user{
+.edit-user {
     padding: 20px;
     display: flex;
     justify-content: center;
@@ -373,16 +382,14 @@ h5 {
     color: var(--secondary);
     width: 90px;
     height: 40px;
-    grid-row: 5 / 6;
-    margin-top: 40px;
 }
 
-.edit-user:hover{
+.edit-user:hover {
     color: white;
     background-color: var(--secondary);
 }
 
-.submit-user{
+.submit-user {
     padding: 20px;
     display: flex;
     justify-content: center;
@@ -391,169 +398,166 @@ h5 {
     color: var(--secondary);
     width: 90px;
     height: 40px;
-    grid-row: 5 / 6;
-    margin-top: 40px;
 }
 
 .submit-user:hover {
     color: white;
     background-color: var(--secondary);
 }
+
 .header-title {
-    flex-grow: 1;
+    font-weight: bold;
     text-align: center;
-  }
-  
-  .close {
+}
+
+.close {
     position: absolute;
     right: 0;
-  }
+}
 
-  /*  */
+/*  */
 
-  .addfingerprint{
+.addfingerprint {
     display: flex;
     align-items: center;
     justify-content: center;
-    }
-      
-    
-    .addfingerprintbtn{
-        width: 180px;
-        height: 40px;
-        border-radius: 10px; /* Updated border-radius */
-        display: flex;
-        align-items: center;
-        background-color: #e3f2ff;
-        justify-content: center;
-        color: var(--secondary);
-        cursor: pointer;
-        margin-top: 20px;
-    }
-    
-    .addfingerprintbtn img{
-        width: 20px;
-        height: 20px;
-    }
-    
-    .addfingerprintbtn.error {
-        width: 240px;
-        background-color: var(--errorbackground);
-        color: var(--error);
-      }
-    
-    .addfingerprintbtn:hover{
-        background-color: var(--secondary);
-    }
-    
-    .addfingerprintbtn.error:hover {
-        background-color: var(--error);
-      }
-    
-      .addfingerprintbtn.error:hover img{
-        content: url('/assets/images/delete-white.png');
-      }
-    
-      .addfingerprintbtn:hover .fingerprint-span {
-        color: white;
-      }
+}
 
 
-      .details-holder {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-      }
-      
-      .input-wrapper {
-        position: relative;
-        width: 100%;
-        display: flex;
-        align-items: center;
-      }
-      
-      input[formControlName="rfidtag"] {
-        width: 80%;
-        padding-right: 30px; /* Adjust padding to make space for the copy button */
-        box-sizing: border-box;
-        background-color: #f5f5f5;
-      }
-      
-      .copy {
-        height: 40px;
-        width: 40px;
-        position: absolute;
-        right: 0px;
-        top: 50%;
-        transform: translateY(-50%);
-        display: flex;
-        align-items: center;
-        cursor: pointer;
-        background-color: #f5f5f5;
-        justify-content: center;
-        border-radius: 10px;
-      }
+.addfingerprintbtn {
+    width: 180px;
+    height: 40px;
+    border-radius: 10px;
+    /* Updated border-radius */
+    display: flex;
+    align-items: center;
+    background-color: #e3f2ff;
+    justify-content: center;
+    color: var(--secondary);
+    cursor: pointer;
+    margin-top: 20px;
+}
 
-      .copy:hover {
-        background-color: var(--secondary);
-        transition: background-color 0.3s ease, color 0.2s ease;
-      }
-      
-      .input-wrapper .copy img {
-        width: 20px;
-        height: 20px;
-        transition: filter 0.2s ease;
-      }
-      
-      .input-wrapper .copy:hover img {
-        content: url('/assets/images/copy-white.png');
-      }
-      
-      .show-check .copy img {
-        content: url('/assets/images/check-blue.png');
-      }
-      
-      .show-check .copy:hover img {
-        content: url('/assets/images/check-white.png');
-      }
+.addfingerprintbtn img {
+    width: 20px;
+    height: 20px;
+}
 
-      .copy-notification {
-        color: #fff;
-        background-color: var(--secondary); /* Green background */
-        padding: 5px 10px;
-        margin-top: 7px;
-        border-radius: 10px;
-        text-align: center;
-        font-size: 14px;
-        animation: fadeOut 3s forwards;
-      }
-      
-      @keyframes fadeOut {
-        0% { opacity: 1; }
-        100% { opacity: 0; }
-      }
-      
-    span{
-        margin-left: 10px;
-        font-size: 1rem;
+.addfingerprintbtn.error {
+    width: 240px;
+    background-color: var(--errorbackground);
+    color: var(--error);
+}
+
+.addfingerprintbtn:hover {
+    background-color: var(--secondary);
+}
+
+.addfingerprintbtn.error:hover {
+    background-color: var(--error);
+}
+
+.addfingerprintbtn.error:hover img {
+    content: url('/assets/images/delete-white.png');
+}
+
+.addfingerprintbtn:hover .fingerprint-span {
+    color: white;
+}
+
+.bottom {
+    display: flex;
+    align-items: normal;
+    justify-content: center;
+    gap: 20px;
+}
+
+.details-holder {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.input-wrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+input[formControlName="rfidtag"] {
+    width: 80%;
+    padding-right: 30px;
+    /* Adjust padding to make space for the copy button */
+    box-sizing: border-box;
+    background-color: #f5f5f5;
+}
+
+.copy {
+    height: 40px;
+    width: 40px;
+    position: absolute;
+    right: 0px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    background-color: #f5f5f5;
+    justify-content: center;
+    border-radius: 10px;
+}
+
+.copy:hover {
+    background-color: var(--secondary);
+    transition: background-color 0.3s ease, color 0.2s ease;
+}
+
+.input-wrapper .copy img {
+    width: 20px;
+    height: 20px;
+    transition: filter 0.2s ease;
+}
+
+.input-wrapper .copy:hover img {
+    content: url('/assets/images/copy-white.png');
+}
+
+.show-check .copy img {
+    content: url('/assets/images/check-blue.png');
+}
+
+.show-check .copy:hover img {
+    content: url('/assets/images/check-white.png');
+}
+
+.copy-notification {
+    color: #fff;
+    background-color: var(--secondary);
+    /* Green background */
+    padding: 5px 10px;
+    margin-top: 7px;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 14px;
+    animation: fadeOut 3s forwards;
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
     }
-    
-    .addfingerprintbtn:hover img{
-        content: url('/assets/images/add-white.png');
+
+    100% {
+        opacity: 0;
     }
-    
-    @media screen and (max-width: 700px) {
-        
-        .addfingerprintbtn {
-            width: 40px; /* Updated width */
-        }
-    
-        .addfingerprintbtn img{
-            width: 20px;
-            height: 20px;
-        }
-    
-        span{
-            display: none;
-        }
-     }
+}
+
+span {
+    margin-left: 10px;
+    font-size: 1rem;
+}
+
+.addfingerprintbtn:hover img {
+    content: url('/assets/images/add-white.png');
+}

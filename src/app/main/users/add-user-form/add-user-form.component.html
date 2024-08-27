@@ -1,7 +1,7 @@
 <body *ngIf="addUserForm">
     <div class="container">
         <div class="header">
-            <strong class="header-title">Add User</strong>
+            <span class="header-title">Add User</span>
             <button class="close pointer" (click)="hideAddUserForm()">
                 <img class="icon pointer" src="/assets/images/exit.png">
             </button>
@@ -45,9 +45,6 @@
                             <input formControlName="rfidtag" #rfidInput type="text" placeholder="ABC19021DC">
                         </div>
                     </div>
-                </div>
-                <div class="dismiss-container">
-                    <div class="dismiss-user pointer" (click)="resetForm()">Clear</div>
                 </div>
             </div>
 
@@ -131,8 +128,12 @@
                         </button>
                     </div>
                 </div>
-                <div class="submit-user pointer" (click)="submitUser()">Submit</div>
             </div>
+
         </form>
+        <div class="bottom">
+            <div class="dismiss-user pointer" (click)="resetForm()">Clear</div>
+            <div class="submit-user pointer" (click)="submitUser()">Submit</div>
+        </div>
     </div>
 </body>
