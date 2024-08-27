@@ -31,4 +31,13 @@ export class UserDetailsComponent {
       });
     }
   }
+
+  navigateToEmployeeDetails() {
+    if (this.selectedEmployee) {
+      this.router.navigate(['/main/users'], {
+        queryParams: { userId: this.selectedEmployee.id }
+      });
+    }
+  }
+  
 }

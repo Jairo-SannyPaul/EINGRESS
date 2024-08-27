@@ -24,7 +24,6 @@ export class EmployeeService {
   sortOption$ = this.sortOptionSource.asObservable();
   private selectedFilterSource = new BehaviorSubject<string>('name');
   selectedFilter$ = this.selectedFilterSource.asObservable();
-  setToggle: boolean = false;
   constructor(private http: HttpClient) { }
 
   getEmployee(): Observable<Employee[]> {
@@ -92,8 +91,6 @@ export class EmployeeService {
             case 'fingerprint':
               return employee.fingerprint1?.toLowerCase().includes(searchValueLower) ||
                      employee.fingerprint2?.toLowerCase().includes(searchValueLower);
-            case 'branch':
-              return employee.branch?.toLowerCase().includes(searchValueLower) || false;         
             default:
               return false;
           }
@@ -103,8 +100,10 @@ export class EmployeeService {
       })
     );
   }
-  
-  
+
+  getEmployeeById(id: string): Observable<Employee> {
+    return this.http.get<Employee>(`${this.apiUrl}/${id}`);
+  }  
 
   triggerDelete(){
     this.deletedClickedSource.next();
@@ -131,6 +130,5 @@ export class EmployeeService {
   setFilterOption(filter: string) {
     this.selectedFilterSource.next(filter);
   }
-
 
 }

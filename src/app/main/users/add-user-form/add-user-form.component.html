@@ -3,33 +3,30 @@
         <div class="header">
             <strong class="header-title">Add User</strong>
             <button class="close pointer" (click)="hideAddUserForm()">
-                <img class="icon pointer" src="/assets/images/exit.png">
+              <img class="icon pointer" src="/assets/images/exit.png">
             </button>
-        </div>
+          </div>
+          
 
-
-        <form [formGroup]="userForm" class="main-container" (keydown.enter)="preventDefault($event)">
+        <form [formGroup]="userForm" class="main-container">
             <div class="left-container">
                 <div class="photo-section">
-                    <img class="photoholder"
-                        [src]="photoSrc ? photoSrc : (baseUrl + '/profile-image/' + (newEmployee.profileImage || 'max-smith.png'))"
-                        alt="Profile Image">
+                    <img class="photoholder" [src]="photoSrc ? photoSrc : (baseUrl + '/profile-image/' + (newEmployee.profileImage || 'max-smith.png'))" alt="Profile Image">
                     <div class="icons pointer">
                         <div class="edit">
-                            <input type="file" formControlName="profileImage" (change)="onFileSelected($event)"
-                                accept="image/png, image/jpeg" #fileInput style="display: none;">
+                            <input type="file" formControlName="profileImage" (change)="onFileSelected($event)" accept="image/png, image/jpeg" #fileInput style="display: none;">
                             <img class="icon pointer" src="/assets/images/edit-blue.png" (click)="fileInput.click()">
                         </div>
                     </div>
                 </div>
-
+    
                 <div class="name">
                     <span>Full Name</span>
-                    <input formControlName="fullname" class="textbox" type="text" placeholder="Enter Name">
+                    <input formControlName="fullname" class="textbox" type="text" placeholder="Enter Name" (focus)="clearText($event)" (blur)="resetPlaceholder($event)">
                 </div>
                 <div class="email">
                     <span>Email</span>
-                    <input formControlName="email" class="textbox" type="email" placeholder="Enter Email">
+                    <input formControlName="email" class="textbox" type="email" placeholder="Enter Email" (focus)="clearText($event)" (blur)="resetPlaceholder($event)">
                 </div>
                 <div class="rfid-container">
                     <span>RFID</span>
@@ -42,7 +39,7 @@
                         </div>
                         <div class="details-holder">
                             <span>RFID</span>
-                            <input formControlName="rfidtag" #rfidInput type="text" placeholder="ABC19021DC">
+                            <input formControlName="rfidtag" #rfidInput type="text" placeholder="ABC19021DC" (focus)="clearText($event)" (blur)="resetPlaceholder($event)">
                         </div>
                     </div>
                 </div>
@@ -54,82 +51,78 @@
             <div class="right-container">
                 <div class="contact-number">
                     <span>Contact Number</span>
-                    <input formControlName="phone" class="textbox" type="text" placeholder="+639 xxx xxx xxxx"
-                        [(ngModel)]="newEmployee.phone">
+                    <input formControlName="phone" class="textbox" type="text" placeholder="+639 xxx xxx xxxx" [(ngModel)]="newEmployee.phone" (focus)="clearText($event)" (blur)="resetPlaceholder($event)">
                 </div>
 
                 <div class="roles">
                     <span>Roles</span>
                     <select formControlName="role" name="roles" #employeeRole class="roles-select">
-                        <option value="Admin Aide">Admin Aide</option>
-                        <option value="Administrative Assistant">Administrative Assistant</option>
-                        <option value="Administrative Officer">Administrative Officer</option>
-                        <option value="Back End Developer">Back End Developer</option>
-                        <option value="Bubble Developer">Bubble Developer</option>
-                        <option value="CAD Operator">CAD Operator</option>
-                        <option value="Cebu Branch Manager">Cebu Branch Manager</option>
-                        <option value="Chief Executive Officer">Chief Executive Officer</option>
-                        <option value="Chief Finance Officer">Chief Finance Officer</option>
-                        <option value="Co-CEO">Co-CEO</option>
-                        <option value="Database Administrator">Database Administrator</option>
-                        <option value="Developer">Developer</option>
-                        <option value="DevOps Engineer">DevOps Engineer</option>
-                        <option value="Digital Creative Marketing">Digital Creative Marketing</option>
                         <option value="Driver/ Maintenance">Driver/ Maintenance</option>
-                        <option value="Front-end Developer">Front-end Developer</option>
-                        <option value="Full Stack Developer">Full Stack Developer</option>
-                        <option value="Guest">Guest</option>
-                        <option value="HR and Recruitment Assistant">HR and Recruitment Assistant</option>
-                        <option value="HR Consultant">HR Consultant</option>
-                        <option value="Intern">Intern</option>
-                        <option value="Internal Finance">Internal Finance</option>
-                        <option value="IT Administrator">IT Administrator</option>
-                        <option value="Junior Full Stack Developer">Junior Full Stack Developer</option>
-                        <option value="Lead UI/UX Designer">Lead UI/UX Designer</option>
-                        <option value="Liaison Officer">Liaison Officer</option>
-                        <option value="Logistics">Logistics</option>
-                        <option value="Logistics Assistant">Logistics Assistant</option>
-                        <option value="Maintenance Worker">Maintenance Worker</option>
-                        <option value="PMO Manager">PMO Manager</option>
-                        <option value="Principal Development Supervisor">Principal Development Supervisor</option>
-                        <option value="Product Design Manager">Product Design Manager</option>
-                        <option value="Product Owner">Product Owner</option>
                         <option value="Project Coordinator">Project Coordinator</option>
-                        <option value="Project Manager">Project Manager</option>
-                        <option value="QA Manager">QA Manager</option>
-                        <option value="Quality Assurance Specialist">Quality Assurance Specialist</option>
+                        <option value="Full Stack Developer">Full Stack Developer</option>
                         <option value="Quality Assurance Specialist - Team Lead">Quality Assurance Specialist - Team Lead</option>
+                        <option value="Co-CEO">Co-CEO</option>
+                        <option value="Chief Finance Officer">Chief Finance Officer</option>
+                        <option value="Chief Executive Officer">Chief Executive Officer</option>
+                        <option value="Quality Assurance Specialist">Quality Assurance Specialist</option>
+                        <option value="CAD Operator">CAD Operator</option>
+                        <option value="Principal Development Supervisor">Principal Development Supervisor</option>
+                        <option value="Cebu Branch Manager">Cebu Branch Manager</option>
+                        <option value="HR and Recruitment Assistant">HR and Recruitment Assistant</option>
+                        <option value="PMO Manager">PMO Manager</option>
+                        <option value="Logistics Assistant">Logistics Assistant</option>
+                        <option value="Back End Developer">Back End Developer</option>
+                        <option value="Product Design Manager">Product Design Manager</option>
+                        <option value="Administrative Assistant">Administrative Assistant</option>
                         <option value="Quality Automation Supervisor">Quality Automation Supervisor</option>
-                        <option value="Scrum Master">Scrum Master</option>
-                        <option value="Scrum Master/Product Owner">Scrum Master/Product Owner</option>
-                        <option value="Software Development Manager">Software Development Manager</option>
+                        <option value="Logistics">Logistics</option>
+                        <option value="Front-end Developer">Front-end Developer</option>
+                        <option value="Liaison Officer">Liaison Officer</option>
+                        <option value="Administrative Officer">Administrative Officer</option>
+                        <option value="Admin Aide">Admin Aide</option>
+                        <option value="IT Administrator">IT Administrator</option>
                         <option value="Sr. Full Stack Developer">Sr. Full Stack Developer</option>
+                        <option value="Project Manager">Project Manager</option>
+                        <option value="Bubble Developer">Bubble Developer</option>
+                        <option value="Product Owner">Product Owner</option>
+                        <option value="Maintenance Worker">Maintenance Worker</option>
+                        <option value="Quality Assurance Specialist">Quality Assurance Specialist</option>
+                        <option value="QA Manager">QA Manager</option>
                         <option value="TVI Head">TVI Head</option>
                         <option value="UI/UX Designer">UI/UX Designer</option>
-
+                        <option value="Software Development Manager">Software Development Manager</option>
+                        <option value="Internal Finance">Internal Finance</option>
+                        <option value="HR Consultant">HR Consultant</option>
+                        <option value="Scrum Master/Product Owner">Scrum Master/Product Owner</option>
+                        <option value="Scrum Master">Scrum Master</option>
+                        <option value="Digital Creative Marketing">Digital Creative Marketing</option>
+                        <option value="Developer">Developer</option>
+                        <option value="DevOps Engineer">DevOps Engineer</option>
+                        <option value="Lead UI/UX Designer">Lead UI/UX Designer</option>
+                        <option value="Junior Full Stack Developer">Junior Full Stack Developer</option>
+                        <option value="Database Administrator">Database Administrator</option>
+                        <option value="Guest">Guest</option>  
                     </select>
                 </div>
-
+    
                 <div class="fingerprint-container">
                     <span>Branch</span>
                     <select formControlName="branch" name="branches" #employeeBranch class="roles-select">
                         <option value="Davao">Davao</option>
                         <option value="Cebu">Cebu</option>
-                    </select>
+                        </select>
                     <span class="fingerprintspan">Fingerprint ID 1</span>
-                    <input formControlName="fingerprint1" #fingerprintInput1 type="text" placeholder="135135115161"
-                        class="textbox">
+                    <input formControlName="fingerprint1" #fingerprintInput1 type="text" placeholder="135135115161" class="textbox" (focus)="clearText($event)" (blur)="resetPlaceholder($event)">
                     <span class="fingerprintspan" *ngIf="added">Fingerprint ID 2</span>
-                    <input formControlName="fingerprint2" #fingerprintInput2 type="text" placeholder="135135115161"
-                        class="textbox fingerprint2" *ngIf="added">
+                    <input formControlName="fingerprint2" #fingerprintInput2 type="text" placeholder="135135115161" class="textbox fingerprint2" *ngIf="added" (focus)="clearText($event)" (blur)="resetPlaceholder($event)">
                     <div class="addfingerprint">
                         <button class="addfingerprintbtn" [ngClass]="{ 'error': added }" (click)="toggleFingerprint()">
-                            <img [src]="added ? '/assets/images/delete-red.png' : '/assets/images/add-blue.png'">
-                            <span class="fingerprint-span">
-                                {{ added ? 'Delete Fingerprint ID 2' : 'Add Fingerprint' }}
-                            </span>
+                          <img [src]="added ? '/assets/images/delete-red.png' : '/assets/images/add-blue.png'">
+                          <span class="fingerprint-span">
+                            {{ added ? 'Delete Fingerprint ID 2' : 'Add Fingerprint' }}
+                        </span>
                         </button>
-                    </div>
+                      </div>
                 </div>
                 <div class="submit-user pointer" (click)="submitUser()">Submit</div>
             </div>

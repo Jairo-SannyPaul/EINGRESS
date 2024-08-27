@@ -1,4 +1,4 @@
-import { Component, NgModule, HostListener, EventEmitter, Output } from '@angular/core';
+import { Component, NgModule, HostListener, Output, EventEmitter } from '@angular/core';
 import { multi } from './data';
 import { Color, ScaleType } from '@swimlane/ngx-charts';
 import { AccessLogService } from 'src/app/services/access-log.service';
@@ -14,6 +14,8 @@ import { totalLogs } from 'src/app/interface/logs-total.interface';
   styleUrls: ['./security-summary.component.css'],
 })
 export class SecuritySummaryComponent {
+  @Output() loadingChange: EventEmitter<boolean> = new EventEmitter<boolean>(); // New Output EventEmitter
+  loading: boolean = true;
   below: any;
   single: any[] = []; // Data array for the chart
   multi: any[] = [];
@@ -49,20 +51,19 @@ export class SecuritySummaryComponent {
   };
 
   constructor(private accessLogService: AccessLogService, private employeeService: EmployeeService, private logintotalService: LoginTotalService) {
-    
     Object.assign(this, { multi });
     this.fetchDataForCurrentMonth();
     // Set the xAxisLabel dynamically to the current month
     const currentDate = new Date();
     const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     this.xAxisLabel = monthNames[currentDate.getMonth()]; // Set the xAxisLabel to the current month
+
     this.calculateChartDimensions();
     this.onResize(null); // Initialize chart dimensions
     this.fetchLoginsToday(); // Fetch LoginsToday data
     this.loadEmployeeInfo(); // Fetch total employees data
   }
-  @Output() loadingChange: EventEmitter<boolean> = new EventEmitter<boolean>(); // New Output EventEmitter
-  loading: boolean = true;
+
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     this.calculateChartDimensions();
@@ -204,6 +205,38 @@ error => {
 );
 }
 
+  // updateLoginStatisticsInBackend() {
+  //   // Calculate LoginsToday and NotOnSite
+  //   const totalEmployees$ = this.employeeService.getEmployee();
+    
+  //   const today = new Date().toLocaleDateString();
+  
+  //   totalEmployees$.subscribe(
+  //     employees => {
+  //       const totalEmployees = employees.length;
+  //       const loggedTodayEmployees = employees.filter(employee => {
+  //         return employee.lastlogdate && new Date(employee.lastlogdate).toLocaleDateString() === today;
+  //       });
+        
+  //       const LoginsToday = loggedTodayEmployees.length;
+  //       const NotOnSite = totalEmployees - LoginsToday;
+  
+  //       // Update the login statistics in the backend
+  //       this.logintotalService.updateTodayLoginStatistics(LoginsToday.toString(), NotOnSite.toString()).subscribe(
+  //         () => {
+  //           console.log('Login statistics updated successfully.');
+  //         },
+  //         error => {
+  //           console.error('Error updating login statistics:', error);
+  //         }
+  //       );
+  //     },
+  //     error => {
+  //       console.error('Error fetching employees:', error);
+  //     }
+  //   );
+  // }
+  
 
   loadEmployeeInfo() {
     this.employeeService.getEmployee().subscribe(

@@ -11,7 +11,6 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 
 export class TableComponent  {
   @Input() sortOption: string = '';
-  @Input() filterToggle: boolean = false;
   @ViewChild(EmployeeDetailsComponent) employeeDetailsComponent!: EmployeeDetailsComponent; 
 
   onEmployeeSelected(employee: Employee){
