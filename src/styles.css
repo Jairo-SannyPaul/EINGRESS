@@ -127,7 +127,7 @@
 .loading-overlay {
   position: fixed;
   top: 0;
-  left: 0;
+  left: 48px;
   right: 0;
   bottom: 0;
   display: flex;

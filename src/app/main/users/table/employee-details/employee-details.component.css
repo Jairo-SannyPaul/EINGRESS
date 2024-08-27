@@ -547,6 +547,14 @@ input[formControlName="rfidtag"] {
     animation: fadeOut 3s forwards;
 }
 
+.bottom{
+    display: flex;
+    align-items:normal;
+    justify-content: center;
+    gap: 20px;
+    grid-column: 1 / 3;
+}
+
 @keyframes fadeOut {
     0% {
         opacity: 1;
@@ -564,4 +572,40 @@ span {
 
 .addfingerprintbtn:hover img {
     content: url('/assets/images/add-white.png');
+}
+
+@media screen and (max-width: 630px) {
+    .container{
+        max-height: 100vh;
+        overflow-y: auto;
+        padding: 10px;
+    }
+   .main-container{
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        padding-right: 0px;
+    }
+    .left-container{
+        grid-row: 1 / 2;
+        grid-template-rows: 160px 60px 60px ;
+        padding-right: 0px;
+    }
+    .right-container{
+        grid-row: 2 / 3;
+        grid-template-rows: 60px 60px 300px;
+    }
+    .bottom{
+        grid-row: 3 / 4;
+        padding-bottom: 20px;
+    }
+    .contact-number {
+        grid-row: 1 / 2;
+    }
+    .roles{
+        grid-row: 2 / 3;
+    }
+    .fingerprint-container{
+        grid-row: 3 / 4;
+    }
+
 }
