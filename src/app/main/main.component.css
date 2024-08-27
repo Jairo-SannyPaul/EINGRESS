@@ -57,3 +57,9 @@
         width: 800px;
     }
 }
+
+@media screen and (max-width: 500px) {
+  .inner-page{
+    border-radius: 5px;
+  }
+}

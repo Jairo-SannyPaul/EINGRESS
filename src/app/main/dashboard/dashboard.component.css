@@ -85,4 +85,8 @@ span{
   span{
     font-size: .5rem;
   }
+  .security-summary, .recent-alerts, .recent-login{
+    padding: 5px;
+    border-radius: 5px;
+  }
 }

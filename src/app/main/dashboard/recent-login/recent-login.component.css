@@ -70,3 +70,14 @@ p{
         font-size: 1rem;
     }
 }
+
+
+@media screen and (max-width: 500px){
+    .photoholder{
+        height: 100px;
+        width: 100px;
+    }
+    p{
+        font-size: .8rem;
+    }
+}
