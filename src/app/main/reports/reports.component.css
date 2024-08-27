@@ -125,3 +125,11 @@ background-color: var(--background);
     }
 }
 
+@media screen and (max-width: 690px) {
+    .contents{
+        width: 640px;
+        overflow: auto;
+    }
+
+
+}
