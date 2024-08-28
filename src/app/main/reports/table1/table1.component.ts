@@ -5,6 +5,7 @@ import { startWith, switchMap } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { DialogService } from 'src/app/services/dialog.service';
 import { AccessLogService } from 'src/app/services/access-log.service';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-table1',
@@ -179,4 +180,12 @@ export class Table1Component implements OnInit {
     return !!((employee.fingerprint1 && employee.fingerprint1.trim() !== '') || (employee.fingerprint2 && employee.fingerprint2.trim() !== ''));
   }
 
+  currentDate: string = formatDate(new Date(), 'MM/dd/yyyy', 'en-US'); // Format date to match lastlogdate format
+
+  isActiveToday(employee: Employee): boolean {
+    if (!employee.lastlogdate) return false;
+
+    const employeeDate = formatDate(new Date(employee.lastlogdate), 'MM/dd/yyyy', 'en-US');
+    return employeeDate === this.currentDate;
+  }
 }
