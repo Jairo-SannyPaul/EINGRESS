@@ -24,20 +24,12 @@ export class UserDetailsComponent {
     }
   }
 
-  navigateToReports() {
-    if (this.selectedEmployee) {
-      this.router.navigate(['/main/reports'], {
-        queryParams: { userId: this.selectedEmployee.id }
-      });
-    }
-  }
-
   navigateToEmployeeDetails() {
     if (this.selectedEmployee) {
       this.router.navigate(['/main/users'], {
-        queryParams: { userId: this.selectedEmployee.id }
+        queryParams: { userId: this.selectedEmployee.id, fullName: this.selectedEmployee.fullname }
       });
-    }
+    } 
   }
   
 }
