@@ -6,7 +6,7 @@ import { EmployeeService } from 'src/app/services/employee.service'; // Import t
 import { combineLatest, interval, switchMap } from 'rxjs';
 import { LoginTotalService } from 'src/app/services/login-total.service';
 import { totalLogs } from 'src/app/interface/logs-total.interface';
-
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-security-summary',
@@ -50,7 +50,8 @@ export class SecuritySummaryComponent {
   };
   totalBio!: number;
   noBio!: number;
-  constructor(private accessLogService: AccessLogService, private employeeService: EmployeeService, private logintotalService: LoginTotalService) {
+
+  constructor(private accessLogService: AccessLogService, private employeeService: EmployeeService, private logintotalService: LoginTotalService, private router: Router) {
 
     Object.assign(this, { multi });
     this.fetchDataForCurrentMonth();
@@ -257,8 +258,10 @@ export class SecuritySummaryComponent {
   }
 
   customLegend = {
-
   };
 
-
+  redirectToUsers(): void {
+    this.employeeService.setSortOption('noBio');
+    this.router.navigate(['/main/users']);
+  }
 }

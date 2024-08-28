@@ -3,6 +3,7 @@ import { AddUserFormComponent } from './add-user-form/add-user-form.component';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { SearchfieldComponent } from './searchfield/searchfield.component';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-users',
@@ -35,8 +36,15 @@ export class UsersComponent {
   filterToggle: boolean = false;
   selectedFilter: string = 'name';
   sortOption: string = 'nameAsc';
-
+  private sortOptionSubscription!: Subscription;
   constructor(private employeeService: EmployeeService) {}
+
+  ngOnInit() {
+    // Subscribe to the sortOption observable
+    this.sortOptionSubscription = this.employeeService.sortOption$.subscribe(sortOption => {
+      this.sortOption = sortOption;
+    });
+  }
 
   onSortChange() {
     console.log('Sort option changed:', this.sortOption);

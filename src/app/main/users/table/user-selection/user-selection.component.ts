@@ -177,8 +177,9 @@ export class UserSelectionComponent implements OnInit, OnDestroy {
     this.employeeSelected.emit(employee);
   }
 
-hasBio(employee: Employee): boolean {
-  return !!((employee.fingerprint1 && employee.fingerprint1.trim() !== '') || (employee.fingerprint2 && employee.fingerprint2.trim() !== ''));
-}
+
+  hasBio(employee: Employee): boolean {
+    return !!((employee.fingerprint1 && employee.fingerprint1.trim() !== '') || (employee.fingerprint2 && employee.fingerprint2.trim() !== ''));
+  }
 
 }
