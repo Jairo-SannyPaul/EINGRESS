@@ -4,11 +4,59 @@ input[type="checkbox"] {
     height: 15px;
 }
 
+.profile-image-container {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .profile-image-container img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  
+/* Conditional styling for employees without bio data */
+.no-bio-border {
+    border: 3px solid var(--warning);
+    /* Use var(--warning) for employees with no bio data */
+}
+
+/* Styling for employees with bio data */
+.bio-border {
+    border: 3px solid var(--secondary);
+    /* Original border color for employees with bio data */
+}
+
+.active-indicator {
+    position: absolute;
+    bottom: 10px; 
+    right: 0px;
+    width: 12px;
+    height: 12px;
+    background-color: green;
+    border-radius: 50%;
+    border: 2px solid white; 
+    z-index: 1; 
+  }
+
+  .inactive-indicator {
+    position: absolute;
+    bottom: 10px; 
+    right: 0px;
+    width: 15px;
+    height: 15px;
+    background-color: red;
+    border-radius: 50%;
+    border: 3px solid white; 
+    z-index: 1; 
+  }
+
 .user {
-    padding-left: 20px; 
-    padding-right: 20px; 
+    padding-left: 20px;
+    padding-right: 20px;
     display: flex;
-    grid-template-columns: 20px repeat(4, 1fr); 
+    grid-template-columns: 20px repeat(4, 1fr);
     align-items: center;
     gap: 20px;
     border-top: 1px solid var(--background);
@@ -19,10 +67,12 @@ input[type="checkbox"] {
 }
 
 .user-content {
-    display: flex; /* Use flexbox for alignment */
+    display: flex;
+    /* Use flexbox for alignment */
     align-items: center;
     gap: 20px;
 }
+
 
 .user img {
     width: 50px;
@@ -31,27 +81,24 @@ input[type="checkbox"] {
     cursor: pointer;
 }
 
-/* Conditional styling for employees without bio data */
+
 .no-bio-border {
-    border: 3px solid var(--warning); /* Use var(--warning) for employees with no bio data */
+    border: 3px solid var(--warning);
 }
 
-/* Styling for employees with bio data */
+
 .bio-border {
-    border: 3px solid var(--secondary); /* Original border color for employees with bio data */
+    border: 3px solid var(--secondary);
 }
 
-.employee-info-container{
+.employee-info-container {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     cursor: pointer;
     width: 100%;
-   
     gap: 20px;
     padding-top: 40px;
     padding-bottom: 40px;
     padding-left: 20px;
     padding-right: 20px;
 }
-
-

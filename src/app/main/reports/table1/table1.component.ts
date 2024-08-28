@@ -132,9 +132,9 @@ export class Table1Component implements OnInit {
           const aHasBio = (a.fingerprint1 && a.fingerprint1.trim() !== '') || (a.fingerprint2 && a.fingerprint2.trim() !== '');
           const bHasBio = (b.fingerprint1 && b.fingerprint1.trim() !== '') || (b.fingerprint2 && b.fingerprint2.trim() !== '');
 
-          if (aHasBio && !bHasBio) return -1; // `a` has bio data, `b` does not
-          if (!aHasBio && bHasBio) return 1;  // `b` has bio data, `a` does not
-          return 0; // If both have or both don't have bio data, keep current order
+          if (aHasBio && !bHasBio) return -1;
+          if (!aHasBio && bHasBio) return 1;
+          return 0;
         });
         break;
       case 'noBio':

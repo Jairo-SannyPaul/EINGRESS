@@ -4,6 +4,7 @@ import { EmployeeService } from 'src/app/services/employee.service';
 import { startWith, switchMap } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { DialogService } from 'src/app/services/dialog.service';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-user-selection',
@@ -181,5 +182,13 @@ export class UserSelectionComponent implements OnInit, OnDestroy {
   hasBio(employee: Employee): boolean {
     return !!((employee.fingerprint1 && employee.fingerprint1.trim() !== '') || (employee.fingerprint2 && employee.fingerprint2.trim() !== ''));
   }
+  
+  currentDate: string = formatDate(new Date(), 'MM/dd/yyyy', 'en-US'); // Format date to match lastlogdate format
 
+  isActiveToday(employee: Employee): boolean {
+    if (!employee.lastlogdate) return false;
+
+    const employeeDate = formatDate(new Date(employee.lastlogdate), 'MM/dd/yyyy', 'en-US');
+    return employeeDate === this.currentDate;
+  }
 }
