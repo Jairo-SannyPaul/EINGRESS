@@ -1,9 +1,9 @@
 <div class="main-container">
-    <div class="photoholder">
+    <div class="photoholder" (click)="navigateToEmployeeDetails()">
         <img [src]="getProfileImage(selectedEmployee)" alt="Profile Image">
     </div>
     <div class="right-container" *ngIf="selectedEmployee">
-        <div class="user-name">{{ selectedEmployee.fullname }}</div>
+        <div class="user-name" (click)="navigateToEmployeeDetails()">{{ selectedEmployee.fullname }}</div>
         <div class="user-role">
             <img src="/assets/images/user-blue.png" alt="">
             <span>{{ selectedEmployee.role }}</span>

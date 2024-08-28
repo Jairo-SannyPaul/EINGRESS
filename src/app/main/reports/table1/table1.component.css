@@ -21,13 +21,8 @@
 }
 
 .table-body{
-    height: calc(100% - 0px);
     overflow-y: auto;
 }
-
-.table-body.filter-active {
-    height: calc(100% - 80px); /* Adjusted when filter is active */
-  }
 
 
 .user {

@@ -1,6 +1,7 @@
 import { Component, ElementRef, Input, EventEmitter, Output, ViewChild } from '@angular/core';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { Subscription } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-searchfield',
@@ -16,13 +17,29 @@ export class SearchfieldComponent {
   isFocused: boolean = false;
   private reloadSubscription: Subscription = new Subscription();
 
-  constructor(private employeeService: EmployeeService) { }
+  constructor(private employeeService: EmployeeService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.reloadSubscription = this.employeeService.reload$.subscribe(() => {
       this.searchInput.nativeElement.value = "";
     });
   }
+
+  ngAfterViewInit() {
+    // Retrieve the full name from the query parameters
+    this.route.queryParams.subscribe(params => {
+      if (params['fullName']) {
+        this.searchEmployee = params['fullName'];
+
+        // Set the input value and manually trigger the search
+        setTimeout(() => {
+          this.searchInput.nativeElement.value = this.searchEmployee;
+          this.onSearchUserInputChanged();  
+        });
+      }
+    });
+  }
+
   ngOnDestroy() {
     if (this.reloadSubscription) {
       this.reloadSubscription.unsubscribe();

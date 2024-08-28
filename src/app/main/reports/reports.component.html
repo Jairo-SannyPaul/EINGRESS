@@ -39,10 +39,6 @@
           class="filter fingerprint" 
           [ngClass]="{'active-filter': selectedReportsFilter === 'fingerprint'}"
           (click)="selectFingerprint()">Fingerprint</button>
-          <button 
-          class="filter branch" 
-          [ngClass]="{'active-filter': selectedReportsFilter === 'branch'}"
-          (click)="selectBranch()">Branch</button>
       </div>
       <div class="sortBy">
         <select [(ngModel)]="sortOption" (change)="onSortChange()">
@@ -50,8 +46,6 @@
           <option value="nameDsc">Sort by Name (Z-A)</option>
           <option value="roleAsc">Sort by Role (A-Z)</option>
           <option value="roleDsc">Sort by Role (Z-A)</option>
-          <option value="branchAsc">Sort by Branch (A-Z)</option>
-            <option value="branchDsc">Sort by Branch (Z-A)</option>
           <option value="logAsc">Sort by Last Log (Recent)</option>
         </select>
       </div>
@@ -60,9 +54,7 @@
 
     <app-table1 
   [employees]="filteredEmployees" 
-  (employeeSelected)="handleEmployeeSelected($event)"
-  [filterToggle]="filterToggle"
-  >
+  (employeeSelected)="handleEmployeeSelected($event)">
 </app-table1>
 
 

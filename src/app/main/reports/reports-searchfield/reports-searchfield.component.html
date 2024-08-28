@@ -3,5 +3,6 @@
     <input type="text" name="user" 
            [placeholder]="'Search ' + selectedReportsFilter" 
            (focus)="isFocused = true" (blur)="onInputBlur()"
-           [ngModel]="searchEmployee" (ngModelChange)="onSearchUserInputChanged()" #searchInput>
+           [ngModel]="searchEmployee" (ngModelChange)="onSearchUserInputChanged()" 
+           #searchInput>
 </div>
