@@ -6,6 +6,7 @@ import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { ReportsSearchfieldComponent } from './reports-searchfield/reports-searchfield.component';
 import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 type LoginSession = {
   date: string;
   time: string;
@@ -48,6 +49,7 @@ export class ReportsComponent implements OnInit {
   filterToggle: boolean = false;
   selectedReportsFilter: string = 'name';
   sortOption: string = 'nameAsc';
+  private sortOptionSubscription!: Subscription;
   constructor(
     private accessLogService: AccessLogService,
     private employeeService: EmployeeService
@@ -55,6 +57,9 @@ export class ReportsComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadEmployeeInfo();
+    this.sortOptionSubscription = this.employeeService.sortOption$.subscribe(sortOption => {
+      this.sortOption = sortOption;
+    });
   }
 
   loadEmployeeInfo() {

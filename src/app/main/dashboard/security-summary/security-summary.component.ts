@@ -264,4 +264,9 @@ export class SecuritySummaryComponent {
     this.employeeService.setSortOption('noBio');
     this.router.navigate(['/main/users']);
   }
+
+  redirectToReports(): void {
+    this.employeeService.setSortOption('logAsc');
+    this.router.navigate(['/main/reports']);
+  }
 }
