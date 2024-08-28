@@ -24,12 +24,21 @@ input[type="checkbox"] {
     gap: 20px;
 }
 
-.user img{
+.user img {
     width: 50px;
     height: 50px;
     border-radius: 50px;
-    border: 2px solid var(--secondary);
     cursor: pointer;
+}
+
+/* Conditional styling for employees without bio data */
+.no-bio-border {
+    border: 2px solid var(--warning); /* Use var(--warning) for employees with no bio data */
+}
+
+/* Styling for employees with bio data */
+.bio-border {
+    border: 2px solid var(--secondary); /* Original border color for employees with bio data */
 }
 
 .employee-info-container{

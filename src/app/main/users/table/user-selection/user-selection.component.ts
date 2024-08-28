@@ -26,7 +26,7 @@ export class UserSelectionComponent implements OnInit, OnDestroy {
     private employeeService: EmployeeService,
     private dialogService: DialogService,
     private cdr: ChangeDetectorRef // Inject ChangeDetectorRef properly
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.loadEmployeeInfo();
@@ -34,7 +34,7 @@ export class UserSelectionComponent implements OnInit, OnDestroy {
     this.employeeService.deletedClicked$.subscribe(() => {
       this.deleteEmployee();
     });
-    
+
     this.reloadSubscription = this.employeeService.reload$.subscribe(() => {
       this.loadEmployeeInfo(); // Refresh employee info when reload is triggered
     });
@@ -73,7 +73,7 @@ export class UserSelectionComponent implements OnInit, OnDestroy {
       this.sortEmployees(this.sortOption); // Sort employees after loading
       this.loading = false;
     });
-    
+
   }
 
   sortEmployees(sortOption: string) {
@@ -100,7 +100,7 @@ export class UserSelectionComponent implements OnInit, OnDestroy {
           return b.role.localeCompare(a.role);
         });
         break;
-        case 'branchAsc':
+      case 'branchAsc':
         this.filteredEmployees.sort((a, b) => {
           if (a.branch === b.branch) {
             return a.fullname.localeCompare(b.fullname);
@@ -108,7 +108,7 @@ export class UserSelectionComponent implements OnInit, OnDestroy {
           return a.branch.localeCompare(b.branch);
         });
         break;
-        case 'branchDsc':
+      case 'branchDsc':
         this.filteredEmployees.sort((a, b) => {
           if (a.branch === b.branch) {
             return b.fullname.localeCompare(a.fullname);
@@ -116,23 +116,41 @@ export class UserSelectionComponent implements OnInit, OnDestroy {
           return b.branch.localeCompare(a.branch);
         });
         break;
-        case 'logAsc':
-          this.filteredEmployees.sort((a, b) => {
-            const dateA = a.lastlogdate
-              ? new Date(a.lastlogdate.replace(/(\d{2})\/(\d{2})\/(\d{4}), (\d{2}):(\d{2}):(\d{2})/, '$3-$1-$2T$4:$5:$6'))
-              : new Date(0);
-            const dateB = b.lastlogdate
-              ? new Date(b.lastlogdate.replace(/(\d{2})\/(\d{2})\/(\d{4}), (\d{2}):(\d{2}):(\d{2})/, '$3-$1-$2T$4:$5:$6'))
-              : new Date(0);
-            return dateB.getTime() - dateA.getTime(); // Most recent first
-          });
-          break;
+      case 'logAsc':
+        this.filteredEmployees.sort((a, b) => {
+          const dateA = a.lastlogdate
+            ? new Date(a.lastlogdate.replace(/(\d{2})\/(\d{2})\/(\d{4}), (\d{2}):(\d{2}):(\d{2})/, '$3-$1-$2T$4:$5:$6'))
+            : new Date(0);
+          const dateB = b.lastlogdate
+            ? new Date(b.lastlogdate.replace(/(\d{2})\/(\d{2})\/(\d{4}), (\d{2}):(\d{2}):(\d{2})/, '$3-$1-$2T$4:$5:$6'))
+            : new Date(0);
+          return dateB.getTime() - dateA.getTime(); // Most recent first
+        });
+        break;
+      case 'bio':
+        this.filteredEmployees.sort((a, b) => {
+          const aHasBio = (a.fingerprint1 && a.fingerprint1.trim() !== '') || (a.fingerprint2 && a.fingerprint2.trim() !== '');
+          const bHasBio = (b.fingerprint1 && b.fingerprint1.trim() !== '') || (b.fingerprint2 && b.fingerprint2.trim() !== '');
 
-          
-      }
-      this.cdr.markForCheck();
+          if (aHasBio && !bHasBio) return -1; // `a` has bio data, `b` does not
+          if (!aHasBio && bHasBio) return 1;  // `b` has bio data, `a` does not
+          return 0; // If both have or both don't have bio data, keep current order
+        });
+        break;
+      case 'noBio':
+        this.filteredEmployees.sort((a, b) => {
+          const aHasBio = (a.fingerprint1 && a.fingerprint1.trim() !== '') || (a.fingerprint2 && a.fingerprint2.trim() !== '');
+          const bHasBio = (b.fingerprint1 && b.fingerprint1.trim() !== '') || (b.fingerprint2 && b.fingerprint2.trim() !== '');
+
+          if (aHasBio && !bHasBio) return 1;  // `a` has bio data, `b` does not
+          if (!aHasBio && bHasBio) return -1; // `b` has bio data, `a` does not
+          return 0; // If both have or both don't have bio data, keep current order
+        });
+        break;
+    }
+    this.cdr.markForCheck();
   }
-  
+
 
   onSortChange(sortOption: string) {
     this.sortOption = sortOption;
@@ -158,4 +176,9 @@ export class UserSelectionComponent implements OnInit, OnDestroy {
   selectedEmployee(employee: Employee) {
     this.employeeSelected.emit(employee);
   }
+
+hasBio(employee: Employee): boolean {
+  return !!((employee.fingerprint1 && employee.fingerprint1.trim() !== '') || (employee.fingerprint2 && employee.fingerprint2.trim() !== ''));
+}
+
 }
