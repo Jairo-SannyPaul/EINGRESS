@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core'
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Employee } from '../interface/employee.interface';
-import { Subject } from 'rxjs'; 
+import { Subject } from 'rxjs';
 import { forkJoin } from 'rxjs';
 import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -12,27 +12,30 @@ import { environment } from '../environments/environment.prod';
   providedIn: 'root'
 })
 export class EmployeeService {
-
   apiUrl = `${environment.baseURL}api/employee`;
-  
+
   private deletedClickedSource = new Subject<void>();
   deletedClicked$ = this.deletedClickedSource.asObservable();
 
   private searchedUserTriggerSource = new Subject<string>();
   searchUserTrigger$ = this.searchedUserTriggerSource.asObservable();
+
   private sortOptionSource = new BehaviorSubject<string>('nameAsc');
   sortOption$ = this.sortOptionSource.asObservable();
+
   private selectedFilterSource = new BehaviorSubject<string>('name');
   selectedFilter$ = this.selectedFilterSource.asObservable();
+
   setToggle: boolean = false;
-  constructor(private http: HttpClient) { }
+
+  constructor(private http: HttpClient) {}
 
   getEmployee(): Observable<Employee[]> {
     const getEmployeeInfoUrl = `${this.apiUrl}`;
     return this.http.get<Employee[]>(getEmployeeInfoUrl);
   }
 
-  deleteEmployee(employeeID: number[]): Observable<any>{
+  deleteEmployee(employeeID: number[]): Observable<any> {
     const deleteEmployeeUrl = employeeID.map(id => `${this.apiUrl}/${id}`);
     const deleteRequest = deleteEmployeeUrl.map(url => this.http.delete(url));
     return forkJoin(deleteRequest);
@@ -46,20 +49,18 @@ export class EmployeeService {
     return this.http.post<any>(`${this.apiUrl}`, formData);
   }
 
-  addEmployeeWithoutImage( employee: Employee): Observable<any> {
+  addEmployeeWithoutImage(employee: Employee): Observable<any> {
     const formData: FormData = new FormData();
     console.log(employee);
     formData.append('employee', JSON.stringify(employee)); // Convert employee object to JSON string
-    return this.http.post<any>(`${this.apiUrl}`, formData);// Send PUT request without image
+    return this.http.post<any>(`${this.apiUrl}`, formData); // Send PUT request without image
   }
 
   updateEmployee(id: number, employee: Employee, file: File): Observable<any> {
     const formData: FormData = new FormData();
-    // If a file is provided, append it to the FormData
     if (file) {
       formData.append('file', file);
     }
-    // Append the employee object to the FormData
     formData.append('employee', JSON.stringify(employee));
   
     const updateEmployeeUrl = `${this.apiUrl}/${id}`;
@@ -76,14 +77,12 @@ export class EmployeeService {
   searchEmployee(searchInputValue: string): Observable<Employee[]> {
     return this.getEmployee().pipe(
       map(employees => {
-        const selectedFilter = this.selectedFilterSource.getValue(); // Get the selected filter from the service
-  
+        const selectedFilter = this.selectedFilterSource.getValue();
         const filteredEmployees = employees.filter(employee => {
-          const searchValueLower = searchInputValue.toLowerCase(); // Convert search input to lowercase for comparison
+          const searchValueLower = searchInputValue.toLowerCase();
   
           switch (selectedFilter) {
             case 'name':
-              // Return employees whose names start with the search input
               return employee.fullname.toLowerCase().startsWith(searchValueLower);
             case 'role':
               return employee.role.toLowerCase().includes(searchValueLower);
@@ -98,15 +97,34 @@ export class EmployeeService {
               return false;
           }
         });
-  
         return filteredEmployees;
       })
     );
   }
   
-  
+  countBiometricRegistrations(): Observable<{ BioRegistered: number; noBioRegistered: number }> {
+    return this.getEmployee().pipe(
+      map(employees => {
+        let BioRegistered = 0;
+        let noBioRegistered = 0;
 
-  triggerDelete(){
+        employees.forEach(employee => {
+          const hasFingerprint1 = employee.fingerprint1 && employee.fingerprint1.trim() !== '';
+          const hasFingerprint2 = employee.fingerprint2 && employee.fingerprint2.trim() !== '';
+
+          if (hasFingerprint1 || hasFingerprint2) {
+            BioRegistered++;
+          } else {
+            noBioRegistered++;
+          }
+        });
+
+        return { BioRegistered, noBioRegistered };
+      })
+    );
+  }
+
+  triggerDelete() {
     this.deletedClickedSource.next();
   }
 
@@ -114,7 +132,7 @@ export class EmployeeService {
     this.searchedUserTriggerSource.next(searchInputValue);
   }
 
-  reloadPage(){
+  reloadPage() {
     window.location.reload();
   }
 
@@ -125,12 +143,12 @@ export class EmployeeService {
   triggerReload() {
     this.reloadSubject.next();
   }
-  setSortOption(sortOption:string){
+
+  setSortOption(sortOption: string) {
     this.sortOptionSource.next(sortOption);
   }
+
   setFilterOption(filter: string) {
     this.selectedFilterSource.next(filter);
   }
-
-
 }
