@@ -2,46 +2,36 @@
   <div class="users-list">
     <div class="header">
       <div class="left">
-      <app-reports-searchfield [selectedReportsFilter]="selectedReportsFilter"></app-reports-searchfield>
-      <button class="filterbtn" (click)="toggleFilter()">
-        <img src="/assets/images/filter-black.png">
-      </button>
-    </div>
+        <app-reports-searchfield [selectedReportsFilter]="selectedReportsFilter"></app-reports-searchfield>
+        <button class="filterbtn" (click)="toggleFilter()">
+          <img src="/assets/images/filter-black.png">
+        </button>
+      </div>
       <div class="right">
-      <div class="datepicker">
-        <mat-form-field appearance="fill">
-          <input matInput [matDatepicker]="picker" placeholder="Choose a date" (dateChange)="onDateChanged($event)">
-          <mat-hint>MM/DD/YYYY</mat-hint>
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
+        <div class="datepicker">
+          <mat-form-field appearance="fill">
+            <input matInput [matDatepicker]="picker" placeholder="Choose a date" (dateChange)="onDateChanged($event)">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
       </div>
     </div>
-    </div>
 
 
-    <div *ngIf="filterToggle" @slideIn class="filterTab" >
+    <div *ngIf="filterToggle" @slideIn class="filterTab">
       <div class="searchBy">
         <span>Search by:</span>
-        <button 
-          class="filter name" 
-          [ngClass]="{'active-filter': selectedReportsFilter === 'name'}"
+        <button class="filter name" [ngClass]="{'active-filter': selectedReportsFilter === 'name'}"
           (click)="selectName()">Name</button>
-        <button 
-          class="filter role" 
-          [ngClass]="{'active-filter': selectedReportsFilter === 'role'}"
+        <button class="filter role" [ngClass]="{'active-filter': selectedReportsFilter === 'role'}"
           (click)="selectRole()">Role</button>
-        <button 
-          class="filter rfid" 
-          [ngClass]="{'active-filter': selectedReportsFilter === 'rfid'}"
+        <button class="filter rfid" [ngClass]="{'active-filter': selectedReportsFilter === 'rfid'}"
           (click)="selectRfid()">RFID</button>
-        <button 
-          class="filter fingerprint" 
-          [ngClass]="{'active-filter': selectedReportsFilter === 'fingerprint'}"
+        <button class="filter fingerprint" [ngClass]="{'active-filter': selectedReportsFilter === 'fingerprint'}"
           (click)="selectFingerprint()">Fingerprint</button>
-          <button 
-          class="filter branch" 
-          [ngClass]="{'active-filter': selectedReportsFilter === 'branch'}"
+        <button class="filter branch" [ngClass]="{'active-filter': selectedReportsFilter === 'branch'}"
           (click)="selectBranch()">Branch</button>
       </div>
       <div class="sortBy">
@@ -51,36 +41,34 @@
           <option value="roleAsc">Sort by Role (A-Z)</option>
           <option value="roleDsc">Sort by Role (Z-A)</option>
           <option value="branchAsc">Sort by Branch (A-Z)</option>
-            <option value="branchDsc">Sort by Branch (Z-A)</option>
+          <option value="branchDsc">Sort by Branch (Z-A)</option>
           <option value="logAsc">Sort by Last Log (Recent)</option>
+          <option value="bio">Has Registered Bio</option>
+          <option value="noBio">No Registered Bio</option>
         </select>
       </div>
     </div>
 
 
-    <app-table1 
-  [employees]="filteredEmployees" 
-  (employeeSelected)="handleEmployeeSelected($event)"
-  [filterToggle]="filterToggle"
-  >
-</app-table1>
+    <app-table1 [employees]="filteredEmployees" (employeeSelected)="handleEmployeeSelected($event)"
+      [filterToggle]="filterToggle">
+    </app-table1>
 
 
   </div>
   <div class="user-details">
-    <app-user-details 
-      [selectedEmployee]="selectedEmployee">
+    <app-user-details [selectedEmployee]="selectedEmployee">
     </app-user-details>
   </div>
   <div class="login-sessions">
-      <strong id="login-sessions-text">Login Sessions</strong>
-      <app-login-sessions [loginSessions]="loginSessions"></app-login-sessions>
+    <strong id="login-sessions-text">Login Sessions</strong>
+    <app-login-sessions [loginSessions]="loginSessions"></app-login-sessions>
   </div>
 
   <div [ngClass]="{'fade-out': !loading}" class="loading-overlay">
     <div class="jairo-container">
-        <div class="jairoLoading">Jairosoft EINGRESS</div>
-        <div class="spinner"></div>
+      <div class="jairoLoading">Jairosoft EINGRESS</div>
+      <div class="spinner"></div>
     </div>
-</div>
+  </div>
 </div>

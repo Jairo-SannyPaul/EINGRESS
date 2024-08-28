@@ -127,6 +127,26 @@ export class Table1Component implements OnInit {
             return dateB.getTime() - dateA.getTime(); // Most recent first
           });
           break;
+          case 'bio':
+        this.filteredEmployees.sort((a, b) => {
+          const aHasBio = (a.fingerprint1 && a.fingerprint1.trim() !== '') || (a.fingerprint2 && a.fingerprint2.trim() !== '');
+          const bHasBio = (b.fingerprint1 && b.fingerprint1.trim() !== '') || (b.fingerprint2 && b.fingerprint2.trim() !== '');
+
+          if (aHasBio && !bHasBio) return -1; // `a` has bio data, `b` does not
+          if (!aHasBio && bHasBio) return 1;  // `b` has bio data, `a` does not
+          return 0; // If both have or both don't have bio data, keep current order
+        });
+        break;
+      case 'noBio':
+        this.filteredEmployees.sort((a, b) => {
+          const aHasBio = (a.fingerprint1 && a.fingerprint1.trim() !== '') || (a.fingerprint2 && a.fingerprint2.trim() !== '');
+          const bHasBio = (b.fingerprint1 && b.fingerprint1.trim() !== '') || (b.fingerprint2 && b.fingerprint2.trim() !== '');
+
+          if (aHasBio && !bHasBio) return 1;  // `a` has bio data, `b` does not
+          if (!aHasBio && bHasBio) return -1; // `b` has bio data, `a` does not
+          return 0; // If both have or both don't have bio data, keep current order
+        });
+        break;
       }
   }
 
@@ -155,4 +175,8 @@ export class Table1Component implements OnInit {
         }
       );
   }
+  hasBio(employee: Employee): boolean {
+    return !!((employee.fingerprint1 && employee.fingerprint1.trim() !== '') || (employee.fingerprint2 && employee.fingerprint2.trim() !== ''));
+  }
+
 }

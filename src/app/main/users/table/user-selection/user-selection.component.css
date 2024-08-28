@@ -33,12 +33,12 @@ input[type="checkbox"] {
 
 /* Conditional styling for employees without bio data */
 .no-bio-border {
-    border: 2px solid var(--warning); /* Use var(--warning) for employees with no bio data */
+    border: 3px solid var(--warning); /* Use var(--warning) for employees with no bio data */
 }
 
 /* Styling for employees with bio data */
 .bio-border {
-    border: 2px solid var(--secondary); /* Original border color for employees with bio data */
+    border: 3px solid var(--secondary); /* Original border color for employees with bio data */
 }
 
 .employee-info-container{
