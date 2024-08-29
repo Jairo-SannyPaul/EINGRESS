@@ -3,7 +3,7 @@
 
 
 :root{
-
+    overflow: hidden;
     --hover: #18263A;
     --primary:#0C131D;
     --secondary:#2291F2;
