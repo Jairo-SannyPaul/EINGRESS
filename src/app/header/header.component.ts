@@ -1,4 +1,4 @@
-import { Component, HostListener, ElementRef, Renderer2 } from '@angular/core';
+import { Component, HostListener, ElementRef, Renderer2, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AdminpopupComponent } from '../adminpopup/adminpopup.component';
 @Component({
@@ -6,10 +6,17 @@ import { AdminpopupComponent } from '../adminpopup/adminpopup.component';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
   isActive = false;
   isDropdownOpen = false;
+  username: string = '';
+
   constructor(private elRef: ElementRef, public dialog: MatDialog) {}
+
+  ngOnInit(): void {
+    // Retrieve the username from localStorage
+    this.username = localStorage.getItem('username') || 'Admin';  // Default to 'Admin' if username is not found
+  }
 
   openDialog(): void {
     this.dialog.open(AdminpopupComponent, {

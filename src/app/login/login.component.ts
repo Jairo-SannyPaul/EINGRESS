@@ -28,24 +28,45 @@ export class LoginComponent {
   });
   }
 
+  // submitCredentials() {
+  //   if(this.form.invalid){
+  //     this.dialogService.openAlertDialog('Please fill in all credentials');
+  //     return;
+  //   }
+
+  //   this.userService.loginUser(this.form.getRawValue()).subscribe({
+  //       next: (response: any) => {
+  //         localStorage.setItem('token', response.access_token);
+  //         this.router.navigateByUrl('/main');
+  //       },
+  //       error: (error) => {
+  //         this.dialogService.openAlertDialog('Invalid User please try again!');
+  //         console.error(error); 
+  //       }
+  //     } 
+  //   );
+  // }
+
   submitCredentials() {
-    if(this.form.invalid){
+    if (this.form.invalid) {
       this.dialogService.openAlertDialog('Please fill in all credentials');
       return;
     }
-
-    this.userService.loginUser(this.form.getRawValue()).subscribe({
-        next: (response: any) => {
-          localStorage.setItem('token', response.access_token);
-          this.router.navigateByUrl('/main');
-        },
-        error: (error) => {
-          this.dialogService.openAlertDialog('Invalid User please try again!');
-          console.error(error); 
-        }
-      } 
-    );
-  }
+  
+    const { username, password } = this.form.getRawValue();
+  
+    this.userService.loginUser({ username, password }).subscribe({
+      next: (response: any) => {
+        localStorage.setItem('token', response.access_token);
+        localStorage.setItem('username', username);  // Store the username in localStorage
+        this.router.navigateByUrl('/main');
+      },
+      error: (error) => {
+        this.dialogService.openAlertDialog('Invalid User please try again!');
+        console.error(error); 
+      }
+    });
+  }  
 
   // Method to toggle password visibility
   togglePasswordVisibility(field: string): void {
