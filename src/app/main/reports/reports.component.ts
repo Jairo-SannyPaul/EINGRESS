@@ -209,4 +209,9 @@ export class ReportsComponent implements OnInit {
     this.reportsSearchFieldComponent.clearSearchField();
   }
 
+  selectBranch(){
+    this.selectedReportsFilter = 'branch';
+    this.employeeService.setFilterOption(this.selectedReportsFilter);
+    this.reportsSearchFieldComponent.clearSearchField();
+  }
 }
