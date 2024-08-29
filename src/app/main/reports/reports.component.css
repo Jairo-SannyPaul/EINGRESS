@@ -57,6 +57,16 @@
     flex-direction: row;
 }
 
+.searchBy{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+span{
+    width: auto;
+    margin: 0 10px;
+}
 select{
     padding-left: 10px;
     font-size: 1rem;
@@ -130,6 +140,4 @@ background-color: var(--background);
         width: 640px;
         overflow: auto;
     }
-
-
 }

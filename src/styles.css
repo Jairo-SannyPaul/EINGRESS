@@ -79,7 +79,7 @@
 }
 
 .filterTab {
-  height: 60px;
+  height: auto;
   width: 100%;
   border-radius: 10px;
   box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.2);
@@ -87,12 +87,12 @@
   z-index: 1;
   background-color: white; 
   margin: 10px 0px;
-  display: flex;  /* Enable flexbox */
+  display: flex;
   flex-direction: row;
-  align-items: center; /* Center items vertically */
-  text-align: center; /* Optional: center the text */
-  padding-left: 20px;
+  align-items: center;
+  text-align: center;
   padding-right: 10px;
+  padding-bottom: 10px;
   justify-content: space-between;
 }
 
@@ -100,12 +100,13 @@
   background-color: var(--background);
   font-weight: bold;
   height: 40px;
-  margin-right: 5px;
   margin-left: 5px;
+  margin-right: 5px;
+  margin-top: 10px;
   border-radius: 10px;
   width: 60px;
   color: var();
-  transition: background-color 0.3s ease, color 0.2s ease; /* Adjust the duration and easing as needed */
+  transition: background-color 0.3s ease, color 0.2s ease;
 }
 
 .filter:hover{

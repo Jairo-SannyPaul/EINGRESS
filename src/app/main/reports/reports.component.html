@@ -23,6 +23,7 @@
     <div *ngIf="filterToggle" @slideIn class="filterTab">
       <div class="searchBy">
         <span>Search by:</span>
+        <div>
         <button class="filter name" [ngClass]="{'active-filter': selectedReportsFilter === 'name'}"
           (click)="selectName()">Name</button>
         <button class="filter role" [ngClass]="{'active-filter': selectedReportsFilter === 'role'}"
@@ -33,6 +34,7 @@
           (click)="selectFingerprint()">Fingerprint</button>
         <button class="filter branch" [ngClass]="{'active-filter': selectedReportsFilter === 'branch'}"
           (click)="selectBranch()">Branch</button>
+        </div>
       </div>
       <div class="sortBy">
         <select [(ngModel)]="sortOption" (change)="onSortChange()">
