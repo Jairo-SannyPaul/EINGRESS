@@ -9,12 +9,13 @@ import { id } from '@swimlane/ngx-charts';
   templateUrl: './adminpopup.component.html',
   styleUrls: ['./adminpopup.component.css']
 })
-export class AdminpopupComponent {
+export class AdminpopupComponent implements OnInit {
 
   form:FormGroup;
   showOldPassword = false;
   showNewPassword = false;
   showConfirmPassword = false;
+  currentAdmin!: { id: number };
   // baseUrl = this.UserService.apiUrl;
 
   constructor(private fb: FormBuilder, private UserService: UserService, private dialogService: DialogService) {
@@ -32,6 +33,11 @@ export class AdminpopupComponent {
     newPassword: '',
     confirmPassword: ''
   };
+
+  ngOnInit() {
+    // Initialize currentAdmin or fetch from a service
+    this.currentAdmin = { id: 1 };  // Example id; replace with actual logic to get current admin
+  }
 
   clearText(event: FocusEvent): void {
     const inputElement = event.target as HTMLInputElement;
@@ -118,6 +124,54 @@ export class AdminpopupComponent {
 //     throw new Error('Method not implemented.');
 //   }
 
+// onSubmit(): void {
+//   this.form.markAllAsTouched();
+  
+//   console.log('Form Valid:', this.form.valid);
+//   console.log('Form Errors:', this.form.errors);
+//   console.log('Form Controls:', this.form.controls);
+
+//   if (this.form.invalid) {
+//     this.dialogService.openAlertDialog('Please fill in all required fields correctly.');
+//     return;
+//   }
+
+//   const adminUpdate = this.form.value;
+
+//   if (!adminUpdate.newusername || !adminUpdate.oldPassword || !adminUpdate.newPassword || !adminUpdate.confirmPassword) {
+//     this.dialogService.openAlertDialog('All fields must be filled.');
+//     return;
+//   }
+
+//   if (adminUpdate.newPassword !== adminUpdate.confirmPassword) {
+//     this.dialogService.openAlertDialog('New password and confirmed password do not match.');
+//     return;
+//   }
+
+//   this.UserService.updateUser(adminUpdate).subscribe({
+//     next: (response) => {
+//       console.log('Response from backend:', response);
+//       this.dialogService.openSuccessDialog('Profile updated successfully!').subscribe(confirmed => {
+//         if (confirmed) {
+//           this.hideadminpop();
+//         }
+//       });
+//     },
+//     error: (error) => {
+//       let errorMessage = 'Error updating profile.';
+//       if (error.status === 400 && error.error && error.error.message) {
+//         errorMessage = error.error.message;
+//       }
+//       this.dialogService.openAlertDialog(errorMessage);
+//     }
+//   });
+// }
+//   hideadminpop() {
+//     throw new Error('Method not implemented.');
+//   }
+
+
+//TRY AND ERROR
 onSubmit(): void {
   this.form.markAllAsTouched();
   
@@ -142,7 +196,10 @@ onSubmit(): void {
     return;
   }
 
-  this.UserService.updateUser(adminUpdate).subscribe({
+  // Make sure to define the userId correctly
+  const userId = 1; // Replace with actual logic to get the user ID
+
+  this.UserService.updateUser(userId, adminUpdate).subscribe({
     next: (response) => {
       console.log('Response from backend:', response);
       this.dialogService.openSuccessDialog('Profile updated successfully!').subscribe(confirmed => {
