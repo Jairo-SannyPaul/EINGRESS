@@ -15,6 +15,8 @@ import { Router } from '@angular/router';
 })
 export class SecuritySummaryComponent {
   @ViewChild('activityContainer') activityContainer!: ElementRef; // Reference to the activity div
+  @Output() loadingChange: EventEmitter<boolean> = new EventEmitter<boolean>(); // New Output EventEmitter
+  loading: boolean = true;
   below: any;
   single: any[] = []; // Data array for the chart
   multi: any[] = [];
@@ -59,6 +61,7 @@ export class SecuritySummaryComponent {
     const currentDate = new Date();
     const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     this.xAxisLabel = monthNames[currentDate.getMonth()]; // Set the xAxisLabel to the current month
+
     this.calculateChartDimensions();
     this.onResize(null); // Initialize chart dimensions
     this.fetchLoginsToday(); // Fetch LoginsToday data
@@ -68,8 +71,7 @@ export class SecuritySummaryComponent {
       this.noBio = counts.noBioRegistered;
     });
   }
-  @Output() loadingChange: EventEmitter<boolean> = new EventEmitter<boolean>(); // New Output EventEmitter
-  loading: boolean = true;
+
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     this.calculateChartDimensions();

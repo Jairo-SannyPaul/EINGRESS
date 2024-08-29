@@ -85,10 +85,4 @@ export class UsersComponent {
     this.employeeService.setFilterOption(this.selectedFilter);
     this.searchFieldComponent.clearSearchField();
   }
-
-  selectBranch(){
-    this.selectedFilter ='branch';
-    this.employeeService.setFilterOption(this.selectedFilter);
-    this.searchFieldComponent.clearSearchField();
-  }
 }

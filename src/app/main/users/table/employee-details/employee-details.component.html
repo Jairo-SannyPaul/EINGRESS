@@ -24,11 +24,11 @@
 
         <div class="name">
           <span>Full Name</span>
-          <input formControlName="fullname" class="textbox" type="text">
+          <input formControlName="fullname" class="textbox" type="text" (focus)="clearText($event)" (blur)="resetPlaceholder($event)">
         </div>
         <div class="email">
           <span>Email</span>
-          <input formControlName="email" class="textbox" type="text">
+          <input formControlName="email" class="textbox" type="text" (focus)="clearText($event)" (blur)="resetPlaceholder($event)">
         </div>
         <div class="rfid-container">
           <span>RFID</span>
@@ -42,7 +42,7 @@
             <div class="details-holder">
               <span>RFID</span>
               <div class="input-wrapper" [ngClass]="{'show-check': showCopyNotification}">
-                <input formControlName="rfidtag" #rfidInput type="text" placeholder="Click here and Tap RFID">
+                <input formControlName="rfidtag" #rfidInput type="text" placeholder="Click here and Tap RFID" (focus)="clearText($event)" (blur)="resetPlaceholder($event)">
                 <div class="copy" (click)="copyRFID()">
                   <img src="/assets/images/copy-blue.png" alt="Copy RFID">
                 </div>
@@ -124,10 +124,10 @@
           </select>
           <span class="fingerprintspan">Fingerprint ID 1</span>
           <input formControlName="fingerprint1" #fingerprintInput1 type="text" placeholder="Biometric ID"
-            class="textbox">
+            class="textbox" (focus)="clearText($event)" (blur)="resetPlaceholder($event)">
           <span class="fingerprintspan" *ngIf="added">Fingerprint ID 2</span>
           <input formControlName="fingerprint2" #fingerprintInput2 type="text" placeholder="Biometric ID"
-            class="textbox fingerprint2" *ngIf="added">
+            class="textbox fingerprint2" *ngIf="added" (focus)="clearText($event)" (blur)="resetPlaceholder($event)">
           <div class="addfingerprint">
             <button class="addfingerprintbtn" [ngClass]="{ 'error': added }" (click)="toggleFingerprint()"
               *ngIf="editMode">

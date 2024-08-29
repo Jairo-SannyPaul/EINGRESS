@@ -9,7 +9,6 @@ import { AdminpopupComponent } from '../adminpopup/adminpopup.component';
 export class HeaderComponent {
   isActive = false;
   isDropdownOpen = false;
-
   constructor(private elRef: ElementRef, public dialog: MatDialog) {}
 
   openDialog(): void {

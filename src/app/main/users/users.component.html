@@ -33,12 +33,6 @@
             class="filter fingerprint" 
             [ngClass]="{'active-filter': selectedFilter === 'fingerprint'}"
             (click)="selectFingerprint()">Fingerprint</button>
-          
-        
-          <button 
-          class="filter branch" 
-          [ngClass]="{'active-filter': selectedFilter === 'branch'}"
-          (click)="selectBranch()">Branch</button>
         </div>
         <div class="sortBy">
           <select [(ngModel)]="sortOption" (change)="onSortChange()">
@@ -46,15 +40,13 @@
             <option value="nameDsc">Sort by Name (Z-A)</option>
             <option value="roleAsc">Sort by Role (A-Z)</option>
             <option value="roleDsc">Sort by Role (Z-A)</option>
-            <option value="branchAsc">Sort by Branch (A-Z)</option>
-            <option value="branchDsc">Sort by Branch (Z-A)</option>
             <option value="logAsc">Sort by Last Log (Recent)</option>
             <option value="bio">Has Registered Bio</option>
             <option value="noBio">No Registered Bio</option>
           </select>
         </div>
       </div>
-      <app-table [filterToggle]="filterToggle"></app-table>
+      <app-table></app-table>
       <app-add-user-form></app-add-user-form>
     </div>
   </div>

@@ -91,8 +91,6 @@ export class EmployeeService {
             case 'fingerprint':
               return employee.fingerprint1?.toLowerCase().includes(searchValueLower) ||
                      employee.fingerprint2?.toLowerCase().includes(searchValueLower);
-            case 'branch':
-              return employee.branch?.toLowerCase().includes(searchValueLower) || false;         
             default:
               return false;
           }
@@ -123,7 +121,9 @@ export class EmployeeService {
       })
     );
   }
-
+  getEmployeeById(id: string): Observable<Employee> {
+    return this.http.get<Employee>(`${this.apiUrl}/${id}`);
+  }  
   triggerDelete() {
     this.deletedClickedSource.next();
   }

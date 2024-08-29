@@ -3,7 +3,7 @@
 
 
 :root{
-  overflow-x: hidden;
+
     --hover: #18263A;
     --primary:#0C131D;
     --secondary:#2291F2;
@@ -208,4 +208,3 @@
   color: #333; /* Darker text color */
   font-weight: bold; /* Bold text */
 }
-

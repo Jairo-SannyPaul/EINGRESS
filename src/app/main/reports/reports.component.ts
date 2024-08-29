@@ -52,28 +52,51 @@ export class ReportsComponent implements OnInit {
   private sortOptionSubscription!: Subscription;
   constructor(
     private accessLogService: AccessLogService,
-    private employeeService: EmployeeService
+    private employeeService: EmployeeService,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
-    this.loadEmployeeInfo();
+    this.route.queryParams.subscribe(params => {
+      const userId = params['userId'];
+      console.log('Navigated with userId:', userId);
+      this.loadEmployeeInfo(userId);
+    });
     this.sortOptionSubscription = this.employeeService.sortOption$.subscribe(sortOption => {
       this.sortOption = sortOption;
     });
   }
 
-  loadEmployeeInfo() {
+    getEmployeeById(userId: string) {
+      this.employeeService.getEmployeeById(userId).subscribe(
+        employee => {
+          this.selectedEmployee = employee;
+          this.fetchLoginSessions(employee);
+        },
+        error => {
+          console.error('Error fetching employee by ID:', error);
+        }
+      );
+    }
+  
+  loadEmployeeInfo(userId?: string) {
     this.employeeService.getEmployee().subscribe(
       employees => {
         this.employeeList = employees;
         this.isTable1Empty = this.employeeList.length === 0; // Subaybayan kung walang nakapagpapakita sa table1
 
-        if (this.employeeList.length > 0) {
+        if (userId) {
+          this.selectedEmployee = this.employeeList.find(emp => emp.id === +userId) || null;
+        } else if (this.employeeList.length > 0) {
           this.selectedEmployee = this.employeeList[0];
+        } else {
+          this.selectedEmployee = null;
+        }
+
+        if (this.selectedEmployee) {
           this.fetchLoginSessions(this.selectedEmployee);
         } else {
-          this.selectedEmployee = null; // Walang napiling empleyado kung walang nakapagpapakita sa table1
-          this.loginSessions = []; // Walang nakapag-log in na sesyon kung walang nakapagpapakita sa table1
+          this.loginSessions = [];
         }
       },
       error => {
@@ -182,12 +205,6 @@ export class ReportsComponent implements OnInit {
 
   selectFingerprint() {
     this.selectedReportsFilter = 'fingerprint';
-    this.employeeService.setFilterOption(this.selectedReportsFilter);
-    this.reportsSearchFieldComponent.clearSearchField();
-  }
-
-  selectBranch(){
-    this.selectedReportsFilter = 'branch';
     this.employeeService.setFilterOption(this.selectedReportsFilter);
     this.reportsSearchFieldComponent.clearSearchField();
   }
