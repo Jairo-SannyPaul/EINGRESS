@@ -4,7 +4,7 @@
     <div class="role-header">Role</div>
   </div>
 
-  <div class="table-body pointer">
+  <div class="table-body pointer" [ngClass]="{'filter-active': filterToggle}">
     <ng-container *ngIf="employees.length > 0; else noEmployees">
       <div *ngFor="let employee of filteredEmployees" 
            class="user" 
