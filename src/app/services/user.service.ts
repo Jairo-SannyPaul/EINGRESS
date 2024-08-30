@@ -24,9 +24,9 @@ export class UserService {
   }
 
   //TRY AND ERROR
-  updateUser(id: number, user: Partial<User>): Observable<User> {
-    const updateUrl = `${this.apiUrl}/${id}`; // Correctly using the id parameter
-    return this.http.put<User>(updateUrl, user);
+  updateUser(id: number, user: { username: string; password: string }): Observable<any> {
+    const updateUrl = `${this.apiUrl}/${id}`;
+    return this.http.put<any>(updateUrl, user);
   }
   
 
