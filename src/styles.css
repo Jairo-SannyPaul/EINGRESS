@@ -3,7 +3,7 @@
 
 
 :root{
-
+    overflow: hidden;
     --hover: #18263A;
     --primary:#0C131D;
     --secondary:#2291F2;
@@ -31,6 +31,11 @@
     padding: 0;
 }
 
+.sortBy{
+  display: flex;
+  align-items: center;
+  padding-top: 10px;
+}
 
 .pointer{
     cursor: pointer;
