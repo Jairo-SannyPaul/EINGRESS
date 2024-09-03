@@ -8,10 +8,10 @@
       <div *ngIf="loginSessions && loginSessions.length > 0; else noLoginSessions">
         <div class="session" *ngFor="let session of loginSessions">
           <div class="date">
-            {{ session.date }}
+            <p>{{ session.date }}</p>
           </div>
           <div class="time">
-            {{ session.time }}
+            <p>{{ session.time }}</p>
           </div>
         </div>
       </div>

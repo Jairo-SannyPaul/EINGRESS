@@ -13,11 +13,16 @@
   overflow: hidden; 
 }
 
+.active {
+  transform: scale(0.95);
+  border-radius: 10px;
+  background-color: var(--hover); 
+  color: white; 
+}
 
 .side-bar:not(.locked):hover {
   width: 216px;
 }
-
 
 .side-bar.locked {
   width: 216px; 
@@ -68,6 +73,7 @@
   font-family: "Poppins", sans-serif;
   font-weight: 700;
   color: white;
+  user-select: none;
 }
 
 
@@ -95,6 +101,7 @@ span {
   font-family: "Poppins", sans-serif;
   font-weight: 700;
   font-size: 1rem;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
 
@@ -110,6 +117,8 @@ span {
 .reports:hover,
 .users:hover,
 .logout:hover {
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
+  transform: translateY(-5px);
   background-color: var(--hover);
   border-radius: 10px;
 }
@@ -135,6 +144,7 @@ span {
   font-weight: 700;
   font-size: 1rem;
   color: white;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
 
@@ -146,6 +156,7 @@ span {
   font-weight: 700;
   font-size: 1rem;
   color: white;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
 
@@ -156,6 +167,7 @@ span {
   font-weight: 700;
   font-size: 1rem;
   color: white;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
 
@@ -173,14 +185,22 @@ span {
   display: flex;
   align-items: center;
   font-family: "Poppins", sans-serif;
-  font-weight: lighter;
+  font-weight: 500;
   font-size: 1rem;
   color: white;
   margin-bottom: 20px;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
 .lock-side span {
-  margin-left: 25px;
+  margin-left: 11px;
+}
+
+.lock-side:hover{
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
+  transform: translateY(-5px);
+  background-color: var(--hover);
+  border-radius: 10px;
 }
 
 .logout-pointer {
@@ -188,3 +208,4 @@ span {
   cursor: pointer;
   align-items: center;
 }
+

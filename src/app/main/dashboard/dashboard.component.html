@@ -1,7 +1,7 @@
 <div class="contents">
     <div class="security-summary">
         <span>Security Summary</span>
-        <app-security-summary></app-security-summary>
+        <app-security-summary (loadingChange)="onLoadingChange($event)"></app-security-summary>
     </div>
     <div class="recent-alerts">
         <span>Recent Alerts</span>
@@ -10,5 +10,12 @@
     <div class="recent-login">
         <span>Recent Login</span>
         <app-recent-login></app-recent-login>
+    </div>
+</div>
+
+<div [ngClass]="{'fade-out': !loading}" class="loading-overlay">
+    <div class="jairo-container">
+        <div class="jairoLoading">Jairosoft EINGRESS</div>
+        <div class="spinner"></div>
     </div>
 </div>

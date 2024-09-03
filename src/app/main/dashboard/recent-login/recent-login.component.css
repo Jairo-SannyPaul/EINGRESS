@@ -1,20 +1,24 @@
+
 .main-container{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
 }
 
 .photoholder {
     border-radius: 50%;
-    height: 150px;
-    width: 150px;
+    height: 200px;
+    width: 200px;
     perspective: 1000px;
     background-color: var(--background);
-    border: 5px solid var(--secondary); /* Add border with 10px thickness and gray color */
+    border: 5px solid var(--secondary); 
+    cursor: pointer;
 }
-
 
 .photoholder img{
     border-radius: 50%;
@@ -35,6 +39,8 @@
 .user-name{
     font-size: 2rem;
     color: var(--secondary);
+    cursor: pointer;
+
 }
 
 .date-time{
@@ -46,5 +52,32 @@
     color: rgb(88, 88, 88);
     border-radius: 5px;
     padding: 5px;
+    text-align: center;
+}
 
+p{
+    font-size: 2rem;
+    text-align: center;
+    font-weight: bolder;
+}
+
+@media screen and (max-width: 680px){
+    .photoholder{
+        height: 130px;
+        width: 130px;
+    }
+    p{
+        font-size: 1rem;
+    }
+}
+
+
+@media screen and (max-width: 500px){
+    .photoholder{
+        height: 100px;
+        width: 100px;
+    }
+    p{
+        font-size: .8rem;
+    }
 }

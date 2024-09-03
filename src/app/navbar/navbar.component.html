@@ -1,30 +1,52 @@
+
 <nav class="side-bar" [class.locked]="isLocked">
     <div class="upper">
-        <div class="project pointer">
-            <img class="logo" src="/assets/images/logo.png">
-            <span class="project-name">Jairosoft EINGRESS</span>
-        </div>
-        <div class="dashboard pointer" [routerLink]="['dashboard']">
-            <img class="dashboard-icon" src="/assets/images/dashboard1.png">
-            <span>Dashboard</span>
-        </div>
-        <div class="reports pointer" [routerLink]="['reports']">
-            <img class="reports-icon" src="/assets/images/reports.png">
-            <span>Reports</span>
-        </div>
-        <div class="users pointer" [routerLink]="['users']">
-            <img class="users-icon" src="/assets/images/users.png">
-            <span>Users</span>
-        </div>
+      <div class="project">
+        <img class="logo" src="/assets/images/logo.png">
+        <span class="project-name">Jairosoft EINGRESS</span>
+      </div>
+
+      <div
+        class="dashboard pointer"
+        (click)="setActive('dashboard')"
+        [ngClass]="{ active: activeSection === 'dashboard' }"
+        [routerLink]="['dashboard']"
+      >
+        <img class="dashboard-icon" src="/assets/images/dashboard1.png">
+        <span>Dashboard</span>
+      </div>
+
+      <div
+        class="reports pointer"
+        (click)="setActive('reports')"
+        [ngClass]="{ active: activeSection === 'reports' }"
+        [routerLink]="['reports']"
+      >
+        <img class="reports-icon" src="/assets/images/reports.png">
+        <span>Reports</span>
+      </div>
+
+      <div
+        class="users pointer"
+        (click)="setActive('users')"
+        [ngClass]="{ active: activeSection === 'users' }"
+        [routerLink]="['users']"
+      >
+        <img class="users-icon" src="/assets/images/users.png">
+        <span>Users</span>
+      </div>
+
     </div>
     <div class="lower">
-  <div class="lock-side pointer" (click)="toggleLock()">
-    <img class="collapse-icon" [src]="isLocked ? '/assets/images/collapse-right.png' : '/assets/images/collapse-left.png'" alt="Toggle Lock">
-    <span>{{ isLocked ? 'Unlock' : 'Lock' }}</span>
-  </div>
-        <div class="logout pointer" (click)="logout()">
-            <img class="logout-icon" src="/assets/images/logout.png">
-            <span>Logout</span>
-        </div>
+      <div class="lock-side pointer" (click)="toggleLock()">
+        <img class="collapse-icon" [src]="isLocked ? '/assets/images/collapse-right.png' : '/assets/images/collapse-left.png'" alt="Toggle Lock">
+        <span>{{ isLocked ? 'Unlock' : 'Lock' }}</span>
+      </div>
+
+      <div class="logout pointer" (click)="logout()">
+        <img class="logout-icon" src="/assets/images/logout.png">
+        <span>Logout</span>
+      </div>
     </div>
-</nav>
+  </nav>
+  

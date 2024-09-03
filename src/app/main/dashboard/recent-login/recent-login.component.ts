@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { Employee } from 'src/app/interface/employee.interface';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -11,7 +12,7 @@ import { Employee } from 'src/app/interface/employee.interface';
 export class RecentLoginComponent {
   recentLogin: Employee | null = null;
   baseUrl = this.employeeService.apiUrl;
-  constructor(private employeeService: EmployeeService) {
+  constructor(private employeeService: EmployeeService, private router: Router) {
     this.findRecentLoginEmployee();
   }
 
@@ -46,4 +47,12 @@ export class RecentLoginComponent {
       return '/assets/images/default-profile-image.png'; // Replace with your default image path
     }
   }
+
+  navigateToReports(): void {
+    if (this.recentLogin) {
+      this.router.navigate(['/main/reports'], {
+        queryParams: { userId: this.recentLogin.id, fullName: this.recentLogin.fullname }
+      });
+    }
+  }  
 }

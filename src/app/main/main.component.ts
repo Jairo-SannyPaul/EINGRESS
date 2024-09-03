@@ -11,6 +11,7 @@ export class MainComponent{
 
   private user: User[] = [];
   isNavbarLocked: boolean = false;
+  username: string = '';
 
   constructor (
     private userService: UserService
@@ -18,7 +19,7 @@ export class MainComponent{
   }
 
   ngOnInit(): void {
-    //this.loadUser();
+    this.username = localStorage.getItem('username') || 'Admin';
   }
 
   loadUser(){

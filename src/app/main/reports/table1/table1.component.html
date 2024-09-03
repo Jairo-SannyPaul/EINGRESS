@@ -4,15 +4,18 @@
     <div class="role-header">Role</div>
   </div>
 
-  <div class="table-body pointer">
+  <div class="table-body pointer" [ngClass]="{'filter-active': filterToggle}">
     <ng-container *ngIf="employees.length > 0; else noEmployees">
-      <div *ngFor="let employee of employees" 
+      <div *ngFor="let employee of filteredEmployees" 
            class="user" 
            [class.selected]="employee === selectedEmployee"
            (click)="selectEmployee(employee)">
         <div class="user-content">
-          <!-- <img class="photoholder" src="http://localhost:3000/api/employee/profile-image/{{employee.profileImage}}"> -->
-          <img class="photoholder" [src]="baseUrl + '/profile-image/' + employee.profileImage" alt="Profile Image">
+          <div class="profile-image-container">
+            <img [src]="baseUrl + '/profile-image/' + employee.profileImage" alt="Profile Image"
+              [ngClass]="{'no-bio-border': !hasBio(employee), 'bio-border': hasBio(employee)}">
+            <div [ngClass]="{'active-indicator': isActiveToday(employee), 'inactive-indicator': !isActiveToday(employee)}"></div>
+          </div>
             <div class="name-email">
                 <div class="username">{{ employee.fullname }}</div>
                 <div class="useremail">{{ employee.email }}</div>
@@ -22,7 +25,10 @@
       </div>
     </ng-container>
     <ng-template #noEmployees>
-      <div class="no-employees-message">No users found</div>
+      <div class="no-match-container">
+        <div class="no-match-icon">🔍</div>
+        <div class="no-match-message">No matching results found</div>
+      </div>
     </ng-template>
   </div>
 </div>

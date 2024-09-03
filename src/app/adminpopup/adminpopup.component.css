@@ -1,3 +1,4 @@
+
 .manage-account-form {
     display: flex;
     justify-content: flex-end;
@@ -41,10 +42,10 @@
     margin: auto;
   }
   .svg-margin {
-    margin-top: -50px;    /* Top margin */
-    margin-right: 10px;  /* Right margin */
-    margin-bottom: 10px; /* Bottom margin */
-    margin-left: 20px;    /* Left margin */
+    margin-top: -50px;  
+    margin-right: 10px; 
+    margin-bottom: 10px; 
+    margin-left: 60px;   
   }
   .textbox {
     width: 300px;
@@ -54,9 +55,9 @@
     background-color: var(--background);
   }
   .text-position{
-    position: absolute; /* or relative/fixed/dependent on your layout */
+    position: absolute; 
     top: 152px;
-    left: 130px;
+    left: 170px;
     color: black;
     font: bold 
 }
@@ -80,19 +81,67 @@
     border-radius: 5px;
 }
 
-
 .confirm:hover {
     background-color: var(--secondary);
 }
-.blank-button {
-    width: 90px; /* Adjust width as needed */
-    height: 40px; /* Adjust height as needed */
-    background: transparent; /* No background color */
+  .textbox {
+    width: 300px;
+    height: 40px;
     border-radius: 10px;
-    border: black; /* No border */
-    cursor: pointer; /* Cursor indicates it's clickable */
-   margin-left: 80px;
+    padding-left: 20px;
+    padding-right: 40px; 
+    background-color: var(--background);
+    position: relative; 
   }
-  .blank-button:hover{
-    background: red;
+  
+  .password-container {
+    position: relative;
+    width: 100%; 
+  }
+  
+  .toggle-password {
+    position: absolute;
+    top: 50%;
+    right: 85px; 
+    transform: translateY(-50%);
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    filter: brightness(0) invert(0);
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: space-between;
+    width: 60%; 
+    margin: 25px auto 0; 
+  }
+  
+  .btn-clear, .btn-submit {
+    width: 48%; 
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .btn-clear {
+    background-color: #FFE6E6; 
+    color: var(--error); 
+  }
+  
+  .btn-clear:hover {
+    background-color: var(--error); 
+    color: white; 
+  }
+  
+  .btn-submit {
+    background-color: #E3F2FF; 
+    color: var(--secondary); 
+  }
+  
+  .btn-submit:hover {
+    background-color: var(--secondary); 
+    color: white; 
   }

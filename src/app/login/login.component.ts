@@ -12,6 +12,7 @@ import { DialogService } from '../services/dialog.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
+  showPassword: boolean = false;
   form: FormGroup;
 
   constructor(
@@ -27,50 +28,73 @@ export class LoginComponent {
   });
   }
 
+  // submitCredentials() {
+  //   if(this.form.invalid){
+  //     this.dialogService.openAlertDialog('Please fill in all credentials');
+  //     return;
+  //   }
+
+  //   this.userService.loginUser(this.form.getRawValue()).subscribe({
+  //       next: (response: any) => {
+  //         localStorage.setItem('token', response.access_token);
+  //         this.router.navigateByUrl('/main');
+  //       },
+  //       error: (error) => {
+  //         this.dialogService.openAlertDialog('Invalid User please try again!');
+  //         console.error(error); 
+  //       }
+  //     } 
+  //   );
+  // }
+
   submitCredentials() {
-    if(this.form.invalid){
+    if (this.form.invalid) {
       this.dialogService.openAlertDialog('Please fill in all credentials');
       return;
     }
+  
+    const { username, password } = this.form.getRawValue();
+  
+    this.userService.loginUser({ username, password }).subscribe({
+      next: (response: any) => {
+        localStorage.setItem('token', response.access_token);
+        localStorage.setItem('username', username);  // Store the username in localStorage
+        this.router.navigateByUrl('/main');
+      },
+      error: (error) => {
+        this.dialogService.openAlertDialog('Invalid User please try again!');
+        console.error(error); 
+      }
+    });
+  }  
 
-    this.userService.loginUser(this.form.getRawValue()).subscribe({
-        next: (response: any) => {
-          localStorage.setItem('token', response.access_token);
-          this.router.navigateByUrl('/main');
-        },
-        error: (error) => {
-          this.dialogService.openAlertDialog('Invalid User please try again!');
-          console.error(error); 
-        }
-      } 
-    );
+  // Method to toggle password visibility
+  togglePasswordVisibility(field: string): void {
+    if (field === 'password') {
+      this.showPassword = !this.showPassword;
+    }
   }
 
+  // Method to clear the placeholder text when the input is focused
+  clearText(event: FocusEvent): void {
+    const target = event.target as HTMLInputElement;
+
+    if (target.getAttribute('formControlName') === 'username') {
+      target.placeholder = ''; 
+    } else if (target.getAttribute('formControlName') === 'password') {
+      target.placeholder = ''; 
+    }
+  }
+
+  // Method to reset the placeholder text when the input loses focus
+  resetPlaceholder(event: FocusEvent): void {
+    const target = event.target as HTMLInputElement;
+
+    if (target.getAttribute('formControlName') === 'username') {
+      target.placeholder = 'Username'; 
+    } else if (target.getAttribute('formControlName') === 'password') {
+      target.placeholder = 'Password'; 
+    }
+  }
 }
-
-document.addEventListener("DOMContentLoaded", () => {
-  const passwordField = document.querySelector<HTMLInputElement>('.password-container input[type="password"]');
-  const showPasswordIcon = document.getElementById('show-icon') as HTMLImageElement;
-
-  if (passwordField) {
-      const initialPaddingRight = getComputedStyle(passwordField).paddingRight; // Get initial paddingRight
-      const initialWidth = passwordField.offsetWidth + 'px'; // Get initial width
-
-      showPasswordIcon.addEventListener('click', () => {
-          // Toggle password visibility
-          passwordField.type = passwordField.type === 'password' ? 'text' : 'password';
-          // Change icon based on password visibility
-          if (passwordField.type === 'password') {
-              showPasswordIcon.src = '/assets/images/show-password.png'; // Image for hidden password
-          } else {
-              showPasswordIcon.src = '/assets/images/hide-password.png'; // Image for visible password
-          }
-          // Set input width and paddingRight to their initial values
-          passwordField.style.width = initialWidth;
-          passwordField.style.paddingRight = initialPaddingRight;
-      });
-  } else {
-      console.error('Password input field not found.');
-  }
-});
 

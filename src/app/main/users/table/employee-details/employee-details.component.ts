@@ -1,9 +1,10 @@
-import { Component, Input, OnChanges, OnInit, Output, SimpleChanges, ElementRef, ViewChild } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, Output, SimpleChanges, ElementRef, ViewChild, HostListener } from '@angular/core';
 import { Employee } from 'src/app/interface/employee.interface';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { EventEmitter } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DialogService } from 'src/app/services/dialog.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-employee-details',
@@ -15,6 +16,7 @@ export class EmployeeDetailsComponent implements OnChanges {
   @ViewChild('rfidInput') rfidInput!: ElementRef<HTMLInputElement>;
   @ViewChild('fingerprintInput1') fingerprintInput1!: ElementRef<HTMLInputElement>;
   @ViewChild('fingerprintInput2') fingerprintInput2!: ElementRef<HTMLInputElement>;
+  
   hasVal: boolean = false;
   employeeDetails!: Employee | undefined;
   selectedImage!: File;
@@ -25,7 +27,9 @@ export class EmployeeDetailsComponent implements OnChanges {
   isUpdating: boolean = false;
   baseUrl = this.employeeService.apiUrl;
   added!: boolean;
-
+  showCopyNotification: boolean = false;
+  route: any;
+  
   constructor(private formBuilder: FormBuilder, private employeeService: EmployeeService, private dialogService: DialogService) {
     this.updateEmployeeForm = this.formBuilder.group({
       fullname: ['', Validators.required],
@@ -36,12 +40,35 @@ export class EmployeeDetailsComponent implements OnChanges {
       rfidtag: [''],
       fingerprint1: [''],
       fingerprint2: [''],
+      branch: ['', Validators.required],
     });
     this.updateEmployeeForm.disable();
   }
 
   ngOnInit(): void {
+    this.route.queryParams.subscribe((params: { [x: string]: any; }) => {
+      const userId = params['userId'];
+      if (userId) {
+        this.loadEmployeeDetails(userId);
+      }
+    });
+  }
+  
+  @HostListener('window:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    if (event.key === 'Escape') {
+      this.hideEmployeeDetails();
+      console.log("esc clicked");
+    }
+  }
 
+  loadEmployeeDetails(userId: string): void {
+    this.employeeService.getEmployeeById(userId).subscribe(employee => {
+      this.employeeDetails = employee;
+      this.updateEmployeeForm.patchValue(employee);
+    }, error => {
+      console.error('Error fetching employee details:', error);
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -98,25 +125,32 @@ export class EmployeeDetailsComponent implements OnChanges {
   
       this.isUpdating = true; // Set update flag
   
+      const handleError = (error: any) => {
+        let errorMessage = 'Error updating employee.';
+        if (error.status === 400 && error.error && error.error.message) {
+          // Extract the message from the backend response
+          errorMessage = error.error.message;
+        }
+        this.dialogService.openAlertDialog(errorMessage);
+        this.isUpdating = false; // Reset update flag
+      };
+  
       if (file) {
         this.employeeService.updateEmployee(id, updateEmployee, file).subscribe(
           (response) => {
-            this.dialogService.openSuccessDialog('Employee update successfully').subscribe(confirmed => {
+            this.dialogService.openSuccessDialog('Employee updated successfully').subscribe(confirmed => {
               if (confirmed) {
                 this.isUpdating = false;
                 this.hideEmployeeDetails();
               }
             });
           },
-          (error) => {
-            this.dialogService.openAlertDialog('Error updating dialog');
-            this.isUpdating = false; // Reset update flag
-          }
+          handleError
         );
       } else {
         this.employeeService.updateEmployeeWithoutImage(id, updateEmployee).subscribe(
           (response) => {
-            this.dialogService.openSuccessDialog('Employee update successfully').subscribe(confirmed => {
+            this.dialogService.openSuccessDialog('Employee updated successfully').subscribe(confirmed => {
               if (confirmed) {
                 console.log('Employee update successful', response);
                 this.isUpdating = false;
@@ -124,16 +158,12 @@ export class EmployeeDetailsComponent implements OnChanges {
               }
             });
           },
-          (error) => {
-            this.dialogService.openAlertDialog('Error updating dialog');
-            this.isUpdating = false;
-          }
+          handleError
         );
       }
     }
   }
   
-
   onClear(): void {
     Object.keys(this.updateEmployeeForm.controls).forEach(controlName => {
       const control = this.updateEmployeeForm.get(controlName);
@@ -163,7 +193,8 @@ export class EmployeeDetailsComponent implements OnChanges {
       phone: employee.phone,
       rfidtag: employee.rfidtag,
       fingerprint1: employee.fingerprint1,
-      fingerprint2: employee.fingerprint2
+      fingerprint2: employee.fingerprint2,
+      branch: employee.branch
     });
     this.employeeDetails = employee;
   
@@ -205,4 +236,58 @@ export class EmployeeDetailsComponent implements OnChanges {
       return;
     }
 }
+
+copyRFID() {
+  const rfidInput = this.rfidInput.nativeElement as HTMLInputElement;
+  
+  // Temporarily enable the input if it's disabled and editMode is not active
+  const wasDisabled = rfidInput.disabled && !this.editMode;
+  if (wasDisabled) {
+    rfidInput.disabled = false;
+  }
+
+  // Copy the value to the clipboard using the Clipboard API
+  navigator.clipboard.writeText(rfidInput.value).then(() => {
+    // Show the notification and change the icon
+    this.showCopyNotification = true;
+
+    // Automatically hide the notification and revert the icon after 1 second
+    setTimeout(() => {
+      this.showCopyNotification = false;
+      if (wasDisabled) {
+        rfidInput.disabled = true;
+      }
+    }, 1000);
+  }).catch(err => {
+    console.error('Failed to copy: ', err);
+  });
+}
+
+// Method to clear the placeholder text when the input is focused
+clearText(event: FocusEvent): void {
+  const target = event.target as HTMLInputElement;
+  if (target.hasAttribute('formControlName')) {
+    target.placeholder = ''; 
+  }
+}
+
+// Method to reset the placeholder text when the input loses focus
+resetPlaceholder(event: FocusEvent): void {
+  const target = event.target as HTMLInputElement;
+  const placeholders: { [key: string]: string } = {
+    'fullname': 'Enter Name',
+    'email': 'Enter Email',
+    'rfidtag': 'ABC19021DC',
+    'phone': '+639 xxx xxx xxxx',
+    'fingerprint1': '135135115161',
+    'fingerprint2': '135135115161'
+  };
+  const formControlName = target.getAttribute('formControlName');
+  if (formControlName) {
+    target.placeholder = placeholders[formControlName] || '';
+  }
+}
+
+
+
 }

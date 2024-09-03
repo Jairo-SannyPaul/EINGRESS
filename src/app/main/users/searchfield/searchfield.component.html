@@ -1,6 +1,8 @@
 <div class="search" [class.active]="isFocused">
     <img src="/assets/images/search.png">
-    <input type="text" name="user" placeholder="Search User" 
-           (focus)="isFocused = true" (blur)="onInputBlur()"
-           [ngModel]="searchEmployee" (ngModelChange)="onSearchUserInputChanged()" #searchInput>
+    <input type="text" name="user" 
+           [placeholder]="isFocused ? '' : 'Search ' + selectedFilter" 
+           (focus)="clearPlaceholder()" (blur)="restorePlaceholder()"
+           [ngModel]="searchEmployee" (ngModelChange)="onSearchUserInputChanged()" 
+           #searchInput>
 </div>

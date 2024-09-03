@@ -21,8 +21,13 @@
 }
 
 .table-body{
+    height: calc(100% - 0px);
     overflow-y: auto;
 }
+
+.table-body.filter-active {
+    height: calc(100% - 80px); /* Adjusted when filter is active */
+  }
 
 
 .user {
@@ -47,12 +52,52 @@
     gap: 20px;
 }
 
-.user img{
+.profile-image-container {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .profile-image-container img {
     width: 50px;
     height: 50px;
-    border-radius: 50px;
-    border: 2px solid var(--secondary);
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  .no-bio-border {
+    border: 3px solid var(--warning);
+    /* Use var(--warning) for employees with no bio data */
 }
+
+/* Styling for employees with bio data */
+.bio-border {
+    border: 3px solid var(--secondary);
+    /* Original border color for employees with bio data */
+}
+
+.active-indicator {
+    position: absolute;
+    bottom: 10px; 
+    right: 0px;
+    width: 12px;
+    height: 12px;
+    background-color: green;
+    border-radius: 50%;
+    border: 2px solid white; 
+    z-index: 1; 
+  }
+
+  .inactive-indicator {
+    position: absolute;
+    bottom: 10px; 
+    right: 0px;
+    width: 15px;
+    height: 15px;
+    background-color: red;
+    border-radius: 50%;
+    border: 3px solid white; 
+    z-index: 1; 
+  }
 
 .name-email{
     height: 50px;

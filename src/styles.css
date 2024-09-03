@@ -3,10 +3,11 @@
 
 
 :root{
-
+    overflow: hidden;
     --hover: #18263A;
     --primary:#0C131D;
     --secondary:#2291F2;
+    --secondary-background:#E3F2FF;
     --black:#141414;
     --white:#F6F6F6;
     --paragraph:#555555;
@@ -30,6 +31,11 @@
     padding: 0;
 }
 
+.sortBy{
+  display: flex;
+  align-items: center;
+  padding-top: 10px;
+}
 
 .pointer{
     cursor: pointer;
@@ -54,4 +60,156 @@
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: rgb(100, 100, 100);
+}
+
+.filterbtn {
+  height: 60px; /* Set the height of the filter icon container to 40px */
+  width: 60px;  /* Set the width of the filter icon container to 40px */
+  display: flex;
+  align-items: center; /* Center the image vertically within the container */
+  justify-content: center; /* Center the image horizontally within the container */
+  margin-left: 20px; /* Add a margin of 20px to the left of the filter icon */
+  border-radius: 10px;
+  background-color: #f5f5f5;
+  cursor: pointer;
+}
+
+.filterbtn img {
+  width: 20px; /* Set the image width to 20px */
+  height: 20px; /* Set the image height to 20px */
+}
+
+.filterbtn:hover{
+  background-color: var(--background);
+}
+
+.filterTab {
+  height: auto;
+  width: 100%;
+  border-radius: 10px;
+  box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.2);
+  position: relative; 
+  z-index: 1;
+  background-color: white; 
+  margin: 10px 0px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-align: center;
+  padding-right: 10px;
+  padding-bottom: 10px;
+  justify-content: space-between;
+}
+
+.filter {
+  background-color: var(--background);
+  font-weight: bold;
+  height: 40px;
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-top: 10px;
+  border-radius: 10px;
+  width: 60px;
+  color: var();
+  transition: background-color 0.3s ease, color 0.2s ease;
+}
+
+.filter:hover{
+  background-color: var(--secondary-background);
+  color: var(--secondary);
+  cursor: pointer;
+}
+.active-filter {
+  background-color:  var(--secondary-background);
+  color: var(--secondary);
+}
+
+.fingerprint{
+  width: 95px;
+}
+
+
+/* LOADING ANIMATION */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 48px;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 1); /* Optional overlay background */
+  z-index: 1000;
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+
+.jairo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+}
+
+.jairoLoading {
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--secondary);
+  margin-bottom: 20px; /* Adds space between text and spinner */
+  animation: scaleUp 2s infinite;
+}
+
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid rgba(0, 0, 0, 0.1);
+  border-top: 5px solid #4b9cdb;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  
+}
+@keyframes scaleUp {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+
+/* Style for the no-match container */
+.no-match-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 200px; /* Adjust based on your needs */
+  background-color: #f9f9f9; /* Light background color */
+  border-radius: 10px; /* Rounded corners */
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow */
+}
+
+/* Style for the icon */
+.no-match-icon {
+  font-size: 50px; /* Larger icon size */
+  color: #ff6f61; /* Color for the icon */
+  margin-bottom: 10px;
+}
+
+/* Style for the message */
+.no-match-message {
+  font-size: 18px; /* Font size for the message */
+  color: #333; /* Darker text color */
+  font-weight: bold; /* Bold text */
 }

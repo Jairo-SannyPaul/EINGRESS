@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
 import { Employee } from 'src/app/interface/employee.interface';
 import { EmployeeService } from 'src/app/services/employee.service';
 
@@ -8,7 +9,7 @@ import { EmployeeService } from 'src/app/services/employee.service';
   styleUrls: ['./user-details.component.css']
 })
 export class UserDetailsComponent {
-  constructor(private employeeService: EmployeeService) {
+  constructor(private employeeService: EmployeeService, private router: Router) {
   }
   @Input() selectedEmployee: Employee | null = null;
   baseUrl = this.employeeService.apiUrl;
@@ -22,4 +23,13 @@ export class UserDetailsComponent {
       return '/assets/images/default-profile-image.png'; // Replace with your default image path
     }
   }
+
+  navigateToEmployeeDetails() {
+    if (this.selectedEmployee) {
+      this.router.navigate(['/main/users'], {
+        queryParams: { userId: this.selectedEmployee.id, fullName: this.selectedEmployee.fullname }
+      });
+    } 
+  }
+  
 }

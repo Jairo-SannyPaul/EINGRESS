@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { DialogService } from 'src/app/services/dialog.service';
@@ -31,8 +31,16 @@ export class AddUserFormComponent {
       phone: ['', Validators.required],
       rfidtag: [''],
       fingerprint1: [''],
-      fingerprint2: ['']
+      fingerprint2: [''],
+      branch: ['', Validators.required],
     });
+  }
+
+  @HostListener('window:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    if (event.key === 'Escape') {
+      this.hideAddUserForm();
+    }
   }
 
   newEmployee = {
@@ -44,7 +52,8 @@ export class AddUserFormComponent {
     rfidtag: '',
     profileImage: '' ,
     fingerprint1: '',
-    fingerprint2: ''
+    fingerprint2: '',
+    branch:''
   };
 
   showAddUserForm() {
@@ -52,6 +61,7 @@ export class AddUserFormComponent {
   }
 
   hideAddUserForm() {
+    this.employeeService.triggerReload();
     this.addUserForm = false;
     this.resetForm();
     this.added = false;
@@ -68,7 +78,8 @@ export class AddUserFormComponent {
       rfidtag: '',
       profileImage: '',
       fingerprint1: '', 
-      fingerprint2: ''
+      fingerprint2: '',
+      branch:''
     };
     this.photoSrc = null;
     this.selectedImage = null!;
@@ -94,9 +105,18 @@ export class AddUserFormComponent {
   submitUser(): void {
     // Mark all fields as touched to trigger validation messages
     this.userForm.markAllAsTouched();
-  
+    this.userForm.get('fingerprint2')?.setValue('');
     if (this.userForm.valid) {
       const newEmployee = this.userForm.value;
+  
+      const handleError = (error: any) => {
+        let errorMessage = 'Error creating employee.';
+        if (error.status === 400 && error.error && error.error.message) {
+          // Extract the message from the backend response
+          errorMessage = error.error.message;
+        }
+        this.dialogService.openAlertDialog(errorMessage);
+      };
   
       if (!this.selectedImage) {
         this.employeeService.addEmployeeWithoutImage(newEmployee)
@@ -104,14 +124,11 @@ export class AddUserFormComponent {
             response => {
               this.dialogService.openSuccessDialog('Employee Created Successfully').subscribe(confirmed => {
                 if (confirmed) {
-                  this.employeeService.reloadPage();
                   this.hideAddUserForm();
                 }
               });
             },
-            error => {
-              this.handleError(error);
-            }
+            handleError
           );
       } else {
         this.employeeService.addEmployee(newEmployee, this.selectedImage)
@@ -119,14 +136,11 @@ export class AddUserFormComponent {
             response => {
               this.dialogService.openSuccessDialog('Employee Created Successfully').subscribe(confirmed => {
                 if (confirmed) {
-                  this.employeeService.reloadPage();
                   this.hideAddUserForm();
                 }
               });
             },
-            error => {
-              this.handleError(error);
-            }
+            handleError
           );
       }
     } else {
@@ -139,18 +153,18 @@ export class AddUserFormComponent {
     }
   }
 
-  handleError(error: any) {
-    console.error('An error occurred:', error);
-    this.dialogService.openAlertDialog('An error occurred while processing your request. Please try again.');
-  }
-
   startRFIDScan(): void {
     if (this.added) {
       this.rfidInput.nativeElement.removeAttribute('disabled');
       this.rfidInput.nativeElement.focus();
     }
   }
-
+  preventDefault(event: Event): void {
+    if ((event as KeyboardEvent).key === 'Enter') {
+      event.preventDefault();
+    }
+  }
+  
   toggleFingerprint() {
     if(this.userForm.get('fingerprint1')?.value){
       this.added = !this.added;
