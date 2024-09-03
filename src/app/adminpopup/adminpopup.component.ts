@@ -2,32 +2,35 @@ import { UserService } from './../services/user.service';
 import { DialogService } from './../services/dialog.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { id } from '@swimlane/ngx-charts';
+import { User } from '../interface/user.interface';
 
 @Component({
   selector: 'app-adminpopup',
   templateUrl: './adminpopup.component.html',
   styleUrls: ['./adminpopup.component.css']
 })
+
 export class AdminpopupComponent implements OnInit {
 
   form:FormGroup;
   showOldPassword = false;
   showNewPassword = false;
   showConfirmPassword = false;
-  currentAdmin!: { id: number };
+  currentAdmin!: number;
   // baseUrl = this.UserService.apiUrl;
 
-  constructor(private fb: FormBuilder, private UserService: UserService, private dialogService: DialogService) {
+  constructor(private fb: FormBuilder, private userService: UserService, private dialogService: DialogService) {
     this.form = this.fb.group({
-      newusername: ['', Validators.required],
-      oldPassword: ['', Validators.required],
-      newPassword: ['', Validators.required],
-      confirmPassword: ['',Validators.required]
+      newEmail: ['', [Validators.required, Validators.email]], // Email should have a proper validator
+      newusername: [''],
+      oldPassword: [''],
+      newPassword: [''],
+      confirmPassword: ['']
     });
   }
 
   adminUpdate = {
+    newEmail: '',
     newusername: '',
     oldPassword: '',
     newPassword: '',
@@ -35,9 +38,24 @@ export class AdminpopupComponent implements OnInit {
   };
 
   ngOnInit() {
-    // Initialize currentAdmin or fetch from a service
-    this.currentAdmin = { id: 1 };  // Example id; replace with actual logic to get current admin
+    this.currentAdmin = this.userService.currentUserId;
+    console.log("Current ID: ", this.currentAdmin);
+    if (this.currentAdmin) {
+      this.userService.getUserById(this.currentAdmin).subscribe({
+        next: (user: User) => {
+          this.form.patchValue({
+            newEmail: user.email || '',
+            newusername: user.username || ''
+          });
+          console.log("Fetched User: ", user);
+        },
+        error: (err) => {
+          console.error('Failed to fetch user details', err);
+        }
+      });
+    }
   }
+  
 
   clearText(event: FocusEvent): void {
     const inputElement = event.target as HTMLInputElement;
@@ -48,6 +66,9 @@ export class AdminpopupComponent implements OnInit {
     const inputElement = event.target as HTMLInputElement;
     if (inputElement.value === '') {
       switch (inputElement.getAttribute('formControlName')) {
+        case 'newEmail':
+          inputElement.placeholder = 'Enter Email';
+          break;
         case 'newusername':
           inputElement.placeholder = 'Enter New Username';
           break;
@@ -101,21 +122,23 @@ onSubmit(): void {
     return;
   }
 
-  const { newusername, oldPassword, newPassword, confirmPassword } = this.form.value;
+  const newPass = this.form.get('newPassword')?.value;
+  const confirmPass = this.form.get('confirmPassword')?.value;
 
-  if (newPassword !== confirmPassword) {
+  if (newPass !== confirmPass) {
     this.dialogService.openAlertDialog('New password and confirmed password do not match.');
     return;
   }
 
-  // Get current user ID from session or similar
-  const userId = 9; // Example; replace with actual logic
-
-  // Prepare update data
-  const updateData = { username: newusername, password: newPassword };
+  // Prepare data for update
+  const updateData = {
+    username: this.form.get('newusername')?.value,
+    email: this.form.get('newEmail')?.value,
+    password: this.form.get('newPassword')?.value
+  };
 
   // Call the update service
-  this.UserService.updateUser(userId, updateData).subscribe({
+  this.userService.updateUser(this.currentAdmin, updateData).subscribe({
     next: (response) => {
       this.dialogService.openSuccessDialog('Profile updated successfully!');
     },
@@ -124,5 +147,6 @@ onSubmit(): void {
     }
   });
 }
+
 
 }

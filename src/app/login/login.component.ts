@@ -57,8 +57,16 @@ export class LoginComponent {
   
     this.userService.loginUser({ username, password }).subscribe({
       next: (response: any) => {
-        localStorage.setItem('token', response.access_token);
-        localStorage.setItem('username', username);  // Store the username in localStorage
+        // Extract token and user details from the response
+        const token = response.access_token.token;
+        const user = response.access_token.user;
+  
+        // Store the token and user details in localStorage
+        localStorage.setItem('token', token);
+        localStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem('username', username);  // Optionally store username if needed
+  
+        // Navigate to the main page
         this.router.navigateByUrl('/main');
       },
       error: (error) => {
@@ -66,7 +74,8 @@ export class LoginComponent {
         console.error(error); 
       }
     });
-  }  
+  }
+  
 
   // Method to toggle password visibility
   togglePasswordVisibility(field: string): void {
