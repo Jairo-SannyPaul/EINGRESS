@@ -1,4 +1,4 @@
-<div class="container">
+<!-- <div class="container">
 
     <div class="login-eingress-bckgrnd">
         <img  src="/assets/images/login-eingress-bckgrnd.png" alt="">
@@ -35,4 +35,54 @@
         </form>
 
     </div>    
-</div>
+</div> -->
+
+<div class="relative h-screen w-full">
+    <!-- Background Image -->
+    <div class="absolute left-0 top-0 bottom-0 w-1/2 bg-white">
+      <!-- Centering Container Inside White Background -->
+      <div class="flex items-center justify-center h-full">
+        <!-- Content -->
+        <div class="absolute top-[120px] bg-white rounded-lg w-[512px] h-[572px]">
+          <!-- Logo -->
+          <div class="flex items-center mb-[126px]">
+            <img src="/assets/images/jairo-logo.png" class="h-9" alt="Jairo Logo">
+            <p class="text-[#6E6E6E] text-sm ml-3 font-semibold text-[15px] leading-[22.5px] tracking-[20%]">J A I R O S O F T</p>
+            <p class="text-[#6E6E6E] text-sm ml-3 font-semibold text-[15px] leading-[22.5px] tracking-[20%]">E I N G R E S S</p>
+          </div>
+  
+          <!-- Banner -->
+          <div class="mb-[79px] text-left">
+            <h2 class="text-[#464646] text-2xl mb-[12px] font-semibold">Log in.</h2>
+            <p class="text-[#6E6E6E] text-sm">Log in with your data that you entered during registration.</p>
+          </div>
+  
+          <!-- Form -->
+          <form [formGroup]="form" class="space-y-10">
+            <div class="space-y-12">
+            <div class="relative mb-[32px]">
+              <input formControlName="username" class="w-full bg-white text-[#6E6E6E] border-b-1 border-black focus:border-blue-500 outline-none" type="text" placeholder="Email" (focus)="clearText($event)" (blur)="resetPlaceholder($event)" required>
+              <img src="/assets/images/Email-icon.svg" class="absolute right-3 top-1/2 transform -translate-y-1/2 " alt="Email Icon">
+            </div>
+              <div class="relative mb-[32px]">
+                <input formControlName="password" class="w-full bg-white text-[#6E6E6E] border-b border-black focus:border-blue-500 outline-none" [type]="showPassword ? 'text' : 'password'" placeholder="Password" (focus)="clearText($event)" (blur)="resetPlaceholder($event)">
+                <img [src]="showPassword ? '/assets/images/Lock-icon.svg' : '/assets/images/Lock-icon.svg'" class="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer" alt="Toggle Password Visibility" id="show-icon" (click)="togglePasswordVisibility('password')">
+              </div>
+              <div class="flex items-center text-sm text-white space-x-2 mb-[31px] mt-[32px]">
+                <input type="checkbox" name="remember" id="remember" class="mr-2"> 
+                <label for="remember" class="cursor-pointer text-[#6E6E6E]">Remember me</label>
+                <label for="remember" class="cursor-pointer text-[#1D32A3] absolute right-3 font-normal">Forgot Password?</label>
+              </div>
+            </div>
+  
+            <button (click)="submitCredentials()" class="w-full py-3 rounded-[3px] bg-[rgba(19,50,94,0.6)] text-white rounded-lg font-semibold">Login</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Background Image -->
+    <img src="/assets/images/BG_Login.svg" class="absolute right-0 top-0 bottom-0 object-cover w-1/2 h-full" alt="Background Image">
+  </div>
+  
+  

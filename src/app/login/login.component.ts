@@ -91,7 +91,7 @@ export class LoginComponent {
     const target = event.target as HTMLInputElement;
 
     if (target.getAttribute('formControlName') === 'username') {
-      target.placeholder = 'Username'; 
+      target.placeholder = 'Email'; 
     } else if (target.getAttribute('formControlName') === 'password') {
       target.placeholder = 'Password'; 
     }
