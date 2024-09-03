@@ -28,11 +28,17 @@ export class UserService {
     return this.http.post<User[]>(this.apiUrl, user);
   }
 
-  //TRY AND ERROR
-  updateUser(id: number, user: { username: string; password: string }): Observable<any> {
-    const updateUrl = `${this.apiUrl}/${id}`;
-    return this.http.put<any>(updateUrl, user);
-  }
+ // Add method to validate old password
+ validateOldPassword(userId: number, oldPassword: string): Observable<boolean> {
+  const validateUrl = `${this.apiUrl}/validate-old-password`;
+  return this.http.post<boolean>(validateUrl, { userId, oldPassword });
+}
+
+// Adjust updateUser method to include email
+updateUser(id: number, user: { username: string; email: string; password: string }): Observable<any> {
+  const updateUrl = `${this.apiUrl}/${id}`;
+  return this.http.put<any>(updateUrl, user);
+}
   
   
   loginUser(credentials: { username: string, password: string }): Observable<any> { 

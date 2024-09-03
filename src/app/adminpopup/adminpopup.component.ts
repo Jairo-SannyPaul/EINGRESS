@@ -122,6 +122,7 @@ onSubmit(): void {
     return;
   }
 
+  const oldPass = this.form.get('oldPassword')?.value;
   const newPass = this.form.get('newPassword')?.value;
   const confirmPass = this.form.get('confirmPassword')?.value;
 
@@ -130,23 +131,38 @@ onSubmit(): void {
     return;
   }
 
-  // Prepare data for update
-  const updateData = {
-    username: this.form.get('newusername')?.value,
-    email: this.form.get('newEmail')?.value,
-    password: this.form.get('newPassword')?.value
-  };
+  // Validate the old password first
+  this.userService.validateOldPassword(this.currentAdmin, oldPass).subscribe({
+    next: (isValid) => {
+      if (!isValid) {
+        this.dialogService.openAlertDialog('Old password is incorrect.');
+        return;
+      }
 
-  // Call the update service
-  this.userService.updateUser(this.currentAdmin, updateData).subscribe({
-    next: (response) => {
-      this.dialogService.openSuccessDialog('Profile updated successfully!');
+      // Prepare data for update
+      const updateData = {
+        username: this.form.get('newusername')?.value,
+        email: this.form.get('newEmail')?.value,
+        password: newPass
+      };
+
+      // Call the update service
+      this.userService.updateUser(this.currentAdmin, updateData).subscribe({
+        next: (response) => {
+          this.dialogService.openSuccessDialog('Profile updated successfully!');
+        },
+        error: (error) => {
+          this.dialogService.openAlertDialog('Error updating profile.');
+        }
+      });
     },
     error: (error) => {
-      this.dialogService.openAlertDialog('Error updating profile.');
+      this.dialogService.openAlertDialog('Error validating old password.');
     }
   });
 }
+
+
 
 
 }
