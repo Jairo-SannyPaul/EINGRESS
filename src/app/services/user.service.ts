@@ -35,7 +35,7 @@ export class UserService {
 }
 
 // Adjust updateUser method to include email
-updateUser(id: number, user: { username: string; email: string; password: string }): Observable<any> {
+updateUser(id: number, user: { username: string; email: string; password?: string }): Observable<any> {
   const updateUrl = `${this.apiUrl}/${id}`;
   return this.http.put<any>(updateUrl, user);
 }
@@ -57,6 +57,5 @@ updateUser(id: number, user: { username: string; email: string; password: string
   }
 
   sendOtp(){
-    
   }
 }

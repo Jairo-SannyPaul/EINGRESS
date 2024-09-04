@@ -21,7 +21,7 @@ export class AdminpopupComponent implements OnInit {
 
   constructor(private fb: FormBuilder, private userService: UserService, private dialogService: DialogService) {
     this.form = this.fb.group({
-      newEmail: ['', [Validators.required, Validators.email]], // Email should have a proper validator
+      newEmail: ['', Validators.email], // Email should have a proper validator
       newusername: [''],
       oldPassword: [''],
       newPassword: [''],
@@ -114,39 +114,64 @@ export class AdminpopupComponent implements OnInit {
     });
   }
 
-
-//TRY AND ERROR
-onSubmit(): void {
-  if (this.form.invalid) {
-    this.dialogService.openAlertDialog('Please fill in all required fields correctly.');
-    return;
-  }
-
-  const oldPass = this.form.get('oldPassword')?.value;
-  const newPass = this.form.get('newPassword')?.value;
-  const confirmPass = this.form.get('confirmPassword')?.value;
-
-  if (newPass !== confirmPass) {
-    this.dialogService.openAlertDialog('New password and confirmed password do not match.');
-    return;
-  }
-
-  // Validate the old password first
-  this.userService.validateOldPassword(this.currentAdmin, oldPass).subscribe({
-    next: (isValid) => {
-      if (!isValid) {
-        this.dialogService.openAlertDialog('Old password is incorrect.');
-        return;
-      }
-
-      // Prepare data for update
+  onSubmit(): void {
+    if (this.form.invalid) {
+      this.dialogService.openAlertDialog('Please fill in all required fields correctly.');
+      return;
+    }
+  
+    const oldPass = this.form.get('oldPassword')?.value;
+    const newPass = this.form.get('newPassword')?.value;
+    const confirmPass = this.form.get('confirmPassword')?.value;
+  
+    // Check if newPassword and confirmPassword match
+    if (newPass !== confirmPass) {
+      this.dialogService.openAlertDialog('New password and confirmed password do not match.');
+      return;
+    }
+    
+    if (newPass && !oldPass) {
+      this.dialogService.openAlertDialog('Please enter your old password to update your password.');
+      return;
+    }
+    // Check if oldPassword is provided
+    if (oldPass) {
+      // Validate the old password
+      this.userService.validateOldPassword(this.currentAdmin, oldPass).subscribe({
+        next: (isValid) => {
+          if (!isValid) {
+            this.dialogService.openAlertDialog('Old password is incorrect.');
+            return;
+          }
+  
+          // Prepare data for update
+          const updateData = {
+            username: this.form.get('newusername')?.value,
+            email: this.form.get('newEmail')?.value,
+            password: newPass
+          };
+  
+          // Call the update service
+          this.userService.updateUser(this.currentAdmin, updateData).subscribe({
+            next: (response) => {
+              this.dialogService.openSuccessDialog('Profile updated successfully!');
+            },
+            error: (error) => {
+              this.dialogService.openAlertDialog('Error updating profile.');
+            }
+          });
+        },
+        error: (error) => {
+          this.dialogService.openAlertDialog('Error validating old password.');
+        }
+      });
+    } else {
       const updateData = {
         username: this.form.get('newusername')?.value,
-        email: this.form.get('newEmail')?.value,
-        password: newPass
+        email: this.form.get('newEmail')?.value
       };
-
-      // Call the update service
+  
+      // Call the update service without updating the password
       this.userService.updateUser(this.currentAdmin, updateData).subscribe({
         next: (response) => {
           this.dialogService.openSuccessDialog('Profile updated successfully!');
@@ -155,14 +180,8 @@ onSubmit(): void {
           this.dialogService.openAlertDialog('Error updating profile.');
         }
       });
-    },
-    error: (error) => {
-      this.dialogService.openAlertDialog('Error validating old password.');
     }
-  });
-}
-
-
-
+  }
+  
 
 }
