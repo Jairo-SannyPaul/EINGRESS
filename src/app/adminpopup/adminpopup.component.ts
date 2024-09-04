@@ -124,64 +124,57 @@ export class AdminpopupComponent implements OnInit {
     const newPass = this.form.get('newPassword')?.value;
     const confirmPass = this.form.get('confirmPassword')?.value;
   
-    // Check if newPassword and confirmPassword match
     if (newPass !== confirmPass) {
       this.dialogService.openAlertDialog('New password and confirmed password do not match.');
       return;
     }
-    
+  
     if (newPass && !oldPass) {
       this.dialogService.openAlertDialog('Please enter your old password to update your password.');
       return;
     }
-    // Check if oldPassword is provided
-    if (oldPass) {
-      // Validate the old password
-      this.userService.validateOldPassword(this.currentAdmin, oldPass).subscribe({
-        next: (isValid) => {
-          if (!isValid) {
-            this.dialogService.openAlertDialog('Old password is incorrect.');
-            return;
-          }
   
-          // Prepare data for update
-          const updateData = {
-            username: this.form.get('newusername')?.value,
-            email: this.form.get('newEmail')?.value,
-            password: newPass
+    const updateData = {
+      username: this.form.get('newusername')?.value,
+      email: this.form.get('newEmail')?.value,
+      password: newPass
+    };
+  
+    this.userService.updateUser(this.currentAdmin, updateData).subscribe({
+      next: (response) => {
+        if (response.message === 'User updated successfully with new email') {
+          console.log('Email changed');
+          this.dialogService.openSuccessDialog('Email changed and user updated successfully!');
+  
+          // Prepare data for sending verification email
+          const verificationData = {
+            name: this.form.get('newusername')?.value,
+            address: this.form.get('newEmail')?.value,
+            verification_link: response.user.verify_token, // Ensure verify_token is part of response
+            expiry_date: response.user.token_expiry // Ensure token_expiry is part of response
           };
   
-          // Call the update service
-          this.userService.updateUser(this.currentAdmin, updateData).subscribe({
-            next: (response) => {
-              this.dialogService.openSuccessDialog('Profile updated successfully!');
+          // Call send verification email
+          this.userService.sendVerificationEmail(verificationData).subscribe({
+            next: (emailResponse) => {
+              console.log('Verification email sent:', emailResponse);
             },
-            error: (error) => {
-              this.dialogService.openAlertDialog('Error updating profile.');
+            error: (emailError) => {
+              console.error('Error sending verification email:', emailError);
             }
           });
-        },
-        error: (error) => {
-          this.dialogService.openAlertDialog('Error validating old password.');
-        }
-      });
-    } else {
-      const updateData = {
-        username: this.form.get('newusername')?.value,
-        email: this.form.get('newEmail')?.value
-      };
-  
-      // Call the update service without updating the password
-      this.userService.updateUser(this.currentAdmin, updateData).subscribe({
-        next: (response) => {
+        } else {
           this.dialogService.openSuccessDialog('Profile updated successfully!');
-        },
-        error: (error) => {
-          this.dialogService.openAlertDialog('Error updating profile.');
         }
-      });
-    }
+      },
+      error: (error) => {
+        console.error('Error updating profile:', error);
+        this.dialogService.openAlertDialog('Error updating profile.');
+      }
+    });
   }
+  
+  
   
 
 }

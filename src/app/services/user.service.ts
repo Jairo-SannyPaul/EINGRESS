@@ -11,6 +11,7 @@ import { environment } from '../environments/environment.prod';
 })
 export class UserService {
   private apiUrl = `${environment.baseURL}api/users`;
+  private mailerapiUrl = `${environment.baseURL}api/mailer`;
   currentUserId!: number;
   constructor(private http: HttpClient) { }
 
@@ -24,29 +25,27 @@ export class UserService {
     return this.http.get<User>(userUrl);
   }
 
-  addUser(user: User): Observable<User[]>{
+  addUser(user: User): Observable<User[]> {
     return this.http.post<User[]>(this.apiUrl, user);
   }
 
- // Add method to validate old password
- validateOldPassword(userId: number, oldPassword: string): Observable<boolean> {
-  const validateUrl = `${this.apiUrl}/validate-old-password`;
-  return this.http.post<boolean>(validateUrl, { userId, oldPassword });
-}
+  // Add method to validate old password
+  validateOldPassword(userId: number, oldPassword: string): Observable<boolean> {
+    const validateUrl = `${this.apiUrl}/validate-old-password`;
+    return this.http.post<boolean>(validateUrl, { userId, oldPassword });
+  }
 
-// Adjust updateUser method to include email
-updateUser(id: number, user: { username: string; email: string; password?: string }): Observable<any> {
-  const updateUrl = `${this.apiUrl}/${id}`;
-  return this.http.put<any>(updateUrl, user);
-}
+  updateUser(id: number, user: { username: string; email: string; password?: string }): Observable<{ message: string; user: User }> {
+    const updateUrl = `${this.apiUrl}/${id}`;
+    return this.http.put<{ message: string; user: User }>(updateUrl, user);
+  }
   
-  
-  loginUser(credentials: { username: string, password: string }): Observable<any> { 
+  loginUser(credentials: { username: string, password: string }): Observable<any> {
     const loginUrl = `${this.apiUrl}/login`;
     return this.http.post<any>(loginUrl, credentials);
   }
 
-  logoutUser(){
+  logoutUser() {
     localStorage.removeItem('token');
   }
 
@@ -56,6 +55,11 @@ updateUser(id: number, user: { username: string; email: string; password?: strin
     return this.currentUserId;
   }
 
-  sendOtp(){
+  sendOtp() {
   }
+
+  sendVerificationEmail(data: { name: string; address: string; verification_link: string }): Observable<any> {
+    return this.http.post(`${this.mailerapiUrl}/send-verification`, data);
+  }
+
 }
