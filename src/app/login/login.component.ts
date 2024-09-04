@@ -27,26 +27,7 @@ export class LoginComponent {
       password: ['',Validators.required]
   });
   }
-
-  // submitCredentials() {
-  //   if(this.form.invalid){
-  //     this.dialogService.openAlertDialog('Please fill in all credentials');
-  //     return;
-  //   }
-
-  //   this.userService.loginUser(this.form.getRawValue()).subscribe({
-  //       next: (response: any) => {
-  //         localStorage.setItem('token', response.access_token);
-  //         this.router.navigateByUrl('/main');
-  //       },
-  //       error: (error) => {
-  //         this.dialogService.openAlertDialog('Invalid User please try again!');
-  //         console.error(error); 
-  //       }
-  //     } 
-  //   );
-  // }
-
+  
   submitCredentials() {
     if (this.form.invalid) {
       this.dialogService.openAlertDialog('Please fill in all credentials');
@@ -104,6 +85,12 @@ export class LoginComponent {
     } else if (target.getAttribute('formControlName') === 'password') {
       target.placeholder = 'Password'; 
     }
+  }
+
+  sendResetPassword(){
+    mail: String;
+
+
   }
 }
 

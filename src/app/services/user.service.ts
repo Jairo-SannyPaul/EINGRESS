@@ -55,4 +55,8 @@ updateUser(id: number, user: { username: string; email: string; password: string
     this.currentUserId = user.id;
     return this.currentUserId;
   }
+
+  sendOtp(){
+    
+  }
 }
