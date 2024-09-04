@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../services/user.service';
 import { Router } from '@angular/router';
-import { Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogService } from '../services/dialog.service';
 
@@ -11,7 +10,7 @@ import { DialogService } from '../services/dialog.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   showPassword: boolean = false;
   form: FormGroup;
 
@@ -21,80 +20,114 @@ export class LoginComponent {
     private userService: UserService,
     private dialog: MatDialog,
     private dialogService: DialogService
-  ){
+  ) {
     this.form = this.formBuilder.group({
-      username: ['',Validators.required],
-      password: ['',Validators.required]
-  });
+      username: ['', Validators.required],
+      password: ['', Validators.required]
+    });
   }
 
-  // submitCredentials() {
-  //   if(this.form.invalid){
+  ngOnInit(): void {
+    // Check the fields and move labels if input is prefilled
+    this.checkInputValues();
+  }
+
+  // Check the input values to position labels correctly
+  checkInputValues(): void {
+    const usernameInput = this.form.controls['username'].value;
+    const passwordInput = this.form.controls['password'].value;
+
+    if (usernameInput) {
+      this.setLabelPosition('username', true);
+    }
+    if (passwordInput) {
+      this.setLabelPosition('password', true);
+    }
+  }
+
+  // Method to set the label position based on value presence
+  setLabelPosition(field: string, hasValue: boolean): void {
+    const label = document.querySelector(`label[for=${field}]`) as HTMLElement;
+    if (hasValue && label) {
+      label.classList.add('top-[-15px]', 'text-[15px]');
+      label.classList.remove('top-1/2', '-translate-y-1/2');
+    } else if (label) {
+      label.classList.remove('top-[-15px]', 'text-[15px]');
+      label.classList.add('top-1/2', '-translate-y-1/2');
+    }
+  }
+
+  // Submit credentials logic
+  // submitCredentials(): void {
+  //   if (this.form.invalid) {
   //     this.dialogService.openAlertDialog('Please fill in all credentials');
   //     return;
   //   }
 
-  //   this.userService.loginUser(this.form.getRawValue()).subscribe({
-  //       next: (response: any) => {
-  //         localStorage.setItem('token', response.access_token);
-  //         this.router.navigateByUrl('/main');
-  //       },
-  //       error: (error) => {
-  //         this.dialogService.openAlertDialog('Invalid User please try again!');
-  //         console.error(error); 
-  //       }
-  //     } 
-  //   );
+  //   const { username, password } = this.form.getRawValue();
+  //   this.userService.loginUser({ username, password }).subscribe({
+  //     next: (response: any) => {
+  //       localStorage.setItem('token', response.access_token);
+  //       localStorage.setItem('username', username);
+  //       this.router.navigateByUrl('/main');
+  //     },
+  //     error: (error) => {
+  //       this.dialogService.openAlertDialog('Invalid User please try again!');
+  //       console.error(error);
+  //     }
+  //   });
   // }
 
-  submitCredentials() {
-    if (this.form.invalid) {
-      this.dialogService.openAlertDialog('Please fill in all credentials');
-      return;
+  isLoading = false;
+
+get isButtonActive(): boolean {
+  return this.form.controls['username'].value && this.form.controls['password'].value;
+}
+
+submitCredentials(): void {
+  if (this.form.invalid) {
+    this.dialogService.openAlertDialog('Please fill in all credentials');
+    return;
+  }
+
+  this.isLoading = true; // Start loading
+
+  const { username, password } = this.form.getRawValue();
+  this.userService.loginUser({ username, password }).subscribe({
+    next: (response: any) => {
+      localStorage.setItem('token', response.access_token);
+      localStorage.setItem('username', username);
+      this.router.navigateByUrl('/main');
+      this.isLoading = false; // Stop loading
+    },
+    error: (error) => {
+      this.dialogService.openAlertDialog('Invalid User please try again!');
+      this.isLoading = false; // Stop loading
+      console.error(error);
     }
-  
-    const { username, password } = this.form.getRawValue();
-  
-    this.userService.loginUser({ username, password }).subscribe({
-      next: (response: any) => {
-        localStorage.setItem('token', response.access_token);
-        localStorage.setItem('username', username);  // Store the username in localStorage
-        this.router.navigateByUrl('/main');
-      },
-      error: (error) => {
-        this.dialogService.openAlertDialog('Invalid User please try again!');
-        console.error(error); 
-      }
-    });
-  }  
+  });
+}
+
 
   // Method to toggle password visibility
-  togglePasswordVisibility(field: string): void {
-    if (field === 'password') {
-      this.showPassword = !this.showPassword;
-    }
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
   }
 
   // Method to clear the placeholder text when the input is focused
   clearText(event: FocusEvent): void {
     const target = event.target as HTMLInputElement;
-
-    if (target.getAttribute('formControlName') === 'username') {
-      target.placeholder = ''; 
-    } else if (target.getAttribute('formControlName') === 'password') {
-      target.placeholder = ''; 
-    }
+    this.setLabelPosition(target.getAttribute('formControlName') || '', true);
   }
 
-  // Method to reset the placeholder text when the input loses focus
+  // Method to reset the placeholder text and label position when the input loses focus
   resetPlaceholder(event: FocusEvent): void {
     const target = event.target as HTMLInputElement;
+    const value = target.value;
+    const controlName = target.getAttribute('formControlName') || '';
 
-    if (target.getAttribute('formControlName') === 'username') {
-      target.placeholder = 'Email'; 
-    } else if (target.getAttribute('formControlName') === 'password') {
-      target.placeholder = 'Password'; 
+    if (!value) {
+      this.setLabelPosition(controlName, false);
     }
   }
 }
-

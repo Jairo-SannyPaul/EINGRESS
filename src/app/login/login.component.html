@@ -60,23 +60,70 @@
           <!-- Form -->
           <form [formGroup]="form" class="space-y-10">
             <div class="space-y-12">
-            <div class="relative mb-[32px]">
-              <input formControlName="username" class="w-full bg-white text-[#6E6E6E] border-b-1 border-black focus:border-blue-500 outline-none" type="text" placeholder="Email" (focus)="clearText($event)" (blur)="resetPlaceholder($event)" required>
-              <img src="/assets/images/Email-icon.svg" class="absolute right-3 top-1/2 transform -translate-y-1/2 " alt="Email Icon">
-            </div>
-              <div class="relative mb-[32px]">
-                <input formControlName="password" class="w-full bg-white text-[#6E6E6E] border-b border-black focus:border-blue-500 outline-none" [type]="showPassword ? 'text' : 'password'" placeholder="Password" (focus)="clearText($event)" (blur)="resetPlaceholder($event)">
-                <img [src]="showPassword ? '/assets/images/Lock-icon.svg' : '/assets/images/Lock-icon.svg'" class="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer" alt="Toggle Password Visibility" id="show-icon" (click)="togglePasswordVisibility('password')">
+              <!-- Username Field -->
+              <div class="relative flex items-center mb-[32px]" style="border-bottom: 2px solid #6E6E6E;">
+                <input 
+                  formControlName="username" 
+                  id="username" 
+                  class="peer bg-white text-[#6E6E6E] h-[33px] w-full outline-none placeholder-transparent" 
+                  type="text" 
+                  placeholder="Email" 
+                  (focus)="clearText($event)" 
+                  (blur)="resetPlaceholder($event)" 
+                  required>
+                <label 
+                  for="username" 
+                  class="absolute top-1/2 transform -translate-y-1/2 text-[#6E6E6E] transition-all duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:transform -translate-y-1/2 peer-placeholder-shown:text-[#6E6E6E] peer-focus:-top-5 peer-focus:text-[#6E6E6E] peer-focus:text-[15px]"
+                  [class.-top-5]="form.controls['username'].value">
+                  Email
+                </label>
+                <img 
+                  src="/assets/images/Email-icon.svg" 
+                  class="absolute right-0 top-1/2 transform -translate-y-1/2" 
+                  alt="Email Icon">
               </div>
+          
+              <!-- Password Field -->
+              <div class="relative flex items-center mb-[32px]" style="border-bottom: 2px solid #6E6E6E;">
+                <input 
+                  formControlName="password" 
+                  id="password" 
+                  class="peer bg-white text-[#6E6E6E] h-[33px] w-full outline-none placeholder-transparent" 
+                  [type]="showPassword ? 'text' : 'password'" 
+                  placeholder="Password" 
+                  (focus)="clearText($event)" 
+                  (blur)="resetPlaceholder($event)">
+                <label 
+                  for="password" 
+                  class="absolute top-1/2 transform -translate-y-1/2 text-[#6E6E6E] transition-all duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:transform -translate-y-1/2 peer-placeholder-shown:text-[#6E6E6E] peer-focus:-top-5 peer-focus:text-[#6E6E6E] peer-focus:text-[15px]"
+                  [class.-top-5]="form.controls['password'].value">
+                  Password
+                </label>
+                <img 
+                  [src]="showPassword ? '/assets/images/Lock-icon.svg' : '/assets/images/Lock-icon.svg'" 
+                  class="absolute right-0 top-1/2 transform -translate-y-1/2 cursor-pointer" 
+                  alt="Toggle Password Visibility" 
+                  id="show-icon" 
+                  (click)="togglePasswordVisibility()">
+              </div>
+          
+              <!-- Remember Me and Forgot Password -->
               <div class="flex items-center text-sm text-white space-x-2 mb-[31px] mt-[32px]">
                 <input type="checkbox" name="remember" id="remember" class="mr-2"> 
                 <label for="remember" class="cursor-pointer text-[#6E6E6E]">Remember me</label>
-                <label for="remember" class="cursor-pointer text-[#1D32A3] absolute right-3 font-normal">Forgot Password?</label>
+                <label for="forgot" class="cursor-pointer text-[#1D32A3] absolute right-0 font-normal">Forgot Password?</label>
               </div>
             </div>
-  
-            <button (click)="submitCredentials()" class="w-full py-3 rounded-[3px] bg-[rgba(19,50,94,0.6)] text-white rounded-lg font-semibold">Login</button>
-          </form>
+            <button (click)="submitCredentials()" 
+                    [ngClass]="{'bg-[rgba(19,50,94,1)]': isButtonActive, 'bg-[rgba(19,50,94,0.6)]': !isButtonActive}" 
+                    class="w-full py-3 text-white rounded-lg font-semibold flex items-center justify-center">
+              <svg *ngIf="isLoading" class="animate-spin h-5 w-5 text-white mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-0" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-100" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+              </svg>
+              <span [ngStyle]="{'font-weight': '400', 'font-size': '15px', 'line-height': '22.5px'}">{{ isLoading ? 'Logging in...' : 'Login' }}</span>
+            </button>          
+          </form>          
         </div>
       </div>
     </div>
