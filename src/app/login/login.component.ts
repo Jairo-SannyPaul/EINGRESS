@@ -13,6 +13,8 @@ import { DialogService } from '../services/dialog.service';
 export class LoginComponent implements OnInit {
   showPassword: boolean = false;
   form: FormGroup;
+  errorMessage: string | null = null;
+  isLoading = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -79,7 +81,7 @@ export class LoginComponent implements OnInit {
   //   });
   // }
 
-  isLoading = false;
+  
 
 get isButtonActive(): boolean {
   return this.form.controls['username'].value && this.form.controls['password'].value;
@@ -87,7 +89,7 @@ get isButtonActive(): boolean {
 
 submitCredentials(): void {
   if (this.form.invalid) {
-    this.dialogService.openAlertDialog('Please fill in all credentials');
+    this.errorMessage = 'Please fill in all credentials';
     return;
   }
 
@@ -100,14 +102,16 @@ submitCredentials(): void {
       localStorage.setItem('username', username);
       this.router.navigateByUrl('/main');
       this.isLoading = false; // Stop loading
+      this.errorMessage = null; // Clear error message on successful login
     },
     error: (error) => {
-      this.dialogService.openAlertDialog('Invalid User please try again!');
+      this.errorMessage = 'Your email or password was not recognized. Please try again.';
       this.isLoading = false; // Stop loading
       console.error(error);
     }
   });
 }
+
 
 
   // Method to toggle password visibility
