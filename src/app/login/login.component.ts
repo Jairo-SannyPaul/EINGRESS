@@ -15,6 +15,7 @@ export class LoginComponent implements OnInit {
   form: FormGroup;
   errorMessage: string | null = null;
   isLoading = false;
+  isForgotPassword = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -32,6 +33,14 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     // Check the fields and move labels if input is prefilled
     this.checkInputValues();
+  }
+
+  toggleForgotPassword() {
+    this.isForgotPassword = !this.isForgotPassword;
+    this.errorMessage = null;
+    if (this.isForgotPassword) {
+      this.form.reset(); // Reset form when switching to forgot password mode
+    }
   }
 
   // Check the input values to position labels correctly

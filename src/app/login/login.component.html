@@ -43,7 +43,7 @@
     <!-- Centering Container Inside White Background -->
     <div class="flex items-center justify-center h-full">
       <!-- Content -->
-      <div class="absolute top-[120px] bg-white rounded-lg w-[512px] h-[572px]">
+      <div [ngClass]="{'h-[572px]': !isForgotPassword, 'h-[764px]': isForgotPassword}" class="absolute top-[120px] bg-white rounded-lg w-[512px] transition-all duration-300">
         <!-- Logo -->
         <div class="flex items-center mb-[126px]">
           <img src="/assets/images/jairo-logo.png" class="h-9" alt="Jairo Logo">
@@ -53,21 +53,23 @@
 
         <!-- Banner -->
         <div class="mb-[79px] text-left">
-          <h2 class="text-[#464646] text-2xl mb-[12px] font-semibold">Log in.</h2>
+          <h2 *ngIf="!isForgotPassword" class="text-[#464646] text-2xl mb-[12px] font-semibold">Log in.</h2>
+          <h2 *ngIf="isForgotPassword" class="text-[#464646] text-2xl mb-[12px] font-semibold">Forgot Password?</h2>
           <!-- Conditionally display error message or instructions -->
           <p *ngIf="errorMessage" class="text-[#DB3956] rounded relative">
             <span class="font-normal">Your email or password was not recognized.</span>
             <br>
             <span class="block mt-2">Please try again.</span>
           </p>
-          <p *ngIf="!errorMessage" class="text-[#6E6E6E] text-sm">Log in with your data that you entered during registration.</p>
+          <p *ngIf="!errorMessage && !isForgotPassword" class="text-[#6E6E6E] text-sm">Log in with your data that you entered during registration.</p>
+          <p *ngIf="!errorMessage && isForgotPassword" class="text-[#6E6E6E] text-sm">Log in with your data that you entered during registration.</p>
         </div>
 
         <!-- Form -->
         <form [formGroup]="form" class="space-y-10">
           <div class="space-y-12">
             <!-- Username Field -->
-            <div class="relative flex items-center mb-[32px]" 
+            <div *ngIf="isForgotPassword || !isForgotPassword" class="relative flex items-center mb-[32px]" 
                   [ngStyle]="{
                     'border-bottom': errorMessage ? '2px solid #DB3956' : '2px solid #6E6E6E'
                     }">
@@ -92,10 +94,9 @@
                 alt="Email Icon">
             </div>
             
-            <div class="relative flex items-center mb-[32px]" 
+            <div *ngIf="!isForgotPassword" class="relative flex items-center mb-[32px]" 
                   [ngStyle]="{
-                    'border-bottom': errorMessage ? '2px solid #DB3956' : '2px solid #6E6E6E'
-                  }">
+                    'border-bottom': errorMessage ? '2px solid #DB3956' : '2px solid #6E6E6E'}">
               <input 
                 formControlName="password" 
                 id="password" 
@@ -119,11 +120,12 @@
             </div>
             
             <!-- Remember Me and Forgot Password -->
-            <div class="flex items-center text-sm text-white space-x-2 mb-[31px] mt-[32px]">
+            <div *ngIf="!isForgotPassword" class="flex items-center text-sm text-white space-x-2 mb-[31px] mt-[32px]">
               <input type="checkbox" name="remember" id="remember" class="mr-2"> 
               <label for="remember" class="cursor-pointer text-[#6E6E6E]">Remember me</label>
-              <label for="forgot" class="cursor-pointer text-[#1D32A3] absolute right-0 font-normal">Forgot Password?</label>
+              <label for="forgot" class="cursor-pointer text-[#1D32A3] absolute right-0 font-normal" (click)="toggleForgotPassword()">Forgot Password?</label>
             </div>
+            
           </div>
           <button (click)="submitCredentials()" 
                   [ngClass]="{'bg-[rgba(19,50,94,1)]': isButtonActive, 'bg-[rgba(19,50,94,0.6)]': !isButtonActive}" 
@@ -132,9 +134,12 @@
               <circle class="opacity-0" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
               <path class="opacity-100" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
             </svg>
-            <span [ngStyle]="{'font-weight': '400', 'font-size': '15px', 'line-height': '22.5px'}">{{ isLoading ? 'Logging in...' : 'Login' }}</span>
-          </button>          
-        </form>          
+            <span [ngStyle]="{'font-weight': '400', 'font-size': '15px', 'line-height': '22.5px'}"> {{ isForgotPassword ? (isLoading ? 'Sending Request...' : 'Send Request') : (isLoading ? 'Logging in...' : 'Login') }}</span>
+          </button> 
+        </form> 
+        <div *ngIf="isForgotPassword" class="flex justify-center absolute bottom-4 w-full">
+          <a (click)="toggleForgotPassword()" class="absolute bottom-0 text-[#6E6E6E] cursor-pointer">Back to login</a>
+        </div>         
       </div>
     </div>
   </div>
@@ -142,6 +147,7 @@
   <!-- Background Image -->
   <img src="/assets/images/BG_Login.svg" class="absolute right-0 top-0 bottom-0 object-cover w-1/2 h-full" alt="Background Image">
 </div>
+
 
   
   
