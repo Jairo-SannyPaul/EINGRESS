@@ -127,7 +127,7 @@
             </div>
             
           </div>
-          <button (click)="submitCredentials()" 
+          <button (click)="isForgotPassword ? sendRequest() : submitCredentials()" 
                   [ngClass]="{'bg-[rgba(19,50,94,1)]': isButtonActive, 'bg-[rgba(19,50,94,0.6)]': !isButtonActive}" 
                   class="w-full py-3 text-white rounded-lg font-semibold flex items-center justify-center">
             <svg *ngIf="isLoading" class="animate-spin h-5 w-5 text-white mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -135,7 +135,7 @@
               <path class="opacity-100" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
             </svg>
             <span [ngStyle]="{'font-weight': '400', 'font-size': '15px', 'line-height': '22.5px'}"> {{ isForgotPassword ? (isLoading ? 'Sending Request...' : 'Send Request') : (isLoading ? 'Logging in...' : 'Login') }}</span>
-          </button> 
+          </button>
         </form> 
         <div *ngIf="isForgotPassword" class="flex justify-center absolute bottom-4 w-full">
           <a (click)="toggleForgotPassword()" class="absolute bottom-0 text-[#6E6E6E] cursor-pointer">Back to login</a>

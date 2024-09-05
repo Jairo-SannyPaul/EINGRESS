@@ -121,6 +121,11 @@ submitCredentials(): void {
   });
 }
 
+sendRequest(): void {
+  console.log('working')
+
+}
+
 
 
   // Method to toggle password visibility
