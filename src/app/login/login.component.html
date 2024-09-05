@@ -73,7 +73,7 @@
                   required>
                 <label 
                   for="username" 
-                  class="absolute top-1/2 transform -translate-y-1/2 text-[#6E6E6E] transition-all duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:transform -translate-y-1/2 peer-placeholder-shown:text-[#6E6E6E] peer-focus:-top-5 peer-focus:text-[#6E6E6E] peer-focus:text-[15px]"
+                  class="absolute text-[15px] top-1/2 transform -translate-y-1/2 text-[#6E6E6E] transition-all duration-300 peer-placeholder-shown:text-[#6E6E6E] peer-focus:-top-5 peer-focus:text-[#6E6E6E]"
                   [class.-top-5]="form.controls['username'].value">
                   Email
                 </label>
@@ -82,8 +82,7 @@
                   class="absolute right-0 top-1/2 transform -translate-y-1/2" 
                   alt="Email Icon">
               </div>
-          
-              <!-- Password Field -->
+              
               <div class="relative flex items-center mb-[32px]" style="border-bottom: 2px solid #6E6E6E;">
                 <input 
                   formControlName="password" 
@@ -95,17 +94,18 @@
                   (blur)="resetPlaceholder($event)">
                 <label 
                   for="password" 
-                  class="absolute top-1/2 transform -translate-y-1/2 text-[#6E6E6E] transition-all duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:transform -translate-y-1/2 peer-placeholder-shown:text-[#6E6E6E] peer-focus:-top-5 peer-focus:text-[#6E6E6E] peer-focus:text-[15px]"
+                  class="absolute text-[15px] top-1/2 transform -translate-y-1/2 text-[#6E6E6E] transition-all duration-300 peer-placeholder-shown:text-[#6E6E6E] peer-focus:text-[#6E6E6E] peer-focus:-top-5"
                   [class.-top-5]="form.controls['password'].value">
                   Password
                 </label>
                 <img 
-                  [src]="showPassword ? '/assets/images/Lock-icon.svg' : '/assets/images/Lock-icon.svg'" 
+                  [src]="showPassword ? '/assets/images/unlock-icon.svg' : '/assets/images/Lock-icon.svg'" 
                   class="absolute right-0 top-1/2 transform -translate-y-1/2 cursor-pointer" 
                   alt="Toggle Password Visibility" 
                   id="show-icon" 
                   (click)="togglePasswordVisibility()">
               </div>
+              
           
               <!-- Remember Me and Forgot Password -->
               <div class="flex items-center text-sm text-white space-x-2 mb-[31px] mt-[32px]">

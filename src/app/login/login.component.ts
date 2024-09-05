@@ -49,13 +49,14 @@ export class LoginComponent implements OnInit {
   setLabelPosition(field: string, hasValue: boolean): void {
     const label = document.querySelector(`label[for=${field}]`) as HTMLElement;
     if (hasValue && label) {
-      label.classList.add('top-[-15px]', 'text-[15px]');
+      label.classList.add('-top-5');
       label.classList.remove('top-1/2', '-translate-y-1/2');
     } else if (label) {
-      label.classList.remove('top-[-15px]', 'text-[15px]');
+      label.classList.remove('-top-5');
       label.classList.add('top-1/2', '-translate-y-1/2');
     }
   }
+  
 
   // Submit credentials logic
   // submitCredentials(): void {
@@ -126,8 +127,11 @@ submitCredentials(): void {
     const value = target.value;
     const controlName = target.getAttribute('formControlName') || '';
 
+    // Only move the label down if the input is empty
     if (!value) {
       this.setLabelPosition(controlName, false);
+    } else {
+      this.setLabelPosition(controlName, true);  // Keep the label up if there's a value
     }
   }
 }
