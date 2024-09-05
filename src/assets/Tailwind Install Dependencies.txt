@@ -1,0 +1,25 @@
+
+
+--VSCode Terminal
+* npm install -D tailwindcss postcss autoprefixer
+* npx tailwindcss init
+
+
+
+--copy this and paste in the tailwind.config.js
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: [
+    "./src/**/*.{html,ts}",
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+}
+
+
+--copy this and paste to the style.css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
