@@ -60,13 +60,13 @@
           
           <!-- Conditionally display error message or instructions -->
           <p *ngIf="errorMessage" class="text-[#DB3956] rounded relative">
-            <span class="font-normal">Your email or password was not recognized.</span>
+            <span class="font-normal">{{ errorMessage === 'Email not verified.' ? 'Email not verified' : 'Your email or password was not recognized.' }}</span>
             <br>
             <span class="block mt-2">Please try again.</span>
           </p>
           <p *ngIf="!errorMessage && !isForgotPassword && !isVerification && !isResetPassword" class="text-[#6E6E6E] text-sm">Log in with your data that you entered during registration.</p>
           <p *ngIf="!errorMessage && isForgotPassword && !isVerification && !isResetPassword" class="text-[#6E6E6E] text-sm">Please enter your email to reset your password.</p>
-          <p *ngIf="isVerification && !isResetPassword" class="text-[#6E6E6E] text-sm">We’ve sent the verification code to a***n@j*******t.com.</p>
+          <p *ngIf="isVerification && !isResetPassword" class="text-[#6E6E6E] text-sm">We’ve sent the verification code to {{censoredEmail}}</p>
           <p *ngIf="isResetPassword" class="text-[#6E6E6E] text-sm">Enter your new password below, we’re just being extra safe.</p>
         </div>
 
@@ -124,7 +124,7 @@
                 (click)="togglePasswordVisibility()">
             </div>
 
-             <!-- Reset Password Fields -->
+              <!-- Reset Password Fields -->
           <div *ngIf="isResetPassword" class="space-y-12">
             <div class="relative flex items-center mb-[32px]" 
                   [ngStyle]="{
@@ -180,7 +180,7 @@
                 (click)="togglePasswordVisibility()">
             </div>
           </div>
-            
+
             <!-- Remember Me and Forgot Password -->
             <div *ngIf="!isForgotPassword" class="flex items-center text-sm text-white space-x-2 mb-[31px] mt-[32px]">
               <input type="checkbox" name="remember" id="remember" class="mr-2"> 
@@ -189,7 +189,7 @@
             </div>
 
             <!-- Verification Code Fields -->
-          <div *ngIf="isVerification" class="flex justify-between space-x-4 mb-[32px]">
+          <div *ngIf="isVerification  && !isResetPassword" class="flex justify-between space-x-4 mb-[32px]">
             <input formControlName="code1" maxlength="1" class="h-[70px] w-[70px] bg-white text-center text-xl border border-gray-400 rounded-lg" type="text">
             <input formControlName="code2" maxlength="1" class="h-[70px] w-[70px] bg-white text-center text-xl border border-gray-400 rounded-lg" type="text">
             <input formControlName="code3" maxlength="1" class="h-[70px] w-[70px] bg-white text-center text-xl border border-gray-400 rounded-lg" type="text">
@@ -200,19 +200,19 @@
     
           </div>
           <button (click)="handleButtonClick()" 
-                  [ngClass]="{
-                            'bg-[rgba(19,50,94,1)]': isButtonActive && !isLoading, 
-                            'bg-[rgba(19,50,94,0.6)]': !isButtonActive || isLoading
-                          }" 
-                    class="w-full py-3 text-white rounded-lg font-semibold flex items-center justify-center"
-                    [disabled]="isLoading">
-              <svg *ngIf="isLoading" class="animate-spin h-5 w-5 text-white mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle class="opacity-0" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                  <path class="opacity-100" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
-              </svg>
-              <span [ngStyle]="{'font-weight': '400', 'font-size': '15px', 'line-height': '22.5px'}">
-                {{ getButtonText() }}
-              </span>
+          [ngClass]="{
+                    'bg-[rgba(19,50,94,1)]': isButtonActive && !isLoading, 
+                    'bg-[rgba(19,50,94,0.6)]': !isButtonActive || isLoading
+                  }" 
+            class="w-full py-3 text-white rounded-lg font-semibold flex items-center justify-center"
+            [disabled]="isLoading">
+      <svg *ngIf="isLoading" class="animate-spin h-5 w-5 text-white mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-0" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-100" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+      </svg>
+      <span [ngStyle]="{'font-weight': '400', 'font-size': '15px', 'line-height': '22.5px'}">
+        {{ getButtonText() }}
+      </span>
           </button>
 
 
