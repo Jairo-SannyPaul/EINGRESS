@@ -55,7 +55,9 @@ export class UserService {
     return this.currentUserId;
   }
 
-  sendOtp() {
+  sendResetOtp( emailPayload: {email: string}): Observable<any> {
+    const resetOtpUrl = `${this.mailerapiUrl}/validate-email`;
+    return this.http.post<any>(resetOtpUrl, emailPayload);
   }
 
   sendVerificationEmail(data: { name: string; address: string; verification_otp: string }): Observable<any> {
