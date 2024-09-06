@@ -1,48 +1,58 @@
 <form class="manage-account-form"></form>
 <form [formGroup]="form" class="settings-form">
   <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" fill="none" class="svg-margin">
-    <circle cx="50" cy="50" r="49.5" fill="#D9D9D9" stroke="black"/>
+    <circle cx="50" cy="50" r="49.5" fill="#D9D9D9" stroke="black" />
   </svg>
-  
+
   <strong class="text-position">Max Smith</strong>
   
   <div class="input-container">
-  <div class="textboxname">
-    <span>Username</span>
-    <input formControlName="newusername" class="textbox" type="text" placeholder="Enter New Username" (focus)="clearText($event)" (blur)="resetPlaceholder($event)">
-  </div>
-  
-  <div class="textboxname">
-    <span>Old Password</span>
-    <div class="password-container">
-      <input formControlName="oldPassword" class="textbox" [type]="showOldPassword ? 'text' : 'password'" placeholder="Enter Old Password" (focus)="clearText($event)" (blur)="resetPlaceholder($event)">
-      <img [src]="showOldPassword ? '/assets/images/show-password.png' : '/assets/images/hide-password.png'" alt="Toggle Password Visibility" class="toggle-password" (click)="togglePasswordVisibility('oldPassword')">
+    <div class="textboxname">
+      <span>Email</span>
+      <input formControlName="newEmail" class="textbox" type="text" placeholder="Enter Email"
+        (focus)="clearText($event)" (blur)="resetPlaceholder($event)">
     </div>
-  </div>
-  
-  <div class="textboxname">
-    <span>New Password</span>
-    <div class="password-container">
-      <input formControlName="newPassword" class="textbox" [type]="showNewPassword ? 'text' : 'password'" placeholder="Enter New Password" (focus)="clearText($event)" (blur)="resetPlaceholder($event)">
-      <img [src]="showNewPassword ? '/assets/images/show-password.png' : '/assets/images/hide-password.png'" alt="Toggle Password Visibility" class="toggle-password" (click)="togglePasswordVisibility('newPassword')">
-    </div>
-  </div>
-  
-  <div class="textboxname">
-    <span>Confirm Password</span>
-    <div class="password-container">
-      <input formControlName="confirmPassword" class="textbox" [type]="showConfirmPassword ? 'text' : 'password'" placeholder="Confirm Password" (focus)="clearText($event)" (blur)="resetPlaceholder($event)">
-      <img [src]="showConfirmPassword ? '/assets/images/show-password.png' : '/assets/images/hide-password.png'" alt="Toggle Password Visibility" class="toggle-password" (click)="togglePasswordVisibility('confirmPassword')">
-    </div>
-  </div>  
-</div>
 
-<div class="button-container">
-  <button class="btn-clear" (click)="onClear()">Clear</button>
-  <button class="btn-submit" (click)="onSubmit()">Submit</button>
-</div>
+    <div class="textboxname">
+      <span>Username</span>
+      <input formControlName="newusername" class="textbox" type="text" placeholder="Enter New Username"
+        (focus)="clearText($event)" (blur)="resetPlaceholder($event)">
+    </div>
+
+    <div class="textboxname">
+      <span>Old Password</span>
+      <div class="password-container">
+        <input formControlName="oldPassword" class="textbox" [type]="showOldPassword ? 'text' : 'password'"
+          placeholder="Enter Old Password" (focus)="clearText($event)" (blur)="resetPlaceholder($event)">
+        <img [src]="showOldPassword ? '/assets/images/show-password.png' : '/assets/images/hide-password.png'"
+          alt="Toggle Password Visibility" class="toggle-password" (click)="togglePasswordVisibility('oldPassword')">
+      </div>
+    </div>
+
+    <div class="textboxname">
+      <span>New Password</span>
+      <div class="password-container">
+        <input formControlName="newPassword" class="textbox" [type]="showNewPassword ? 'text' : 'password'"
+          placeholder="Enter New Password" (focus)="clearText($event)" (blur)="resetPlaceholder($event)">
+        <img [src]="showNewPassword ? '/assets/images/show-password.png' : '/assets/images/hide-password.png'"
+          alt="Toggle Password Visibility" class="toggle-password" (click)="togglePasswordVisibility('newPassword')">
+      </div>
+    </div>
+
+    <div class="textboxname">
+      <span>Confirm Password</span>
+      <div class="password-container">
+        <input formControlName="confirmPassword" class="textbox" [type]="showConfirmPassword ? 'text' : 'password'"
+          placeholder="Confirm Password" (focus)="clearText($event)" (blur)="resetPlaceholder($event)">
+        <img [src]="showConfirmPassword ? '/assets/images/show-password.png' : '/assets/images/hide-password.png'"
+          alt="Toggle Password Visibility" class="toggle-password"
+          (click)="togglePasswordVisibility('confirmPassword')">
+      </div>
+    </div>
+  </div>
+
+  <div class="button-container">
+    <button class="btn-clear" (click)="onClear()">Clear</button>
+    <button class="btn-submit" (click)="onSubmit()">Submit</button>
+  </div>
 </form>
-
-
-
-  

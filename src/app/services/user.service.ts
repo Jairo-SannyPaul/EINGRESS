@@ -11,31 +11,55 @@ import { environment } from '../environments/environment.prod';
 })
 export class UserService {
   private apiUrl = `${environment.baseURL}api/users`;
-
+  private mailerapiUrl = `${environment.baseURL}api/mailer`;
+  currentUserId!: number;
   constructor(private http: HttpClient) { }
 
-  getUser(): Observable<User[]> {
-    const getUserUrl = `${this.apiUrl}/current-user`; // Corrected URL
-    return this.http.get<User[]>(getUserUrl);
+  getUser(): Observable<User> {
+    const userUrl = `${this.apiUrl}/${this.getUserId()}`; // Adjust endpoint as necessary
+    return this.http.get<User>(userUrl);
   }
 
-  addUser(user: User): Observable<User[]>{
+  getUserById(id: number): Observable<User> {
+    const userUrl = `${this.apiUrl}/${id}`; // Adjust endpoint as necessary
+    return this.http.get<User>(userUrl);
+  }
+
+  addUser(user: User): Observable<User[]> {
     return this.http.post<User[]>(this.apiUrl, user);
   }
 
-  //TRY AND ERROR
-  updateUser(id: number, user: { username: string; password: string }): Observable<any> {
+  // Add method to validate old password
+  validateOldPassword(userId: number, oldPassword: string): Observable<boolean> {
+    const validateUrl = `${this.apiUrl}/validate-old-password`;
+    return this.http.post<boolean>(validateUrl, { userId, oldPassword });
+  }
+
+  updateUser(id: number, user: { username: string; email: string; password?: string }): Observable<{ message: string; user: User }> {
     const updateUrl = `${this.apiUrl}/${id}`;
-    return this.http.put<any>(updateUrl, user);
+    return this.http.put<{ message: string; user: User }>(updateUrl, user);
   }
   
-
-  loginUser(credentials: {username: string, password: string}): Observable<any> { 
+  loginUser(credentials: { username: string, password: string }): Observable<any> {
     const loginUrl = `${this.apiUrl}/login`;
     return this.http.post<any>(loginUrl, credentials);
   }
 
-  logoutUser(){
+  logoutUser() {
     localStorage.removeItem('token');
   }
+
+  private getUserId(): number {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    this.currentUserId = user.id;
+    return this.currentUserId;
+  }
+
+  sendOtp() {
+  }
+
+  sendVerificationEmail(data: { name: string; address: string; verification_otp: string }): Observable<any> {
+    return this.http.post(`${this.mailerapiUrl}/send-verification`, data);
+  }
+
 }

@@ -155,6 +155,36 @@ verifyCode(): void {
   }, 1000);
 }
 
+  
+  submitCredentials() {
+    if (this.form.invalid) {
+      this.dialogService.openAlertDialog('Please fill in all credentials');
+      return;
+    }
+  
+    const { username, password } = this.form.getRawValue();
+  
+    this.userService.loginUser({ username, password }).subscribe({
+      next: (response: any) => {
+        // Extract token and user details from the response
+        const token = response.access_token.token;
+        const user = response.access_token.user;
+  
+        // Store the token and user details in localStorage
+        localStorage.setItem('token', token);
+        localStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem('username', username);  // Optionally store username if needed
+  
+        // Navigate to the main page
+        this.router.navigateByUrl('/main');
+      },
+      error: (error) => {
+        this.dialogService.openAlertDialog('Invalid User please try again!');
+        console.error(error); 
+      }
+    });
+  }
+  
 
   // Method to toggle password visibility
   togglePasswordVisibility(): void {
@@ -179,5 +209,12 @@ verifyCode(): void {
     } else {
       this.setLabelPosition(controlName, true);  // Keep the label up if there's a value
     }
+  }
+
+ 
+  sendResetPassword(){
+    mail: String;
+
+
   }
 }
