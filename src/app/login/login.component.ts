@@ -17,6 +17,8 @@ export class LoginComponent implements OnInit {
   isLoading = false;
   isForgotPassword = false;
   isVerification = false;
+  isResetPassword = false;
+  censoredEmail: string = "a***n@j*******t.com";
 
   constructor(
     private formBuilder: FormBuilder,
@@ -28,6 +30,8 @@ export class LoginComponent implements OnInit {
     this.form = this.formBuilder.group({
       username: ['', Validators.required],
       password: ['', Validators.required],
+      newPassword: [''], // Add this for reset password
+      confirmPassword: [''], // Add this for reset password
       code1: [''],
       code2: [''],
       code3: [''],
@@ -42,11 +46,59 @@ export class LoginComponent implements OnInit {
     this.checkInputValues();
   }
 
+  handleButtonClick(): void {
+    if (this.isResetPassword) {
+      this.resetPassword();
+    } else if (this.isVerification) {
+      this.verifyCode();
+    } else if (this.isForgotPassword) {
+      this.sendRequest();
+    } else {
+      this.submitCredentials();
+    }
+  }
+
+  getButtonText(): string {
+    if (this.isResetPassword) {
+      return 'Reset Password';
+    } else if (this.isForgotPassword) {
+      return this.isLoading ? 'Sending Request...' : 'Send Request';
+    } else if (this.isVerification) {
+      return 'Verify';
+    } else {
+      return this.isLoading ? 'Logging in...' : 'Login';
+    }
+  }
+
   toggleBackToLogin() {
     this.isForgotPassword = false;
     this.isVerification = false;
+    this.isResetPassword = false;
+    this.errorMessage = null;
     this.errorMessage = '';
     this.form.reset();
+  }
+
+  toggleVerification() {
+    this.isVerification = true;
+  }
+
+  toggleResetPassword() {
+    this.isVerification = false;
+    this.isResetPassword = true;
+  }
+
+  resetPassword() {
+    if (this.form.valid) {
+      // Handle reset password logic
+      this.isLoading = true;
+      console.log('succes')
+      // Simulate HTTP request
+      setTimeout(() => {
+        this.isLoading = false;
+        // Handle response
+      }, 2000);
+    }
   }
 
   // Check the input values to position labels correctly
@@ -64,6 +116,8 @@ export class LoginComponent implements OnInit {
 
   toggleForgotPassword() {
     this.isForgotPassword = !this.isForgotPassword;
+    this.isVerification = false;
+    this.isResetPassword = false;
     this.errorMessage = null;
     if (this.isForgotPassword) {
       this.form.reset(); // Reset form when switching to forgot password mode
@@ -147,41 +201,54 @@ export class LoginComponent implements OnInit {
     console.log("Send Reset OTP frontend: ", email);
     this.isLoading = true;  // Start loading
 
-    this.userService.sendResetOtp({ email }).subscribe({
-      next: (response: any) => {
-        if (response.error) {
-          // If user not found or any other error is returned from the backend
-          this.errorMessage = response.error;
-          console.log('Error response:', response.error);
-        } else {
+    // this.userService.sendResetOtp({ email }).subscribe({
+    //   next: (response: any) => {
+    //     if (response.error) {
+    //       // If user not found or any other error is returned from the backend
+    //       this.errorMessage = response.error;
+    //       console.log('Error response:', response.error);
+    //     } else {
         
-          this.isLoading = false;  // Stop loading on success
+    //       this.isLoading = false;  // Stop loading on success
+    //       console.log("Sent Reset OTP to email: ", email)
+    //       setTimeout(() => {
+    //         this.isLoading = false;
+    //         this.isVerification = true; // Move to verification step after sending request
+    //       }, 1000);
+    //     }
+    //   },
+    //   error: (error) => {
+    //     this.errorMessage = error;  // User-friendly error message
+    //     console.error('Error response:', this.errorMessage);  // Log the full error response for debugging
+    //   },
+    //   complete: () => {
+    //     this.isLoading = false;  // Stop loading regardless of success or error
+    //   }
+    // });
+
+
+    // Routes to reset password 
+    this.isLoading = false;  // Stop loading on success
           console.log("Sent Reset OTP to email: ", email)
           setTimeout(() => {
             this.isLoading = false;
             this.isVerification = true; // Move to verification step after sending request
           }, 1000);
-        }
-      },
-      error: (error) => {
-        this.errorMessage = error;  // User-friendly error message
-        console.error('Error response:', this.errorMessage);  // Log the full error response for debugging
-      },
-      complete: () => {
-        this.isLoading = false;  // Stop loading regardless of success or error
-      }
-    });
   }
 
   verifyCode(): void {
-    // Handle verification logic here
-    const verificationCode = `${this.form.value.code1}${this.form.value.code2}${this.form.value.code3}${this.form.value.code4}${this.form.value.code5}${this.form.value.code6}`;
-    console.log('Verification Code:', verificationCode);
+     // Simulate verification process
+  this.isLoading = true;
+  this.isVerification = true;
+  setTimeout(() => {
+    this.isLoading = false;
 
-    // Simulate verification success
-    setTimeout(() => {
-      this.router.navigate(['/reset-password']); // Navigate to the reset password page
-    }, 1000);
-  }
+    // Assuming verification was successful, move to reset password state
+
+    this.isResetPassword = true; // Move to reset password state
+    console.log('Verification complete, transitioning to reset password state.');
+  }, 1000); // Simulated delay
+}
+
 
 }
