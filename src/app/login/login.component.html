@@ -99,6 +99,7 @@
                 alt="Email Icon">
             </div>
             
+            <!-- Password Field -->
             <div *ngIf="!isForgotPassword" class="relative flex items-center mb-[32px]" 
                   [ngStyle]="{
                     'border-bottom': errorMessage ? '2px solid #DB3956' : '2px solid #6E6E6E'}">
@@ -199,20 +200,19 @@
           </div>
     
           </div>
+          <!-- Button Function -->
           <button (click)="handleButtonClick()" 
-          [ngClass]="{
-                    'bg-[rgba(19,50,94,1)]': isButtonActive && !isLoading, 
-                    'bg-[rgba(19,50,94,0.6)]': !isButtonActive || isLoading
-                  }" 
-            class="w-full py-3 text-white rounded-lg font-semibold flex items-center justify-center"
-            [disabled]="isLoading">
-      <svg *ngIf="isLoading" class="animate-spin h-5 w-5 text-white mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-          <circle class="opacity-0" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-          <path class="opacity-100" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
-      </svg>
-      <span [ngStyle]="{'font-weight': '400', 'font-size': '15px', 'line-height': '22.5px'}">
-        {{ getButtonText() }}
-      </span>
+                  [ngClass]="{'bg-[rgba(19,50,94,1)]': isButtonActive && !isLoading, 
+                              'bg-[rgba(19,50,94,0.6)]': !isButtonActive || isLoading}" 
+                  class="w-full py-3 text-white rounded-lg font-semibold flex items-center justify-center"
+                  [disabled]="isLoading">
+            <svg *ngIf="isLoading" class="animate-spin h-5 w-5 text-white mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-0" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-100" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+            </svg>
+            <span [ngStyle]="{'font-weight': '400', 'font-size': '15px', 'line-height': '22.5px'}">
+              {{ getButtonText() }}
+            </span>
           </button>
 
 

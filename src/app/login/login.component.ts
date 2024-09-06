@@ -57,23 +57,24 @@ export class LoginComponent implements OnInit {
       this.submitCredentials();
     }
   }
-
+  
   getButtonText(): string {
+    // console.log(`isResetPassword: ${this.isResetPassword}`);
+    // console.log(`isForgotPassword: ${this.isForgotPassword}`);
+    // console.log(`isVerification: ${this.isVerification}`);
+    // console.log(`isLoading: ${this.isLoading}`);
+  
     if (this.isResetPassword) {
       return 'Reset Password';
+    } else if (this.isVerification) {
+      return this.isLoading ? 'Verifying...' : 'Verify';
     } else if (this.isForgotPassword) {
       return this.isLoading ? 'Sending Request...' : 'Send Request';
-    } else if (this.isVerification) {
-      return 'Verify';
     } else {
       return this.isLoading ? 'Logging in...' : 'Login';
     }
   }
   
-  
-
- 
-
   toggleBackToLogin() {
     this.isForgotPassword = false;
     this.isVerification = false;
@@ -81,15 +82,6 @@ export class LoginComponent implements OnInit {
     this.errorMessage = null;
     this.errorMessage = '';
     this.form.reset();
-  }
-
-  toggleVerification() {
-    this.isVerification = true;
-  }
-
-  toggleResetPassword() {
-    this.isVerification = false;
-    this.isResetPassword = true;
   }
 
   resetPassword() {
@@ -142,14 +134,16 @@ export class LoginComponent implements OnInit {
   }
 
   get isButtonActive(): boolean {
+    if (this.isResetPassword) {
+      return this.form.controls['newPassword'].value && this.form.controls['confirmPassword'].value;
+    }
     return this.form.controls['username'].value && this.form.controls['password'].value;
   }
 
   submitCredentials() {
     this.isLoading = false;
     if (this.form.invalid) {
-      this.dialogService.openAlertDialog('Please fill in all credentials');
-      this.errorMessage = 'Please fill in all credentials';
+      this.errorMessage = 'Your email or password was not recognized. Please try again.';
       return;
     }
 
@@ -175,19 +169,16 @@ export class LoginComponent implements OnInit {
     });
   }
 
-
   // Method to toggle password visibility
   togglePasswordVisibility(): void {
     this.showPassword = !this.showPassword;
   }
-
 
   // Method to clear the placeholder text when the input is focused
   clearText(event: FocusEvent): void {
     const target = event.target as HTMLInputElement;
     this.setLabelPosition(target.getAttribute('formControlName') || '', true);
   }
-
 
   resetPlaceholder(event: FocusEvent): void {
     const target = event.target as HTMLInputElement;
@@ -234,7 +225,6 @@ export class LoginComponent implements OnInit {
 
 
     // Routes to reset password 
-    this.isLoading = false;  // Stop loading on success
           console.log("Sent Reset OTP to email: ", email)
           setTimeout(() => {
             this.isLoading = false;
@@ -255,6 +245,5 @@ export class LoginComponent implements OnInit {
     console.log('Verification complete, transitioning to reset password state.');
   }, 1000); // Simulated delay
 }
-
 
 }
