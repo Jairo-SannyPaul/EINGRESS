@@ -58,7 +58,7 @@ export class UserService {
   sendOtp() {
   }
 
-  sendVerificationEmail(data: { name: string; address: string; verification_link: string }): Observable<any> {
+  sendVerificationEmail(data: { name: string; address: string; verification_otp: string }): Observable<any> {
     return this.http.post(`${this.mailerapiUrl}/send-verification`, data);
   }
 

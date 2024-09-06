@@ -150,8 +150,7 @@ export class AdminpopupComponent implements OnInit {
           const verificationData = {
             name: this.form.get('newusername')?.value,
             address: this.form.get('newEmail')?.value,
-            verification_link: response.user.verify_token, // Ensure verify_token is part of response
-            expiry_date: response.user.token_expiry // Ensure token_expiry is part of response
+            verification_otp: response.user.verify_otp, // Ensure verify_token is part of response
           };
   
           // Call send verification email
