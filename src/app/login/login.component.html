@@ -39,11 +39,11 @@
 
 <div class="relative h-screen w-full">
   <!-- Background Image -->
-  <div class="absolute left-0 top-0 bottom-0 w-1/2 bg-white">
+  <div class="absolute left-0 top-0 bottom-0 w-1/2 bg-[#EDF4FF]">
     <!-- Centering Container Inside White Background -->
     <div class="flex items-center justify-center h-full">
       <!-- Content -->
-      <div [ngClass]="{'h-[572px]': !isForgotPassword, 'h-[764px]': isForgotPassword}" class="absolute top-[120px] bg-white rounded-lg w-[512px] transition-all duration-300">
+      <div [ngClass]="{'h-[572px]': !isForgotPassword, 'h-[764px]': isForgotPassword}" class="absolute top-[120px] bg-[#EDF4FF] rounded-lg w-[512px] transition-all duration-300">
         <!-- Logo -->
         <div class="flex items-center mb-[126px]">
           <img src="/assets/images/jairo-logo.png" class="h-9" alt="Jairo Logo">
@@ -54,7 +54,9 @@
         <!-- Banner -->
         <div class="mb-[79px] text-left">
           <h2 *ngIf="!isForgotPassword" class="text-[#464646] text-2xl mb-[12px] font-semibold">Log in.</h2>
-          <h2 *ngIf="isForgotPassword" class="text-[#464646] text-2xl mb-[12px] font-semibold">Forgot Password?</h2>
+          <h2 *ngIf="isForgotPassword && !isVerification" class="text-[#464646] text-2xl mb-[12px] font-semibold">Forgot Password?</h2>
+          <h2 *ngIf="isVerification" class="text-[#464646] text-2xl mb-[12px] font-semibold">Enter your verification code!</h2>
+          
           <!-- Conditionally display error message or instructions -->
           <p *ngIf="errorMessage" class="text-[#DB3956] rounded relative">
             <span class="font-normal">Your email or password was not recognized.</span>
@@ -62,21 +64,22 @@
             <span class="block mt-2">Please try again.</span>
           </p>
           <p *ngIf="!errorMessage && !isForgotPassword" class="text-[#6E6E6E] text-sm">Log in with your data that you entered during registration.</p>
-          <p *ngIf="!errorMessage && isForgotPassword" class="text-[#6E6E6E] text-sm">Log in with your data that you entered during registration.</p>
+          <p *ngIf="!errorMessage && isForgotPassword && !isVerification" class="text-[#6E6E6E] text-sm">Please enter your email to reset your password.</p>
+          <p *ngIf="isVerification" class="text-[#6E6E6E] text-sm">We’ve sent the verification code to a***n@j*******t.com.</p>
         </div>
 
         <!-- Form -->
         <form [formGroup]="form" class="space-y-10">
           <div class="space-y-12">
             <!-- Username Field -->
-            <div *ngIf="isForgotPassword || !isForgotPassword" class="relative flex items-center mb-[32px]" 
+            <div *ngIf="!isVerification && (isForgotPassword || !isForgotPassword)" class="relative flex items-center mb-[32px]" 
                   [ngStyle]="{
                     'border-bottom': errorMessage ? '2px solid #DB3956' : '2px solid #6E6E6E'
                     }">
               <input 
                 formControlName="username" 
                 id="username" 
-                class="peer bg-white text-[#6E6E6E] h-[33px] w-full outline-none placeholder-transparent" 
+                class="peer bg-[#EDF4FF] text-[#6E6E6E] h-[33px] w-full outline-none placeholder-transparent" 
                 type="text" 
                 placeholder="Email" 
                 (focus)="clearText($event)" 
@@ -100,7 +103,7 @@
               <input 
                 formControlName="password" 
                 id="password" 
-                class="peer bg-white text-[#6E6E6E] h-[33px] w-full outline-none placeholder-transparent" 
+                class="peer bg-[#EDF4FF] text-[#6E6E6E] h-[33px] w-full outline-none placeholder-transparent" 
                 [type]="showPassword ? 'text' : 'password'" 
                 placeholder="Password" 
                 (focus)="clearText($event)" 
@@ -125,7 +128,17 @@
               <label for="remember" class="cursor-pointer text-[#6E6E6E]">Remember me</label>
               <label for="forgot" class="cursor-pointer text-[#1D32A3] absolute right-0 font-normal" (click)="toggleForgotPassword()">Forgot Password?</label>
             </div>
-            
+
+            <!-- Verification Code Fields -->
+          <div *ngIf="isVerification" class="flex justify-between space-x-4 mb-[32px]">
+            <input formControlName="code1" maxlength="1" class="h-[70px] w-[70px] bg-white text-center text-xl border border-gray-400 rounded-lg" type="text">
+            <input formControlName="code2" maxlength="1" class="h-[70px] w-[70px] bg-white text-center text-xl border border-gray-400 rounded-lg" type="text">
+            <input formControlName="code3" maxlength="1" class="h-[70px] w-[70px] bg-white text-center text-xl border border-gray-400 rounded-lg" type="text">
+            <input formControlName="code4" maxlength="1" class="h-[70px] w-[70px] bg-white text-center text-xl border border-gray-400 rounded-lg" type="text">
+            <input formControlName="code5" maxlength="1" class="h-[70px] w-[70px] bg-white text-center text-xl border border-gray-400 rounded-lg" type="text">
+            <input formControlName="code6" maxlength="1" class="h-[70px] w-[70px] bg-white text-center text-xl border border-gray-400 rounded-lg" type="text">
+          </div>
+    
           </div>
           <button (click)="isForgotPassword ? sendRequest() : submitCredentials()" 
                   [ngClass]="{'bg-[rgba(19,50,94,1)]': isButtonActive, 'bg-[rgba(19,50,94,0.6)]': !isButtonActive}" 
@@ -134,12 +147,15 @@
               <circle class="opacity-0" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
               <path class="opacity-100" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
             </svg>
-            <span [ngStyle]="{'font-weight': '400', 'font-size': '15px', 'line-height': '22.5px'}"> {{ isForgotPassword ? (isLoading ? 'Sending Request...' : 'Send Request') : (isLoading ? 'Logging in...' : 'Login') }}</span>
+            <span [ngStyle]="{'font-weight': '400', 'font-size': '15px', 'line-height': '22.5px'}"> 
+              {{ isVerification ? 'Verify' : (isForgotPassword ? (isLoading ? 'Sending Request...' : 'Send Request') : (isLoading ? 'Logging in...' : 'Login')) }}
+            </span>
           </button>
         </form> 
-        <div *ngIf="isForgotPassword" class="flex justify-center absolute bottom-4 w-full">
-          <a (click)="toggleForgotPassword()" class="absolute bottom-0 text-[#6E6E6E] cursor-pointer">Back to login</a>
-        </div>         
+        <!-- Back to Login Link -->
+        <div *ngIf="isForgotPassword || isVerification" class="flex justify-center absolute bottom-4 w-full">
+          <a (click)="toggleBackToLogin()" class="absolute bottom-4 text-[#6E6E6E] text-center cursor-pointer">Back to login</a>
+        </div>        
       </div>
     </div>
   </div>

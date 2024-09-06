@@ -16,6 +16,7 @@ export class LoginComponent implements OnInit {
   errorMessage: string | null = null;
   isLoading = false;
   isForgotPassword = false;
+  isVerification = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -26,7 +27,13 @@ export class LoginComponent implements OnInit {
   ) {
     this.form = this.formBuilder.group({
       username: ['', Validators.required],
-      password: ['', Validators.required]
+      password: ['', Validators.required],
+      code1: [''],
+      code2: [''],
+      code3: [''],
+      code4: [''],
+      code5: [''],
+      code6: ['']
     });
   }
 
@@ -41,6 +48,13 @@ export class LoginComponent implements OnInit {
     if (this.isForgotPassword) {
       this.form.reset(); // Reset form when switching to forgot password mode
     }
+  }
+
+  toggleBackToLogin() {
+    this.isForgotPassword = false;
+    this.isVerification = false;
+    this.errorMessage = '';
+    this.form.reset();
   }
 
   // Check the input values to position labels correctly
@@ -122,10 +136,24 @@ submitCredentials(): void {
 }
 
 sendRequest(): void {
-  console.log('working')
-
+  // Simulate request to send verification code
+  this.isLoading = true;
+  setTimeout(() => {
+    this.isLoading = false;
+    this.isVerification = true; // Move to verification step after sending request
+  }, 1000);
 }
 
+verifyCode(): void {
+  // Handle verification logic here
+  const verificationCode = `${this.form.value.code1}${this.form.value.code2}${this.form.value.code3}${this.form.value.code4}${this.form.value.code5}${this.form.value.code6}`;
+  console.log('Verification Code:', verificationCode);
+
+  // Simulate verification success
+  setTimeout(() => {
+    this.router.navigate(['/reset-password']); // Navigate to the reset password page
+  }, 1000);
+}
 
 
   // Method to toggle password visibility
