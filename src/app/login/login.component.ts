@@ -17,6 +17,7 @@ export class LoginComponent implements OnInit {
   isLoading = false;
   isForgotPassword = false;
   isVerification = false;
+  isResetPassword = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -28,6 +29,8 @@ export class LoginComponent implements OnInit {
     this.form = this.formBuilder.group({
       username: ['', Validators.required],
       password: ['', Validators.required],
+      newPassword: [''], // Add this for reset password
+      confirmPassword: [''], // Add this for reset password
       code1: [''],
       code2: [''],
       code3: [''],
@@ -42,19 +45,66 @@ export class LoginComponent implements OnInit {
     this.checkInputValues();
   }
 
+  handleButtonClick(): void {
+    if (this.isResetPassword) {
+      this.resetPassword();
+    } else if (this.isVerification) {
+      this.verifyCode();
+    } else if (this.isForgotPassword) {
+      this.sendRequest();
+    } else {
+      this.submitCredentials();
+    }
+  }
+
+  getButtonText(): string {
+    if (this.isResetPassword) {
+      return 'Reset Password';
+    } else if (this.isForgotPassword) {
+      return this.isLoading ? 'Sending Request...' : 'Send Request';
+    } else if (this.isVerification) {
+      return 'Verify';
+    } else {
+      return this.isLoading ? 'Logging in...' : 'Login';
+    }
+  }
+  
+  
+
   toggleForgotPassword() {
     this.isForgotPassword = !this.isForgotPassword;
+    this.isVerification = false;
+    this.isResetPassword = false;
     this.errorMessage = null;
-    if (this.isForgotPassword) {
-      this.form.reset(); // Reset form when switching to forgot password mode
-    }
   }
 
   toggleBackToLogin() {
     this.isForgotPassword = false;
     this.isVerification = false;
-    this.errorMessage = '';
-    this.form.reset();
+    this.isResetPassword = false;
+    this.errorMessage = null;
+  }
+
+  toggleVerification() {
+    this.isVerification = true;
+  }
+
+  toggleResetPassword() {
+    this.isVerification = false;
+    this.isResetPassword = true;
+  }
+
+  resetPassword() {
+    if (this.form.valid) {
+      // Handle reset password logic
+      this.isLoading = true;
+      console.log('succes')
+      // Simulate HTTP request
+      setTimeout(() => {
+        this.isLoading = false;
+        // Handle response
+      }, 2000);
+    }
   }
 
   // Check the input values to position labels correctly
@@ -135,6 +185,7 @@ submitCredentials(): void {
   });
 }
 
+
 sendRequest(): void {
   // Simulate request to send verification code
   this.isLoading = true;
@@ -145,16 +196,18 @@ sendRequest(): void {
 }
 
 verifyCode(): void {
-  // Handle verification logic here
-  const verificationCode = `${this.form.value.code1}${this.form.value.code2}${this.form.value.code3}${this.form.value.code4}${this.form.value.code5}${this.form.value.code6}`;
-  console.log('Verification Code:', verificationCode);
-
-  // Simulate verification success
+  // Simulate verification process
+  this.isLoading = true;
+  this.isVerification = true;
   setTimeout(() => {
-    this.router.navigate(['/reset-password']); // Navigate to the reset password page
-  }, 1000);
-}
+    this.isLoading = false;
 
+    // Assuming verification was successful, move to reset password state
+    
+    this.isResetPassword = true; // Move to reset password state
+    console.log('Verification complete, transitioning to reset password state.');
+  }, 1000); // Simulated delay
+}
 
   // Method to toggle password visibility
   togglePasswordVisibility(): void {
