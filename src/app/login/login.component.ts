@@ -11,6 +11,7 @@ import { DialogService } from '../services/dialog.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  verificationError: boolean = false;
   showPassword: boolean = false;
   form: FormGroup;
   errorMessage: string | null = null;
@@ -46,6 +47,24 @@ export class LoginComponent implements OnInit {
     this.checkInputValues();
   }
 
+  moveFocus(event: Event, nextField: HTMLInputElement | null, prevField: HTMLInputElement | null) {
+    const inputEvent = event as InputEvent;
+    const target = inputEvent.target as HTMLInputElement;
+  
+    const value = target.value;
+    const maxLength = target.maxLength;
+    
+    console.log(`Input Value: "${value}", Max Length: ${maxLength}, Event Type: ${inputEvent.inputType}`);
+  
+    if (value.length >= maxLength && nextField) {
+      setTimeout(() => nextField.focus(), 0);
+    } else if (value.length === 0 && prevField) {
+      setTimeout(() => prevField.focus(), 0);
+    } else if (inputEvent.inputType === 'deleteContentBackward' && prevField) {
+      setTimeout(() => prevField.focus(), 0);
+    }
+  }
+
   handleButtonClick(): void {
     if (this.isResetPassword) {
       this.resetPassword();
@@ -79,6 +98,7 @@ export class LoginComponent implements OnInit {
     this.isForgotPassword = false;
     this.isVerification = false;
     this.isResetPassword = false;
+    this.verificationError = false;
     this.errorMessage = null;
     this.errorMessage = '';
     this.form.reset();
@@ -163,6 +183,7 @@ export class LoginComponent implements OnInit {
         this.errorMessage = null;
       },
       error: (error) => {
+        this.isLoading = false;
         this.errorMessage = 'Your email or password was not recognized. Please try again.';
         console.error(error);
       }
@@ -232,18 +253,29 @@ export class LoginComponent implements OnInit {
           }, 1000);
   }
 
-  verifyCode(): void {
-     // Simulate verification process
+verifyCode(): void {
   this.isLoading = true;
-  this.isVerification = true;
+  this.verificationError = false; // Reset error state
+
+  const code = `${this.form.value.code1}${this.form.value.code2}${this.form.value.code3}${this.form.value.code4}${this.form.value.code5}${this.form.value.code6}`;
+
   setTimeout(() => {
     this.isLoading = false;
 
-    // Assuming verification was successful, move to reset password state
-
-    this.isResetPassword = true; // Move to reset password state
-    console.log('Verification complete, transitioning to reset password state.');
-  }, 1000); // Simulated delay
+    // Simulate verification logic
+    if (code === "123456") {  // Replace with actual verification logic
+      this.isResetPassword = true;
+      console.log('Verification complete, transitioning to reset password state.');
+    } else {
+      this.verificationError = true;  // Trigger the red border if the code is incorrect
+    }
+  }, 1000);
 }
+
+sendNewCode() {
+// Add your logic to send a new code
+console.log("Sending new verification code...");
+}
+
 
 }
