@@ -40,7 +40,7 @@ export class UserService {
     return this.http.put<{ message: string; user: User }>(updateUrl, user);
   }
   
-  loginUser(credentials: { username: string, password: string }): Observable<any> {
+  loginUser(credentials: { email: string, password: string }): Observable<any> {
     const loginUrl = `${this.apiUrl}/login`;
     return this.http.post<any>(loginUrl, credentials);
   }

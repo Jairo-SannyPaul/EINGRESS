@@ -79,8 +79,8 @@
                     'border-bottom': errorMessage ? '2px solid #DB3956' : '2px solid #6E6E6E'
                     }">
               <input 
-                formControlName="username" 
-                id="username" 
+                formControlName="email" 
+                id="email" 
                 class="peer bg-[#EDF4FF] text-[#6E6E6E] h-[33px] w-full outline-none placeholder-transparent" 
                 type="text" 
                 placeholder="Email" 
@@ -88,9 +88,9 @@
                 (blur)="resetPlaceholder($event)" 
                 required>
               <label 
-                for="username" 
+                for="email" 
                 class="absolute text-[15px] top-1/2 transform -translate-y-1/2 text-[#6E6E6E] transition-all duration-300 peer-placeholder-shown:text-[#6E6E6E] peer-focus:-top-5 peer-focus:text-[#6E6E6E]"
-                [class.-top-5]="form.controls['username'].value">
+                [class.-top-5]="form.controls['email'].value">
                 Email
               </label>
               <img 

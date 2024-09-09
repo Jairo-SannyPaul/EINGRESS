@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
     private dialogService: DialogService
   ) {
     this.form = this.formBuilder.group({
-      username: ['', Validators.required],
+      email: ['', Validators.required],
       password: ['', Validators.required],
       newPassword: [''], // Add this for reset password
       confirmPassword: [''], // Add this for reset password
@@ -114,11 +114,11 @@ export class LoginComponent implements OnInit {
 
   // Check the input values to position labels correctly
   checkInputValues(): void {
-    const usernameInput = this.form.controls['username'].value;
+    const emailInput = this.form.controls['email'].value;
     const passwordInput = this.form.controls['password'].value;
 
-    if (usernameInput) {
-      this.setLabelPosition('username', true);
+    if (emailInput) {
+      this.setLabelPosition('email', true);
     }
     if (passwordInput) {
       this.setLabelPosition('password', true);
@@ -149,7 +149,7 @@ export class LoginComponent implements OnInit {
   }
 
   get isButtonActive(): boolean {
-    return this.form.controls['username'].value && this.form.controls['password'].value;
+    return this.form.controls['email'].value && this.form.controls['password'].value;
   }
 
   submitCredentials() {
@@ -160,15 +160,15 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    const { username, password } = this.form.getRawValue();
-    this.userService.loginUser({ username, password }).subscribe({
+    const { email, password } = this.form.getRawValue();
+    this.userService.loginUser({ email, password }).subscribe({
       next: (response: any) => {
         // Extract token and user details from the response
         const token = response.access_token.token;
         const user = response.access_token.user;
         localStorage.setItem('token', token);
         localStorage.setItem('user', JSON.stringify(user));
-        localStorage.setItem('username', username);  // Optionally store username if needed
+        localStorage.setItem('email', email);  // Optionally store username if needed
         this.router.navigateByUrl('/main');
         this.isLoading = false; // Stop loading
         this.errorMessage = null;
@@ -208,8 +208,8 @@ export class LoginComponent implements OnInit {
   }
 
   sendRequest(): void {
-    this.resetEmail = this.form.get('username')?.value;
-    const email = this.form.get('username')?.value;
+    this.resetEmail = this.form.get('email')?.value;
+    const email = this.form.get('email')?.value;
     console.log("Send Reset OTP frontend: ", email);
     this.isLoading = true;  // Start loading
 
