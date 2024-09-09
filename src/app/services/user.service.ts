@@ -35,7 +35,7 @@ export class UserService {
     return this.http.post<boolean>(validateUrl, { userId, oldPassword });
   }
 
-  updateUser(id: number, user: { username: string; email: string; password?: string }): Observable<{ message: string; user: User }> {
+  updateUser(id: number, user: { username?: string; email?: string; password?: string }): Observable<{ message: string; user: User }> {
     const updateUrl = `${this.apiUrl}/${id}`;
     return this.http.put<{ message: string; user: User }>(updateUrl, user);
   }
@@ -63,5 +63,11 @@ export class UserService {
   sendVerificationEmail(data: { name: string; address: string; verification_otp: string }): Observable<any> {
     return this.http.post(`${this.mailerapiUrl}/send-verification`, data);
   }
+
+  validateResetOtp(resetOtpPayload: {email: string, otp: string}): Observable<any> { 
+    const resetOtpUrl = `${this.apiUrl}/validate-ResetOtp`;
+    return this.http.post<any>(resetOtpUrl, resetOtpPayload);
+  }
+
 
 }
