@@ -155,29 +155,31 @@ export class LoginComponent implements OnInit {
   submitCredentials() {
     this.isLoading = false;
     if (this.form.invalid) {
-      this.dialogService.openAlertDialog('Please fill in all credentials');
       this.errorMessage = 'Please fill in all credentials';
       return;
     }
+    else{
+      const { email, password } = this.form.getRawValue();
+      this.userService.loginUser({ email, password }).subscribe({
+        next: (response: any) => {
+          // Extract token and user details from the response
+          const token = response.access_token.token;
+          const user = response.access_token.user;
+          localStorage.setItem('token', token);
+          localStorage.setItem('user', JSON.stringify(user));
+          localStorage.setItem('email', email);  // Optionally store username if needed
+          this.router.navigateByUrl('/main');
+          this.isLoading = false; // Stop loading
+          this.errorMessage = null;
+        },
+        error: (error) => {
+          this.errorMessage = 'Your email or password was not recognized. Please try again.';
+          console.error(error);
+        }
+      });
+    }
 
-    const { email, password } = this.form.getRawValue();
-    this.userService.loginUser({ email, password }).subscribe({
-      next: (response: any) => {
-        // Extract token and user details from the response
-        const token = response.access_token.token;
-        const user = response.access_token.user;
-        localStorage.setItem('token', token);
-        localStorage.setItem('user', JSON.stringify(user));
-        localStorage.setItem('email', email);  // Optionally store username if needed
-        this.router.navigateByUrl('/main');
-        this.isLoading = false; // Stop loading
-        this.errorMessage = null;
-      },
-      error: (error) => {
-        this.errorMessage = 'Your email or password was not recognized. Please try again.';
-        console.error(error);
-      }
-    });
+   
   }
 
 
@@ -213,41 +215,41 @@ export class LoginComponent implements OnInit {
     console.log("Send Reset OTP frontend: ", email);
     this.isLoading = true;  // Start loading
 
-    // this.userService.sendResetOtp({ email }).subscribe({
-    //   next: (response: any) => {
-    //     if (response.error) {
-    //       // If user not found or any other error is returned from the backend
-    //       this.errorMessage = response.error;
-    //       console.log('Error response:', response.error);
-    //     } else {
+    this.userService.sendResetOtp({ email }).subscribe({
+      next: (response: any) => {
+        if (response.error) {
+          // If user not found or any other error is returned from the backend
+          this.errorMessage = response.error;
+          console.log('Error response:', response.error);
+        } else {
         
-    //       this.isLoading = false;  // Stop loading on success
-    //       console.log("Sent Reset OTP to email: ", email)
-    //       setTimeout(() => {
-    //         this.isLoading = false;
-    //         this.isVerification = true; // Move to verification step after sending request
-    //         this.censoredEmail=this.censorEmail(this.resetEmail);
-    //       }, 1000);
-    //     }
-    //   },
-    //   error: (error) => {
-    //     this.errorMessage = error;  // User-friendly error message
-    //     console.error('Error response:', this.errorMessage);  // Log the full error response for debugging
-    //   },
-    //   complete: () => {
-    //     this.isLoading = false;  // Stop loading regardless of success or error
-    //   }
-    // });
-
-
-    // Routes to reset password 
-    this.isLoading = false;  // Stop loading on success
+          this.isLoading = false;  // Stop loading on success
           console.log("Sent Reset OTP to email: ", email)
           setTimeout(() => {
             this.isLoading = false;
             this.isVerification = true; // Move to verification step after sending request
             this.censoredEmail=this.censorEmail(this.resetEmail);
           }, 1000);
+        }
+      },
+      error: (error) => {
+        this.errorMessage = error;  // User-friendly error message
+        console.error('Error response:', this.errorMessage);  // Log the full error response for debugging
+      },
+      complete: () => {
+        this.isLoading = false;  // Stop loading regardless of success or error
+      }
+    });
+
+
+    // // Routes to reset password 
+    // this.isLoading = false;  // Stop loading on success
+    //       console.log("Sent Reset OTP to email: ", email)
+    //       setTimeout(() => {
+    //         this.isLoading = false;
+    //         this.isVerification = true; // Move to verification step after sending request
+    //         this.censoredEmail=this.censorEmail(this.resetEmail);
+    //       }, 1000);
   }
 
   censorEmail(email: string): string {
@@ -262,7 +264,7 @@ export class LoginComponent implements OnInit {
     this.isLoading = true;
     this.isVerification = true;
   
-    const otp = "123456";  // Test OTP
+    const otp = "681796";  // Test OTP
     // const otp = this.form.get('otp')?.value;  // Use actual OTP from form
     const email = this.resetEmail;
     console.log(email);
@@ -273,7 +275,12 @@ export class LoginComponent implements OnInit {
         if (response.message === "User not found") {  // Fixed comparison
           this.errorMessage = response.message;
           console.log('Error response:', response.message);
-        } else {
+        } 
+        else if(response.message === "OTP expired") {  // Fixed comparison
+          this.errorMessage = response.message;
+          console.log('Error response:', response.message);
+        } 
+        else {
           this.isLoading = false;  // Stop loading on success
           this.currentAdmin = response.id;
           console.log("Stored Admin ID: ", this.currentAdmin)

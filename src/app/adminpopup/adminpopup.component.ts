@@ -115,15 +115,14 @@ export class AdminpopupComponent implements OnInit {
   }
 
   onSubmit(): void {
+    const oldPass = this.form.get('oldPassword')?.value;
+    const newPass = this.form.get('newPassword')?.value;
+    const confirmPass = this.form.get('confirmPassword')?.value;
     if (this.form.invalid) {
       this.dialogService.openAlertDialog('Please fill in all required fields correctly.');
       return;
     }
-  
-    const oldPass = this.form.get('oldPassword')?.value;
-    const newPass = this.form.get('newPassword')?.value;
-    const confirmPass = this.form.get('confirmPassword')?.value;
-  
+
     if (newPass !== confirmPass) {
       this.dialogService.openAlertDialog('New password and confirmed password do not match.');
       return;
@@ -133,13 +132,23 @@ export class AdminpopupComponent implements OnInit {
       this.dialogService.openAlertDialog('Please enter your old password to update your password.');
       return;
     }
+
+    if (oldPass){
+    this.userService.validateOldPassword(this.currentAdmin, oldPass).subscribe({
+      next: (isValid) => {
+        if (!isValid) {
+          this.dialogService.openAlertDialog('Old password is incorrect.');
+          return;
+        }
   
-    const updateData = {
-      username: this.form.get('newusername')?.value,
-      email: this.form.get('newEmail')?.value,
-      password: newPass
-    };
+        // Prepare data for update
+        const updateData = {
+          username: this.form.get('newusername')?.value,
+          email: this.form.get('newEmail')?.value,
+          password: newPass
+        };
   
+        
     this.userService.updateUser(this.currentAdmin, updateData).subscribe({
       next: (response) => {
         if (response.message === 'User updated successfully with new email') {
@@ -171,9 +180,26 @@ export class AdminpopupComponent implements OnInit {
         this.dialogService.openAlertDialog('Error updating profile.');
       }
     });
-  }
-  
-  
-  
+      },
+      error: (error) => {
+        this.dialogService.openAlertDialog('Error validating old password.');
+      }
+    });
+  }else {
+    const updateData = {
+      username: this.form.get('newusername')?.value,
+      email: this.form.get('newEmail')?.value
+    };
 
+    // Call the update service without updating the password
+    this.userService.updateUser(this.currentAdmin, updateData).subscribe({
+      next: (response) => {
+        this.dialogService.openSuccessDialog('Profile updated successfully!');
+      },
+      error: (error) => {
+        this.dialogService.openAlertDialog('Error updating profile.');
+      }
+    });
+  }
+  }
 }
