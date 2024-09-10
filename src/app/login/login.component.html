@@ -192,17 +192,53 @@
            <!-- Verification Code Fields -->
            <div *ngIf="isVerification && !isResetPassword" class="flex justify-between space-x-4">
             <!-- Verification Code Fields -->
-            <input #code1 formControlName="code1" maxlength="1" class="h-[70px] w-[70px] font-semibold bg-white text-center text-3xl text-[#13325E] border" type="text" (input)="moveFocus($event, code2, null)">
-            <input #code2 formControlName="code2" maxlength="1" class="h-[70px] w-[70px] font-semibold bg-white text-center text-3xl text-[#13325E] border" type="text" (input)="moveFocus($event, code3, code1)">
-            <input #code3 formControlName="code3" maxlength="1" class="h-[70px] w-[70px] font-semibold bg-white text-center text-3xl text-[#13325E] border" type="text" (input)="moveFocus($event, code4, code2)">
-            <input #code4 formControlName="code4" maxlength="1" class="h-[70px] w-[70px] font-semibold bg-white text-center text-3xl text-[#13325E] border" type="text" (input)="moveFocus($event, code5, code3)">
-            <input #code5 formControlName="code5" maxlength="1" class="h-[70px] w-[70px] font-semibold bg-white text-center text-3xl text-[#13325E] border" type="text" (input)="moveFocus($event, code6, code4)">
-            <input #code6 formControlName="code6" maxlength="1" class="h-[70px] w-[70px] font-semibold bg-white text-center text-3xl text-[#13325E] border" type="text" (input)="moveFocus($event, null, code5)">
-          </div>
+            <input #code1 
+                   formControlName="code1" 
+                   maxlength="1" 
+                   class="h-[70px] w-[70px] font-semibold bg-white text-center text-3xl text-[#13325E] border"
+                   [ngClass]="{'outline outline-2 outline-[#DB3956]': verificationError}" 
+                   type="text" 
+                   (input)="moveFocus($event, code2, null)">
+            <input #code2 
+                   formControlName="code2" 
+                   maxlength="1" 
+                   class="h-[70px] w-[70px] font-semibold bg-white text-center text-3xl text-[#13325E] border"
+                   [ngClass]="{'outline outline-2 outline-[#DB3956]': verificationError}" 
+                   type="text" 
+                   (input)="moveFocus($event, code3, code1)">
+            <input #code3 
+                   formControlName="code3" 
+                   maxlength="1" 
+                   class="h-[70px] w-[70px] font-semibold bg-white text-center text-3xl text-[#13325E] border"
+                   [ngClass]="{'outline outline-2 outline-[#DB3956]': verificationError}" 
+                   type="text" 
+                   (input)="moveFocus($event, code4, code2)">
+            <input #code4 
+                   formControlName="code4" 
+                   maxlength="1" 
+                   class="h-[70px] w-[70px] font-semibold bg-white text-center text-3xl text-[#13325E] border"
+                   [ngClass]="{'outline outline-2 outline-[#DB3956]': verificationError}" 
+                   type="text" 
+                   (input)="moveFocus($event, code5, code3)">
+            <input #code5 
+                   formControlName="code5" 
+                   maxlength="1" 
+                   class="h-[70px] w-[70px] font-semibold bg-white text-center text-3xl text-[#13325E] border"
+                   [ngClass]="{'outline outline-2 outline-[#DB3956]': verificationError}" 
+                   type="text" 
+                   (input)="moveFocus($event, code6, code4)">
+            <input #code6 
+                   formControlName="code6" 
+                   maxlength="1" 
+                   class="h-[70px] w-[70px] font-semibold bg-white text-center text-3xl text-[#13325E] border"
+                   [ngClass]="{'outline outline-2 outline-[#DB3956]': verificationError}" 
+                   type="text" 
+                   (input)="moveFocus($event, null, code5)">
+          </div>          
           
           <!-- Error message for invalid verification code -->
           <div *ngIf="verificationError" class="relative mb-4">
-            <div class="text-red-500 text-left">
+          <div class="text-[#DB3956] text-left">
               Verification code not valid!
             </div>
             <button (click)="sendNewCode()" class="absolute right-0 top-0 text-[#6E6E6E]">Send new code</button>

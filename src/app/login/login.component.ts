@@ -54,7 +54,7 @@ export class LoginComponent implements OnInit {
     const value = target.value;
     const maxLength = target.maxLength;
     
-    console.log(`Input Value: "${value}", Max Length: ${maxLength}, Event Type: ${inputEvent.inputType}`);
+    // console.log(`Input Value: "${value}", Max Length: ${maxLength}, Event Type: ${inputEvent.inputType}`);
   
     if (value.length >= maxLength && nextField) {
       setTimeout(() => nextField.focus(), 0);
@@ -264,6 +264,7 @@ verifyCode(): void {
 
     // Simulate verification logic
     if (code === "123456") {  // Replace with actual verification logic
+      console.log(code);
       this.isResetPassword = true;
       console.log('Verification complete, transitioning to reset password state.');
     } else {
