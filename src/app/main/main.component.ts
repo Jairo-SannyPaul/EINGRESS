@@ -9,10 +9,10 @@ import { User } from '../interface/user.interface';
 })
 export class MainComponent{
 
-  private user: User[] = [];
+  private users: User[] = [];
   isNavbarLocked: boolean = false;
   username: string = '';
-
+  user!: User;
   constructor (
     private userService: UserService
   ){
@@ -20,13 +20,21 @@ export class MainComponent{
 
   ngOnInit(): void {
     this.username = localStorage.getItem('username') || 'Admin';
+    this.loadUser();
   }
 
-  loadUser(){
-    this.userService.getUser().subscribe((response: any) =>{
-      this.user = response.data;
-    })
+
+  loadUser(): void {
+    this.userService.getUser().subscribe({
+      next: (response: User) => {
+        this.user = response;
+      },
+      error: (err) => {
+        console.error('Failed to load user', err);
+      }
+    });
   }
+
   onLockStateChange(isLocked: boolean) {
     this.isNavbarLocked = isLocked;
   }

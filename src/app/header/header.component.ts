@@ -21,7 +21,7 @@ export class HeaderComponent implements OnInit {
   openDialog(): void {
     this.dialog.open(AdminpopupComponent, {
     width: '450px', 
-    height: '600px',
+    height: '700px',
     disableClose: false
     });
 
