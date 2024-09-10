@@ -11,6 +11,7 @@ import { DialogService } from '../services/dialog.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  verificationError: boolean = false;
   showPassword: boolean = false;
   form: FormGroup;
   errorMessage: string | null = null;
@@ -49,11 +50,21 @@ export class LoginComponent implements OnInit {
     this.checkInputValues();
   }
 
-  @HostListener('window:beforeunload', ['$event'])
-  unloadNotification($event: any): void {
-    if (this.isResetPassword && !this.successChangePass) {
-      // Prompt the user before closing
-      $event.returnValue = 'You have unsaved changes! Are you sure you want to leave?';
+  moveFocus(event: Event, nextField: HTMLInputElement | null, prevField: HTMLInputElement | null) {
+    const inputEvent = event as InputEvent;
+    const target = inputEvent.target as HTMLInputElement;
+  
+    const value = target.value;
+    const maxLength = target.maxLength;
+    
+    // console.log(`Input Value: "${value}", Max Length: ${maxLength}, Event Type: ${inputEvent.inputType}`);
+  
+    if (value.length >= maxLength && nextField) {
+      setTimeout(() => nextField.focus(), 0);
+    } else if (value.length === 0 && prevField) {
+      setTimeout(() => prevField.focus(), 0);
+    } else if (inputEvent.inputType === 'deleteContentBackward' && prevField) {
+      setTimeout(() => prevField.focus(), 0);
     }
   }
 
@@ -68,19 +79,24 @@ export class LoginComponent implements OnInit {
       this.submitCredentials();
     }
   }
-
+  
   getButtonText(): string {
+    // console.log(`isResetPassword: ${this.isResetPassword}`);
+    // console.log(`isForgotPassword: ${this.isForgotPassword}`);
+    // console.log(`isVerification: ${this.isVerification}`);
+    // console.log(`isLoading: ${this.isLoading}`);
+  
     if (this.isResetPassword) {
       return 'Reset Password';
+    } else if (this.isVerification) {
+      return this.isLoading ? 'Verifying...' : 'Verify';
     } else if (this.isForgotPassword) {
       return this.isLoading ? 'Sending Request...' : 'Send Request';
-    } else if (this.isVerification) {
-      return 'Verify';
     } else {
       return this.isLoading ? 'Logging in...' : 'Login';
     }
   }
-
+  
   toggleBackToLogin() {
     if (this.isResetPassword) {
       const confirmed = confirm("You are in the reset password process. Going back will discard all changes. Are you sure?");
@@ -92,6 +108,7 @@ export class LoginComponent implements OnInit {
     this.isForgotPassword = false;
     this.isVerification = false;
     this.isResetPassword = false;
+    this.verificationError = false;
     this.errorMessage = null;
     this.errorMessage = '';
     this.form.reset();
@@ -107,10 +124,6 @@ export class LoginComponent implements OnInit {
     this.isVerification = false;
     this.isResetPassword = true;
   }
-
-  
-
-
 
   // Check the input values to position labels correctly
   checkInputValues(): void {
@@ -149,6 +162,9 @@ export class LoginComponent implements OnInit {
   }
 
   get isButtonActive(): boolean {
+    if (this.isResetPassword) {
+      return this.form.controls['newPassword'].value && this.form.controls['confirmPassword'].value;
+    }
     return this.form.controls['email'].value && this.form.controls['password'].value;
   }
 
@@ -159,6 +175,7 @@ export class LoginComponent implements OnInit {
       return;
     }
     else{
+      this.isLoading = false;
       const { email, password } = this.form.getRawValue();
       this.userService.loginUser({ email, password }).subscribe({
         next: (response: any) => {
@@ -173,6 +190,7 @@ export class LoginComponent implements OnInit {
           this.errorMessage = null;
         },
         error: (error) => {
+          this.isLoading = false;
           this.errorMessage = 'Your email or password was not recognized. Please try again.';
           console.error(error);
         }
@@ -182,19 +200,16 @@ export class LoginComponent implements OnInit {
    
   }
 
-
   // Method to toggle password visibility
   togglePasswordVisibility(): void {
     this.showPassword = !this.showPassword;
   }
-
 
   // Method to clear the placeholder text when the input is focused
   clearText(event: FocusEvent): void {
     const target = event.target as HTMLInputElement;
     this.setLabelPosition(target.getAttribute('formControlName') || '', true);
   }
-
 
   resetPlaceholder(event: FocusEvent): void {
     const target = event.target as HTMLInputElement;
