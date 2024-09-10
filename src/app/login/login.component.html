@@ -239,7 +239,7 @@
           <div *ngIf="isVerification && !isResetPassword" class="relative flex justify-end items-center mb-4">
             <!-- Error message for invalid verification code aligned to the left -->
             <div *ngIf="verificationError" class="absolute left-0 text-[#DB3956]">
-              Verification code not valid!
+              {{verifyErrorMessage}}
             </div>
           
             <!-- Send new code button aligned to the right -->
