@@ -47,8 +47,8 @@
         <!-- Logo -->
         <div class="flex items-center mb-[126px]">
           <img src="/assets/images/jairo-logo.png" class="h-9" alt="Jairo Logo">
-          <p class="text-[#6E6E6E] text-sm ml-3 font-semibold text-[15px] leading-[22.5px] tracking-[20%]">J A I R O S O F T</p>
-          <p class="text-[#6E6E6E] text-sm ml-3 font-semibold text-[15px] leading-[22.5px] tracking-[20%]">E I N G R E S S</p>
+          <p class="text-[#6E6E6E] text-sm ml-3 font-semibold text-[20px] leading-[30px] tracking-[20%]">J A I R O S O F T</p>
+          <p class="text-[#6E6E6E] text-sm ml-3 font-semibold text-[20px] leading-[30px] tracking-[20%]">E I N G R E S S</p>
         </div>
 
         <!-- Banner -->
@@ -236,13 +236,19 @@
                    (input)="moveFocus($event, null, code5)">
           </div>          
           
-          <!-- Error message for invalid verification code -->
-          <div *ngIf="verificationError" class="relative mb-4">
-          <div class="text-[#DB3956] text-left">
+          <div *ngIf="isVerification && !isResetPassword" class="relative flex justify-end items-center mb-4">
+            <!-- Error message for invalid verification code aligned to the left -->
+            <div *ngIf="verificationError" class="absolute left-0 text-[#DB3956]">
               Verification code not valid!
             </div>
-            <button (click)="sendNewCode()" class="absolute right-0 top-0 text-[#6E6E6E]">Send new code</button>
+          
+            <!-- Send new code button aligned to the right -->
+            <button (click)="sendNewCode()" class="text-[#6E6E6E]">
+              Send new code
+            </button>
           </div>
+          
+          
          
     
           </div>
