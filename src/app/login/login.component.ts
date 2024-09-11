@@ -15,6 +15,8 @@ import { takeUntil } from 'rxjs/operators';
 export class LoginComponent implements OnInit {
   verificationError: boolean = false;
   showPassword: boolean = false;
+  showNewPassword: boolean = false;
+  showConfirmPassword: boolean = false;
   form: FormGroup;
   errorMessage: string | null = null;
   isLoading = false;
@@ -105,11 +107,6 @@ export class LoginComponent implements OnInit {
   }
   
   getButtonText(): string {
-    // console.log(`isResetPassword: ${this.isResetPassword}`);
-    // console.log(`isForgotPassword: ${this.isForgotPassword}`);
-    // console.log(`isVerification: ${this.isVerification}`);
-    // console.log(`isLoading: ${this.isLoading}`);
-  
     if (this.isResetPassword) {
       return 'Reset Password';
     } else if (this.isVerification) {
@@ -236,10 +233,16 @@ export class LoginComponent implements OnInit {
   }
 
   // Method to toggle password visibility
-  togglePasswordVisibility(): void {
+  togglePasswordVisibility(field: string): void {
+    if (field === 'newPassword') {
+      this.showNewPassword = !this.showNewPassword;
+    } else if (field === 'confirmPassword') {
+      this.showConfirmPassword = !this.showConfirmPassword;
+    } else if (field === 'showPassword') {
     this.showPassword = !this.showPassword;
+    }
   }
-
+  
   // Method to clear the placeholder text when the input is focused
   clearText(event: FocusEvent): void {
     const target = event.target as HTMLInputElement;
@@ -266,7 +269,7 @@ export class LoginComponent implements OnInit {
     this.isLoading = true;  // Start loading
 
      // Start the timer
-     this.startTimer();
+     this.resetTimer();
 
     // this.userService.sendResetOtp({ email }).subscribe({
     //   next: (response: any) => {

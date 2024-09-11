@@ -122,65 +122,63 @@
                 class="absolute right-0 top-1/2 transform -translate-y-1/2 cursor-pointer" 
                 alt="Toggle Password Visibility" 
                 id="show-icon" 
-                (click)="togglePasswordVisibility()">
+                (click)="togglePasswordVisibility('showPassword')">
             </div>
 
               <!-- Reset Password Fields -->
-          <div *ngIf="isResetPassword" class="space-y-12">
-            <div class="relative flex items-center mb-[32px]" 
-                  [ngStyle]="{
-                    'border-bottom': errorMessage ? '2px solid #DB3956' : '2px solid #6E6E6E'
-                    }">
-              <input 
-                formControlName="newPassword" 
-                id="newPassword" 
-                class="peer bg-[#EDF4FF] text-[#6E6E6E] h-[33px] w-full outline-none placeholder-transparent" 
-                [type]="showPassword ? 'text' : 'password'" 
-                placeholder="New Password" 
-                (focus)="clearText($event)" 
-                (blur)="resetPlaceholder($event)" 
-                required>
-              <label 
-                for="newPassword" 
-                class="absolute text-[15px] top-1/2 transform -translate-y-1/2 text-[#6E6E6E] transition-all duration-300 peer-placeholder-shown:text-[#6E6E6E] peer-focus:-top-5 peer-focus:text-[#6E6E6E]"
-                [class.-top-5]="form.controls['newPassword'].value">
-                New Password
-              </label>
-              <img 
-                [src]="showPassword ? '/assets/images/unlock-icon.svg' : '/assets/images/Lock-icon.svg'" 
-                class="absolute right-0 top-1/2 transform -translate-y-1/2 cursor-pointer" 
-                alt="Toggle Password Visibility" 
-                id="show-icon" 
-                (click)="togglePasswordVisibility()">
-            </div>
-
-            <div class="relative flex items-center mb-[32px]" 
-                  [ngStyle]="{
-                    'border-bottom': errorMessage ? '2px solid #DB3956' : '2px solid #6E6E6E'
-                    }">
-              <input 
-                formControlName="confirmPassword" 
-                id="confirmPassword" 
-                class="peer bg-[#EDF4FF] text-[#6E6E6E] h-[33px] w-full outline-none placeholder-transparent" 
-                [type]="showPassword ? 'text' : 'password'" 
-                placeholder="Confirm Password" 
-                (focus)="clearText($event)" 
-                (blur)="resetPlaceholder($event)" 
-                required>
-              <label 
-                for="confirmPassword" 
-                class="absolute text-[15px] top-1/2 transform -translate-y-1/2 text-[#6E6E6E] transition-all duration-300 peer-placeholder-shown:text-[#6E6E6E] peer-focus:-top-5 peer-focus:text-[#6E6E6E]"
-                [class.-top-5]="form.controls['confirmPassword'].value">
-                Confirm Password
-              </label>
-              <img 
-                [src]="showPassword ? '/assets/images/unlock-icon.svg' : '/assets/images/Lock-icon.svg'" 
-                class="absolute right-0 top-1/2 transform -translate-y-1/2 cursor-pointer" 
-                alt="Toggle Password Visibility" 
-                id="show-icon" 
-                (click)="togglePasswordVisibility()">
-            </div>
-          </div>
+              <div *ngIf="isResetPassword" class="space-y-12">
+                <div class="relative flex items-center mb-[32px]" 
+                      [ngStyle]="{
+                        'border-bottom': errorMessage ? '2px solid #DB3956' : '2px solid #6E6E6E'
+                      }">
+                  <input 
+                    formControlName="newPassword" 
+                    id="newPassword" 
+                    class="peer bg-[#EDF4FF] text-[#6E6E6E] h-[33px] w-full outline-none placeholder-transparent" 
+                    [type]="showNewPassword ? 'text' : 'password'" 
+                    placeholder="New Password" 
+                    (focus)="clearText($event)" 
+                    (blur)="resetPlaceholder($event)" 
+                    required>
+                  <label 
+                    for="newPassword" 
+                    class="absolute text-[15px] top-1/2 transform -translate-y-1/2 text-[#6E6E6E] transition-all duration-300 peer-placeholder-shown:text-[#6E6E6E] peer-focus:-top-5 peer-focus:text-[#6E6E6E]"
+                    [class.-top-5]="form.controls['newPassword'].value">
+                    New Password
+                  </label>
+                  <img 
+                    [src]="showNewPassword ? '/assets/images/unlock-icon.svg' : '/assets/images/Lock-icon.svg'" 
+                    class="absolute right-0 top-1/2 transform -translate-y-1/2 cursor-pointer" 
+                    alt="Toggle Password Visibility" 
+                    (click)="togglePasswordVisibility('newPassword')">
+                </div>
+              
+                <div class="relative flex items-center mb-[32px]" 
+                      [ngStyle]="{
+                        'border-bottom': errorMessage ? '2px solid #DB3956' : '2px solid #6E6E6E'
+                      }">
+                  <input 
+                    formControlName="confirmPassword" 
+                    id="confirmPassword" 
+                    class="peer bg-[#EDF4FF] text-[#6E6E6E] h-[33px] w-full outline-none placeholder-transparent" 
+                    [type]="showConfirmPassword ? 'text' : 'password'" 
+                    placeholder="Confirm Password" 
+                    (focus)="clearText($event)" 
+                    (blur)="resetPlaceholder($event)" 
+                    required>
+                  <label 
+                    for="confirmPassword" 
+                    class="absolute text-[15px] top-1/2 transform -translate-y-1/2 text-[#6E6E6E] transition-all duration-300 peer-placeholder-shown:text-[#6E6E6E] peer-focus:-top-5 peer-focus:text-[#6E6E6E]"
+                    [class.-top-5]="form.controls['confirmPassword'].value">
+                    Confirm Password
+                  </label>
+                  <img 
+                    [src]="showConfirmPassword ? '/assets/images/unlock-icon.svg' : '/assets/images/Lock-icon.svg'" 
+                    class="absolute right-0 top-1/2 transform -translate-y-1/2 cursor-pointer" 
+                    alt="Toggle Password Visibility" 
+                    (click)="togglePasswordVisibility('confirmPassword')">
+                </div>
+              </div>
 
             <!-- Remember Me and Forgot Password -->
             <div *ngIf="!isForgotPassword" class="flex items-center text-sm text-white space-x-2 mb-[31px] mt-[32px]">
