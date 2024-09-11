@@ -69,7 +69,7 @@ export class LoginComponent implements OnInit {
 
   @HostListener('window:beforeunload', ['$event'])
   unloadNotification($event: any): void {
-    if (this.isResetPassword && !this.successChangePass) {
+    if (this.isResetPassword || this.isVerification) {
       // Prompt the user before closing
       $event.returnValue = 'You have unsaved changes! Are you sure you want to leave?';
     }
@@ -121,6 +121,12 @@ export class LoginComponent implements OnInit {
   toggleBackToLogin() {
     if (this.isResetPassword) {
       const confirmed = confirm("You are in the reset password process. Going back will discard all changes. Are you sure?");
+      if (!confirmed) {
+        return; // Stop if the user cancels the action
+      }
+    }
+    else if (this.isVerification) {
+      const confirmed = confirm("You are in the Reset OTP Verification Process. Going back will require to send Reset OTP again. Are you sure?");
       if (!confirmed) {
         return; // Stop if the user cancels the action
       }
@@ -202,13 +208,14 @@ export class LoginComponent implements OnInit {
   }
 
   submitCredentials() {
-    if (this.form.invalid) {
+    const { email, password } = this.form.getRawValue();
+    if (email === "" || password === "") {
       this.errorMessage = 'Please fill in all credentials';
       return;
     }
     else{
       this.isLoading = true;
-      const { email, password } = this.form.getRawValue();
+    
       this.userService.loginUser({ email, password }).subscribe({
         next: (response: any) => {
           // Extract token and user details from the response
@@ -271,40 +278,41 @@ export class LoginComponent implements OnInit {
      // Start the timer
      this.resetTimer();
 
-    // this.userService.sendResetOtp({ email }).subscribe({
-    //   next: (response: any) => {
-    //     if (response.error) {
-    //       // If user not found or any other error is returned from the backend
-    //       this.errorMessage = response.error;
-    //       console.log('Error response:', response.error);
-    //     } else {
+    this.userService.sendResetOtp({ email }).subscribe({
+      next: (response: any) => {
+        if (response.error) {
+          // If user not found or any other error is returned from the backend
+          this.errorMessage = response.error;
+          console.log('Error response:', response.error);
+        } else {
         
-    //       this.isLoading = false;  // Stop loading on success
+          this.isLoading = false;  // Stop loading on success
+          console.log("Sent Reset OTP to email: ", email)
+          this.errorMessage = null;
+          setTimeout(() => {
+            this.isLoading = false;
+            this.isVerification = true; // Move to verification step after sending request
+            this.censoredEmail=this.censorEmail(this.resetEmail);
+          }, 1000);
+        }
+      },
+      error: (error) => {
+        this.errorMessage = error;  // User-friendly error message
+        console.error('Error response:', this.errorMessage);  // Log the full error response for debugging
+      },
+      complete: () => {
+        this.isLoading = false;  // Stop loading regardless of success or error
+      }
+    });
+
+
+    // // Routes to reset password 
     //       console.log("Sent Reset OTP to email: ", email)
     //       setTimeout(() => {
     //         this.isLoading = false;
     //         this.isVerification = true; // Move to verification step after sending request
     //         this.censoredEmail=this.censorEmail(this.resetEmail);
     //       }, 1000);
-    //     }
-    //   },
-    //   error: (error) => {
-    //     this.errorMessage = error;  // User-friendly error message
-    //     console.error('Error response:', this.errorMessage);  // Log the full error response for debugging
-    //   },
-    //   complete: () => {
-    //     this.isLoading = false;  // Stop loading regardless of success or error
-    //   }
-    // });
-
-
-    // Routes to reset password 
-          console.log("Sent Reset OTP to email: ", email)
-          setTimeout(() => {
-            this.isLoading = false;
-            this.isVerification = true; // Move to verification step after sending request
-            this.censoredEmail=this.censorEmail(this.resetEmail);
-          }, 1000);
   }
 
   censorEmail(email: string): string {
@@ -329,105 +337,108 @@ export class LoginComponent implements OnInit {
 
     
 
-    // this.userService.validateResetOtp({ email, otp }).subscribe({
-    //   next: (response: any) => {
-    //     if (response.message === "User not found") {  // Fixed comparison
-    //       this.verifyErrorMessage = response.message;
-    //       this.verificationError = true;
-    //       console.log('Error response:', response.message);
-    //     } 
-    //     else if(response.message === "OTP expired") {  // Fixed comparison
-    //       this.verifyErrorMessage = "Verification code Expired!";
-    //       this.verificationError = true;
-    //       console.log('Error response:', response.message);
-    //     }
-    //     else if(response.message === "Invalid OTP") {  // Fixed comparison
-    //       this.verifyErrorMessage = "Verification code not valid!";
-    //       this.verificationError = true;
-    //       console.log('Error response:', response.message);
-    //     } 
-    //     else {
-    //       this.isLoading = true;
-    //       this.currentAdmin = response.id;
-    //       console.log("Stored Admin ID: ", this.currentAdmin)
-    //       setTimeout(() => {
-    //         this.isLoading = false;
-    //         this.isResetPassword = true;
-    //       }, 1000);
-    //     }
-    //   },
-    //   error: (error) => {
-    //     this.errorMessage = error?.error?.message || "An error occurred";  // User-friendly error message
-    //     console.error('Error response:', this.errorMessage);  // Log the full error response for debugging
-    //     this.isLoading = false;
-    //   },
-    //   complete: () => {
-    //     this.isLoading = false;  // Stop loading regardless of success or error
-    //   }
-    // });
-  
-  
-
-
-    setTimeout(() => {
-      this.isLoading = false;
-      // Simulate verification logic
-      if (otp === "123456") {  // Replace with actual verification logic
-        console.log(otp);
-        this.isResetPassword = true;
-        console.log('Verification complete, transitioning to reset password state.');
-      } else {
-        this.verificationError = true;  // Trigger the red border if the code is incorrect
-        this.verifyErrorMessage = 'Verification code not valid!';
+    this.userService.validateResetOtp({ email, otp }).subscribe({
+      next: (response: any) => {
+        if (response.message === "User not found") {  // Fixed comparison
+          this.verifyErrorMessage = response.message;
+          this.verificationError = true;
+          console.log('Error response:', response.message);
+        } 
+        else if(response.message === "OTP expired") {  // Fixed comparison
+          this.verifyErrorMessage = "Verification code Expired!";
+          this.verificationError = true;
+          console.log('Error response:', response.message);
+        }
+        else if(response.message === "Invalid OTP") {  // Fixed comparison
+          this.verifyErrorMessage = "Verification code not valid!";
+          this.verificationError = true;
+          console.log('Error response:', response.message);
+        } 
+        else {
+          this.isLoading = true;
+          this.currentAdmin = response.id;
+          console.log("Stored Admin ID: ", this.currentAdmin)
+          setTimeout(() => {
+            this.isLoading = false;
+            this.isResetPassword = true;
+          }, 1000);
+        }
+      },
+      error: (error) => {
+        this.errorMessage = error?.error?.message || "An error occurred";  // User-friendly error message
+        console.error('Error response:', this.errorMessage);  // Log the full error response for debugging
+        this.isLoading = false;
+      },
+      complete: () => {
+        this.isLoading = false;  // Stop loading regardless of success or error
       }
-    }, 1000);
+    });
+  
+  
+
+
+    // setTimeout(() => {
+    //   this.isLoading = false;
+    //   // Simulate verification logic
+    //   if (otp === "123456") {  // Replace with actual verification logic
+    //     console.log(otp);
+    //     this.isResetPassword = true;
+    //     console.log('Verification complete, transitioning to reset password state.');
+    //   } else {
+    //     this.verificationError = true;  // Trigger the red border if the code is incorrect
+    //     this.verifyErrorMessage = 'Verification code not valid!';
+    //   }
+    // }, 1000);
 }
 
 resetPassword() {
   this.isLoading = true;
 
-  setTimeout(() => {
-    // Reset state and display notification
-    this.isForgotPassword = false;
-    this.isVerification = false;
-    this.isResetPassword = false;
-    this.verificationError = false;
-    this.errorMessage = null;
-    this.form.reset();
-    this.isLoading = false;
-
-    this.isNotificationPopup = true;
-
-    // Hide notification after 5 seconds
-    setTimeout(() => {
-      this.isNotificationPopup = false;
-      this.router.navigate(['/login']);
-    }, 5000); // 5 seconds
-
-  }, 1000); // Simulate network delay
-
+  const confirmPass = this.form.get('confirmPassword')?.value
+  
   // UNCOMMENT THIS
-  // const updateData = {
-  //   username: this.form.get('newusername')?.value,
-  //   email: this.form.get('newEmail')?.value,
-  //   password: this.form.get('newPassword')?.value
-  // };
+  const updateData = {
+    username: this.form.get('newusername')?.value,
+    email: this.form.get('newEmail')?.value,
+    password: this.form.get('newPassword')?.value
+  };
 
-  // this.userService.updateUser(this.currentAdmin, updateData).subscribe({
-  //   next: (response) => {
-  //       this.isLoading = true;
-  //       console.log('Admin password updated');
-  //       this.successChangePass = true;
-  //       setTimeout(() => {
-  //             this.isLoading = false;
-  //             window.location.reload();
-  //           }, 2000);
-  //   },
-  //   error: (error) => {
-  //     console.error('Error updating profile:', error);
-  //     this.dialogService.openAlertDialog('Error updating profile.');
-  //   }
-  // });
+
+  if( updateData.password !== confirmPass){
+    this.errorMessage = "Passwords don't match";
+    this.isLoading = false;
+  }
+
+  else{
+  this.userService.updateUser(this.currentAdmin, updateData).subscribe({
+    next: (response) => {
+        this.isLoading = true;
+        console.log('Admin password updated');
+        this.successChangePass = true;
+        setTimeout(() => {
+          this.isForgotPassword = false;
+          this.isVerification = false;
+          this.isResetPassword = false;
+          this.verificationError = false;
+          this.errorMessage = null;
+          this.errorMessage = '';
+          this.form.reset();
+          this.isLoading = false;
+          // Reset state and display notification
+          this.isNotificationPopup = true;
+          // Hide notification after 5 seconds
+          setTimeout(() => {
+            this.isNotificationPopup = false;
+            this.router.navigate(['/login']);
+          }, 5000); // 5 seconds
+        }, 1000); // Simulate network delay
+    },
+    error: (error) => {
+      console.error('Error updating profile:', error);
+      this.isLoading = false;
+    }
+  });
+}
 
 }
 
@@ -440,6 +451,45 @@ sendNewCode() {
   // Reset and start the timer again
   this.resetTimer();
   this.verificationError = false;
+
+
+  this.resetEmail = this.form.get('email')?.value;
+  const email = this.form.get('email')?.value;
+  console.log("Send Reset OTP frontend: ", email);
+  this.isLoading = true;  // Start loading
+
+   // Start the timer
+   this.startTimer();
+
+  this.userService.sendResetOtp({ email }).subscribe({
+    next: (response: any) => {
+      if (response.error) {
+        // If user not found or any other error is returned from the backend
+        this.errorMessage = response.error;
+        console.log('Error response:', response.error);
+      } else {
+        this.isLoading = false;  // Stop loading on success
+        console.log("Sent Reset OTP to email: ", email)
+        this.errorMessage = null;
+        this.form.patchValue({
+          code1: '',
+          code2: '',
+          code3: '',
+          code4: '',
+          code5: '',
+          code6: ''
+        });
+      }
+    },
+    error: (error) => {
+      this.errorMessage = error;  // User-friendly error message
+      console.error('Error response:', this.errorMessage);  // Log the full error response for debugging
+    },
+    complete: () => {
+      this.isLoading = false;  // Stop loading regardless of success or error
+    }
+  });
+
 }
 
 get formattedTime(): string {
@@ -451,6 +501,7 @@ get formattedTime(): string {
 
 startTimer() {
   // Clear any existing timer interval
+  
   if (this.timerInterval) {
     clearInterval(this.timerInterval);
   }
@@ -460,9 +511,6 @@ startTimer() {
       this.timeLeft--;
     } else {
       clearInterval(this.timerInterval);
-      // Handle timer expiration if needed, e.g., show an error message
-      this.verificationError = true;
-      this.verifyErrorMessage = 'The verification time has expired. Please request a new code.';
     }
   }, 1000);
 }
@@ -480,7 +528,6 @@ handleTimerExpiration() {
   console.log("Timer expired");
   this.isVerification = false;
   this.isForgotPassword = true; // Optionally reset to forgot password state
-  this.errorMessage = "Verification code expired. Please request a new one.";
 }
 
 }
