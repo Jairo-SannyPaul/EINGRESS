@@ -1,9 +1,11 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../services/user.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogService } from '../services/dialog.service';
+import { interval, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -24,6 +26,11 @@ export class LoginComponent implements OnInit {
   currentAdmin!: number;
   successChangePass: boolean = false;
   verifyErrorMessage!: String;
+  isNotificationPopup = false;
+  timeLeft: number = 300; // 5 minutes in seconds
+  private destroy$ = new Subject<void>();
+  timerInterval: any;
+
 
   constructor(
     private formBuilder: FormBuilder,
@@ -51,9 +58,16 @@ export class LoginComponent implements OnInit {
     this.checkInputValues();
   }
 
+  ngOnDestroy() {
+    // Clear the interval when the component is destroyed to prevent memory leaks
+    if (this.timerInterval) {
+      clearInterval(this.timerInterval);
+    }
+  }
+
   @HostListener('window:beforeunload', ['$event'])
   unloadNotification($event: any): void {
-    if (this.isResetPassword && !this.successChangePass) {
+    if (this.isResetPassword || this.isVerification) {
       // Prompt the user before closing
       $event.returnValue = 'You have unsaved changes! Are you sure you want to leave?';
     }
@@ -110,6 +124,12 @@ export class LoginComponent implements OnInit {
   toggleBackToLogin() {
     if (this.isResetPassword) {
       const confirmed = confirm("You are in the reset password process. Going back will discard all changes. Are you sure?");
+      if (!confirmed) {
+        return; // Stop if the user cancels the action
+      }
+    }
+    else if (this.isVerification) {
+      const confirmed = confirm("You are in the Reset OTP Verification Process. Going back will require to send Reset OTP again. Are you sure?");
       if (!confirmed) {
         return; // Stop if the user cancels the action
       }
@@ -175,18 +195,30 @@ export class LoginComponent implements OnInit {
     if (this.isResetPassword) {
       return this.form.controls['newPassword'].value && this.form.controls['confirmPassword'].value;
     }
+    if (this.isForgotPassword) {
+      return this.form.controls['email'].value;
+    }
+    if (this.isVerification) {
+      // Ensure all code fields are filled for verification
+      return this.form.controls['code1'].value && 
+             this.form.controls['code2'].value &&
+             this.form.controls['code3'].value &&
+             this.form.controls['code4'].value &&
+             this.form.controls['code5'].value &&
+             this.form.controls['code6'].value;
+    }
     return this.form.controls['email'].value && this.form.controls['password'].value;
   }
 
   submitCredentials() {
-    this.isLoading = true;
-    if (this.form.invalid) {
+    const { email, password } = this.form.getRawValue();
+    if (email === "" || password === "") {
       this.errorMessage = 'Please fill in all credentials';
       return;
     }
     else{
-      this.isLoading = false;
-      const { email, password } = this.form.getRawValue();
+      this.isLoading = true;
+    
       this.userService.loginUser({ email, password }).subscribe({
         next: (response: any) => {
           // Extract token and user details from the response
@@ -240,41 +272,44 @@ export class LoginComponent implements OnInit {
     console.log("Send Reset OTP frontend: ", email);
     this.isLoading = true;  // Start loading
 
-    // this.userService.sendResetOtp({ email }).subscribe({
-    //   next: (response: any) => {
-    //     if (response.error) {
-    //       // If user not found or any other error is returned from the backend
-    //       this.errorMessage = response.error;
-    //       console.log('Error response:', response.error);
-    //     } else {
+     // Start the timer
+     this.startTimer();
+
+    this.userService.sendResetOtp({ email }).subscribe({
+      next: (response: any) => {
+        if (response.error) {
+          // If user not found or any other error is returned from the backend
+          this.errorMessage = response.error;
+          console.log('Error response:', response.error);
+        } else {
         
-    //       this.isLoading = false;  // Stop loading on success
+          this.isLoading = false;  // Stop loading on success
+          console.log("Sent Reset OTP to email: ", email)
+          this.errorMessage = null;
+          setTimeout(() => {
+            this.isLoading = false;
+            this.isVerification = true; // Move to verification step after sending request
+            this.censoredEmail=this.censorEmail(this.resetEmail);
+          }, 1000);
+        }
+      },
+      error: (error) => {
+        this.errorMessage = error;  // User-friendly error message
+        console.error('Error response:', this.errorMessage);  // Log the full error response for debugging
+      },
+      complete: () => {
+        this.isLoading = false;  // Stop loading regardless of success or error
+      }
+    });
+
+
+    // // Routes to reset password 
     //       console.log("Sent Reset OTP to email: ", email)
     //       setTimeout(() => {
     //         this.isLoading = false;
     //         this.isVerification = true; // Move to verification step after sending request
     //         this.censoredEmail=this.censorEmail(this.resetEmail);
     //       }, 1000);
-    //     }
-    //   },
-    //   error: (error) => {
-    //     this.errorMessage = error;  // User-friendly error message
-    //     console.error('Error response:', this.errorMessage);  // Log the full error response for debugging
-    //   },
-    //   complete: () => {
-    //     this.isLoading = false;  // Stop loading regardless of success or error
-    //   }
-    // });
-
-
-    // Routes to reset password 
-    this.isLoading = false;  // Stop loading on success
-          console.log("Sent Reset OTP to email: ", email)
-          setTimeout(() => {
-            this.isLoading = false;
-            this.isVerification = true; // Move to verification step after sending request
-            this.censoredEmail=this.censorEmail(this.resetEmail);
-          }, 1000);
   }
 
   censorEmail(email: string): string {
@@ -293,7 +328,11 @@ export class LoginComponent implements OnInit {
     const email = this.resetEmail;
     console.log(email);
     console.log("Validating OTP: ", otp, "From email: ", email);
+    
     this.verificationError = false; // Reset error state
+    this.verifyErrorMessage = '';
+
+    
 
     this.userService.validateResetOtp({ email, otp }).subscribe({
       next: (response: any) => {
@@ -338,42 +377,154 @@ export class LoginComponent implements OnInit {
     // setTimeout(() => {
     //   this.isLoading = false;
     //   // Simulate verification logic
-    //   if (code === "123456") {  // Replace with actual verification logic
-    //     console.log(code);
+    //   if (otp === "123456") {  // Replace with actual verification logic
+    //     console.log(otp);
     //     this.isResetPassword = true;
     //     console.log('Verification complete, transitioning to reset password state.');
     //   } else {
     //     this.verificationError = true;  // Trigger the red border if the code is incorrect
+    //     this.verifyErrorMessage = 'Verification code not valid!';
     //   }
     // }, 1000);
 }
 
 resetPassword() {
+  this.isLoading = true;
+
+  const confirmPass = this.form.get('confirmPassword')?.value
+  
+  // UNCOMMENT THIS
   const updateData = {
     username: this.form.get('newusername')?.value,
     email: this.form.get('newEmail')?.value,
     password: this.form.get('newPassword')?.value
   };
 
+
+  if( updateData.password !== confirmPass){
+    this.errorMessage = "Passwords don't match";
+    this.isLoading = false;
+  }
+
+  else{
   this.userService.updateUser(this.currentAdmin, updateData).subscribe({
     next: (response) => {
         this.isLoading = true;
         console.log('Admin password updated');
         this.successChangePass = true;
         setTimeout(() => {
-              this.isLoading = false;
-              window.location.reload();
-            }, 2000);
+          this.isForgotPassword = false;
+          this.isVerification = false;
+          this.isResetPassword = false;
+          this.verificationError = false;
+          this.errorMessage = null;
+          this.errorMessage = '';
+          this.form.reset();
+          this.isLoading = false;
+          // Reset state and display notification
+          this.isNotificationPopup = true;
+          // Hide notification after 5 seconds
+          setTimeout(() => {
+            this.isNotificationPopup = false;
+            this.router.navigate(['/login']);
+          }, 5000); // 5 seconds
+        }, 1000); // Simulate network delay
     },
     error: (error) => {
       console.error('Error updating profile:', error);
-      this.dialogService.openAlertDialog('Error updating profile.');
+      this.isLoading = false;
+    }
+  });
+}
+
+}
+
+closeNotification(): void {
+  this.isNotificationPopup = false;
+}
+
+sendNewCode() {
+  // Handle logic for sending a new code
+  // Reset and start the timer again
+  this.resetTimer();
+  this.verificationError = false;
+
+
+  this.resetEmail = this.form.get('email')?.value;
+  const email = this.form.get('email')?.value;
+  console.log("Send Reset OTP frontend: ", email);
+  this.isLoading = true;  // Start loading
+
+   // Start the timer
+   this.startTimer();
+
+  this.userService.sendResetOtp({ email }).subscribe({
+    next: (response: any) => {
+      if (response.error) {
+        // If user not found or any other error is returned from the backend
+        this.errorMessage = response.error;
+        console.log('Error response:', response.error);
+      } else {
+        this.isLoading = false;  // Stop loading on success
+        console.log("Sent Reset OTP to email: ", email)
+        this.errorMessage = null;
+        this.form.patchValue({
+          code1: '',
+          code2: '',
+          code3: '',
+          code4: '',
+          code5: '',
+          code6: ''
+        });
+      }
+    },
+    error: (error) => {
+      this.errorMessage = error;  // User-friendly error message
+      console.error('Error response:', this.errorMessage);  // Log the full error response for debugging
+    },
+    complete: () => {
+      this.isLoading = false;  // Stop loading regardless of success or error
     }
   });
 
 }
 
-sendNewCode(){
-
+get formattedTime(): string {
+  const minutes = Math.floor(this.timeLeft / 60);
+  const seconds = this.timeLeft % 60;
+  return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 }
+
+
+startTimer() {
+  // Clear any existing timer interval
+  
+  if (this.timerInterval) {
+    clearInterval(this.timerInterval);
+  }
+
+  this.timerInterval = setInterval(() => {
+    if (this.timeLeft > 0) {
+      this.timeLeft--;
+    } else {
+      clearInterval(this.timerInterval);
+    }
+  }, 1000);
+}
+
+resetTimer() {
+  // Reset the timeLeft to 300 seconds
+  this.timeLeft = 300;
+  // Start or restart the timer
+  this.startTimer();
+}
+
+
+handleTimerExpiration() {
+  // Handle the timer expiration logic
+  console.log("Timer expired");
+  this.isVerification = false;
+  this.isForgotPassword = true; // Optionally reset to forgot password state
+}
+
 }

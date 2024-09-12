@@ -236,21 +236,21 @@
                    (input)="moveFocus($event, null, code5)">
           </div>          
           
+          <!-- Verification error, timer and send new code -->
           <div *ngIf="isVerification && !isResetPassword" class="relative flex justify-end items-center mb-4">
-            <!-- Error message for invalid verification code aligned to the left -->
-            <div *ngIf="verificationError" class="absolute left-0 text-[#DB3956]">
-              {{verifyErrorMessage}}
+            <div *ngIf="verificationError; else timerTemplate" class="absolute left-0 text-[#DB3956]">
+              {{ verifyErrorMessage }}
             </div>
-          
-            <!-- Send new code button aligned to the right -->
+            <ng-template #timerTemplate>
+              <div class="absolute left-0 text-[#6E6E6E]">
+                Time Left: {{ formattedTime }}
+              </div>
+            </ng-template>
             <button (click)="sendNewCode()" class="text-[#6E6E6E]">
               Send new code
             </button>
           </div>
           
-          
-         
-    
           </div>
           <!-- Button Function -->
           <button (click)="handleButtonClick()" 
@@ -279,4 +279,13 @@
 
   <!-- Background Image -->
   <img src="/assets/images/BG_Login.svg" class="absolute right-0 top-0 bottom-0 object-cover w-1/2 h-full" alt="Background Image">
+
+ <!-- Notification Popup -->
+<div *ngIf="isNotificationPopup" class="fixed bottom-10 right-10 bg-white text-[#4f4f4f] w-[362px] h-[64px] font-normal text-sm p-4 rounded-lg flex items-center">
+  <img src="/assets/images/success-icon.svg" alt="Success Icon">
+  <span class="ml-2">Password Successfully Updated!</span>
+  <button (click)="closeNotification()" class="bg-transparent border-none text-[#4f4f4f] text-lg ml-auto">&times;</button>
+</div>
+
+
 </div>
