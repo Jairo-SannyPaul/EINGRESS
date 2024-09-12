@@ -3,7 +3,7 @@ name: Build and push Docker image to Azure Container Registry
 on:
   push:
     branches:
-      - github-EINGRESS/Deployment
+      - github-EINGRESS/main
   workflow_dispatch:
 
 jobs:
