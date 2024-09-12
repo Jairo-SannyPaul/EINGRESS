@@ -41,19 +41,12 @@ jobs:
       id-token: write #This is required for requesting the JWT
 
     steps:
-      - name: Login to Azure
-        uses: azure/login@v2
-        with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_F9EC587870DA491E954BFC77FF2C8C3F }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_D2BF076C991743EB96DC8468A39AE641 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_7E4A69CC57634119A85CC92BC032B53C }}
-
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'jairoeingressmain'
           slot-name: 'production'
-          publish-profile: ${{ secrets.AzureAppService_PublishProfile_60c517cadc334baa8ecca0f1775771d8 }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
           images: 'jairoeingressregistry.azurecr.io/eingress:${{ github.sha }}'
 
