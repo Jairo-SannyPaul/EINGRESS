@@ -16,7 +16,7 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-      - name: Log in to container registry
+      - name: Log in to Docker Hub
         uses: docker/login-action@v2
         with:
           registry: jairoeingressregistry.azurecr.io
@@ -35,10 +35,19 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     environment:
-      name: 'production'
+      name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+    permissions:
+      id-token: write #This is required for requesting the JWT
 
     steps:
+      - name: Login to Azure
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_F9EC587870DA491E954BFC77FF2C8C3F }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_D2BF076C991743EB96DC8468A39AE641 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_7E4A69CC57634119A85CC92BC032B53C }}
+
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
@@ -47,3 +56,4 @@ jobs:
           slot-name: 'production'
           publish-profile: ${{ secrets.AzureAppService_PublishProfile_60c517cadc334baa8ecca0f1775771d8 }}
           images: 'jairoeingressregistry.azurecr.io/eingress:${{ github.sha }}'
+
