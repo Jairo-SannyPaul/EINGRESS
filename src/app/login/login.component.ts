@@ -15,6 +15,8 @@ import { takeUntil } from 'rxjs/operators';
 export class LoginComponent implements OnInit {
   verificationError: boolean = false;
   showPassword: boolean = false;
+  showNewPassword: boolean = false;
+  showConfirmPassword: boolean = false;
   form: FormGroup;
   errorMessage: string | null = null;
   isLoading = false;
@@ -105,11 +107,6 @@ export class LoginComponent implements OnInit {
   }
   
   getButtonText(): string {
-    // console.log(`isResetPassword: ${this.isResetPassword}`);
-    // console.log(`isForgotPassword: ${this.isForgotPassword}`);
-    // console.log(`isVerification: ${this.isVerification}`);
-    // console.log(`isLoading: ${this.isLoading}`);
-  
     if (this.isResetPassword) {
       return 'Reset Password';
     } else if (this.isVerification) {
@@ -209,6 +206,7 @@ export class LoginComponent implements OnInit {
     }
     return this.form.controls['email'].value && this.form.controls['password'].value;
   }
+  
 
   submitCredentials() {
     const { email, password } = this.form.getRawValue();
@@ -243,10 +241,16 @@ export class LoginComponent implements OnInit {
   }
 
   // Method to toggle password visibility
-  togglePasswordVisibility(): void {
+  togglePasswordVisibility(field: string): void {
+    if (field === 'newPassword') {
+      this.showNewPassword = !this.showNewPassword;
+    } else if (field === 'confirmPassword') {
+      this.showConfirmPassword = !this.showConfirmPassword;
+    } else if (field === 'showPassword') {
     this.showPassword = !this.showPassword;
+    }
   }
-
+  
   // Method to clear the placeholder text when the input is focused
   clearText(event: FocusEvent): void {
     const target = event.target as HTMLInputElement;
@@ -273,43 +277,43 @@ export class LoginComponent implements OnInit {
     this.isLoading = true;  // Start loading
 
      // Start the timer
-     this.startTimer();
+     this.resetTimer();
 
-    this.userService.sendResetOtp({ email }).subscribe({
-      next: (response: any) => {
-        if (response.error) {
-          // If user not found or any other error is returned from the backend
-          this.errorMessage = response.error;
-          console.log('Error response:', response.error);
-        } else {
+    // this.userService.sendResetOtp({ email }).subscribe({
+    //   next: (response: any) => {
+    //     if (response.error) {
+    //       // If user not found or any other error is returned from the backend
+    //       this.errorMessage = response.error;
+    //       console.log('Error response:', response.error);
+    //     } else {
         
-          this.isLoading = false;  // Stop loading on success
-          console.log("Sent Reset OTP to email: ", email)
-          this.errorMessage = null;
-          setTimeout(() => {
-            this.isLoading = false;
-            this.isVerification = true; // Move to verification step after sending request
-            this.censoredEmail=this.censorEmail(this.resetEmail);
-          }, 1000);
-        }
-      },
-      error: (error) => {
-        this.errorMessage = error;  // User-friendly error message
-        console.error('Error response:', this.errorMessage);  // Log the full error response for debugging
-      },
-      complete: () => {
-        this.isLoading = false;  // Stop loading regardless of success or error
-      }
-    });
-
-
-    // // Routes to reset password 
+    //       this.isLoading = false;  // Stop loading on success
     //       console.log("Sent Reset OTP to email: ", email)
+    //       this.errorMessage = null;
     //       setTimeout(() => {
     //         this.isLoading = false;
     //         this.isVerification = true; // Move to verification step after sending request
     //         this.censoredEmail=this.censorEmail(this.resetEmail);
     //       }, 1000);
+    //     }
+    //   },
+    //   error: (error) => {
+    //     this.errorMessage = error;  // User-friendly error message
+    //     console.error('Error response:', this.errorMessage);  // Log the full error response for debugging
+    //   },
+    //   complete: () => {
+    //     this.isLoading = false;  // Stop loading regardless of success or error
+    //   }
+    // });
+
+
+    // // Routes to reset password 
+          console.log("Sent Reset OTP to email: ", email)
+          setTimeout(() => {
+            this.isLoading = false;
+            this.isVerification = true; // Move to verification step after sending request
+            this.censoredEmail=this.censorEmail(this.resetEmail);
+          }, 1000);
   }
 
   censorEmail(email: string): string {
@@ -453,7 +457,6 @@ sendNewCode() {
   this.resetEmail = this.form.get('email')?.value;
   const email = this.form.get('email')?.value;
   console.log("Send Reset OTP frontend: ", email);
-  this.isLoading = true;  // Start loading
 
    // Start the timer
    this.startTimer();

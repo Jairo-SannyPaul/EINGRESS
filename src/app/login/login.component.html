@@ -47,13 +47,13 @@
         <!-- Logo -->
         <div class="flex items-center mb-[126px]">
           <img src="/assets/images/jairo-logo.png" class="h-9" alt="Jairo Logo">
-          <p class="text-[#6E6E6E] text-sm ml-3 font-semibold text-[20px] leading-[30px] tracking-[20%]">J A I R O S O F T</p>
-          <p class="text-[#6E6E6E] text-sm ml-3 font-semibold text-[20px] leading-[30px] tracking-[20%]">E I N G R E S S</p>
+          <p class="text-[#6E6E6E] text-xl ml-3 font-semibold leading-7 tracking-[20%]">J A I R O S O F T</p>
+          <p class="text-[#6E6E6E] text-xl ml-3 font-semibold leading-7 tracking-[20%]">E I N G R E S S</p>
         </div>
 
         <!-- Banner -->
         <div class="mb-[79px] text-left">
-          <h2 *ngIf="!isForgotPassword && !isVerification && !isResetPassword" class="text-[#464646] text-2xl mb-[12px] font-semibold">Log in.</h2>
+          <h2 *ngIf="!isForgotPassword && !isVerification && !isResetPassword" class="text-[#464646] text-2xl mb-[12px] leading-9 font-semibold">Log in.</h2>
           <h2 *ngIf="isForgotPassword && !isVerification && !isResetPassword" class="text-[#464646] text-2xl mb-[12px] font-semibold">Forgot Password?</h2>
           <h2 *ngIf="isVerification && !isResetPassword" class="text-[#464646] text-2xl mb-[12px] font-semibold">Enter your verification code!</h2>
           <h2 *ngIf="isResetPassword" class="text-[#464646] text-2xl mb-[12px] font-semibold">Reset Password</h2>
@@ -76,7 +76,7 @@
             <!-- Username Field -->
             <div *ngIf="!isVerification && (isForgotPassword || !isForgotPassword)" class="relative flex items-center mb-[32px]" 
                   [ngStyle]="{
-                    'border-bottom': errorMessage ? '2px solid #DB3956' : '2px solid #6E6E6E'
+                    'border-bottom': errorMessage ? '1px solid #DB3956' : '1px solid #6E6E6E'
                     }">
               <input 
                 formControlName="email" 
@@ -89,7 +89,7 @@
                 required>
               <label 
                 for="email" 
-                class="absolute text-[15px] top-1/2 transform -translate-y-1/2 text-[#6E6E6E] transition-all duration-300 peer-placeholder-shown:text-[#6E6E6E] peer-focus:-top-5 peer-focus:text-[#6E6E6E]"
+                class="absolute text-base top-1/2 transform -translate-y-1/2 text-[#6E6E6E] transition-all duration-300 peer-placeholder-shown:text-[#6E6E6E] peer-focus:-top-5 peer-focus:text-[#6E6E6E]"
                 [class.-top-5]="form.controls['email'].value">
                 Email
               </label>
@@ -102,7 +102,7 @@
             <!-- Password Field -->
             <div *ngIf="!isForgotPassword" class="relative flex items-center mb-[32px]" 
                   [ngStyle]="{
-                    'border-bottom': errorMessage ? '2px solid #DB3956' : '2px solid #6E6E6E'}">
+                    'border-bottom': errorMessage ? '1px solid #DB3956' : '1px solid #6E6E6E'}">
               <input 
                 formControlName="password" 
                 id="password" 
@@ -113,7 +113,7 @@
                 (blur)="resetPlaceholder($event)">
               <label 
                 for="password" 
-                class="absolute text-[15px] top-1/2 transform -translate-y-1/2 text-[#6E6E6E] transition-all duration-300 peer-placeholder-shown:text-[#6E6E6E] peer-focus:text-[#6E6E6E] peer-focus:-top-5"
+                class="absolute text-base top-1/2 transform -translate-y-1/2 text-[#6E6E6E] transition-all duration-300 peer-placeholder-shown:text-[#6E6E6E] peer-focus:text-[#6E6E6E] peer-focus:-top-5"
                 [class.-top-5]="form.controls['password'].value">
                 Password
               </label>
@@ -122,71 +122,69 @@
                 class="absolute right-0 top-1/2 transform -translate-y-1/2 cursor-pointer" 
                 alt="Toggle Password Visibility" 
                 id="show-icon" 
-                (click)="togglePasswordVisibility()">
+                (click)="togglePasswordVisibility('showPassword')">
             </div>
 
               <!-- Reset Password Fields -->
-          <div *ngIf="isResetPassword" class="space-y-12">
-            <div class="relative flex items-center mb-[32px]" 
-                  [ngStyle]="{
-                    'border-bottom': errorMessage ? '2px solid #DB3956' : '2px solid #6E6E6E'
-                    }">
-              <input 
-                formControlName="newPassword" 
-                id="newPassword" 
-                class="peer bg-[#EDF4FF] text-[#6E6E6E] h-[33px] w-full outline-none placeholder-transparent" 
-                [type]="showPassword ? 'text' : 'password'" 
-                placeholder="New Password" 
-                (focus)="clearText($event)" 
-                (blur)="resetPlaceholder($event)" 
-                required>
-              <label 
-                for="newPassword" 
-                class="absolute text-[15px] top-1/2 transform -translate-y-1/2 text-[#6E6E6E] transition-all duration-300 peer-placeholder-shown:text-[#6E6E6E] peer-focus:-top-5 peer-focus:text-[#6E6E6E]"
-                [class.-top-5]="form.controls['newPassword'].value">
-                New Password
-              </label>
-              <img 
-                [src]="showPassword ? '/assets/images/unlock-icon.svg' : '/assets/images/Lock-icon.svg'" 
-                class="absolute right-0 top-1/2 transform -translate-y-1/2 cursor-pointer" 
-                alt="Toggle Password Visibility" 
-                id="show-icon" 
-                (click)="togglePasswordVisibility()">
-            </div>
-
-            <div class="relative flex items-center mb-[32px]" 
-                  [ngStyle]="{
-                    'border-bottom': errorMessage ? '2px solid #DB3956' : '2px solid #6E6E6E'
-                    }">
-              <input 
-                formControlName="confirmPassword" 
-                id="confirmPassword" 
-                class="peer bg-[#EDF4FF] text-[#6E6E6E] h-[33px] w-full outline-none placeholder-transparent" 
-                [type]="showPassword ? 'text' : 'password'" 
-                placeholder="Confirm Password" 
-                (focus)="clearText($event)" 
-                (blur)="resetPlaceholder($event)" 
-                required>
-              <label 
-                for="confirmPassword" 
-                class="absolute text-[15px] top-1/2 transform -translate-y-1/2 text-[#6E6E6E] transition-all duration-300 peer-placeholder-shown:text-[#6E6E6E] peer-focus:-top-5 peer-focus:text-[#6E6E6E]"
-                [class.-top-5]="form.controls['confirmPassword'].value">
-                Confirm Password
-              </label>
-              <img 
-                [src]="showPassword ? '/assets/images/unlock-icon.svg' : '/assets/images/Lock-icon.svg'" 
-                class="absolute right-0 top-1/2 transform -translate-y-1/2 cursor-pointer" 
-                alt="Toggle Password Visibility" 
-                id="show-icon" 
-                (click)="togglePasswordVisibility()">
-            </div>
-          </div>
+              <div *ngIf="isResetPassword" class="space-y-12">
+                <div class="relative flex items-center mb-[32px]" 
+                      [ngStyle]="{
+                        'border-bottom': errorMessage ? '1px solid #DB3956' : '1px solid #6E6E6E'
+                      }">
+                  <input 
+                    formControlName="newPassword" 
+                    id="newPassword" 
+                    class="peer bg-[#EDF4FF] text-[#6E6E6E] h-[33px] w-full outline-none placeholder-transparent" 
+                    [type]="showNewPassword ? 'text' : 'password'" 
+                    placeholder="New Password" 
+                    (focus)="clearText($event)" 
+                    (blur)="resetPlaceholder($event)" 
+                    required>
+                  <label 
+                    for="newPassword" 
+                    class="absolute text-base top-1/2 transform -translate-y-1/2 text-[#6E6E6E] transition-all duration-300 peer-placeholder-shown:text-[#6E6E6E] peer-focus:-top-5 peer-focus:text-[#6E6E6E]"
+                    [class.-top-5]="form.controls['newPassword'].value">
+                    New Password
+                  </label>
+                  <img 
+                    [src]="showNewPassword ? '/assets/images/unlock-icon.svg' : '/assets/images/Lock-icon.svg'" 
+                    class="absolute right-0 top-1/2 transform -translate-y-1/2 cursor-pointer" 
+                    alt="Toggle Password Visibility" 
+                    (click)="togglePasswordVisibility('newPassword')">
+                </div>
+              
+                <div class="relative flex items-center mb-[32px]" 
+                      [ngStyle]="{
+                        'border-bottom': errorMessage ? '1px solid #DB3956' : '1px solid #6E6E6E'
+                      }">
+                  <input 
+                    formControlName="confirmPassword" 
+                    id="confirmPassword" 
+                    class="peer bg-[#EDF4FF] text-[#6E6E6E] h-[33px] w-full outline-none placeholder-transparent" 
+                    [type]="showConfirmPassword ? 'text' : 'password'" 
+                    placeholder="Confirm Password" 
+                    (focus)="clearText($event)" 
+                    (blur)="resetPlaceholder($event)" 
+                    required>
+                  <label 
+                    for="confirmPassword" 
+                    class="absolute text-base top-1/2 transform -translate-y-1/2 text-[#6E6E6E] transition-all duration-300 peer-placeholder-shown:text-[#6E6E6E] peer-focus:-top-5 peer-focus:text-[#6E6E6E]"
+                    [class.-top-5]="form.controls['confirmPassword'].value">
+                    Confirm Password
+                  </label>
+                  <img 
+                    [src]="showConfirmPassword ? '/assets/images/unlock-icon.svg' : '/assets/images/Lock-icon.svg'" 
+                    class="absolute right-0 top-1/2 transform -translate-y-1/2 cursor-pointer" 
+                    alt="Toggle Password Visibility" 
+                    (click)="togglePasswordVisibility('confirmPassword')">
+                </div>
+              </div>
 
             <!-- Remember Me and Forgot Password -->
             <div *ngIf="!isForgotPassword" class="flex items-center text-sm text-white space-x-2 mb-[31px] mt-[32px]">
-              <input type="checkbox" name="remember" id="remember" class="mr-2"> 
-              <label for="remember" class="cursor-pointer text-[#6E6E6E]">Remember me</label>
-              <label for="forgot" class="cursor-pointer text-[#1D32A3] absolute right-0 font-normal" (click)="toggleForgotPassword()">Forgot Password?</label>
+              <input type="checkbox" name="remember" id="remember" class="mr-0"> 
+              <label for="remember" class="cursor-pointer text-[#6E6E6E] font-normal text-xs select-none">Remember me</label>
+              <label for="forgot" class="cursor-pointer text-[#1D32A3] font-normal text-xs absolute right-0 font-normal" (click)="toggleForgotPassword()">Forgot Password?</label>
             </div>
 
            <!-- Verification Code Fields -->
@@ -242,11 +240,11 @@
               {{ verifyErrorMessage }}
             </div>
             <ng-template #timerTemplate>
-              <div class="absolute left-0 text-[#6E6E6E]">
+              <div class="absolute left-0 text-[#6E6E6E] text-xs">
                 Time Left: {{ formattedTime }}
               </div>
             </ng-template>
-            <button (click)="sendNewCode()" class="text-[#6E6E6E]">
+            <button (click)="sendNewCode()" class="text-[#6E6E6E] text-xs">
               Send new code
             </button>
           </div>
@@ -256,13 +254,13 @@
           <button (click)="handleButtonClick()" 
                   [ngClass]="{'bg-[rgba(19,50,94,1)]': isButtonActive && !isLoading, 
                               'bg-[rgba(19,50,94,0.6)]': !isButtonActive || isLoading}" 
-                  class="w-full py-3 text-white rounded-lg font-semibold flex items-center justify-center"
-                  [disabled]="isLoading">
+                  class="w-full h-[43px] text-white rounded-[3px] font-semibold flex items-center justify-center"
+                  [disabled]="!isButtonActive || isLoading">
             <svg *ngIf="isLoading" class="animate-spin h-5 w-5 text-white mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
               <circle class="opacity-0" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
               <path class="opacity-100" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
             </svg>
-            <span [ngStyle]="{'font-weight': '400', 'font-size': '15px', 'line-height': '22.5px'}">
+            <span class="font-normal text-base leading-6">
               {{ getButtonText() }}
             </span>
           </button>
@@ -271,7 +269,7 @@
         </form> 
         <!-- Back to Login Link -->
         <div *ngIf="isForgotPassword || isVerification" class="flex justify-center absolute bottom-4 w-full">
-          <a (click)="toggleBackToLogin()" class="absolute bottom-4 text-[#6E6E6E] text-center cursor-pointer">Back to login</a>
+          <a (click)="toggleBackToLogin()" class="absolute bottom-4 text-[#6E6E6E] text-base leading-6 font-wight text-center cursor-pointer">Back to login</a>
         </div>        
       </div>
     </div>
