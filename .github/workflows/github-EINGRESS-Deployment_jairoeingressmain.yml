@@ -23,14 +23,14 @@ jobs:
       uses: docker/login-action@v2
       with:
         registry: https://jairoeingressregistry.azurecr.io/
-        username: EINGRESS-ADMIN
-        password: ${{ secrets.JAIROEINGRESSREGISTRY_PASSWORD }}
+        username: ${{ secrets.AzureAppService_ContainerUsername_9f5a20c4de7146b3984dbd51f98fa512 }}
+        password: ${{ secrets.AzureAppService_ContainerPassword_e3860c0942f14c0b8a6e0f3c747baed1 }}
 
     - name: Build and push container image to registry
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: jairoeingressregistry.azurecr.io/eingress:main
+        tags: jairoeingressregistry.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_9f5a20c4de7146b3984dbd51f98fa512 }}/eingress:${{ github.sha }}
         file: ./Dockerfile
 
   deploy:
@@ -47,5 +47,5 @@ jobs:
       with:
         app-name: 'jairoeingressmain'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_5974942a61244fad8d014355a825edbf }}
-        images: 'jairoeingressregistry.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_17305e4245014fb8be6f36905d59a7d5 }}/eingress:${{ github.sha }}'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_86038afc82a741d1b756c87679a12aea }}
+        images: 'jairoeingressregistry.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_9f5a20c4de7146b3984dbd51f98fa512 }}/eingress:${{ github.sha }}'
