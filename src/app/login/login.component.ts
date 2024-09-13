@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
     private dialogService: DialogService
   ) {
     this.form = this.formBuilder.group({
-      email: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
       newPassword: [''], // Add this for reset password
       confirmPassword: [''], // Add this for reset password
@@ -273,28 +273,28 @@ export class LoginComponent implements OnInit {
   sendRequest(): void {
     this.resetEmail = this.form.get('email')?.value;
     const email = this.form.get('email')?.value;
+  
+    if (this.form.get('email')?.invalid) {
+      this.errorMessage = "Email is invalid";
+      return;
+    }
+    else {
     console.log("Send Reset OTP frontend: ", email);
     this.isLoading = true;  // Start loading
-
-     // Start the timer
-     this.resetTimer();
-
+  
+    // Start the timer
+    this.resetTimer();
+  
     this.userService.sendResetOtp({ email }).subscribe({
       next: (response: any) => {
-        if (response.error) {
-          // If user not found or any other error is returned from the backend
-          this.errorMessage = response.error;
-          console.log('Error response:', response.error);
+        if (response.error === "User not found") {
+          this.errorMessage = "Email not yet registered";
         } else {
-        
-          this.isLoading = false;  // Stop loading on success
+          this.isLoading = true;  // Stop loading on success
           console.log("Sent Reset OTP to email: ", email)
           this.errorMessage = null;
-          setTimeout(() => {
-            this.isLoading = false;
-            this.isVerification = true; // Move to verification step after sending request
-            this.censoredEmail=this.censorEmail(this.resetEmail);
-          }, 1000);
+          this.isVerification = true;  // Move to verification step after sending request
+          this.censoredEmail = this.censorEmail(this.resetEmail);
         }
       },
       error: (error) => {
@@ -305,15 +305,7 @@ export class LoginComponent implements OnInit {
         this.isLoading = false;  // Stop loading regardless of success or error
       }
     });
-
-
-    // Routes to reset password 
-    //       console.log("Sent Reset OTP to email: ", email)
-    //       setTimeout(() => {
-    //         this.isLoading = false;
-    //         this.isVerification = true; // Move to verification step after sending request
-    //         this.censoredEmail=this.censorEmail(this.resetEmail);
-    //       }, 1000);
+  }
   }
 
   censorEmail(email: string): string {
