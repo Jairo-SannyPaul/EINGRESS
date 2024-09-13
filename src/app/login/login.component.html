@@ -43,7 +43,7 @@
     <!-- Centering Container Inside White Background -->
     <div class="flex items-center justify-center h-full">
       <!-- Content -->
-      <div [ngClass]="{'h-[572px]': !isForgotPassword, 'h-[764px]': isForgotPassword}" class="absolute top-[120px] bg-[#EDF4FF] rounded-lg w-[512px] transition-all duration-300">
+      <div [ngClass]="{'h-[572px]': !isForgotPassword, 'h-[766px]': isForgotPassword}" class="absolute top-[100px] bg-[#EDF4FF] rounded-lg w-[512px] transition-all duration-300">
         <!-- Logo -->
         <div class="flex items-center mb-[126px]">
           <img src="/assets/images/jairo-logo.png" class="h-9" alt="Jairo Logo">
@@ -56,7 +56,8 @@
           <h2 *ngIf="!isForgotPassword && !isVerification && !isResetPassword" class="text-[#464646] text-2xl mb-[12px] leading-9 font-semibold">Log in.</h2>
           <h2 *ngIf="isForgotPassword && !isVerification && !isResetPassword" class="text-[#464646] text-2xl mb-[12px] font-semibold">Forgot Password?</h2>
           <h2 *ngIf="isVerification && !isResetPassword" class="text-[#464646] text-2xl mb-[12px] font-semibold">Enter your verification code!</h2>
-          <h2 *ngIf="isResetPassword" class="text-[#464646] text-2xl mb-[12px] font-semibold">Reset Password</h2>
+        <h2 *ngIf="isResetPassword" class="text-[#464646] text-2xl mb-[12px] font-semibold">Reset Password</h2>
+
           
           <!-- Conditionally display error message or instructions -->
           <p *ngIf="errorMessage" class="text-[#DB3956] rounded relative">
@@ -181,14 +182,14 @@
               </div>
 
             <!-- Remember Me and Forgot Password -->
-            <div *ngIf="!isForgotPassword" class="flex items-center text-sm text-white space-x-2 mb-[31px] mt-[32px]">
+            <div *ngIf="!isForgotPassword" class="flex items-center text-sm text-white space-x-2 mb-[31px] mt-[31px]">
               <input type="checkbox" name="remember" id="remember" class="mr-0"> 
               <label for="remember" class="cursor-pointer text-[#6E6E6E] font-normal text-xs select-none">Remember me</label>
               <label for="forgot" class="cursor-pointer text-[#1D32A3] font-normal text-xs absolute right-0 font-normal" (click)="toggleForgotPassword()">Forgot Password?</label>
             </div>
 
            <!-- Verification Code Fields -->
-           <div *ngIf="isVerification && !isResetPassword" class="flex justify-between space-x-4">
+           <div *ngIf="isVerification && (!isForgotPassword || !isResetPassword)" class="flex justify-between space-x-4">
             <!-- Verification Code Fields -->
             <input #code1 
                    formControlName="code1" 
@@ -241,7 +242,7 @@
             </div>
             <ng-template #timerTemplate>
               <div class="absolute left-0 text-[#6E6E6E] text-xs">
-                Time Left: {{ formattedTime }}
+                Time Left: {{ getTimerDisplay() }}
               </div>
             </ng-template>
             <button (click)="sendNewCode()" class="text-[#6E6E6E] text-xs">
@@ -254,7 +255,7 @@
           <button (click)="handleButtonClick()" 
                   [ngClass]="{'bg-[rgba(19,50,94,1)]': isButtonActive && !isLoading, 
                               'bg-[rgba(19,50,94,0.6)]': !isButtonActive || isLoading}" 
-                  class="w-full h-[43px] text-white rounded-[3px] font-semibold flex items-center justify-center"
+                  class="w-full h-[43px] text-white rounded-[3px] font-semibold mt-[31px] flex items-center justify-center"
                   [disabled]="!isButtonActive || isLoading">
             <svg *ngIf="isLoading" class="animate-spin h-5 w-5 text-white mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
               <circle class="opacity-0" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -268,8 +269,8 @@
 
         </form> 
         <!-- Back to Login Link -->
-        <div *ngIf="isForgotPassword || isVerification" class="flex justify-center absolute bottom-4 w-full">
-          <a (click)="toggleBackToLogin()" class="absolute bottom-4 text-[#6E6E6E] text-base leading-6 font-wight text-center cursor-pointer">Back to login</a>
+        <div *ngIf="isForgotPassword || isVerification" class="flex justify-center absolute bottom-0 w-full">
+          <a (click)="toggleBackToLogin()" class="absolute bottom-0 text-[#6E6E6E] text-base leading-6 font-normal text-center cursor-pointer">Back to login</a>
         </div>        
       </div>
     </div>
