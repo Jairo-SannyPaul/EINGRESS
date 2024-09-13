@@ -3,7 +3,7 @@ name: Build and push Docker image to Azure Container Registry
 on:
   push:
     branches:
-      - github-EINGRESS/main
+      - release
   workflow_dispatch:
 
 jobs:
@@ -29,4 +29,4 @@ jobs:
         context: .
         file: ./Dockerfile
         push: true
-        tags: jairoeingressregistry.azurecr.io/eingress:main
+        tags: jairoeingressregistry.azurecr.io/eingress:cd
