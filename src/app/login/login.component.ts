@@ -231,7 +231,7 @@ export class LoginComponent implements OnInit {
         },
         error: (error) => {
           this.isLoading = false;
-          this.errorMessage = 'Your email or password was not recognized. Please try again.';
+          this.errorMessage = 'Your email or password was not recognized.';
           console.error(error);
         }
       });
