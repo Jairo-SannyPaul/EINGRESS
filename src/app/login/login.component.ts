@@ -289,7 +289,11 @@ export class LoginComponent implements OnInit {
       next: (response: any) => {
         if (response.error === "User not found") {
           this.errorMessage = "Email not yet registered";
-        } else {
+        } 
+        else if (response.error === "Email not verified."){
+          this.errorMessage = response.error;
+        }
+        else {
           this.isLoading = true;  // Stop loading on success
           console.log("Sent Reset OTP to email: ", email)
           this.errorMessage = null;
