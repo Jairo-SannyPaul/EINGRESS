@@ -279,41 +279,41 @@ export class LoginComponent implements OnInit {
      // Start the timer
      this.resetTimer();
 
-    // this.userService.sendResetOtp({ email }).subscribe({
-    //   next: (response: any) => {
-    //     if (response.error) {
-    //       // If user not found or any other error is returned from the backend
-    //       this.errorMessage = response.error;
-    //       console.log('Error response:', response.error);
-    //     } else {
+    this.userService.sendResetOtp({ email }).subscribe({
+      next: (response: any) => {
+        if (response.error) {
+          // If user not found or any other error is returned from the backend
+          this.errorMessage = response.error;
+          console.log('Error response:', response.error);
+        } else {
         
-    //       this.isLoading = false;  // Stop loading on success
-    //       console.log("Sent Reset OTP to email: ", email)
-    //       this.errorMessage = null;
-    //       setTimeout(() => {
-    //         this.isLoading = false;
-    //         this.isVerification = true; // Move to verification step after sending request
-    //         this.censoredEmail=this.censorEmail(this.resetEmail);
-    //       }, 1000);
-    //     }
-    //   },
-    //   error: (error) => {
-    //     this.errorMessage = error;  // User-friendly error message
-    //     console.error('Error response:', this.errorMessage);  // Log the full error response for debugging
-    //   },
-    //   complete: () => {
-    //     this.isLoading = false;  // Stop loading regardless of success or error
-    //   }
-    // });
-
-
-    // // Routes to reset password 
+          this.isLoading = false;  // Stop loading on success
           console.log("Sent Reset OTP to email: ", email)
+          this.errorMessage = null;
           setTimeout(() => {
             this.isLoading = false;
             this.isVerification = true; // Move to verification step after sending request
             this.censoredEmail=this.censorEmail(this.resetEmail);
           }, 1000);
+        }
+      },
+      error: (error) => {
+        this.errorMessage = error;  // User-friendly error message
+        console.error('Error response:', this.errorMessage);  // Log the full error response for debugging
+      },
+      complete: () => {
+        this.isLoading = false;  // Stop loading regardless of success or error
+      }
+    });
+
+
+    // Routes to reset password 
+    //       console.log("Sent Reset OTP to email: ", email)
+    //       setTimeout(() => {
+    //         this.isLoading = false;
+    //         this.isVerification = true; // Move to verification step after sending request
+    //         this.censoredEmail=this.censorEmail(this.resetEmail);
+    //       }, 1000);
   }
 
   censorEmail(email: string): string {
