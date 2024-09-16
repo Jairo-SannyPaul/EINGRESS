@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
   successChangePass: boolean = false;
   verifyErrorMessage!: String;
   isNotificationPopup = false;
-  timeLeft: number = 10; // 5 minutes in seconds
+  timeLeft: number = 300 ;
   private destroy$ = new Subject<void>();
   timerInterval: any;
 
@@ -194,7 +194,7 @@ export class LoginComponent implements OnInit {
              && this.form.controls['newPassword'].value === this.form.controls['confirmPassword'].value;
     }
   
-    if (this.isForgotPassword) {
+    if (this.isForgotPassword && !this.isVerification) {
       console.log('Forgot Password state');
       return this.form.controls['email'].valid
     }
@@ -282,7 +282,7 @@ export class LoginComponent implements OnInit {
     this.isLoading = true;
 
      // Start the timer
-     this.resetTimer();
+     this.startTimer();
 
     this.userService.sendResetOtp({ email }).subscribe({
       next: (response: any) => {
@@ -378,9 +378,6 @@ export class LoginComponent implements OnInit {
         this.isLoading = false;  // Stop loading regardless of success or error
       }
     });
-  
-  
-
 
     // setTimeout(() => {
     //   this.isLoading = false;
@@ -506,12 +503,20 @@ startTimer() {
     if (this.timeLeft > 0) {
       this.timeLeft--;
       console.log("Time left:", this.timeLeft); // Debugging line
-    } else {
+    } 
+    // else if (this.timeLeft < 0 ) {
+    //   this.form.reset();
+    //   clearInterval(this.timerInterval);
+    //   this.timeLeft = 0;
+    //   this.verificationError = true;
+    //   this.verifyErrorMessage = "OTP Number has been expired! Please send new code";
+    // }
+    else {
       this.form.reset();
       clearInterval(this.timerInterval);
       this.timeLeft = 0;
       this.verificationError = true;
-        this.verifyErrorMessage = "Verification code Expired!";
+      this.verifyErrorMessage = "OTP Number has been expired! Please send new code";
     }
   }, 1000);
 }

@@ -153,7 +153,7 @@
             </div>
 
             <!-- Verification Code Fields -->
-           <div *ngIf="isVerification" class="flex justify-between space-x-4">
+           <div *ngIf="isVerification && !isResetPassword" class="flex justify-between space-x-4">
             <!-- Verification Code Fields -->
             <input #code1 
                    formControlName="code1" 
@@ -161,46 +161,46 @@
                    class="h-[70px] w-[70px] font-semibold bg-white text-center text-3xl text-[#13325E] border"
                    [ngClass]="{'outline outline-1 outline-[#DB3956]': verificationError}" 
                    type="text" 
-                   (input)="moveFocus($event, code2, null)"/>
+                   (input)="moveFocus($event, code2, null)">
             <input #code2 
                    formControlName="code2" 
                    maxlength="1" 
                    class="h-[70px] w-[70px] font-semibold bg-white text-center text-3xl text-[#13325E] border"
                    [ngClass]="{'outline outline-1 outline-[#DB3956]': verificationError}" 
                    type="text" 
-                   (input)="moveFocus($event, code3, code1)"/>
+                   (input)="moveFocus($event, code3, code1)">
             <input #code3 
                    formControlName="code3" 
                    maxlength="1" 
                    class="h-[70px] w-[70px] font-semibold bg-white text-center text-3xl text-[#13325E] border"
                    [ngClass]="{'outline outline-1 outline-[#DB3956]': verificationError}" 
                    type="text" 
-                   (input)="moveFocus($event, code4, code2)"/>
+                   (input)="moveFocus($event, code4, code2)">
             <input #code4 
                    formControlName="code4" 
                    maxlength="1" 
                    class="h-[70px] w-[70px] font-semibold bg-white text-center text-3xl text-[#13325E] border"
                    [ngClass]="{'outline outline-1 outline-[#DB3956]': verificationError}" 
                    type="text" 
-                   (input)="moveFocus($event, code5, code3)"/>
+                   (input)="moveFocus($event, code5, code3)">
             <input #code5 
                    formControlName="code5" 
                    maxlength="1" 
                    class="h-[70px] w-[70px] font-semibold bg-white text-center text-3xl text-[#13325E] border"
                    [ngClass]="{'outline outline-1 outline-[#DB3956]': verificationError}" 
                    type="text" 
-                   (input)="moveFocus($event, code6, code4)"/>
+                   (input)="moveFocus($event, code6, code4)">
             <input #code6 
                    formControlName="code6" 
                    maxlength="1" 
                    class="h-[70px] w-[70px] font-semibold bg-white text-center text-3xl text-[#13325E] border"
                    [ngClass]="{'outline outline-1 outline-[#DB3956]': verificationError}" 
                    type="text" 
-                   (input)="moveFocus($event, null, code5)"/>
+                   (input)="moveFocus($event, null, code5)">
           </div>        
         
             <!-- Remember Me and Forgot Password -->
-            <div *ngIf="!isForgotPassword && !isResetPassword && !isVerification" class="flex items-center text-sm text-white space-x-2 mb-[31px] mt-[31px]">
+            <div *ngIf="!isForgotPassword && !isVerification && !isResetPassword" class="flex items-center text-sm text-white space-x-2 mb-[31px] mt-[31px]">
               <input type="checkbox" name="remember" id="remember" class="mr-0"> 
               <label for="remember" class="cursor-pointer text-[#6E6E6E] font-normal text-xs select-none">Remember me</label>
               <label for="forgot" class="cursor-pointer text-[#1D32A3] font-normal text-xs absolute right-0 font-normal" (click)="toggleForgotPassword()">Forgot Password?</label>
@@ -262,7 +262,7 @@
               </div>
           
           <!-- Verification error, timer and send new code -->
-          <div *ngIf="isVerification" class="relative flex justify-end items-center text-xs">
+          <div *ngIf="isVerification && !isResetPassword" class="relative flex justify-end items-center text-xs">
             <div *ngIf="verificationError; else timerTemplate" class="absolute left-0 text-[#DB3956] ">
               {{ verifyErrorMessage }}
             </div>
@@ -281,7 +281,7 @@
           <button (click)="handleButtonClick()" 
                   [ngClass]="{'bg-[rgba(19,50,94,1)]': isButtonActive && !isLoading, 
                               'bg-[rgba(19,50,94,0.6)]': !isButtonActive || isLoading}" 
-                  class="w-full h-[43px] text-white rounded-[3px] font-semibold flex items-center justify-center"
+                  class="w-full h-[43px] text-white font-semibold flex items-center justify-center"
                   [disabled]="!isButtonActive || isLoading">
             <svg *ngIf="isLoading" class="animate-spin h-5 w-5 text-white mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
               <circle class="opacity-0" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -295,7 +295,7 @@
 
         </form> 
         <!-- Back to Login Link -->
-        <div *ngIf="isForgotPassword || isVerification" class="flex justify-center absolute bottom-0 w-full">
+        <div *ngIf="isForgotPassword" class="flex justify-center absolute bottom-0 w-full">
           <a (click)="toggleBackToLogin()" class="absolute bottom-0 text-[#6E6E6E] text-base leading-6 font-normal text-center cursor-pointer">Back to login</a>
         </div>        
       </div>
