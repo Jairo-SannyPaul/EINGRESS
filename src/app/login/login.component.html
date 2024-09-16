@@ -203,7 +203,7 @@
             <div *ngIf="!isForgotPassword && !isVerification && !isResetPassword" class="flex items-center text-sm text-white space-x-2 mb-[31px] mt-[31px]">
               <input type="checkbox" name="remember" id="remember" class="mr-0"> 
               <label for="remember" class="cursor-pointer text-[#6E6E6E] font-normal text-xs select-none">Remember me</label>
-              <label for="forgot" class="cursor-pointer text-[#1D32A3] font-normal text-xs absolute right-0 font-normal" (click)="toggleForgotPassword()">Forgot Password?</label>
+              <label for="forgot" class="cursor-pointer text-[#1D32A3] font-normal text-xs absolute right-0 font-normal hover:text-[#6E6E6E]" (click)="toggleForgotPassword()">Forgot Password?</label>
             </div>
             
               <!-- Reset Password Fields -->
