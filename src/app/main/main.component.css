@@ -2,7 +2,7 @@
     display: flex;
     position: absolute;
     justify-content: center;
-    background-color: var(--background);
+    background-color: #EDF4FF;
     width: calc(100% - 48px);
     height: calc(100% - 48px);
     top: 48px;
