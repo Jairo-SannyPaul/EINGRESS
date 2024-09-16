@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
   successChangePass: boolean = false;
   verifyErrorMessage!: String;
   isNotificationPopup = false;
-  timeLeft: number = 10; // 5 minutes in seconds
+  timeLeft: number = 300; // 5 minutes in seconds
   private destroy$ = new Subject<void>();
   timerInterval: any;
 
@@ -284,41 +284,41 @@ export class LoginComponent implements OnInit {
      // Start the timer
      this.resetTimer();
 
-    // this.userService.sendResetOtp({ email }).subscribe({
-    //   next: (response: any) => {
-    //     if (response.error) {
-    //       // If user not found or any other error is returned from the backend
-    //       this.errorMessage = response.error;
-    //       console.log('Error response:', response.error);
-    //     } else {
+    this.userService.sendResetOtp({ email }).subscribe({
+      next: (response: any) => {
+        if (response.error) {
+          // If user not found or any other error is returned from the backend
+          this.errorMessage = response.error;
+          console.log('Error response:', response.error);
+        } else {
         
-    //       this.isLoading = false;  // Stop loading on success
-    //       console.log("Sent Reset OTP to email: ", email)
-    //       this.errorMessage = null;
-    //       setTimeout(() => {
-    //         this.isLoading = false;
-    //         this.isVerification = true; // Move to verification step after sending request
-    //         this.censoredEmail=this.censorEmail(this.resetEmail);
-    //       }, 1000);
-    //     }
-    //   },
-    //   error: (error) => {
-    //     this.errorMessage = error;  // User-friendly error message
-    //     console.error('Error response:', this.errorMessage);  // Log the full error response for debugging
-    //   },
-    //   complete: () => {
-    //     this.isLoading = false;  // Stop loading regardless of success or error
-    //   }
-    // });
+          this.isLoading = false;  // Stop loading on success
+          console.log("Sent Reset OTP to email: ", email)
+          this.errorMessage = null;
+          setTimeout(() => {
+            this.isLoading = false;
+            this.isVerification = true; // Move to verification step after sending request
+            this.censoredEmail=this.censorEmail(this.resetEmail);
+          }, 1000);
+        }
+      },
+      error: (error) => {
+        this.errorMessage = error;  // User-friendly error message
+        console.error('Error response:', this.errorMessage);  // Log the full error response for debugging
+      },
+      complete: () => {
+        this.isLoading = false;  // Stop loading regardless of success or error
+      }
+    });
 
 
     // Routes to reset password 
     //       console.log("Sent Reset OTP to email: ", email)
-          setTimeout(() => {
-            this.isLoading = false;
-            this.isVerification = true;
-            this.censoredEmail=this.censorEmail(this.resetEmail);
-          }, 1000);
+          // setTimeout(() => {
+          //   this.isLoading = false;
+          //   this.isVerification = true;
+          //   this.censoredEmail=this.censorEmail(this.resetEmail);
+          // }, 1000);
   }
 
   censorEmail(email: string): string {
@@ -331,6 +331,7 @@ export class LoginComponent implements OnInit {
 
   verifyCode(): void {
     this.isLoading = true;
+    this.isVerification = false;
     const otp = `${this.form.value.code1}${this.form.value.code2}${this.form.value.code3}${this.form.value.code4}${this.form.value.code5}${this.form.value.code6}`;
   
     const email = this.resetEmail;
@@ -342,58 +343,58 @@ export class LoginComponent implements OnInit {
 
     this.timeLeft = 0;
 
-    // this.userService.validateResetOtp({ email, otp }).subscribe({
-    //   next: (response: any) => {
-    //     if (response.message === "User not found") {  // Fixed comparison
-    //       this.verifyErrorMessage = response.message;
-    //       this.verificationError = true;
-    //       console.log('Error response:', response.message);
-    //     } 
-    //     else if(response.message === "OTP expired") {  // Fixed comparison
-    //       this.verifyErrorMessage = "Verification code Expired!";
-    //       this.verificationError = true;
-    //       console.log('Error response:', response.message);
-    //     }
-    //     else if(response.message === "Invalid OTP") {  // Fixed comparison
-    //       this.verifyErrorMessage = "Verification code not valid!";
-    //       this.verificationError = true;
-    //       console.log('Error response:', response.message);
-    //     } 
-    //     else {
-    //       this.isLoading = true;
-    //       this.currentAdmin = response.id;
-    //       console.log("Stored Admin ID: ", this.currentAdmin)
-    //       setTimeout(() => {
-    //         this.isLoading = false;
-    //         this.isResetPassword = true;
-    //       }, 1000);
-    //     }
-    //   },
-    //   error: (error) => {
-    //     this.errorMessage = error?.error?.message || "An error occurred";  // User-friendly error message
-    //     console.error('Error response:', this.errorMessage);  // Log the full error response for debugging
-    //     this.isLoading = false;
-    //   },
-    //   complete: () => {
-    //     this.isLoading = false;  // Stop loading regardless of success or error
-    //   }
-    // });
-  
-  
-
-
-    setTimeout(() => {
-      this.isLoading = false;
-      // Simulate verification logic
-      if (otp === "123456") {  // Replace with actual verification logic
-        console.log(otp);
-        this.isResetPassword = true;
-        console.log('Verification complete, transitioning to reset password state.');
-      } else {
-        this.verificationError = true;  // Trigger the red border if the code is incorrect
-        this.verifyErrorMessage = 'Verification code not valid!';
+    this.userService.validateResetOtp({ email, otp }).subscribe({
+      next: (response: any) => {
+        if (response.message === "User not found") {  // Fixed comparison
+          this.verifyErrorMessage = response.message;
+          this.verificationError = true;
+          console.log('Error response:', response.message);
+        } 
+        else if(response.message === "OTP expired") {  // Fixed comparison
+          this.verifyErrorMessage = "Verification code Expired!";
+          this.verificationError = true;
+          console.log('Error response:', response.message);
+        }
+        else if(response.message === "Invalid OTP") {  // Fixed comparison
+          this.verifyErrorMessage = "Verification code not valid!";
+          this.verificationError = true;
+          console.log('Error response:', response.message);
+        } 
+        else {
+          this.isLoading = true;
+          this.currentAdmin = response.id;
+          console.log("Stored Admin ID: ", this.currentAdmin)
+          setTimeout(() => {
+            this.isLoading = false;
+            this.isResetPassword = true;
+          }, 1000);
+        }
+      },
+      error: (error) => {
+        this.errorMessage = error?.error?.message || "An error occurred";  // User-friendly error message
+        console.error('Error response:', this.errorMessage);  // Log the full error response for debugging
+        this.isLoading = false;
+      },
+      complete: () => {
+        this.isLoading = false;  // Stop loading regardless of success or error
       }
-    }, 1000);
+    });
+  
+  
+
+
+    // setTimeout(() => {
+    //   this.isLoading = false;
+    //   // Simulate verification logic
+    //   if (otp === "123456") {  // Replace with actual verification logic
+    //     console.log(otp);
+    //     this.isResetPassword = true;
+    //     console.log('Verification complete, transitioning to reset password state.');
+    //   } else {
+    //     this.verificationError = true;  // Trigger the red border if the code is incorrect
+    //     this.verifyErrorMessage = 'Verification code not valid!';
+    //   }
+    // }, 1000);
 }
 
 resetPassword() {
@@ -517,7 +518,7 @@ startTimer() {
 
 resetTimer() {
   // this.form.reset();
-  this.timeLeft = 10; // 5 minutes in seconds
+  this.timeLeft = 300; // 5 minutes in seconds
   this.startTimer();
   this.verificationError = false;
 }
