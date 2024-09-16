@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
   successChangePass: boolean = false;
   verifyErrorMessage!: String;
   isNotificationPopup = false;
-  timeLeft: number = 300; // 5 minutes in seconds
+  timeLeft: number = 10; // 5 minutes in seconds
   private destroy$ = new Subject<void>();
   timerInterval: any;
 
@@ -331,7 +331,6 @@ export class LoginComponent implements OnInit {
 
   verifyCode(): void {
     this.isLoading = true;
-    this.isVerification = false;
     const otp = `${this.form.value.code1}${this.form.value.code2}${this.form.value.code3}${this.form.value.code4}${this.form.value.code5}${this.form.value.code6}`;
   
     const email = this.resetEmail;
@@ -511,6 +510,8 @@ startTimer() {
       this.form.reset();
       clearInterval(this.timerInterval);
       this.timeLeft = 0;
+      this.verificationError = true;
+        this.verifyErrorMessage = "Verification code Expired!";
     }
   }, 1000);
 }
@@ -518,7 +519,7 @@ startTimer() {
 
 resetTimer() {
   // this.form.reset();
-  this.timeLeft = 300; // 5 minutes in seconds
+  this.timeLeft = 10; // 5 minutes in seconds
   this.startTimer();
   this.verificationError = false;
 }
