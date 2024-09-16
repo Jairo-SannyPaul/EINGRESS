@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
   successChangePass: boolean = false;
   verifyErrorMessage!: String;
   isNotificationPopup = false;
-  timeLeft: number = 300;
+  timeLeft: number = 10;
   private destroy$ = new Subject<void>();
   timerInterval: any;
   isSendNewCode: boolean = false;
@@ -333,7 +333,6 @@ export class LoginComponent implements OnInit {
   verifyCode(): void {
     this.isLoading = true;
     const otp = `${this.form.value.code1}${this.form.value.code2}${this.form.value.code3}${this.form.value.code4}${this.form.value.code5}${this.form.value.code6}`;
-    this.timeLeft = 300;
     const email = this.resetEmail;
     console.log(email);
     console.log("Validating OTP: ", otp, "From email: ", email);
@@ -513,10 +512,9 @@ export class LoginComponent implements OnInit {
       if (this.timeLeft > 0) {
         this.timeLeft--;
       }
-      else if (this.timeLeft < 0) {
+      else if (this.timeLeft < 1) {
         this.form.reset();
         clearInterval(this.timerInterval);
-        this.timeLeft = 10;
         this.verificationError = true;
         this.verifyErrorMessage = "OTP Number has been expired! Please send new code";
       }
