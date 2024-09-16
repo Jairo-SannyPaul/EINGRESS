@@ -55,11 +55,11 @@ export class AdminpopupComponent implements OnInit {
       });
     }
   }
-  
+
 
   clearText(event: FocusEvent): void {
     const inputElement = event.target as HTMLInputElement;
-    inputElement.placeholder = ''; 
+    inputElement.placeholder = '';
   }
 
   resetPlaceholder(event: FocusEvent): void {
@@ -97,7 +97,7 @@ export class AdminpopupComponent implements OnInit {
 
   onClear(): void {
     this.form.reset();
-    
+
     // Reset placeholders after clearing the form
     const placeholders: { [key: string]: string } = {
       newusername: 'Enter New Username',
@@ -123,83 +123,109 @@ export class AdminpopupComponent implements OnInit {
       return;
     }
 
-    if (newPass !== confirmPass) {
+    else if (newPass !== confirmPass) {
       this.dialogService.openAlertDialog('New password and confirmed password do not match.');
       return;
     }
-  
-    if (newPass && !oldPass) {
+
+    else if (newPass && !oldPass) {
       this.dialogService.openAlertDialog('Please enter your old password to update your password.');
       return;
     }
 
-    if (oldPass){
-    this.userService.validateOldPassword(this.currentAdmin, oldPass).subscribe({
-      next: (isValid) => {
-        if (!isValid) {
-          this.dialogService.openAlertDialog('Old password is incorrect.');
-          return;
-        }
-  
-        // Prepare data for update
-        const updateData = {
-          username: this.form.get('newusername')?.value,
-          email: this.form.get('newEmail')?.value,
-          password: newPass
-        };
-  
-        
-    this.userService.updateUser(this.currentAdmin, updateData).subscribe({
-      next: (response) => {
-        if (response.message === 'User updated successfully with new email') {
-          console.log('Email changed');
-          this.dialogService.openSuccessDialog('Email changed and user updated successfully!');
-  
-          // Prepare data for sending verification email
-          const verificationData = {
-            name: this.form.get('newusername')?.value,
-            address: this.form.get('newEmail')?.value,
-            verification_otp: response.user.verify_otp, // Ensure verify_token is part of response
+    else if (oldPass) {
+      this.userService.validateOldPassword(this.currentAdmin, oldPass).subscribe({
+        next: (isValid) => {
+          if (!isValid) {
+            this.dialogService.openAlertDialog('Old password is incorrect.');
+            return;
+          }
+
+          // Prepare data for update
+          const updateData = {
+            username: this.form.get('newusername')?.value,
+            email: this.form.get('newEmail')?.value,
+            password: newPass
           };
-  
-          // Call send verification email
-          this.userService.sendVerificationEmail(verificationData).subscribe({
-            next: (emailResponse) => {
-              console.log('Verification email sent:', emailResponse);
+
+
+          this.userService.updateUser(this.currentAdmin, updateData).subscribe({
+            next: (response) => {
+              if (response.message === 'User updated successfully with new email') {
+                console.log('Email changed');
+                this.dialogService.openSuccessDialog('Email changed and user updated successfully!');
+
+                // Prepare data for sending verification email
+                const verificationData = {
+                  name: this.form.get('newusername')?.value,
+                  address: this.form.get('newEmail')?.value,
+                  verification_otp: response.user.verify_otp, // Ensure verify_token is part of response
+                };
+
+                // Call send verification email
+                this.userService.sendVerificationEmail(verificationData).subscribe({
+                  next: (emailResponse) => {
+                    console.log('Verification email sent:', emailResponse);
+                  },
+                  error: (emailError) => {
+                    console.error('Error sending verification email:', emailError);
+                  }
+                });
+              } else {
+                this.dialogService.openSuccessDialog('Profile updated successfully!');
+              }
             },
-            error: (emailError) => {
-              console.error('Error sending verification email:', emailError);
+            error: (error) => {
+              console.error('Error updating profile:', error);
+              this.dialogService.openAlertDialog('Error updating profile.');
             }
           });
-        } else {
-          this.dialogService.openSuccessDialog('Profile updated successfully!');
+        },
+        error: (error) => {
+          this.dialogService.openAlertDialog('Error validating old password.');
         }
-      },
-      error: (error) => {
-        console.error('Error updating profile:', error);
-        this.dialogService.openAlertDialog('Error updating profile.');
-      }
-    });
-      },
-      error: (error) => {
-        this.dialogService.openAlertDialog('Error validating old password.');
-      }
-    });
-  }else {
-    const updateData = {
-      username: this.form.get('newusername')?.value,
-      email: this.form.get('newEmail')?.value
-    };
+      });
+    }
+    else {
+      // Prepare data for update
+      const updateData = {
+        username: this.form.get('newusername')?.value,
+        email: this.form.get('newEmail')?.value,
+        password: newPass
+      };
 
-    // Call the update service without updating the password
-    this.userService.updateUser(this.currentAdmin, updateData).subscribe({
-      next: (response) => {
-        this.dialogService.openSuccessDialog('Profile updated successfully!');
-      },
-      error: (error) => {
-        this.dialogService.openAlertDialog('Error updating profile.');
-      }
-    });
-  }
+      this.userService.updateUser(this.currentAdmin, updateData).subscribe({
+        next: (response) => {
+          if (response.message === 'User updated successfully with new email') {
+            console.log('Email changed');
+            this.dialogService.openSuccessDialog('Email changed and user updated successfully!');
+
+            // Prepare data for sending verification email
+            const verificationData = {
+              name: this.form.get('newusername')?.value,
+              address: this.form.get('newEmail')?.value,
+              verification_otp: response.user.verify_otp, // Ensure verify_token is part of response
+            };
+
+            // Call send verification email
+            this.userService.sendVerificationEmail(verificationData).subscribe({
+              next: (emailResponse) => {
+                console.log('Verification email sent:', emailResponse);
+              },
+              error: (emailError) => {
+                console.error('Error sending verification email:', emailError);
+              }
+            });
+          } else {
+            this.dialogService.openSuccessDialog('Profile updated successfully!');
+          }
+        },
+        error: (error) => {
+          console.error('Error updating profile:', error);
+          this.dialogService.openAlertDialog('Error updating profile.');
+        }
+      });
+    }
+
   }
 }
