@@ -191,7 +191,6 @@ export class AdminpopupComponent implements OnInit {
       const updateData = {
         username: this.form.get('newusername')?.value,
         email: this.form.get('newEmail')?.value,
-        password: newPass
       };
 
       this.userService.updateUser(this.currentAdmin, updateData).subscribe({
