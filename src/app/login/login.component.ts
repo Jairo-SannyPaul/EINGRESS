@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
   successChangePass: boolean = false;
   verifyErrorMessage!: String;
   isNotificationPopup = false;
-  timeLeft: number = 10;
+  timeLeft: number = 300;
   private destroy$ = new Subject<void>();
   timerInterval: any;
   isSendNewCode: boolean = false;
@@ -285,7 +285,7 @@ export class LoginComponent implements OnInit {
       this.isLoading = true;  // Start loading
 
       // Start the timer
-      this.resetTimer();
+      this.startTimer();
 
       this.userService.sendResetOtp({ email }).subscribe({
         next: (response: any) => {
