@@ -61,21 +61,18 @@
     <div class="lower">
       
       <div class="lock-side pointer" (click)="toggleLock()">
-        <div class="collapse-icon">
           <ng-container *ngIf="isLocked; else unlockedIcon">
-            <svg width="23" height="20" viewBox="0 0 23 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M1.69001 20L0 18.225L7.83118 10L0 1.775L1.69001 0L11.2112 10L1.69001 20Z" fill="white"/>
-              <path d="M12.9009 20L11.2109 18.225L19.0421 10L11.2109 1.775L12.9009 0L22.4221 10L12.9009 20Z" fill="white"/>
-            </svg>
+            <img class="collapse-icon" src="/assets/images/collapse-default-left.png">
           </ng-container>
           
           <ng-template #unlockedIcon>
-            <svg width="23" height="20" viewBox="0 0 23 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M20.7321 0L22.4221 1.775L14.5909 10L22.4221 18.225L20.7321 20L11.2109 10L20.7321 0Z" fill="white"/>
-              <path d="M9.52117 0L11.2112 1.775L3.38 10L11.2112 18.225L9.52117 20L-2.47955e-05 10L9.52117 0Z" fill="white"/>
-            </svg>
+            <img class="collapse-icon" src="/assets/images/collapse-default-right.png">
           </ng-template>
-        </div>
+
+        
+        <!-- <div class="collapse-icon">
+          
+        </div> -->
         <span>{{ isLocked ? 'Collapse' : 'Collapse' }}</span>
       </div>
       <svg width="280" height="1" viewBox="0 0 280 1" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -83,11 +80,7 @@
         </svg>
         
       <div class="logout pointer" (click)="logout()">
-        <div class="logout-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M2.66667 24C1.93333 24 1.30556 23.7389 0.783333 23.2167C0.261111 22.6944 0 22.0667 0 21.3333V2.66667C0 1.93333 0.261111 1.30556 0.783333 0.783333C1.30556 0.261111 1.93333 0 2.66667 0H12V2.66667H2.66667V21.3333H12V24H2.66667ZM17.3333 18.6667L15.5 16.7333L18.9 13.3333H8V10.6667H18.9L15.5 7.26667L17.3333 5.33333L24 12L17.3333 18.6667Z" fill="#E8EAED"/>
-            </svg>
-        </div>
+        <img class="logout-icon" src="/assets/images/logout-default.png">
         <span>Logout</span>
       </div>
 

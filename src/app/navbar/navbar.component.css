@@ -112,16 +112,23 @@
 .side-bar:not(.locked) .settings:hover .settings-icon {
   content: url('/assets/images/settings-active.png'); /* Change icon on hover */
 }
+
 .side-bar:hover:not(.locked) .settings {
   background-color: #0B203F;
 }
 
-
+.side-bar:not(.locked) .logout:hover .logout-icon {
+  content: url('/assets/images/logout-active.png'); /* Change icon on hover */
+}
 .side-bar:hover:not(.locked) .logout {
   background-color: #0B203F;
 }
 
-.side-bar:hover:not(.locked) .lock-side {
+.side-bar:not(.locked) .lock-side:hover .collapse-icon {
+  content: url('/assets/images/collapse-active.png'); /* Change icon on hover */
+}
+
+.side-bar:not(.locked) .lock-side:hover  {
   background-color: #0B203F;
 }
 
