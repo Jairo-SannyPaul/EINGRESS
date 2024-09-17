@@ -1,8 +1,8 @@
 .pages {
+    background-color: #EDF4FF;  
     display: flex;
     position: absolute;
     justify-content: center;
-    background-color: var(--background);
     width: calc(100% - 48px);
     height: calc(100% - 48px);
     top: 48px;

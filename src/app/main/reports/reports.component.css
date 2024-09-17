@@ -1,6 +1,6 @@
 
 .contents {
-    width: calc(100vw - 285px);
+    width: 100%;
     /* Set the width of the container */
     height: 100%;
     /* Set the height to 100% of viewport height */
@@ -9,14 +9,24 @@
     /* 4 columns of equal width */
     grid-template-rows: 280px repeat(3, 1fr);
     /* 4 rows with height based on content */
-    gap: 20px;
+    gap: 12px;
     /* Gap between grid items */
-    overflow: hidden;
+    overflow: hidden; 
+
 }
+
 .header{
     display: flex;
     flex-direction:row;
     justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 20px;
+    
+}
+
+.search-field{
+    background-color: aliceblue;
 }
 
 .table{
@@ -26,14 +36,13 @@
 .datepicker{
     display: flex;
     align-items: center;
+    background-color: #FFFFFF99;
 }
 
 .users-list {
-    padding: 40px;
     grid-column: 1 / 2;
     grid-row: 1 / 5;
-    background-color: white;
-    border-radius: 20px;
+    border-radius: 10px;
 }
 
 .user-details {
