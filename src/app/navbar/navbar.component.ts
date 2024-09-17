@@ -13,6 +13,9 @@ export class NavbarComponent implements OnInit{
   @Output() lockStateChange = new EventEmitter<boolean>();
   isHovered: boolean = false;
   constructor(private router: Router, private dialogService: DialogService) {}
+  atDashboard: boolean = true;
+  atReports: boolean = false;
+  atUsers: boolean = false;
 
   ngOnInit(): void {
     this.router.events.subscribe(event => {
@@ -51,10 +54,19 @@ export class NavbarComponent implements OnInit{
   private updateActiveSection(): void {
     const url = this.router.url;
     if (url.startsWith('/main/reports')) {
+      this.atDashboard = false;
+      this.atReports = true;
+      this.atUsers = false;
       this.activeSection = 'reports';
     } else if (url.startsWith('/main/dashboard')) {
+      this.atDashboard = true;
+      this.atReports = false;
+      this.atUsers = false;
       this.activeSection = 'dashboard';
     } else if (url.startsWith('/main/users')) {
+      this.atDashboard = false;
+      this.atReports = false;
+      this.atUsers = true;
       this.activeSection = 'users';
     } else {
       this.activeSection = ''; 
