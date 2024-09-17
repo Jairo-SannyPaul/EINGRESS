@@ -360,3 +360,24 @@ span {
   align-items: center;
 }
 
+::ng-deep .mat-mdc-tooltip{
+  transform: scale(1.6)!important;
+  position: absolute!important;
+  left: -190px;
+  top: -12px;
+}
+
+::ng-deep .custom-tooltip{
+  --mdc-plain-tooltip-container-color: #0B203F!important;
+  --mdc-plain-tooltip-supporting-text-color: #FFFFFF;
+  width: 100px;
+  --mdc-plain-tooltip-supporting-text-size: 12px!important;
+  --mdc-plain-tooltip-supporting-text-font: "Poppins"!important;
+  --mdc-plain-tooltip-supporting-font-weight: 100!important;
+  --mdc-plain-tooltip-supporting-text-align: center!important;
+  border-radius: 0px !important;
+}
+
+::ng-deep .mdc-tooltip__surface {
+  border-radius: 0px !important; /* Apply to nested elements */
+}

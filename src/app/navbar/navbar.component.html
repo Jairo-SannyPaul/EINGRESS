@@ -26,11 +26,12 @@
         (click)="setActive('dashboard')"
         [ngClass]="{ active: activeSection === 'dashboard' }"
         [routerLink]="['dashboard']"
+        [matTooltip]="!isLocked ? 'Dashboard' : ''"
+        [matTooltipClass]="!isLocked ? 'custom-tooltip' : ''"
+        [matTooltipPosition]="!isLocked ? 'right' : 'left'" 
       >
-        <!-- <img class="dashboard-icon" src="/assets/images/dashboard1.png"> -->
-         <div >
+        <div>
         <img class="dashboard-icon" [src]="isHovered || !atDashboard || isLocked? '/assets/images/dashboard-default.png'  : '/assets/images/dashboard-active.png'" alt="">
-        <!-- <img class="dashboard-icon" [src]="isLocked ? '/assets/images/collapse-right.png' : '/assets/images/collapse-left.png'" alt="Toggle Lock"> -->
         </div>
         <span>Dashboard</span>
       </div>
@@ -40,6 +41,9 @@
         (click)="setActive('reports')"
         [ngClass]="{ active: activeSection === 'reports' }"
         [routerLink]="['reports']"
+        [matTooltip]="!isLocked ? 'Reports' : ''"
+        [matTooltipClass]="!isLocked ? 'custom-tooltip' : ''" 
+        [matTooltipPosition]="!isLocked ? 'right' : 'left'" 
       >
       <img class="reports-icon" [src]="isHovered || !atReports || isLocked? '/assets/images/reports-default.png'  : '/assets/images/reports-active.png'" alt="">
 
@@ -51,6 +55,9 @@
         (click)="setActive('users')"
         [ngClass]="{ active: activeSection === 'users' }"
         [routerLink]="['users']"
+        [matTooltip]="!isLocked ? 'Users' : ''"
+        [matTooltipClass]="!isLocked ? 'custom-tooltip' : ''" 
+        [matTooltipPosition]="!isLocked ? 'right' : 'left'" 
       >
         <img class="users-icon" [src]="isHovered || !atUsers || isLocked? '/assets/images/users-default.png'  : '/assets/images/users-active.png'" alt="">
       
