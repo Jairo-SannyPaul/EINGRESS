@@ -361,23 +361,31 @@ span {
 }
 
 ::ng-deep .mat-mdc-tooltip{
-  transform: scale(1.6)!important;
-  position: absolute!important;
+  transform: scale(1.6) !important;
+  position: absolute !important;
   left: -190px;
-  top: -12px;
+  background-color: red;
 }
 
 ::ng-deep .custom-tooltip{
-  --mdc-plain-tooltip-container-color: #0B203F!important;
+  --mdc-plain-tooltip-container-color: #0B203F99!important;
   --mdc-plain-tooltip-supporting-text-color: #FFFFFF;
-  width: 100px;
   --mdc-plain-tooltip-supporting-text-size: 12px!important;
   --mdc-plain-tooltip-supporting-text-font: "Poppins"!important;
-  --mdc-plain-tooltip-supporting-font-weight: 100!important;
+  --mdc-plain-tooltip-supporting-font-weight: 400!important;
   --mdc-plain-tooltip-supporting-text-align: center!important;
-  border-radius: 0px !important;
+  display: flex; /* Flexbox to help center text vertically */
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+  height: 100%; /* Make sure the container fills the height */
 }
 
 ::ng-deep .mdc-tooltip__surface {
-  border-radius: 0px !important; /* Apply to nested elements */
+  border-radius: 6px !important; /* Apply to nested elements */
+  width: 100px;
+  height: 38px;
+  display: flex; /* Flexbox for centering */
+  align-items: center; /* Vertically center the text */
+  justify-content: center; /* Horizontally center the text */
 }
+
