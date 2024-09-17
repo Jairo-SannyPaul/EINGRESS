@@ -74,6 +74,7 @@
 .logo {
   width: 45px;
   height: 45px;
+  padding: 8px;
   margin-right: 11px;
 }
 
@@ -102,7 +103,7 @@
   font-weight: 700;
   color: white;
   user-select: none;
-  margin-top:24px;
+  margin-top: 24px;
 }
 
 
@@ -271,4 +272,3 @@ span {
   cursor: pointer;
   align-items: center;
 }
-
