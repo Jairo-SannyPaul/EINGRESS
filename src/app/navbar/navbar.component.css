@@ -17,9 +17,11 @@
 .side-bar .project{
   margin-left: 10px;
 }
-.side-bar:hover .project {
+.side-bar:hover(.locked) .project {
   margin-left: 0;
 }
+
+
 
 .active {
   /* transform: scale(0.95); */
@@ -28,24 +30,72 @@
   color: white; 
 }
 
+
+.side-bar:not(.locked) .reports.active{
+  background-color: #0B203F;
+}
+
+.side-bar:not(.locked) .reports.active{
+  background-color: #0B203F;
+}
+.side-bar:not(.locked) .users.active{
+  background-color: #0B203F;
+}
+
+.side-bar.locked .users.active{
+  background-color: #172b49;
+}
+
 .side-bar:not(:hover) .dashboard.active{
-  background-color: #0B203F;
+  background-color: #172b49;
 }
-
 .side-bar:not(:hover) .reports.active{
+  background-color: #172b49;
+}
+.side-bar:not(:hover) .users.active{
+  background-color: #172b49;
+}
+
+.side-bar:not(:hover):not(.locked) .dashboard.active {
   background-color: #0B203F;
 }
 
-.side-bar:not(:hover) .users.active{
+.side-bar:not(:hover):not(.locked) .reports.active {
   background-color: #0B203F;
 }
-.side-bar:not(.locked):hover {
+
+.side-bar:not(:hover):not(.locked) .users.active {
+  background-color: #0B203F;
+}
+
+.side-bar:hover .dashboard.active{
+  background-color: #172b49;
+}
+.side-bar:hover .reports.active{
+  background-color: #172b49;
+}
+.side-bar:hover .users.active{
+  background-color: #172b49;
+}
+
+.side-bar:hover:not(.locked) .dashboard.active{
+  background-color: #0B203F;
+}
+.side-bar:hover:not(.locked) .reports.active{
+  background-color: #0B203F;
+}
+.side-bar:hover:not(.locked) .users.active{
+  background-color: #0B203F;
+}
+
+/* .side-bar:not(.locked):hover {
   width: 332px;
   padding: 31px, 26px, 26px, 26px;
   align-items: center;
-}
+  
+} */
 
-.side-bar.locked:not(.locked):hover {
+.side-bar.locked {
   width: 332px; 
   padding: 31px, 26px, 26px, 26px;
   transition: none;
@@ -72,8 +122,8 @@
 
 
 .logo {
-  width: 45px;
-  height: 45px;
+  width: 40px;
+  height: 40px;
   margin-right: 11px;
 }
 
@@ -113,7 +163,7 @@ span {
 }
 
 .side-bar:not(.locked):hover span {
-  opacity: 1.0; 
+  /* opacity: 1.0;  */
 }
 
 
@@ -138,8 +188,7 @@ span {
 
 .dashboard span,
 .reports span,
-.users span,
-.logout span {
+.users span{
   margin-left: 16px;
 }
 
@@ -219,15 +268,6 @@ span {
   margin-bottom: 17px;
 }
 
-/* 
-.collapse-icon {
-  width: 45px;
-  height: 45px;
-  padding: 8px;
-  margin-right: 5px;
-  margin-left: 3px;
-} */
-
 .settings{
   margin-top: 10px;
   display: flex;
@@ -235,7 +275,7 @@ span {
   align-items: center;
   font-family: "Poppins";
   font-weight: 400;
-  font-size: 20px;
+  font-size: 16px;
   color: white;
   margin-bottom: 17px;
   /* transition: box-shadow 0.3s ease, transform 0.3s ease; */
@@ -250,17 +290,16 @@ span {
   align-items: center;
   font-family: "Poppins";
   font-weight: 400;
-  font-size: 20px;
+  font-size: 16px;
   color: white;
   margin-bottom: 20px;
   /* transition: box-shadow 0.3s ease, transform 0.3s ease; */
   padding: 16px, 26px, 16px, 26px;
   width: 272px;
+  display: flex;
+  align-items: center;
 }
 
-.lock-side span {
-  margin-left: 11px;
-}
 
 .lock-side:hover{
   /* box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
@@ -269,7 +308,9 @@ span {
   border-radius: 6px;
 }
 
-.logout-pointer {
+.logout{
+  font-size: 16px;
+  font-family: "Poppins";
   display: flex;
   cursor: pointer;
   align-items: center;

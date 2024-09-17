@@ -27,15 +27,15 @@ export class NavbarComponent implements OnInit{
     this.updateActiveSection();
   }
   onHover() {
-    this.isHovered = true;
+    
   }
   onUnhover() {
-    this.isHovered = false;
+  
   }
   toggleLock() {
+    this.isHovered = !this.isHovered ;
     this.isLocked = !this.isLocked;
     this.lockStateChange.emit(this.isLocked);
-    
   }
 
   setActive(section: string) {

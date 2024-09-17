@@ -12,10 +12,10 @@
   }
   
   
-  .navbar:not(.locked):hover ~ .pages {
+  /* .navbar:not(.locked):hover ~ .pages {
     width: calc(100% - 216px);
     left: 216px;
-  }
+  } */
   
  
   .navbar.locked ~ .pages {
