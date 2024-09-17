@@ -16,7 +16,7 @@
     }
 
     .notRequired {
-        color: #464646;
+        color: #464646; 
     }
 
     p {
@@ -51,6 +51,22 @@
     line-height: normal;
     }
 
+    input[type="text"]:focus, #finger-id-1:focus, #finger-id-2:focus {
+        border-radius: 3px;
+        border: 2px solid #5984C8;
+        background: var(--white-900, #FFF);
+        box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.05);
+      }
+
+    
+    select:focus {
+        border-radius: 3px;
+        border: 2px solid #5984C8;
+        background: var(--white-900, #FFF);
+        box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.05);
+    }
+      
+
     /** start of right div **/
 
     .drop-down {
@@ -60,6 +76,14 @@
         gap: 136px;
     }
 
+    #addRole:focus,#addBranch:focus {
+        border-radius: 3px;
+        border: 2px solid #5984C8;
+        background: var(--white-900, #FFF);
+        box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.05);
+    }
+
+    
     #addRole {
         font-family: 'Poppins', sans-serif;
         font-size: 16px;
@@ -73,6 +97,20 @@
         appearance: none; /* Remove default dropdown arrow */
     }
 
+    /* Add these styles to your CSS file */
+
+    .drop-down select:focus {
+        border-radius: 5px;
+        background: var(--white-900, #FFF);
+        box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.10);
+
+        display: flex;
+        width: 387px;
+        padding: 8px 0px 8px 21px;
+        align-items: center;
+        gap: 2px;
+    }
+
     .custom-arrow {
         position: absolute;
         top: 50%;
@@ -81,12 +119,9 @@
         pointer-events: none; /* Allows clicks to pass through */
         display: flex;
         align-items: center;
+        
     }
 
-    .custom-arrow svg {
-        width: 18px;
-        height: 18px;
-      }
 
     .branch-RFID-container {
         display: flex;
@@ -96,6 +131,24 @@
         width: 183px;
 
     }
+
+    .input-wrapper {
+        position: relative;
+        display: inline-block;
+      }
+      
+      .rfid-icon {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        pointer-events: none;
+      }
+      
+      input {
+        padding-right: 30px; /* Adjust padding to make room for the SVG */
+      }
+      
 
     #addBranch {
         font-family: 'Poppins', sans-serif;
@@ -121,6 +174,10 @@
 
     #addRFID {
         width: 183px;
+    }
+
+    #addRFID:focus + .input-wrapper .svg {
+        fill: #B4B4B4;
     }
 
     .fingerprint-1-container {
