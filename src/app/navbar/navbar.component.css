@@ -88,6 +88,43 @@
   background-color: #0B203F;
 }
 
+.side-bar:not(.locked) .dashboard:hover .dashboard-icon {
+  content: url('/assets/images/dashboard-active.png'); /* Change icon on hover */
+}
+.side-bar:hover:not(.locked) .dashboard {
+  background-color: #0B203F;
+}
+
+.side-bar:not(.locked) .reports:hover .reports-icon {
+  content: url('/assets/images/reports-active.png'); /* Change icon on hover */
+}
+.side-bar:hover:not(.locked) .reports {
+  background-color: #0B203F;
+}
+
+.side-bar:not(.locked) .users:hover .users-icon {
+  content: url('/assets/images/users-active.png'); /* Change icon on hover */
+}
+.side-bar:hover:not(.locked) .users {
+  background-color: #0B203F;
+}
+
+.side-bar:not(.locked) .settings:hover .settings-icon {
+  content: url('/assets/images/settings-active.png'); /* Change icon on hover */
+}
+.side-bar:hover:not(.locked) .settings {
+  background-color: #0B203F;
+}
+
+
+.side-bar:hover:not(.locked) .logout {
+  background-color: #0B203F;
+}
+
+.side-bar:hover:not(.locked) .lock-side {
+  background-color: #0B203F;
+}
+
 /* .side-bar:not(.locked):hover {
   width: 332px;
   padding: 31px, 26px, 26px, 26px;
