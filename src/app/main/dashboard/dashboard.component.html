@@ -1,16 +1,22 @@
 <div class="contents">
-    <div class="security-summary">
-        <span>Security Summary</span>
-        <app-security-summary (loadingChange)="onLoadingChange($event)"></app-security-summary>
+    <div class="overview-label">
+        <p>Overview</p>
+        <span>View of all Employees Summary Result, Recent Login and Previous Attendance.</span>
     </div>
-    <div class="recent-alerts">
-        <span>Recent Alerts</span>
-        <app-recent-alerts></app-recent-alerts>
-    </div>
+
     <div class="recent-login">
-        <span>Recent Login</span>
         <app-recent-login></app-recent-login>
     </div>
+
+    <div class="security-summary">
+        <app-security-summary (loadingChange)="onLoadingChange($event)"></app-security-summary>
+    </div>
+
+    <div class="recent-alerts">
+        <span>Previous Login</span>
+        <app-recent-alerts></app-recent-alerts>
+    </div>
+    
 </div>
 
 <div [ngClass]="{'fade-out': !loading}" class="loading-overlay">
