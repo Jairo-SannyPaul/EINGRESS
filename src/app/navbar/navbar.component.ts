@@ -11,7 +11,7 @@ export class NavbarComponent implements OnInit{
   isLocked = false;
   activeSection: string = '';
   @Output() lockStateChange = new EventEmitter<boolean>();
-
+  isHovered: boolean = false;
   constructor(private router: Router, private dialogService: DialogService) {}
 
   ngOnInit(): void {
@@ -23,7 +23,12 @@ export class NavbarComponent implements OnInit{
 
     this.updateActiveSection();
   }
-
+  onHover() {
+    this.isHovered = true;
+  }
+  onUnhover() {
+    this.isHovered = false;
+  }
   toggleLock() {
     this.isLocked = !this.isLocked;
     this.lockStateChange.emit(this.isLocked);

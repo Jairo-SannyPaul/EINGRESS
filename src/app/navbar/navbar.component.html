@@ -1,5 +1,5 @@
 
-<nav class="side-bar" [class.locked]="isLocked">
+<nav class="side-bar" [class.locked]="isLocked" (mouseover)="onHover()" (mouseleave)="onUnhover()">
     <div class="upper">
       <div class="project">
         <div class="logo">
@@ -23,10 +23,9 @@
         [routerLink]="['dashboard']"
       >
         <!-- <img class="dashboard-icon" src="/assets/images/dashboard1.png"> -->
-         <div class="dashboard-icon">
-        <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M13.8333 8V0H24.5V8H13.8333ZM0.5 13.3333V0H11.1667V13.3333H0.5ZM13.8333 24V10.6667H24.5V24H13.8333ZM0.5 24V16H11.1667V24H0.5ZM3.16667 10.6667H8.5V2.66667H3.16667V10.6667ZM16.5 21.3333H21.8333V13.3333H16.5V21.3333ZM16.5 5.33333H21.8333V2.66667H16.5V5.33333ZM3.16667 21.3333H8.5V18.6667H3.16667V21.3333Z" fill="#E8EAED"/>
-          </svg>
+         <div >
+        <img class="dashboard-icon" [src]="isHovered ? '/assets/images/dashboard-default.png'  : '/assets/images/dashboard-active.png'" alt="">
+        <!-- <img class="dashboard-icon" [src]="isLocked ? '/assets/images/collapse-right.png' : '/assets/images/collapse-left.png'" alt="Toggle Lock"> -->
         </div>
         <span>Dashboard</span>
       </div>
