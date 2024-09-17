@@ -1,0 +1,146 @@
+<body>
+<div class="modal-overlay" *ngIf="isVisible">
+    <div class="modal-container">
+        <div class = "header">
+            <div class = "header-text">
+                <span class="header-title">Add User</span>
+                <span class="header-subtitle">Make sure to submit your details</span>
+            </div>
+        <button class="close pointer" (click)="hideAddUserModal()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z" fill="#464646"/>
+              </svg>
+        </button>
+        </div>
+      <!-- Add your form or content here -->
+
+        <div class = "modal-content">
+            <!--start of left div-->
+            <div class = "modal-content-left">
+                <div class = "name-container">
+                    <p><span class = "required">*</span> Full Name</p>
+                    <input type="text" id="addUserName" name="fullname" placeholder="Input Full Name">
+                 </div>
+                 <div class = "role-container">
+                    <p><span class = "required">*</span>Role</p>
+                    <div class = "drop-down">
+                        <select id="addRole" name="roleDropdown" placeholder="Select Role">
+                            <option value="Admin Aide">Admin Aide</option>
+                            <option value="Administrative Assistant">Administrative Assistant</option>
+                            <option value="Administrative Officer">Administrative Officer</option>
+                            <option value="Back End Developer">Back End Developer</option>
+                            <option value="Bubble Developer">Bubble Developer</option>
+                            <option value="CAD Operator">CAD Operator</option>
+                            <option value="Cebu Branch Manager">Cebu Branch Manager</option>
+                            <option value="Chief Executive Officer">Chief Executive Officer</option>
+                            <option value="Chief Finance Officer">Chief Finance Officer</option>
+                            <option value="Co-CEO">Co-CEO</option>
+                            <option value="Database Administrator">Database Administrator</option>
+                            <option value="Developer">Developer</option>
+                            <option value="DevOps Engineer">DevOps Engineer</option>
+                            <option value="Digital Creative Marketing">Digital Creative Marketing</option>
+                            <option value="Driver/ Maintenance">Driver/ Maintenance</option>
+                            <option value="Front-end Developer">Front-end Developer</option>
+                            <option value="Full Stack Developer">Full Stack Developer</option>
+                            <option value="Guest">Guest</option>
+                            <option value="HR and Recruitment Assistant">HR and Recruitment Assistant</option>
+                            <option value="HR Consultant">HR Consultant</option>
+                            <option value="Intern">Intern</option>
+                            <option value="Internal Finance">Internal Finance</option>
+                            <option value="IT Administrator">IT Administrator</option>
+                            <option value="Junior Full Stack Developer">Junior Full Stack Developer</option>
+                            <option value="Lead UI/UX Designer">Lead UI/UX Designer</option>
+                            <option value="Liaison Officer">Liaison Officer</option>
+                            <option value="Logistics">Logistics</option>
+                            <option value="Logistics Assistant">Logistics Assistant</option>
+                            <option value="Maintenance Worker">Maintenance Worker</option>
+                            <option value="PMO Manager">PMO Manager</option>
+                            <option value="Principal Development Supervisor">Principal Development Supervisor</option>
+                            <option value="Product Design Manager">Product Design Manager</option>
+                            <option value="Product Owner">Product Owner</option>
+                            <option value="Project Coordinator">Project Coordinator</option>
+                            <option value="Project Manager">Project Manager</option>
+                            <option value="QA Manager">QA Manager</option>
+                            <option value="Quality Assurance Specialist">Quality Assurance Specialist</option>
+                            <option value="Quality Assurance Specialist - Team Lead">Quality Assurance Specialist - Team Lead</option>
+                            <option value="Quality Automation Supervisor">Quality Automation Supervisor</option>
+                            <option value="Scrum Master">Scrum Master</option>
+                            <option value="Scrum Master/Product Owner">Scrum Master/Product Owner</option>
+                            <option value="Software Development Manager">Software Development Manager</option>
+                            <option value="Sr. Full Stack Developer">Sr. Full Stack Developer</option>
+                            <option value="TVI Head">TVI Head</option>
+                            <option value="UI/UX Designer">UI/UX Designer</option>
+                        </select>
+                        <div class="custom-arrow">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+                            <path d="M9 11.25L5.25 7.5H12.75L9 11.25Z" fill="#464646"/>
+                            </svg>
+                        </div>  
+                    </div>
+                 </div>
+
+                 <div class = "branch-RFID-container">
+                    <div class = "branch-container">
+                        <p><span class = "required">*</span>Branch</p>
+                        <div class ="drop-down">
+                            <select id="addBranch" name="branchDropDown" placeholder="Select Branch">
+                                <option value="Cebu">Cebu</option>
+                                <option value="Davao">Davao</option>
+                            </select>
+                            <div class="custom-arrow">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+                                <path d="M9 11.25L5.25 7.5H12.75L9 11.25Z" fill="#464646"/>
+                                </svg>
+                            </div>  
+                        </div>
+                    </div>
+                    <div class = "rfid-container">
+                        <p><span class = "required">*</span>RFID Card</p>
+                        <input type="text" id="addRFID" name="rfid" placeholder="Click Here">
+                    </div>
+                </div>
+
+                <div class = "fingerprint-1-container">
+                    <p><span class = "notRequired">*</span> Fingerprint Template 1</p>
+                    <input type="text" id="addFinger-1" name="fingerprint-1" placeholder="Fingerprint Code">
+                </div>
+
+            </div>
+        <!-- end of left div -->
+
+        <!-- start of right div -->
+
+            <div class = "modal-content-right">
+                <div class = "email-container">
+                    <p><span class = "required">*</span>Email</p>
+                    <input type="text" id="addEmail" name="email" placeholder="Input Email">
+                 </div>
+                 <div class = "contact-container">
+                    <p><span class = "required">*</span>Contact</p>
+                    <input type="text" id="addContact" name="contact" placeholder="+63 XXX XXX XXXX">
+                </div>
+                <div class = "fingerprint-id-container">
+                    <div class = "fingerprint-id-1">
+                        <p><span class = "required">*</span>Fingerprint ID 1</p>
+                        <input type="text" id="finger-id-1" name="finger-1" placeholder="Biometric ID">
+                    </div>
+                    <div class = "fingerprint-id-2">
+                        <p><span class = "notRequired">*</span>Fingerprint ID 2</p>
+                        <input type="text" id="finger-id-2" name="finger-2" placeholder="Biometric ID">
+                    </div>
+                </div>
+
+                <div class = "fingerprint-2-container">
+                    <p><span class = "required">*</span>Fingerprint Template 2</p>
+                    <input type="text" id="addFinger-2" name="fingerprint-2" placeholder="Fingerprint Code">
+                </div>
+            </div>
+            </div>
+            <div class = "footer">
+                <button class="btn clear-btn" (click)="onClear()">Clear</button>
+                <button class="btn submit-btn" (click)="onSubmit()">Submit</button>
+            </div>
+        </div>
+    </div>
+</body>
+  
