@@ -72,7 +72,7 @@
   justify-content: center; /* Center the image horizontally within the container */
   margin-left: 20px; /* Add a margin of 20px to the left of the filter icon */
   border-radius: 10px;
-  background-color: #f5f5f5;
+  background-color: #FFFFFF99;
   cursor: pointer;
 }
 
@@ -101,6 +101,10 @@
   padding-right: 10px;
   padding-bottom: 10px;
   justify-content: space-between;
+}
+
+.right{
+  background-color: #FFFFFF99;
 }
 
 .filter {

@@ -1,5 +1,6 @@
 
 .pages {
+    background-color: #EDF4FF;  
     display: flex;
     /* flex-direction: column; */
     position: absolute;
