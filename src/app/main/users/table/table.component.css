@@ -16,7 +16,7 @@ input[type="checkbox"] {
     display: flex;
     position: sticky;
     display: grid;
-    grid-template-columns: 20px 60px repeat(4, 1fr) 60px; /* Fixed width first column, rest are 1fr */
+    grid-template-columns: 20px 34px repeat(4, 1fr) 36px; /* Fixed width first column, rest are 1fr */
     align-items: center;
     padding: 10px, 16px, 10px, 16px;
     position: sticky; 
