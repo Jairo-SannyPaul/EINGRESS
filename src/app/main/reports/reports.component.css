@@ -1,6 +1,6 @@
 
 .contents {
-    width: calc(100vw - 285px);
+    width: 100%;
     /* Set the width of the container */
     height: 100%;
     /* Set the height to 100% of viewport height */
@@ -9,14 +9,24 @@
     /* 4 columns of equal width */
     grid-template-rows: 280px repeat(3, 1fr);
     /* 4 rows with height based on content */
-    gap: 20px;
+    gap: 12px;
     /* Gap between grid items */
-    overflow: hidden;
+    overflow: hidden; 
+
 }
+
 .header{
     display: flex;
     flex-direction:row;
     justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 20px;
+    
+}
+
+.search-field{
+    background-color: aliceblue;
 }
 
 .table{
@@ -26,22 +36,32 @@
 .datepicker{
     display: flex;
     align-items: center;
+    background-color: #FFFFFF99;
 }
 
 .users-list {
-    padding: 40px;
     grid-column: 1 / 2;
     grid-row: 1 / 5;
-    background-color: white;
-    border-radius: 20px;
+    border-radius: 10px;
 }
 
 .user-details {
-    padding: 20px;
+    /*padding: 20px;
     grid-column: 2 / 3;
     grid-row: 1 / 2;
     background-color: white;
-    border-radius: 20px;
+    border-radius: 5px;*/
+    display: flex;
+    padding: 26px 36px 26px 26px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    align-self: stretch;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 1px 20px 0px rgba(0, 0, 0, 0.05);
+    width: 100%;
+    height: 157px;
 }
 
 .login-sessions {
@@ -49,7 +69,27 @@
     grid-column: 2 / 3;
     grid-row: 2 / 5;
     background-color: white;
-    border-radius: 20px;
+    color: #464646;
+    font-family: Poppins;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    width: 100%;
+    height: 100%;    
+}
+.login-sessions-text {
+    padding: 17px;
+    grid-column: 2 / 3;
+    grid-row: 2 / 5;
+    background-color: white;
+    border-radius: 5px;
+    color: #464646;
+    font-family: Poppins;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
 }
 
 .left{

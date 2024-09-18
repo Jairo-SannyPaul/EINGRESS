@@ -3,31 +3,149 @@
   display: flex;
   flex-direction: column;
   position: fixed;
-  background-color: var(--primary);
+  background-color: #0B203F;
   top: 0;
   left: 0;
-  width: 48px; 
+  width: 89px; 
   height: 100vh;
   transition: width 0.2s ease; 
   box-shadow: 5px 0px 10px rgba(0, 0, 0, 0.3);
-  overflow: hidden; 
+  overflow: hidden;
+  padding: 10px;
 }
 
+.side-bar .project{
+  margin-left: 10px;
+}
+.side-bar:hover(.locked) .project {
+  margin-left: 0;
+}
+
+
+
 .active {
-  transform: scale(0.95);
-  border-radius: 10px;
-  background-color: var(--hover); 
+  /* transform: scale(0.95); */
+  border-radius: 6px;
+  background-color: #172b49; 
   color: white; 
 }
 
-.side-bar:not(.locked):hover {
-  width: 216px;
+
+.side-bar:not(.locked) .reports.active{
+  background-color: #0B203F;
 }
 
-.side-bar.locked {
-  width: 216px; 
-  transition: none; 
+.side-bar:not(.locked) .reports.active{
+  background-color: #0B203F;
 }
+.side-bar:not(.locked) .users.active{
+  background-color: #0B203F;
+}
+
+.side-bar.locked .users.active{
+  background-color: #172b49;
+}
+
+.side-bar:not(:hover) .dashboard.active{
+  background-color: #172b49;
+}
+.side-bar:not(:hover) .reports.active{
+  background-color: #172b49;
+}
+.side-bar:not(:hover) .users.active{
+  background-color: #172b49;
+}
+
+.side-bar:not(:hover):not(.locked) .dashboard.active {
+  background-color: #0B203F;
+}
+
+.side-bar:not(:hover):not(.locked) .reports.active {
+  background-color: #0B203F;
+}
+
+.side-bar:not(:hover):not(.locked) .users.active {
+  background-color: #0B203F;
+}
+
+.side-bar:hover .dashboard.active{
+  background-color: #172b49;
+}
+.side-bar:hover .reports.active{
+  background-color: #172b49;
+}
+.side-bar:hover .users.active{
+  background-color: #172b49;
+}
+
+.side-bar:hover:not(.locked) .dashboard.active{
+  background-color: #0B203F;
+}
+.side-bar:hover:not(.locked) .reports.active{
+  background-color: #0B203F;
+}
+.side-bar:hover:not(.locked) .users.active{
+  background-color: #0B203F;
+}
+
+.side-bar:not(.locked) .dashboard:hover .dashboard-icon {
+  content: url('/assets/images/dashboard-active.png'); /* Change icon on hover */
+}
+.side-bar:hover:not(.locked) .dashboard {
+  background-color: #0B203F;
+}
+
+.side-bar:not(.locked) .reports:hover .reports-icon {
+  content: url('/assets/images/reports-active.png'); /* Change icon on hover */
+}
+.side-bar:hover:not(.locked) .reports {
+  background-color: #0B203F;
+}
+
+.side-bar:not(.locked) .users:hover .users-icon {
+  content: url('/assets/images/users-active.png'); /* Change icon on hover */
+}
+.side-bar:hover:not(.locked) .users {
+  background-color: #0B203F;
+}
+
+.side-bar:not(.locked) .settings:hover .settings-icon {
+  content: url('/assets/images/settings-active.png'); /* Change icon on hover */
+}
+
+.side-bar:hover:not(.locked) .settings {
+  background-color: #0B203F;
+}
+
+.side-bar:not(.locked) .logout:hover .logout-icon {
+  content: url('/assets/images/logout-active.png'); /* Change icon on hover */
+}
+.side-bar:hover:not(.locked) .logout {
+  background-color: #0B203F;
+}
+
+.side-bar:not(.locked) .lock-side:hover .collapse-icon {
+  content: url('/assets/images/collapse-active.png'); /* Change icon on hover */
+}
+
+.side-bar:not(.locked) .lock-side:hover  {
+  background-color: #0B203F;
+}
+
+/* .side-bar:not(.locked):hover {
+  width: 332px;
+  padding: 31px, 26px, 26px, 26px;
+  align-items: center;
+  
+} */
+
+.side-bar.locked {
+  width: 332px; 
+  padding: 31px, 26px, 26px, 26px;
+  transition: width 0.2s ease; 
+  align-items: center; 
+}
+
 
 
 .upper,
@@ -48,32 +166,37 @@
 
 
 .logo {
-  width: 55px;
-  height: 70px;
-  padding: 8px;
-  margin: 0 auto; 
+  width: 40px;
+  height: 40px;
+  margin-right: 11px;
 }
 
 
 .project-name {
-  font-size: 1.5rem;
-  text-align: center; 
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-size: 15px;
   margin: 0;
   padding: 10px 0; 
   color: white;
+  justify-content: center;
+  line-height: 22.5px;
+  align-items: center;
+  width: 100%;
+  display: flex;
 }
 
 
 .project {
   display: flex;
-  flex-direction: column;
-  align-items: center; 
-  height: 90px;
-  margin-top: 15px;
+  align-items: center;
+  width: 272px;
+  height: 46px;
   font-family: "Poppins", sans-serif;
   font-weight: 700;
   color: white;
   user-select: none;
+  margin-top:24px;
 }
 
 
@@ -84,7 +207,7 @@ span {
 }
 
 .side-bar:not(.locked):hover span {
-  opacity: 1.0; 
+  /* opacity: 1.0;  */
 }
 
 
@@ -96,19 +219,20 @@ span {
 .dashboard {
   display: flex;
   align-items: center;
-  margin-top: 120px; 
-  height: 50px;
-  font-family: "Poppins", sans-serif;
-  font-weight: 700;
-  font-size: 1rem;
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  margin-top: 39px; 
+  height: 56px;
+  font-family: "Poppins";
+  font-weight: 400;
+  font-size: 16px;
+  /* transition: box-shadow 0.3s ease, transform 0.3s ease; */
+  padding: 16px, 26px, 16px, 26px;
+  width: 272px;
 }
 
 
 .dashboard span,
 .reports span,
-.users span,
-.logout span {
+.users span{
   margin-left: 16px;
 }
 
@@ -116,96 +240,144 @@ span {
 .dashboard:hover,
 .reports:hover,
 .users:hover,
-.logout:hover {
-  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
-  transform: translateY(-5px);
-  background-color: var(--hover);
-  border-radius: 10px;
+.logout:hover, .settings:hover {
+  /* box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
+  transform: translateY(-5px); */
+  background-color: #172b49;
+  border-radius: 6px;
 }
 
 
 .dashboard-icon,
 .reports-icon,
 .users-icon,
-.logout-icon {
+.logout-icon, 
+.settings-icon, 
+.collapse-icon{
   width: 45px;
   height: 45px;
   padding: 8px;
-  margin-right: 3px;
+  margin-right: 10px;
+  margin-left: 10px;
 }
 
 
+.users-icon{
+  display: flex;
+  width: 45px;
+  height: 35px;
+  justify-content: center;
+  align-items: center;  
+}
 .reports {
   display: flex;
   align-items: center;
-  margin-top: 12px;
-  height: 50px;
-  font-family: "Poppins", sans-serif;
-  font-weight: 700;
-  font-size: 1rem;
+  margin-top: 17px;
+  height: 56px;
+  font-family: "Poppins";
+  font-weight: 400;
+  font-size: 16px;
   color: white;
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  /* transition: box-shadow 0.3s ease, transform 0.3s ease; */
+  padding: 16px, 26px, 16px, 26px;
+  width: 272px;
 }
 
 
 .users {
   display: flex;
   align-items: center;
-  margin-top: 12px;
-  font-family: "Poppins", sans-serif;
-  font-weight: 700;
-  font-size: 1rem;
+  height: 56px;
+  margin-top: 17px;
+  font-family: "Poppins";
+  font-weight: 400;
+  font-size: 16px;
   color: white;
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  /* transition: box-shadow 0.3s ease, transform 0.3s ease; */
+  padding: 16px, 26px, 16px, 26px;
+  width: 272px;
 }
 
 
 .logout {
   display: flex;
   align-items: center;
-  font-family: "Poppins", sans-serif;
-  font-weight: 700;
-  font-size: 1rem;
+  height: 56px;
+  font-family: "Poppins";
+  font-weight: 400;
   color: white;
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  padding: 16px, 26px, 16px, 26px;
+  width: 272px;
+  margin-bottom: 16px;
+  font-size: 16px;
+  cursor: pointer;
 }
 
-
-.collapse-icon {
-  width: 45px;
-  height: 45px;
-  padding: 8px;
-  margin-right: 5px;
-  margin-left: 3px;
-}
-
-
-.lock-side {
+.settings{
   margin-top: 10px;
   display: flex;
+  height: 56px;
   align-items: center;
-  font-family: "Poppins", sans-serif;
-  font-weight: 500;
-  font-size: 1rem;
+  font-family: "Poppins";
+  font-weight: 400;
+  font-size: 16px;
   color: white;
-  margin-bottom: 20px;
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  margin-bottom: 17px;
+  /* transition: box-shadow 0.3s ease, transform 0.3s ease; */
+  padding: 16px, 26px, 16px, 26px;
+  width: 272px;
 }
 
-.lock-side span {
-  margin-left: 11px;
+.lock-side {
+  margin-top: 16px;
+  margin-bottom: 6px;
+  display: flex;
+  height: 52px;
+  align-items: center;
+  font-family: "Poppins";
+  font-weight: 400;
+  font-size: 16px;
+  color: white;
+  /* transition: box-shadow 0.3s ease, transform 0.3s ease; */
+  padding: 16px, 26px, 16px, 26px;
+  width: 272px;
+  display: flex;
+  align-items: center;
 }
+
 
 .lock-side:hover{
-  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
-  transform: translateY(-5px);
-  background-color: var(--hover);
-  border-radius: 10px;
+  /* box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
+  transform: translateY(-5px); */
+  background-color: #172b49;
+  border-radius: 6px;
 }
 
-.logout-pointer {
-  display: flex;
-  cursor: pointer;
-  align-items: center;
+::ng-deep .mat-mdc-tooltip{
+  transform: scale(1.6) !important;
+  position: absolute !important;
+  left: -190px;
+}
+
+::ng-deep .custom-tooltip{
+  --mdc-plain-tooltip-container-color: #0B203F99!important;
+  --mdc-plain-tooltip-supporting-text-color: #FFFFFF;
+  --mdc-plain-tooltip-supporting-text-size: 12px!important;
+  --mdc-plain-tooltip-supporting-text-font: "Poppins"!important;
+  --mdc-plain-tooltip-supporting-font-weight: 400!important;
+  --mdc-plain-tooltip-supporting-text-align: center!important;
+  display: flex; /* Flexbox to help center text vertically */
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+  height: 100%; /* Make sure the container fills the height */
+}
+
+::ng-deep .mdc-tooltip__surface {
+  border-radius: 6px !important; /* Apply to nested elements */
+  width: 100px;
+  height: 38px;
+  display: flex; /* Flexbox for centering */
+  align-items: center; /* Vertically center the text */
+  justify-content: center; /* Horizontally center the text */
 }
 

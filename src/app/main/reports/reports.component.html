@@ -1,3 +1,4 @@
+
 <div class="contents">
   <div class="users-list">
     <div class="header">
@@ -17,7 +18,7 @@
           </mat-form-field>
         </div>
       </div>
-    </div>
+    </div>  
 
 
     <div *ngIf="filterToggle" @slideIn class="filterTab">
@@ -63,7 +64,10 @@
     </app-user-details>
   </div>
   <div class="login-sessions">
-    <strong id="login-sessions-text">Login Sessions</strong>
+    <div class="login-sessions-text">
+      Login Sessions
+    </div>
+    <!--<strong id="login-sessions-text">Login Sessions</strong>-->
     <app-login-sessions [loginSessions]="loginSessions"></app-login-sessions>
   </div>
 
