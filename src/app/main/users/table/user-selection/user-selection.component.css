@@ -116,6 +116,7 @@ input[type="checkbox"] {
 }
 
 .page-btn {
+    user-select: none;
     width: 21px;
     height: 21px;
     border-radius: 3px;
@@ -145,6 +146,7 @@ input[type="checkbox"] {
 }
 
 .prev-btn, .next-btn {
+    user-select: none;
     width: 21px;
     height: 21px;
     border-radius: 3px;
