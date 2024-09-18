@@ -16,4 +16,5 @@ export class TableComponent  {
   onEmployeeSelected(employee: Employee){
     this.employeeDetailsComponent.showEmployeeDetails(employee);
   }
+  
 }

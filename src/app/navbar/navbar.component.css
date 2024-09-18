@@ -13,9 +13,11 @@
   overflow: hidden;
   padding: 10px;
 }
-
-.side-bar .project{
-  margin-left: 10px;
+.side-bar:not(.locked){
+  padding-left: 15px;
+}
+.side-bar:not(.locked) .project{
+  margin-left: 8px;
 }
 .side-bar:hover(.locked) .project {
   margin-left: 0;
@@ -140,7 +142,7 @@
 } */
 
 .side-bar.locked {
-  width: 332px; 
+  width: 312px; 
   padding: 31px, 26px, 26px, 26px;
   transition: width 0.2s ease; 
   align-items: center; 
@@ -204,6 +206,7 @@ span {
   opacity: 0; 
   transition: opacity 0.2s ease; 
   color: white;
+  font-weight: 400;
 }
 
 .side-bar:not(.locked):hover span {
@@ -219,10 +222,9 @@ span {
 .dashboard {
   display: flex;
   align-items: center;
-  margin-top: 39px; 
+  margin-top: 26px; 
   height: 56px;
   font-family: "Poppins";
-  font-weight: 400;
   font-size: 16px;
   /* transition: box-shadow 0.3s ease, transform 0.3s ease; */
   padding: 16px, 26px, 16px, 26px;
@@ -254,8 +256,8 @@ span {
 .logout-icon, 
 .settings-icon, 
 .collapse-icon{
-  width: 45px;
-  height: 45px;
+  width: 35px;
+  height: 35px;
   padding: 8px;
   margin-right: 10px;
   margin-left: 10px;
@@ -264,18 +266,17 @@ span {
 
 .users-icon{
   display: flex;
-  width: 45px;
-  height: 35px;
+  width: 35px;
+  height: 30px;
   justify-content: center;
   align-items: center;  
 }
 .reports {
   display: flex;
   align-items: center;
-  margin-top: 17px;
+  margin-top: 16px;
   height: 56px;
   font-family: "Poppins";
-  font-weight: 400;
   font-size: 16px;
   color: white;
   /* transition: box-shadow 0.3s ease, transform 0.3s ease; */
@@ -288,9 +289,8 @@ span {
   display: flex;
   align-items: center;
   height: 56px;
-  margin-top: 17px;
+  margin-top: 16px;
   font-family: "Poppins";
-  font-weight: 400;
   font-size: 16px;
   color: white;
   /* transition: box-shadow 0.3s ease, transform 0.3s ease; */
@@ -304,7 +304,6 @@ span {
   align-items: center;
   height: 56px;
   font-family: "Poppins";
-  font-weight: 400;
   color: white;
   padding: 16px, 26px, 16px, 26px;
   width: 272px;
@@ -319,10 +318,9 @@ span {
   height: 56px;
   align-items: center;
   font-family: "Poppins";
-  font-weight: 400;
   font-size: 16px;
   color: white;
-  margin-bottom: 17px;
+  margin-bottom: 16px;
   /* transition: box-shadow 0.3s ease, transform 0.3s ease; */
   padding: 16px, 26px, 16px, 26px;
   width: 272px;
@@ -335,7 +333,6 @@ span {
   height: 52px;
   align-items: center;
   font-family: "Poppins";
-  font-weight: 400;
   font-size: 16px;
   color: white;
   /* transition: box-shadow 0.3s ease, transform 0.3s ease; */

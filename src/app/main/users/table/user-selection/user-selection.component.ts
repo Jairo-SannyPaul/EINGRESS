@@ -12,10 +12,15 @@ import { formatDate } from '@angular/common';
   styleUrls: ['./user-selection.component.css']
 })
 export class UserSelectionComponent implements OnInit, OnDestroy {
+  
   baseUrl = this.employeeService.apiUrl;
   loading = true;
   employees: Employee[] = [];
   filteredEmployees: Employee[] = [];
+  paginatedEmployees: Employee[] = [];
+  currentPage: number = 1; // Active page
+  totalPages: number = 1;  // Total number of pages
+  itemsPerPage: number = 10; // Number of employees per page
   searchSubscription: Subscription | undefined;
   private reloadSubscription: Subscription = new Subscription();
   private sortOptionSubscription: Subscription | undefined;
@@ -65,16 +70,54 @@ export class UserSelectionComponent implements OnInit, OnDestroy {
       startWith(''),
       switchMap(searchInputValue => {
         return searchInputValue.trim()
-          ? this.employeeService.searchEmployee(searchInputValue) // Pass selectedFilter here
+          ? this.employeeService.searchEmployee(searchInputValue) 
           : this.employeeService.getEmployee();
       })
     ).subscribe(employees => {
       this.employees = employees;
       this.filteredEmployees = [...this.employees];
       this.sortEmployees(this.sortOption); // Sort employees after loading
+
+      this.updatePagination(); // Apply pagination after loading and sorting
       this.loading = false;
     });
+  }
 
+  updatePagination() {
+    this.totalPages = Math.ceil(this.filteredEmployees.length / this.itemsPerPage);
+    this.currentPage = 1; // Reset to first page
+    this.updatePaginatedEmployees();
+  }
+
+  updatePaginatedEmployees() {
+    const start = (this.currentPage - 1) * this.itemsPerPage;
+    const end = start + this.itemsPerPage;
+    this.paginatedEmployees = this.filteredEmployees.slice(start, end);
+  }
+
+  goToPage(page: number) {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+      this.updatePaginatedEmployees();
+    }
+  }
+
+  prevPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.updatePaginatedEmployees();
+    }
+  }
+
+  nextPage() {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.updatePaginatedEmployees();
+    }
+  }
+
+  get totalPagesArray(): number[] {
+    return Array(this.totalPages).fill(0).map((_, i) => i + 1);
   }
 
   sortEmployees(sortOption: string) {
