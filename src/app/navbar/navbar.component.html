@@ -67,7 +67,10 @@
     </div>
     <div class="lower">
       
-      <div class="lock-side pointer" (click)="toggleLock()">
+      <div class="lock-side pointer" (click)="toggleLock()"
+      [matTooltip]="!isLocked ? 'Collapse' : ''"
+      [matTooltipClass]="!isLocked ? 'custom-tooltip' : ''" 
+      [matTooltipPosition]="!isLocked ? 'right' : 'left'" >
           <ng-container *ngIf="isLocked; else unlockedIcon">
             <img class="collapse-icon" src="/assets/images/collapse-default-left.png">
           </ng-container>
@@ -86,12 +89,18 @@
         <line y1="0.5" x2="280" y2="0.5" stroke="#324C6F"/>
         </svg>
         
-      <div class="logout pointer" (click)="logout()">
+      <div class="logout pointer" (click)="logout()"
+      [matTooltip]="!isLocked ? 'Logout' : ''"
+      [matTooltipClass]="!isLocked ? 'custom-tooltip' : ''" 
+      [matTooltipPosition]="!isLocked ? 'right' : 'left'" >
         <img class="logout-icon" src="/assets/images/logout-default.png">
         <span>Logout</span>
       </div>
 
-      <div class="settings pointer">
+      <div class="settings pointer"
+      [matTooltip]="!isLocked ? 'Settings' : ''"
+      [matTooltipClass]="!isLocked ? 'custom-tooltip' : ''" 
+      [matTooltipPosition]="!isLocked ? 'right' : 'left'" >
         <img class="settings-icon" src="/assets/images/settings-default.png">
         <span>Settings</span>
       </div>

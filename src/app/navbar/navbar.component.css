@@ -142,7 +142,7 @@
 .side-bar.locked {
   width: 332px; 
   padding: 31px, 26px, 26px, 26px;
-  transition: none;
+  transition: width 0.2s ease; 
   align-items: center; 
 }
 
@@ -364,7 +364,6 @@ span {
   transform: scale(1.6) !important;
   position: absolute !important;
   left: -190px;
-  background-color: red;
 }
 
 ::ng-deep .custom-tooltip{
