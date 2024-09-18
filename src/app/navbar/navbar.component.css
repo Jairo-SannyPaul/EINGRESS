@@ -219,8 +219,8 @@ span {
 .dashboard {
   display: flex;
   align-items: center;
-  margin-top: 41px; 
-  height: 62px;
+  margin-top: 39px; 
+  height: 56px;
   font-family: "Poppins";
   font-weight: 400;
   font-size: 16px;
@@ -261,10 +261,11 @@ span {
   margin-left: 10px;
 }
 
+
 .users-icon{
   display: flex;
   width: 45px;
-  height: 40px;
+  height: 35px;
   justify-content: center;
   align-items: center;  
 }
@@ -272,7 +273,7 @@ span {
   display: flex;
   align-items: center;
   margin-top: 17px;
-  height: 62px;
+  height: 56px;
   font-family: "Poppins";
   font-weight: 400;
   font-size: 16px;
@@ -286,7 +287,7 @@ span {
 .users {
   display: flex;
   align-items: center;
-  height: 62px;
+  height: 56px;
   margin-top: 17px;
   font-family: "Poppins";
   font-weight: 400;
@@ -301,21 +302,21 @@ span {
 .logout {
   display: flex;
   align-items: center;
-  height: 62px;
+  height: 56px;
   font-family: "Poppins";
   font-weight: 400;
-  font-size: 20px;
   color: white;
-  /* transition: box-shadow 0.3s ease, transform 0.3s ease; */
   padding: 16px, 26px, 16px, 26px;
   width: 272px;
-  margin-bottom: 17px;
+  margin-bottom: 16px;
+  font-size: 16px;
+  cursor: pointer;
 }
 
 .settings{
   margin-top: 10px;
   display: flex;
-  height: 62px;
+  height: 56px;
   align-items: center;
   font-family: "Poppins";
   font-weight: 400;
@@ -328,15 +329,15 @@ span {
 }
 
 .lock-side {
-  margin-top: 17px;
+  margin-top: 16px;
+  margin-bottom: 6px;
   display: flex;
-  height: 62px;
+  height: 52px;
   align-items: center;
   font-family: "Poppins";
   font-weight: 400;
   font-size: 16px;
   color: white;
-  margin-bottom: 20px;
   /* transition: box-shadow 0.3s ease, transform 0.3s ease; */
   padding: 16px, 26px, 16px, 26px;
   width: 272px;
@@ -350,14 +351,6 @@ span {
   transform: translateY(-5px); */
   background-color: #172b49;
   border-radius: 6px;
-}
-
-.logout{
-  font-size: 16px;
-  font-family: "Poppins";
-  display: flex;
-  cursor: pointer;
-  align-items: center;
 }
 
 ::ng-deep .mat-mdc-tooltip{
