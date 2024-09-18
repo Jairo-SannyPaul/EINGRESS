@@ -8,7 +8,7 @@
     background-color: #EDF4FF;
     width: calc(100% - 48px);
     height: calc(100% - 48px);
-    top: 48px;
+    top: 80px;
     left: 48px;
     transition: left 0.2s ease, width 0.2s ease-out;
     z-index: -9;
