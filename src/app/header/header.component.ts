@@ -9,6 +9,7 @@ import { AdminpopupComponent } from '../adminpopup/adminpopup.component';
 export class HeaderComponent implements OnInit {
   isActive = false;
   isDropdownOpen = false;
+  isNotificationOpen = false;
   username: string = '';
 
   constructor(private elRef: ElementRef, public dialog: MatDialog) {}
@@ -36,6 +37,17 @@ export class HeaderComponent implements OnInit {
       this.isDropdownOpen = false;
       this.isActive = false;
     }
+  }
+
+  // Method to toggle notification dropdown visibility
+  toggleNotificationDropdown(): void {
+    this.isNotificationOpen = !this.isNotificationOpen;
+  }
+
+  // Method to handle 'See previous notifications' button click
+  viewPreviousNotifications(): void {
+    console.log('Navigating to previous notifications...');
+    // Add logic to navigate or show previous notifications here
   }
 
   toggleActive(event: MouseEvent) {

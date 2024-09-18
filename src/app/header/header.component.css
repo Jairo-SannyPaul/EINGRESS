@@ -1,22 +1,120 @@
 .contents{
-    display: flex;
-    justify-content: flex-end;
-    background-color: #EDF4FF;
-    width: 100%;
-    height: 120px;
-    align-items: center; /* Align internal elements to the left */
-    padding-right: 130px;
+  display: flex;
+  justify-content: space-between; /* Space between dashboard and search field */
+  align-items: center;
+  background-color: #EDF4FF;
+  /* background-color: red; */
+  width: 100%;
+  height: 120px;
+  padding-right: 130px;
 }   
+
+.dashboard-label h2 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #464646;
+  margin-left: 180px; /* Adjust margin as needed */
+}
+
+.search-field {
+  position: relative;
+  width: 488px;
+  height: 35px;
+}
+
+.search-field input {
+  width: 100%;
+  height: 100%;
+  padding-left: 35px; /* Space for the icon */
+  font-size: 14px;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.search-field .search-icon {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+}
 
 .header-with-icon {
   display: flex;
   align-items: center;
+  gap: 22px;
 }
 
 .header-with-icon .icon {
   width: 26px;
   height: 26px;
-  margin-right: 8px; /* Adjust spacing between icon and text */
+}
+
+.notification-bell {
+  position: relative; /* This allows positioning the dropdown relative to the bell */
+  cursor: pointer;
+}
+
+.notification-dropdown {
+  display: none;
+  position: absolute;
+  top: 45px; /* Position below the bell icon */
+  left: 50%;
+  transform: translateX(-50%);
+  right: 0;
+  width: 325px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.notification-dropdown.show {
+  display: block;
+}
+
+.dropdown-header {
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  background-color: #f5f9ff;
+  padding: 20px;
+}
+
+.dropdown-header h4 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: #464646;
+}
+
+.dropdown-body {
+  height: 392px;
+  overflow-y: auto;
+  padding: 10px;
+  overflow-y: auto;
+}
+
+.dropdown-footer {
+  background-color: #f5f9ff;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dropdown-footer button {
+  border: none;
+  color: #464646;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 300;
+}
+
+.dropdown-footer button:hover {
+  color: #0056b3;
 }
 
 h1 {
