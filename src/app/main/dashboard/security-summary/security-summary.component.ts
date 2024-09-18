@@ -16,6 +16,7 @@ import { Router } from '@angular/router';
 export class SecuritySummaryComponent {
   @ViewChild('activityContainer') activityContainer!: ElementRef; // Reference to the activity div
   @Output() loadingChange: EventEmitter<boolean> = new EventEmitter<boolean>(); // New Output EventEmitter
+  
   loading: boolean = true;
   below: any;
   single: any[] = []; // Data array for the chart
