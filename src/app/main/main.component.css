@@ -20,7 +20,7 @@
  
   .navbar.locked ~ .pages {
     width: calc(100% - 216px); 
-    left: 216px; 
+    left: 300px; 
     transition: none; 
   }
   
