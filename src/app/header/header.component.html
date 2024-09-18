@@ -1,6 +1,9 @@
 <div class="contents">
     <div class="banner">
-        <h1 [class.active]="isActive" (click)="toggleActive($event)">Welcome Admin!</h1>
+        <div class="header-with-icon">
+            <img src="/assets/images/temp-profile.svg" alt="Icon" class="icon">
+            <h1 [class.active]="isActive" (click)="toggleActive($event)">{{ username }}</h1>
+        </div>
         <div class="dropdown" [ngClass]="{ 'show': isDropdownOpen }">
             <h2>{{ username }}</h2>
             <h5>Administrator</h5>
