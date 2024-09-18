@@ -3,12 +3,22 @@
         <img [src]="getProfileImage(recentLogin)" alt="Profile Image">
     </div>
 
-    <div class="below-container">
+    <div class="name-container">
         <div class="user-name" (click)="navigateToReports()">
             <p>{{ recentLogin?.fullname }}</p>
         </div>
+        <div class="label-conatiner">
+            <p>Recent Login</p>
+        </div>
+    </div>
+    <div class="date-container">
         <div class="date-time">
-           {{ recentLogin?.lastlogdate }}
+            <span>Date:</span>
+            <span>{{ recentLogin?.lastlogdate | date: 'MM/dd/yyyy' }}</span>
+        </div>
+        <div class="date-time">
+            <span>Time:</span>
+            <span>{{ recentLogin?.lastlogdate | date: 'shortTime' }}</span>
         </div>
     </div>
 </div>

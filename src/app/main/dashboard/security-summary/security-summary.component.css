@@ -15,7 +15,7 @@
 }
 
 .lower {
-  grid-row: 2 / 7;
+  grid-row: 1 / 7;
   height: 100%;
 
 }
@@ -88,6 +88,13 @@
   height: 100%;
   display: grid;
   left: -40px;
+}
+
+.activity-text {
+  color: #464646;
+  font-size: 20px;
+  font-weight: 500px;
+  line-height: 30px;
 }
 
 @media screen and (max-width: 1620px) {
