@@ -1,12 +1,13 @@
 <div *ngIf="filteredEmployees && filteredEmployees.length > 0; else noMatch">
   <div *ngFor="let employee of filteredEmployees" class="user pointer">
-    <div class="checkbox-content">
+    <!-- <div class="checkbox-content">
       <input type="checkbox" [(ngModel)]="employee.selected" change="toggleSelection(employee)">
-    </div>
+    </div> -->
     <div class="profile-image-container">
-      <img [src]="baseUrl + '/profile-image/' + employee.profileImage" alt="Profile Image"
-        [ngClass]="{'no-bio-border': !hasBio(employee), 'bio-border': hasBio(employee)}">
-      <div [ngClass]="{'active-indicator': isActiveToday(employee), 'inactive-indicator': !isActiveToday(employee)}"></div>
+      <!-- <img [src]="baseUrl + '/profile-image/' + employee.profileImage" alt="Profile Image"
+        [ngClass]="{'no-bio-border': !hasBio(employee), 'bio-border': hasBio(employee)}"> -->
+        <img [src]="baseUrl + '/profile-image/' + employee.profileImage" alt="Profile Image">
+      <!-- <div [ngClass]="{'active-indicator': isActiveToday(employee), 'inactive-indicator': !isActiveToday(employee)}"></div> -->
     </div>
     <div class="employee-info-container" (click)="selectedEmployee(employee)">
       <div class="employee-fullname">{{ employee.fullname }}</div>

@@ -43,7 +43,8 @@
   justify-content: center; */
   /* max-height: 100%; */
   margin-top: 30px;
-  height: 857px;
+  /* height: 857px; */
+  height: 100%;
   width: calc(100vw - 285px);
   margin-bottom: 20px;
   overflow: auto; /* Allow scrolling */
