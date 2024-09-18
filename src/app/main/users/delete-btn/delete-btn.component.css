@@ -1,12 +1,26 @@
+
 .delete{
-    width: 33px;
+    width: 32px;
     height: 33px;
     border-radius: 3px; /* Updated border-radius */
     display: flex;
     align-items: center;
+    background-color: #f0f4fc;
     justify-content: center;
-    color: var(--secondary);
     cursor: pointer;
-    padding: 6px, 11px, 6px, 11px;
+    padding: 6px, 12px, 6px, 8px;
     border: 1px solid #E15858;
+}
+
+.delete img{
+    width: 10px;
+    height: 10px;
+}
+
+.delete:hover img {
+    content: url('/assets/images/delete-white.png'); /* Change the image source */
+}
+
+.delete:hover {
+    background-color: #E15858;
 }

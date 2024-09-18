@@ -38,7 +38,6 @@
   height: 100%;
   width: calc(100vw - 285px);
   margin-bottom: 20px;
-  border-radius: 20px;
   overflow: auto; /* Allow scrolling */
   transition: left 0.2s ease, width 0.2s ease-out;
   background-color: #EDF4FF;

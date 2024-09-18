@@ -145,7 +145,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(255, 255, 255, 1); /* Optional overlay background */
+  background-color: #f0f4fc; /* Optional overlay background */
   z-index: 1000;
   opacity: 1;
   transition: opacity 0.5s ease-in-out;

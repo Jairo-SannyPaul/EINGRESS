@@ -15,15 +15,11 @@ input[type="checkbox"] {
 .table-header {
     display: flex;
     position: sticky;
-    color: #464646;
-    font-family: "Poppins";
-    font-size: 16px;
-    font-weight: 500;
+
     display: grid;
-    grid-template-columns: 290px repeat(4, 1fr); /* Fixed width first column, rest are 1fr */
+    grid-template-columns: 20px 60px repeat(4, 1fr) 60px; /* Fixed width first column, rest are 1fr */
     align-items: center;
-    gap: 20px;
-    padding: 0px, 52px, 0px, 52px;
+    padding: 10px, 16px, 10px, 16px;
     position: sticky; 
     top: 0;
     z-index: 1; 
@@ -37,25 +33,31 @@ input[type="checkbox"] {
     border: 16px solid #FFFFFF99;
     border-radius: 5px;
 }
+.user-header, .role-header, .registered-date-header, .last-login-header{
+    color: #464646;
+    font-family: "Poppins";
+    font-size: 16px;
+    font-weight: 500;
+}
 
 .user-header{
-    grid-column: 2 / 3;
+    grid-column: 2 / 4;
 }
 
 .role-header{
-    grid-column: 3 / 4;
-}
-
-.registered-date-header{
     grid-column: 4 / 5;
 }
 
-.last-login-header{
+.registered-date-header{
     grid-column: 5 / 6;
 }
 
+.last-login-header{
+    grid-column: 6 / 7;
+}
+
 .pagination {
-    height: 70px;
+    height: 80px;
     display: flex;
     justify-content: center;
     align-items: center;
