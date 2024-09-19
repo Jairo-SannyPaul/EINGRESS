@@ -98,6 +98,7 @@
     appearance: none; /* Remove default dropdown arrow */
     z-index: 1; /* Ensure dropdown options appear above other content */
     height: auto;
+    overflow-y: hidden;
     }
 
 
