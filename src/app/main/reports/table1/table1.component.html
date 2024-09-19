@@ -14,7 +14,7 @@
           <div class="profile-image-container">
             <img [src]="baseUrl + '/profile-image/' + employee.profileImage" alt="Profile Image"
               [ngClass]="{'no-bio-border': !hasBio(employee), 'bio-border': hasBio(employee)}">
-            <div [ngClass]="{'active-indicator': isActiveToday(employee), 'inactive-indicator': !isActiveToday(employee)}"></div>
+            <!-- <div [ngClass]="{'active-indicator': isActiveToday(employee), 'inactive-indicator': !isActiveToday(employee)}"></div> -->
           </div>
             <div class="name-email">
                 <div class="username">{{ employee.fullname }}</div>
