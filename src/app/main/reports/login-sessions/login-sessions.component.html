@@ -1,5 +1,6 @@
 <div class="table">
     <div class="table-header">
+      <div class="day-header">Day</div>
       <div class="date-header">Date</div>
       <div class="time-header">Time</div>
     </div>
@@ -7,6 +8,9 @@
     <div class="table-body">
       <div *ngIf="loginSessions && loginSessions.length > 0; else noLoginSessions">
         <div class="session" *ngFor="let session of loginSessions">
+          <div class="day">
+            <p>{{ getDayOfWeek(session.date) }}</p> <!-- Display day of the week -->
+          </div>
           <div class="date">
             <p>{{ session.date }}</p>
           </div>
