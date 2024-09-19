@@ -351,7 +351,7 @@ span {
 }
 
 ::ng-deep .mat-mdc-tooltip{
-  transform: scale(1.6) !important;
+  transform: scale(1) !important;
   position: absolute !important;
   left: -190px;
 }
