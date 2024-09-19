@@ -2,8 +2,12 @@
 <div *ngIf="paginatedEmployees && paginatedEmployees.length > 0; else noMatch">
   <div *ngFor="let employee of paginatedEmployees" class="user pointer">
     <div class="profile-image-container">
-      <img [src]="baseUrl + '/profile-image/' + employee.profileImage" alt="Profile Image">
+      <img [src]="baseUrl + '/profile-image/' + employee.profileImage" alt="Profile Image"
+        [ngClass]="{'no-bio-border': !hasBio(employee), 'bio-border': hasBio(employee)}">
     </div>
+    <!-- <div class="profile-image-container">
+      <img [src]="baseUrl + '/profile-image/' + employee.profileImage" alt="Profile Image">
+    </div> -->
     <div class="employee-info-container" (click)="selectedEmployee(employee)">
       <div class="employee-fullname">{{ employee.fullname }}</div>
       <div class="role-content">{{ employee.role }}</div>
