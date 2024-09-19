@@ -7,11 +7,9 @@
         <div class="last-login-header">Last login</div>
     </div>
 
-    <div class="table-body">
-        <app-user-selection (employeeSelected)="onEmployeeSelected($event)" class="user-selection"></app-user-selection>
-        <app-employee-details></app-employee-details>
-    </div>
-    <div class="pagination">
+    <app-user-selection (employeeSelected)="onEmployeeSelected($event)" class="user-selection"></app-user-selection>
+    <app-employee-details></app-employee-details>
+    <!-- <div class="pagination">
         <div class="prev-btn pointer">&lt;</div>
         <div class="page-btn pointer active">1</div>
         <div class="page-btn pointer">2</div>
@@ -24,5 +22,5 @@
         <div class="page-btn pointer">9</div>
         <div class="page-btn pointer">10</div>
         <div class="next-btn pointer">&gt;</div>
-    </div>
+    </div> -->
 </div>  

@@ -100,8 +100,65 @@ input[type="checkbox"] {
     grid-template-columns: repeat(4, 1fr);
     cursor: pointer;
     width: 100%;
-    padding-top: 40px;
-    padding-bottom: 40px;
-    padding-left: 20px;
-    padding-right: 20px;
+}
+
+.table-body{
+    border: 16px solid #FFFFFF99;
+    border-radius: 5px;
+}
+
+.pagination {
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 26px;
+}
+
+.page-btn {
+    user-select: none;
+    width: 21px;
+    height: 21px;
+    border-radius: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Poppins";
+    font-weight: 400;
+    font-size: 14px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.page-btn:hover {
+    background-color: #0B203F;
+    color: white;
+}
+
+.page-btn.active {
+    background-color: #0B203F; /* Current page background color */
+    color: white; /* Current page text color */
+    border: none; /* Remove border if desired */
+  }
+
+.page-btn:active {
+    background-color: #0B203F;
+    color: white;
+}
+
+.prev-btn, .next-btn {
+    user-select: none;
+    width: 21px;
+    height: 21px;
+    border-radius: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Poppins";
+    font-weight: 400;
+    font-size: 14px;
+}
+
+.prev-btn:hover, .next-btn:hover {
+    background-color: #0B203F;
+    color: white;
 }
