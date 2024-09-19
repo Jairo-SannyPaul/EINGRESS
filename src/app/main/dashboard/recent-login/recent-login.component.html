@@ -5,7 +5,7 @@
 
     <div class="name-container">
         <div class="user-name" (click)="navigateToReports()">
-            <p>{{ recentLogin?.fullname }}</p>
+            <p>{{ recentLogin?.fullname || 'N/A' }}</p>
         </div>
         <div class="label-conatiner">
             <p>Recent Login</p>
