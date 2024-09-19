@@ -15,7 +15,7 @@ import { ErrorLog } from 'src/app/interface/error-log.interface';
 export class RecentAlertsComponent implements OnInit {
   recentAlerts: { type: string, name: string, date: string, time: string }[] = [];
   matchedEmployees: Employee[] = [];
-  maxEmployeesDisplayed: number = 4;
+  maxEmployeesDisplayed: number = 10;
 
   constructor(
     private employeeService: EmployeeService,
@@ -35,14 +35,16 @@ export class RecentAlertsComponent implements OnInit {
     ]).subscribe(
       ([employees, accessLogs, errorLogs]: [Employee[], AccessLog[], ErrorLog[]]) => {
         const currentDate = new Date().toLocaleDateString();
-
+        
         // Define time format options for 12-hour format
-      const timeOptions: Intl.DateTimeFormatOptions = { hour: '2-digit', minute: '2-digit', hour12: true };
+        const timeOptions: Intl.DateTimeFormatOptions = { hour: '2-digit', minute: '2-digit', hour12: true };
         
         // Process access logs
-        this.matchedEmployees = employees.filter(employee => {
-          return employee.accessLogs?.some(log => new Date(log.accessDateTime).toLocaleDateString() === currentDate);
-        });
+        this.matchedEmployees = employees.filter(employee => 
+          employee.accessLogs?.some(log => 
+            new Date(log.accessDateTime).toLocaleDateString() === currentDate
+          )
+        );
   
         this.matchedEmployees.sort((a, b) => {
           const accessTimeA = this.getMostRecentAccessTime(a);
@@ -55,41 +57,32 @@ export class RecentAlertsComponent implements OnInit {
           const mostRecentTime = this.getMostRecentAccessTime(employee);
           const formattedTime = mostRecentTime.toLocaleTimeString([], timeOptions);
           const formattedDate = mostRecentTime.toLocaleDateString();
-          const firstName = employee.fullname.split(' ')[0];
+          const firstName = employee.fullname.split(' ')[0];  // Get the first name
           return { type: 'login', name: firstName, date: formattedDate, time: formattedTime };
         });
   
-        // Process error logs
+        // Process error logs, only include errors that should be shown
         const errorLogAlerts = errorLogs
           .filter(log => new Date(log.timestamp!).toLocaleDateString() === currentDate)
           .map(log => {
-            const timeOnly = new Date(log.timestamp!).toLocaleTimeString();
+            const timeOnly = new Date(log.timestamp!).toLocaleTimeString([], timeOptions);
             const dateOnly = new Date(log.timestamp!).toLocaleDateString();
-            let name: string;
-  
-            // Determine the name for error logs
-            if (log.message === 'Employee not found.') {
-              name = 'Unknown';
-            } else if (log.message === 'Error Fingerprint not match:') {
-              name = 'Unknown';
-            } else {
-              name = 'Error';
-            }
-  
-            return { type: 'error', name: name, date: dateOnly, time: timeOnly };
+            return { type: 'error', name: 'Error', date: dateOnly, time: timeOnly };
           });
   
-        // Combine and sort by time (most recent first)
+        // Combine access and error logs and sort them by date and time (most recent first)
         const combinedAlerts = [...accessLogAlerts, ...errorLogAlerts];
         this.recentAlerts = combinedAlerts
+          .filter(alert => alert.type === 'login')  // Filter out errors
           .sort((a, b) => new Date(b.date + ' ' + b.time).getTime() - new Date(a.date + ' ' + a.time).getTime())
-          .slice(0,11); // Keep only the top 4 most recent alerts
+          .slice(0, 10);  // Keep only the top 10 most recent alerts
       },
       error => {
         console.error('Error fetching data:', error);
       }
     );
   }
+  
   
 
   filterAndSortAlerts(alerts: { type: string, message: string, timestamp?: string }[]): { type: string, message: string }[] {
