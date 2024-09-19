@@ -1,34 +1,33 @@
-
 .pages {
-    background-color: #EDF4FF;  
-    display: flex;
-    /* flex-direction: column; */
-    position: absolute;
-    justify-content: center;
-    background-color: #EDF4FF;
-    width: calc(100% - 48px);
-    height: calc(100% - 48px);
-    top: 95px;
-    left: 48px;
-    transition: left 0.2s ease, width 0.2s ease-out;
-    z-index: -9;
-  }
-  
-  
-  /* .navbar:not(.locked):hover ~ .pages {
+  background-color: #EDF4FF;
+  display: flex;
+  /* flex-direction: column; */
+  position: absolute;
+  justify-content: center;
+  background-color: #EDF4FF;
+  width: calc(100% - 48px);
+  height: calc(100% - 48px);
+  top: 95px;
+  left: 48px;
+  transition: left 0.2s ease, width 0.2s ease-out;
+  z-index: -9;
+}
+
+
+/* .navbar:not(.locked):hover ~ .pages {
     width: calc(100% - 216px);
     left: 216px;
   } */
-  
- 
-  .navbar.locked ~ .pages {
-    width: calc(100% - 216px); 
-    left: 300px; 
-    transition: 0.2s ease; 
-  }
-  
 
-.inner-page{
+
+.navbar.locked~.pages {
+  width: calc(100% - 216px);
+  left: 300px;
+  transition: 0.2s ease;
+}
+
+
+.inner-page {
   /* background-color: aquamarine; */
   /* display: flex;
   justify-content: center; */
@@ -38,32 +37,181 @@
   height: 100%;
   width: calc(100vw - 285px);
   margin-bottom: 20px;
-  overflow: auto; /* Allow scrolling */
+  overflow: auto;
+  /* Allow scrolling */
   transition: left 0.2s ease, width 0.2s ease-out;
   background-color: #EDF4FF;
 }
 
+.changePass-modal {
+  position: fixed;
+  /* Make sure it's positioned relative to the entire screen */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  /* Black with 60% opacity */
+  display: flex;
+  justify-content: center;
+}
 
-@media screen and (max-width: 1620px){
-    .inner-page{
-        width: 100vw;
-    }
+.modal {
+  position: relative;
+  top: 160px;
+  width: 479px;
+  height: 481px;
+  padding: 36px 46px 36px 36px;
+  background-color: white;
+  animation: modalPopup 0.2s ease-out forwards;
+  border-radius: 3px;
+  display: grid;
+  grid-template-rows: 63px 300px;
+  gap: 46px;
+}
+
+.upper-modal {
+  grid-row: 1 / 2;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.security {
+  grid-row: 1 / 2;
+  font-family: "Poppins";
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 30px;
+  color: #464646;
+}
+
+.label {
+  font-family: "Poppins";
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  color: #464646;
+  grid-row: 2 / 3;
+}
+
+.exit {
+  cursor: pointer;
+  display: flex;
+  justify-content: flex-end;
+  grid-column: 2 / 3;
+}
+
+.lower-modal {
+  display: grid;
+  grid-template-rows: 229px 23px;
+  height: 300px;
+  gap: 28px;
+}
+
+.forms {
+  grid-row: 1 / 2;
+  height: 229px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.save {
+  grid-row: 2 / 3;
+  width: 397px;
+  height: 43px;
+  padding: 10px 24px 10px 24px;
+  gap: 10px;
+  border-radius: 3px 0px 0px 0px;
+  opacity: 0px;
+  background-color: #2165C999;
+  font-family: Poppins;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  text-align: center;
+  color: #FFFFFF;
+}
+
+input {
+  height: 32px;
+  width: 100%;
+  border-bottom: 1px solid #6E6E6E;
+}
+
+.old {
+  grid-row: 1 / 2;
+}
+
+.new {
+  grid-row: 1 / 2;
+}
+
+.forms span {
+  font-family: Poppins;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 18px;
+  text-align: left;
+  color: #464646;
+}
+
+
+@keyframes modalPopup {
+  from {
+    transform: scale(0.5);
+    /* Start from smaller scale */
+  }
+
+  to {
+    transform: scale(1);
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media screen and (max-width: 1620px) {
+  .inner-page {
+    width: 100vw;
+  }
 }
 
 @media screen and (max-width:925px) {
-    .inner-page{
-      width: 925px;
-    }
-    }
+  .inner-page {
+    width: 925px;
+  }
+}
 
 @media screen and (max-width: 800px) {
-    .inner-page{
-        width: 800px;
-    }
+  .inner-page {
+    width: 800px;
+  }
 }
 
 @media screen and (max-width: 500px) {
-  .inner-page{
+  .inner-page {
     border-radius: 5px;
   }
 }

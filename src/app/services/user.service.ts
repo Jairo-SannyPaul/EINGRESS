@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs';
 import { shareReplay } from 'rxjs';
 import { User } from '../interface/user.interface';
@@ -70,4 +70,15 @@ export class UserService {
   }
 
 
+  private modalStateSubject = new BehaviorSubject<boolean>(false);
+  modalState$ = this.modalStateSubject.asObservable();
+
+  openModal() {
+    this.modalStateSubject.next(true);
+    console.log("Modal opened!");
+  }
+
+  closeModal() {
+    this.modalStateSubject.next(false);
+  }
 }
