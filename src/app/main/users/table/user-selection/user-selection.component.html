@@ -1,6 +1,14 @@
 <div class="table-body">
 <div *ngIf="paginatedEmployees && paginatedEmployees.length > 0; else noMatch">
   <div *ngFor="let employee of paginatedEmployees" class="user pointer">
+    <label>
+      <input type="checkbox" [(ngModel)]="employee.selected" change="toggleSelection(employee)">
+      <span class="custom-checkbox">
+        <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2.79755 6L0 3.15593L0.699386 2.44491L2.79755 4.57796L7.30061 0L8 0.711019L2.79755 6Z" fill="#464646"/>
+        </svg>
+      </span>
+    </label>
     <div class="profile-image-container">
       <img [src]="baseUrl + '/profile-image/' + employee.profileImage" alt="Profile Image"
         [ngClass]="{'no-bio-border': !hasBio(employee), 'bio-border': hasBio(employee)}">
