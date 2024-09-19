@@ -1,17 +1,21 @@
 .session {
     display: grid;
-    grid-template-columns: 50% 50%;
+    grid-template-columns: 33% 33% 33%;
     border-top: 1px solid var(--background);
     height: 60px;
     align-items: center;
 }
 
-.date {
+.day {
     grid-column: 1 / 2;
 }
 
-.time {
+.date {
     grid-column: 2 / 3;
+}
+
+.time {
+    grid-column: 3 / 4;
 }
 
 .table {
@@ -32,12 +36,24 @@
     top: 0;
     background-color: white;
     z-index: 1;
-    grid-template-columns: 50% 50%;
+    grid-template-columns: 33% 33% 33%;
     /* Fixed width first column, rest are 1fr */
+    color: #464646;
+    font-family: Poppins;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
 }
 
 .table-body {
     overflow-y: auto;
+    color: #464646;
+    font-family: Poppins;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
 }
 
 
