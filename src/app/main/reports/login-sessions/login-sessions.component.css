@@ -29,16 +29,13 @@
 
 .table-header {
     display: grid;
-    color: gray;
-    display: grid;
     align-items: center;
     position: sticky;
     top: 0;
-    background-color: white;
     z-index: 1;
     grid-template-columns: 33% 33% 33%;
-    /* Fixed width first column, rest are 1fr */
     color: #464646;
+    /* Fixed width first column, rest are 1fr */
     font-family: Poppins;
     font-size: 16px;
     font-style: normal;

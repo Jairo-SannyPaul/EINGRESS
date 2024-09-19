@@ -1,5 +1,9 @@
 .main-container{
-    display: flex;
+    display: grid;
+    grid-template-columns: 99px 1fr ;
+    width: 744px;
+    align-items: center;
+    gap: 23px;
 }
 
 .photoholder{
@@ -19,16 +23,12 @@
 }
 
 .right-container{
-    grid-column: 2/3;
-    row-gap: 26px;
-    column-gap: 57px;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto auto; 
     align-items: center;
-    width: 50%;
-    margin-left: 23px;
-    align-items: center; 
+    gap: 57px;
+    align-self: stretch;
+    width: 100%;
 }
 
 .user-name{
@@ -67,6 +67,21 @@ span{
     margin-left: 16px;
 }
 
+.left-user-details{
+    display: flex;
+    width: 212px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 26px;
+}
+
+.right-user-details{
+    display: grid;
+    width: 212px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 26px;
+}
 
 @media screen and (max-width: 1000px){
     span{
