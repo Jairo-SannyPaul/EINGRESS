@@ -1,5 +1,6 @@
 import { Component, HostListener, ElementRef, Renderer2, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Router, NavigationEnd } from '@angular/router';
 import { AdminpopupComponent } from '../adminpopup/adminpopup.component';
 import { HeaderLabelService } from '../services/header-label.service';
 @Component({
@@ -11,10 +12,11 @@ export class HeaderComponent implements OnInit {
   isActive = false;
   isDropdownOpen = false;
   isNotificationOpen = false;
+  showFilterButton: boolean = false
   headerTitle: string = '';
   username: string = '';
 
-  constructor(private elRef: ElementRef, public dialog: MatDialog, private headerLabelService: HeaderLabelService) {}
+  constructor(private elRef: ElementRef, public dialog: MatDialog, private headerLabelService: HeaderLabelService, private router: Router) {}
 
   ngOnInit(): void {
     // Retrieve the username from localStorage
@@ -23,6 +25,13 @@ export class HeaderComponent implements OnInit {
     // Subscribe to the title changes from the service
     this.headerLabelService.currentTitle.subscribe((title: string) => {
       this.headerTitle = title;
+    });
+
+    // Subscribe to route changes to update filter button visibility
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.showFilterButton = !event.urlAfterRedirects.includes('/dashboard');
+      }
     });
   }
 
