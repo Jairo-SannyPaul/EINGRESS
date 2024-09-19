@@ -15,6 +15,7 @@ export class UserSelectionComponent implements OnInit, OnDestroy {
   
   baseUrl = this.employeeService.apiUrl;
   loading = true;
+  employee!: Employee;
   employees: Employee[] = [];
   filteredEmployees: Employee[] = [];
   paginatedEmployees: Employee[] = [];
@@ -234,4 +235,37 @@ export class UserSelectionComponent implements OnInit, OnDestroy {
     const employeeDate = formatDate(new Date(employee.lastlogdate), 'MM/dd/yyyy', 'en-US');
     return employeeDate === this.currentDate;
   }
+
+  convertRegDate(dateInput: Date | undefined): string {
+    if (!dateInput) return ''; // Return an empty string if date is undefined or null
+    const date = new Date(dateInput);
+    const options: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    };
+    return date.toLocaleString('en-US', options);
+  }
+  
+
+  convertLastLog(dateString: string | undefined): string {
+    if (!dateString) return ''; // Handle undefined or empty input
+  
+    // Split date and time parts (MM/DD/YYYY and HH:MM:SS)
+    const [datePart, timePart] = dateString.split(', ');
+  
+    // Split date part into month, day, and year
+    const [month, day, year] = datePart.split('/').map(part => parseInt(part, 10));
+  
+    // Create a new Date object using the extracted parts
+    const date = new Date(year, month - 1, day, ...timePart.split(':').map(part => parseInt(part, 10)));
+  
+    // Format the date as desired, e.g., "January 1, 2024, 12:00 PM"
+    return date.toLocaleString('en-US', {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric'
+    });
+  }
+  
 }
