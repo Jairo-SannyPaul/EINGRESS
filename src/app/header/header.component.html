@@ -3,39 +3,23 @@
         <h2>{{headerTitle}}</h2>
     </div>
 
-    <div class="search-field">
-        <input type="text" placeholder=" Search">
-        <img src="/assets/images/search-icon.svg" alt="Search Icon" class="search-icon">
+    <div class="header-search">
+        <app-header-search></app-header-search>
     </div>
+
     <div class="banner">
-        <div class="header-with-icon">
-            <div class="notification-bell">
-                <img src="/assets/images/notification-bell-icon.svg" alt="Notification Bell" (click)="toggleNotificationDropdown()">
-                <!-- Notification Dropdown -->
-                <div class="notification-dropdown" [ngClass]="{ 'show': isNotificationOpen }">
-                    <div class="dropdown-header">
-                        <h4>Notifications</h4>
-                    </div>
-                    <div class="dropdown-body">
-                        <!-- Notification data will be placed here -->
-                    </div>
-                    <div class="dropdown-footer">
-                        <button (click)="viewPreviousNotifications()">See previous notifications</button>
-                    </div>
-                </div>
-            </div>
-            <div class="profile-pic">
-                <img src="/assets/images/temp-profile.svg" alt="Icon" class="icon">
-            </div>
-            <h1 [class.active]="isActive" (click)="toggleActive($event)">{{ username }}</h1>
+        <div class="header-bell-profile">
+            <app-header-bell></app-header-bell>
+
+            <app-header-profile></app-header-profile>
         </div>
-        <div class="dropdown" [ngClass]="{ 'show': isDropdownOpen }">
+        <!-- <div class="dropdown" [ngClass]="{ 'show': isDropdownOpen }">
             <h2>{{ username }}</h2>
             <h5>Administrator</h5>
             <button class="manage-account" (click)="openDialog()">
                 <img src="/assets/images/settings.png" alt="Manage Account Icon" class="icon">
                 <span>Manage account</span>
             </button>        
-        </div>
+        </div> -->
     </div>    
 </div>
