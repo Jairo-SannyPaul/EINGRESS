@@ -5,9 +5,9 @@
     height: 100%;
     /* Set the height to 100% of viewport height */
     display: grid;
-    grid-template-columns: 47% auto;
+    grid-template-columns: 50% auto;
     /* 4 columns of equal width */
-    grid-template-rows: repeat(3, 1fr);
+    grid-template-rows: 157px repeat(3, 1fr);
     /* 4 rows with height based on content */
     gap: 12px;
     /* Gap between grid items */
@@ -31,8 +31,10 @@
 
 .table{
     overflow-y: auto;
-    padding-bottom: 80px;
+    height: 705px;
 }
+
+
 .datepicker{
     display: flex;
     align-items: center;
@@ -46,50 +48,44 @@
 }
 
 .user-details {
-    /*padding: 20px;
-    grid-column: 2 / 3;
-    grid-row: 1 / 2;
-    background-color: white;
-    border-radius: 5px;*/
     display: flex;
     padding: 26px 36px 26px 26px;
     flex-direction: column;
     align-items: flex-start;
+    justify-items: center;
     gap: 10px;
     align-self: stretch;
-    background-color: white;
-    border-radius: 10px;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.60);
     box-shadow: 0px 1px 20px 0px rgba(0, 0, 0, 0.05);
     width: 100%;
-    height: 157px;
 }
 
 .login-sessions {
-    padding: 40px;
     grid-column: 2 / 3;
     grid-row: 2 / 5;
-    background-color: white;
-    color: #464646;
-    font-family: Poppins;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    width: 100%;
-    height: 100%;    
+    height: 85%;
+    padding: 0px 16px 0px 26px;
+    align-self: stretch;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.60);
+    box-shadow: 0px 1px 20px 0px rgba(0, 0, 0, 0.05);
+    overflow-y: hidden;
 }
 .login-sessions-text {
-    padding: 17px;
-    grid-column: 2 / 3;
-    grid-row: 2 / 5;
-    background-color: white;
-    border-radius: 5px;
+    display: flex;
     color: #464646;
+    display: flex;
+    width: 461px;
+    align-items: center;
+    padding: 26px 0px 0px 16px;
+    gap: 139px;
     font-family: Poppins;
     font-size: 20px;
     font-style: normal;
     font-weight: 500;
     line-height: normal;
+    
 }
 
 .left{
@@ -151,6 +147,7 @@ background-color: var(--background);
     .login-sessions {
         grid-column: 2 / 3;
         grid-row: 3 / 5;
+
     }
     #login-sessions-text {
         display: none;
