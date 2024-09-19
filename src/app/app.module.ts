@@ -52,6 +52,7 @@ import { AddUserModalComponent } from './main/users/add-user-modal/add-user-moda
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -84,6 +85,7 @@ import { AddUserModalComponent } from './main/users/add-user-modal/add-user-moda
     SuccessDialogComponent,
     AdminpopupComponent,
     AddUserModalComponent,
+
   ],
   imports: [
     BrowserModule,
