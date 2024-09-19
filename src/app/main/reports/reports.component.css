@@ -7,7 +7,7 @@
     display: grid;
     grid-template-columns: 47% auto;
     /* 4 columns of equal width */
-    grid-template-rows: repeat(3, 1fr);
+    grid-template-rows: 157px repeat(3, 1fr);
     /* 4 rows with height based on content */
     gap: 12px;
     /* Gap between grid items */
