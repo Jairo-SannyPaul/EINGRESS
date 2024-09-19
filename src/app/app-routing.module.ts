@@ -9,6 +9,7 @@ import { AddUserFormComponent } from './main/users/add-user-form/add-user-form.c
 import { authGuard } from './guards/auth.guard';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { AdminpopupComponent } from './adminpopup/adminpopup.component';
+import { AdminComponent } from './admin/admin.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full'},
@@ -27,6 +28,7 @@ const routes: Routes = [
       { path: 'reports', component: ReportsComponent },
       { path: 'users', component: UsersComponent },
       { path: 'add-user-form', component: AddUserFormComponent },
+      { path: 'admin', component: AdminComponent }
     ]
   },
   {

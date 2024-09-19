@@ -49,6 +49,7 @@ import { AlertDialogComponent } from './dialogs/alert-dialog/alert-dialog.compon
 import { SuccessDialogComponent } from './dialogs/success-dialog/success-dialog.component';
 import { AdminpopupComponent } from './adminpopup/adminpopup.component';
 import { AddUserModalComponent } from './main/users/add-user-modal/add-user-modal.component';
+import { AdminComponent } from './admin/admin.component';
 
 
 
@@ -84,6 +85,7 @@ import { AddUserModalComponent } from './main/users/add-user-modal/add-user-moda
     SuccessDialogComponent,
     AdminpopupComponent,
     AddUserModalComponent,
+    AdminComponent,
   ],
   imports: [
     BrowserModule,

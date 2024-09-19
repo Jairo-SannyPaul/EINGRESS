@@ -1,6 +1,7 @@
 import { Component, HostListener, ElementRef, Renderer2, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AdminpopupComponent } from '../adminpopup/adminpopup.component';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -12,7 +13,7 @@ export class HeaderComponent implements OnInit {
   isNotificationOpen = false;
   username: string = '';
 
-  constructor(private elRef: ElementRef, public dialog: MatDialog) {}
+  constructor(private elRef: ElementRef, public dialog: MatDialog, private router: Router) {}
 
   ngOnInit(): void {
     // Retrieve the username from localStorage
@@ -51,7 +52,8 @@ export class HeaderComponent implements OnInit {
   }
 
   toggleActive(event: MouseEvent) {
-    this.isActive = !this.isActive;
-    this.isDropdownOpen = this.isActive; 
+    // this.isActive = !this.isActive;
+    // this.isDropdownOpen = this.isActive; 
+    this.router.navigateByUrl('/main/admin')
   }
 }

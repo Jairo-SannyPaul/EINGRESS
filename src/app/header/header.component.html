@@ -28,13 +28,13 @@
             </div>
             <h1 [class.active]="isActive" (click)="toggleActive($event)">{{ username }}</h1>
         </div>
-        <div class="dropdown" [ngClass]="{ 'show': isDropdownOpen }">
+        <!-- <div class="dropdown" [ngClass]="{ 'show': isDropdownOpen }">
             <h2>{{ username }}</h2>
             <h5>Administrator</h5>
             <button class="manage-account" (click)="openDialog()">
                 <img src="/assets/images/settings.png" alt="Manage Account Icon" class="icon">
                 <span>Manage account</span>
             </button>        
-        </div>
+        </div> -->
     </div>    
 </div>
