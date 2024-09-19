@@ -1,52 +1,90 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component } from '@angular/core';
+
+interface User {
+  fullName: string;
+  role: string;
+  branch: string;
+  rfid: string;
+  email: string;
+  contact: string;
+  fingerprint1: string;
+  fingerprintId1: string;
+  fingerprintId2?: string;
+  fingerprint2?: string;
+}
 
 @Component({
   selector: 'app-add-user-modal',
   templateUrl: './add-user-modal.component.html',
   styleUrls: ['./add-user-modal.component.css']
 })
-
-export class AddUserModalComponent implements OnInit {
+export class AddUserModalComponent {
   isVisible: boolean = false;
-  userForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
-    // Initialize the form with validation
-    this.userForm = this.fb.group({
-      fullname: ['', Validators.required],
-      role: ['', Validators.required],
-      branch: ['', Validators.required],
-      rfid: ['', Validators.required],
-      fingerprint1: [''],
-      email: ['', [Validators.required, Validators.email]],
-      contact: ['', [Validators.required, Validators.pattern('^\\+63\\d{9,10}$')]],
-      fingerprintId1: ['', Validators.required],
-      fingerprintId2: [''],
-      fingerprint2: ['']
-    });
-  }
+  // Initialize the user model to bind with the form fields
+  user: User = {
+    fullName: '',
+    role: '',
+    branch: '',
+    rfid: '',
+    email: '',
+    contact: '',
+    fingerprint1: '',
+    fingerprintId1: '',
+    fingerprintId2: '',
+    fingerprint2: ''
+  };
 
-  ngOnInit() {
-    // Initialization is already done in the property declaration
-  }
+  constructor() {}
 
-  showAddUserModal() {
+  // Show the modal
+  showAddUserModal(): void {
     this.isVisible = true;
   }
 
-  hideAddUserModal() {
+  // Hide the modal
+  hideAddUserModal(): void {
     this.isVisible = false;
+    this.onClear(); // Clear form on closing
   }
 
-  onClear() {
-    this.userForm.reset();
+  // Clear form fields
+  onClear(): void {
+    this.user = {
+      fullName: '',
+      role: '',
+      branch: '',
+      rfid: '',
+      email: '',
+      contact: '',
+      fingerprint1: '',
+      fingerprintId1: '',
+      fingerprintId2: '',
+      fingerprint2: ''
+    };
   }
 
-  onSubmit() {
-    if (this.userForm.valid) {
-      // Handle form submission
-      console.log(this.userForm.value);
+  // Submit the form data
+  onSubmit(): void {
+    if (this.validateForm()) {
+      console.log('Form Submitted:', this.user);
+      // Perform necessary actions like sending data to an API or service
+    } else {
+      console.error('Form validation failed');
     }
   }
+
+  // Form validation logic (you can add more complex logic here if needed)
+  validateForm(): boolean {
+    return (
+      this.user.fullName &&
+      this.user.role &&
+      this.user.branch &&
+      this.user.rfid &&
+      this.user.email &&
+      this.user.contact &&
+      this.user.fingerprintId1
+    ) ? true : false;
+  }
+
 }
