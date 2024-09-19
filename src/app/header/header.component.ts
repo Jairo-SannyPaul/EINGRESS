@@ -3,7 +3,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router, NavigationEnd } from '@angular/router';
 import { AdminpopupComponent } from '../adminpopup/adminpopup.component';
 import { HeaderLabelService } from '../services/header-label.service';
+<<<<<<< HEAD
 
+=======
+>>>>>>> github-EINGRESS/Development-Sanny
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
