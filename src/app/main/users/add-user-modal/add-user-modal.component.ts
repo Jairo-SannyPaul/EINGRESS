@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+
 
 interface User {
   fullName: string;
@@ -19,7 +20,9 @@ interface User {
   styleUrls: ['./add-user-modal.component.css']
 })
 export class AddUserModalComponent {
-  isVisible: boolean = false;
+
+  @Input() isVisible: boolean = false; // Input to control visibility
+  isPopupVisible: boolean = false; // Popup visibility flag
 
   // Initialize the user model to bind with the form fields
   user: User = {
@@ -64,11 +67,10 @@ export class AddUserModalComponent {
     };
   }
 
-  // Submit the form data
   onSubmit(): void {
     if (this.validateForm()) {
       console.log('Form Submitted:', this.user);
-      // Perform necessary actions like sending data to an API or service
+      this.isPopupVisible = true; // Show the popup
     } else {
       console.error('Form validation failed');
     }
@@ -87,4 +89,10 @@ export class AddUserModalComponent {
     ) ? true : false;
   }
 
+  
+  closePopup(): void {
+    this.isPopupVisible = false; // Hide the popup
+    this.isVisible = false;
+    this.onClear(); // Clear form on closing
+    }
 }

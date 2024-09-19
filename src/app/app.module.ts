@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
@@ -49,9 +50,11 @@ import { AlertDialogComponent } from './dialogs/alert-dialog/alert-dialog.compon
 import { SuccessDialogComponent } from './dialogs/success-dialog/success-dialog.component';
 import { AdminpopupComponent } from './adminpopup/adminpopup.component';
 import { AddUserModalComponent } from './main/users/add-user-modal/add-user-modal.component';
+import { AddUserSubmitPopupComponent } from './main/users/add-user-submit-popup/add-user-submit-popup.component';
 
-
-
+const routes: Routes = [
+  { path: 'submit-popup', component: AddUserSubmitPopupComponent },
+];
 
 @NgModule({
   declarations: [
@@ -85,9 +88,11 @@ import { AddUserModalComponent } from './main/users/add-user-modal/add-user-moda
     SuccessDialogComponent,
     AdminpopupComponent,
     AddUserModalComponent,
+    AddUserSubmitPopupComponent,
 
   ],
   imports: [
+    RouterModule.forRoot(routes),
     BrowserModule,
     AppRoutingModule,
     FormsModule,
@@ -105,6 +110,9 @@ import { AddUserModalComponent } from './main/users/add-user-modal/add-user-moda
     MatToolbarModule,
     MatTooltipModule
   ],
+
+  exports: [RouterModule],
+
   providers: [
     UserService,
     {
@@ -114,5 +122,8 @@ import { AddUserModalComponent } from './main/users/add-user-modal/add-user-moda
     }
   ],
   bootstrap: [AppComponent]
+ 
 })
+
+
 export class AppModule { }

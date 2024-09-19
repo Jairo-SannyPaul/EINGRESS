@@ -1,11 +1,11 @@
     .modal-overlay {
-    position: fixed;
+    position: fixed!important;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
     background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-    display: flex;
+    display: flex!important;
     justify-content: center;
     align-items: center;
     z-index: 999999!important; /* Make sure the modal is above other content */
@@ -67,8 +67,6 @@
     }
 
 
-
-
     /** start of right div **/
 
     .drop-down {
@@ -99,7 +97,9 @@
     box-sizing: border-box; /* Includes padding and border in width and height */
     appearance: none; /* Remove default dropdown arrow */
     z-index: 1; /* Ensure dropdown options appear above other content */
+    height: auto;
     }
+
 
     .custom-arrow {
     position: absolute;
