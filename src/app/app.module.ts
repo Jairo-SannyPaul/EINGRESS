@@ -52,6 +52,7 @@ import { AddUserModalComponent } from './main/users/add-user-modal/add-user-moda
 import { HeaderSearchComponent } from './header/header-search/header-search.component';
 import { HeaderBellComponent } from './header/header-bell/header-bell.component';
 import { HeaderProfileComponent } from './header/header-profile/header-profile.component';
+import { AdminComponent } from './admin/admin.component';
 
 
 
@@ -90,6 +91,7 @@ import { HeaderProfileComponent } from './header/header-profile/header-profile.c
     HeaderSearchComponent,
     HeaderBellComponent,
     HeaderProfileComponent,
+    AdminComponent,
   ],
   imports: [
     BrowserModule,

@@ -67,7 +67,8 @@ export class HeaderComponent implements OnInit {
   }
 
   toggleActive(event: MouseEvent) {
-    this.isActive = !this.isActive;
-    this.isDropdownOpen = this.isActive; 
+    // this.isActive = !this.isActive;
+    // this.isDropdownOpen = this.isActive; 
+    this.router.navigateByUrl('/main/admin')
   }
 }

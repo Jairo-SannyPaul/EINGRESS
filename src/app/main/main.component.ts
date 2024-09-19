@@ -13,16 +13,25 @@ export class MainComponent{
   isNavbarLocked: boolean = false;
   username: string = '';
   user!: User;
+  changePass = false;
   constructor (
     private userService: UserService
   ){
+    this.userService.modalState$.subscribe((state: boolean) => {
+      this.changePass = state;
+    });
   }
+
+
 
   ngOnInit(): void {
     this.username = localStorage.getItem('username') || 'Admin';
     this.loadUser();
   }
 
+  exitModal(){
+    this.userService.closeModal();
+  }
 
   loadUser(): void {
     this.userService.getUser().subscribe({
