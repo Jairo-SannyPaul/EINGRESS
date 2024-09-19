@@ -1,24 +1,26 @@
+
 .delete{
-    width: 60px;
-    height: 60px;
-    border-radius: 10px; /* Updated border-radius */
+    width: 32px;
+    height: 33px;
+    border-radius: 3px; /* Updated border-radius */
     display: flex;
     align-items: center;
-    background-color: #ffe6e6;
+    background-color: #f0f4fc;
     justify-content: center;
-    color: var(--secondary);
     cursor: pointer;
+    padding: 6px, 12px, 6px, 8px;
+    border: 1px solid #E15858;
 }
 
 .delete img{
-    width: 25px;
-    height: 25px;
+    width: 10px;
+    height: 10px;
 }
 
-.delete:hover{
-    background-color: var(--error);
+.delete:hover img {
+    content: url('/assets/images/delete-white.png'); /* Change the image source */
 }
 
-.delete:hover img{
-    content: url('/assets/images/delete-white.png');
+.delete:hover {
+    background-color: #E15858;
 }

@@ -13,36 +13,92 @@ input[type="checkbox"] {
 }
 
 .table-header {
+    display: flex;
     position: sticky;
-    color: gray;
     display: grid;
-    grid-template-columns: 115px repeat(4, 1fr); /* Fixed width first column, rest are 1fr */
+    grid-template-columns: 20px 34px repeat(4, 1fr) 36px; /* Fixed width first column, rest are 1fr */
     align-items: center;
-    gap: 20px;
-    padding: 20px 0px;
+    padding: 10px, 16px, 10px, 16px;
     position: sticky; 
     top: 0;
-    background-color: white;
     z-index: 1; 
+    height: 44px;
+    background-color: #FFFFFF99;
+    border-radius: 6px;
 }
 
 .table-body{
-    overflow-y: auto;
+    overflow-y: hidden;
+    border: 16px solid #FFFFFF99;
+    border-radius: 5px;
+    min-height: 100%;
+}
+.user-header, .role-header, .registered-date-header, .last-login-header{
+    color: #464646;
+    font-family: "Poppins";
+    font-size: 16px;
+    font-weight: 500;
 }
 
 .user-header{
-    grid-column: 2 / 3;
+    grid-column: 2 / 4;
 }
 
 .role-header{
-    grid-column: 3 / 4;
-}
-
-.registered-date-header{
     grid-column: 4 / 5;
 }
 
-.last-login-header{
+.registered-date-header{
     grid-column: 5 / 6;
 }
 
+.last-login-header{
+    grid-column: 6 / 7;
+}
+
+.pagination {
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 26px;
+}
+
+.page-btn {
+    width: 21px;
+    height: 21px;
+    border-radius: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Poppins";
+    font-weight: 400;
+    font-size: 14px;
+}
+
+.page-btn:hover {
+    background-color: #0B203F;
+    color: white;
+}
+
+.page-btn:active {
+    background-color: #0B203F;
+    color: white;
+}
+
+.prev-btn, .next-btn {
+    width: 21px;
+    height: 21px;
+    border-radius: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Poppins";
+    font-weight: 400;
+    font-size: 14px;
+}
+
+.prev-btn:hover, .next-btn:hover {
+    background-color: #0B203F;
+    color: white;
+}

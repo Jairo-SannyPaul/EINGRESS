@@ -1,16 +1,63 @@
-<div class="contents">
-    <div class="security-summary">
-        <span>Security Summary</span>
-        <app-security-summary (loadingChange)="onLoadingChange($event)"></app-security-summary>
+<div class="content1">
+    <div class="total-registered">
+        <img src="assets/images/total-registered-icon.svg" alt="Total Registered Icon" class="icon">
+        <div class="content">
+            <div class="number">{{TotalRegistered}}</div>
+            <span>Total Registered</span>
+        </div>
+    </div>    
+    <div class="logins-today pointer" >
+        <img src="assets/images/logins-today-icon.svg" alt="Logins Today Icon" class="icon">
+        <div class="content">
+            <div class="number">{{LoginsToday}}</div>
+            <span>Logins Today</span>
+      <!-- <div class="count">{{ LoginsToday }}</div> -->
+       </div>
     </div>
-    <div class="recent-alerts">
-        <span>Recent Alerts</span>
-        <app-recent-alerts></app-recent-alerts>
+    <div class="not-on-site">
+        <img src="assets/images/not-on-site-icon.svg" alt="Not On Site Icon" class="icon">
+        <div class="content">
+            <div class="number">{{NotOnSite}}</div>
+            <span>Not on site</span>
+      <!-- <div class="count">{{ NotOnSite }}</div> -->
+       </div>
     </div>
+    <div class="total pointer" >
+        <img src="assets/images/unregistered-icon.svg" alt="Unregistered Icon" class="icon">
+        <div class="content">
+            <div class="number">{{noBio}}</div>
+            <span>Unregistered</span>
+      <!-- <div class="count">{{ noBio }}</div> -->
+       </div>
+    </div>
+    <div class="unathorized-bio">
+        <img src="assets/images/unauthorized-bio-icon.svg" alt="Unauthorized Bio Icon" class="icon">
+        <div class="content">
+            <div class="number">1234</div>
+            <span>Unathorized Bio</span>
+        </div>
+    </div>
+</div>
+
+<div class="content2">
+    <div class="overview-label">
+        <p>Overview</p>
+        <span>View of all Employees Summary Result, Recent Login and Previous Attendance.</span>
+    </div>
+
     <div class="recent-login">
-        <span>Recent Login</span>
         <app-recent-login></app-recent-login>
     </div>
+
+    <div class="security-summary">
+        <app-security-summary (loadingChange)="onLoadingChange($event)"></app-security-summary>
+    </div>
+
+    <div class="recent-alerts">
+        <span>Previous Login</span>
+        <app-recent-alerts></app-recent-alerts>
+    </div>
+    
 </div>
 
 <div [ngClass]="{'fade-out': !loading}" class="loading-overlay">

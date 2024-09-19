@@ -41,12 +41,14 @@ import { ReportsSearchfieldComponent } from './main/reports/reports-searchfield/
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { RecentAlertsComponent } from './main/dashboard/recent-alerts/recent-alerts.component';
 import { RecentLoginComponent } from './main/dashboard/recent-login/recent-login.component';
 import { ConfirmDialogComponent } from './dialogs/confirm-dialog/confirm-dialog.component';
 import { AlertDialogComponent } from './dialogs/alert-dialog/alert-dialog.component';
 import { SuccessDialogComponent } from './dialogs/success-dialog/success-dialog.component';
 import { AdminpopupComponent } from './adminpopup/adminpopup.component';
+import { AddUserModalComponent } from './main/users/add-user-modal/add-user-modal.component';
 
 
 
@@ -81,6 +83,7 @@ import { AdminpopupComponent } from './adminpopup/adminpopup.component';
     AlertDialogComponent,
     SuccessDialogComponent,
     AdminpopupComponent,
+    AddUserModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -97,7 +100,8 @@ import { AdminpopupComponent } from './adminpopup/adminpopup.component';
     BrowserAnimationsModule,
     MatButtonModule,
     MatDialogModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatTooltipModule
   ],
   providers: [
     UserService,

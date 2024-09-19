@@ -1,13 +1,12 @@
 <div class="main-container">
-  <span>Users</span>
   <div class="inner-container">
     <div class="upper">
-      <div class="upper-left">
+      <!-- <div class="upper-left">
         <app-searchfield [selectedFilter]="selectedFilter"></app-searchfield>
         <button class="filterbtn" (click)="toggleFilter()">
           <img src="/assets/images/filter-black.png">
         </button>
-      </div>
+      </div> -->
       <div class="upper-right">
         <app-delete-btn class="pointer"></app-delete-btn>
         <app-add-user-btn (addUserClicked)="onAddUserBtnClicked()" class="pointer"></app-add-user-btn>
@@ -47,7 +46,12 @@
         </div>
       </div>
       <app-table></app-table>
+      <app-add-user-modal></app-add-user-modal>
+
+      <!--
       <app-add-user-form></app-add-user-form>
+      -->
+      
     </div>
   </div>
 

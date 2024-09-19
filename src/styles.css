@@ -72,7 +72,7 @@
   justify-content: center; /* Center the image horizontally within the container */
   margin-left: 20px; /* Add a margin of 20px to the left of the filter icon */
   border-radius: 10px;
-  background-color: #f5f5f5;
+  background-color: #FFFFFF99;
   cursor: pointer;
 }
 
@@ -101,6 +101,10 @@
   padding-right: 10px;
   padding-bottom: 10px;
   justify-content: space-between;
+}
+
+.right{
+  background-color: #FFFFFF99;
 }
 
 .filter {
@@ -141,7 +145,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(255, 255, 255, 1); /* Optional overlay background */
+  background-color: #f0f4fc; /* Optional overlay background */
   z-index: 1000;
   opacity: 1;
   transition: opacity 0.5s ease-in-out;
@@ -151,7 +155,6 @@
   opacity: 0;
   pointer-events: none;
 }
-
 
 .jairo-container {
   display: flex;
@@ -214,4 +217,15 @@
   font-size: 18px; /* Font size for the message */
   color: #333; /* Darker text color */
   font-weight: bold; /* Bold text */
+}
+
+
+.example-button {
+  margin-top: 16px;
+}
+
+.example-tooltip-uppercase {
+  text-transform: uppercase;
+  background-color: #008B38;
+  height: 600px;
 }

@@ -1,35 +1,40 @@
 
 
 .add-user{
-    width: 140px;
-    height: 60px;
-    border-radius: 10px; /* Updated border-radius */
+    width: 107px;
+    height: 33px;
+    border-radius: 3px; /* Updated border-radius */
     display: flex;
     align-items: center;
-    background-color: #e3f2ff;
+    background-color: #70C964;
     justify-content: center;
-    color: var(--secondary);
+    color: white;
     cursor: pointer;
+    padding: 6px, 12px, 6px, 8px;
 }
 
 .add-user img{
-    width: 20px;
-    height: 20px;
+    width: 10px;
+    height: 10px;
 }
 
-.add-user:hover{
-    background-color: var(--secondary);
-    color: white;
+.add-user:hover img {
+    content: url('/assets/images/add-green.png'); /* Change the image source */
+}
+
+.add-user:hover {
+    border: 1px solid #70C964;
+    background-color: #f0f4fc;
+    color: #70C964;
 }
 
 span{
+    font-family: "Poppins";
+    font-weight: 400;
     margin-left: 10px;
-    font-size: 1rem;
+    font-size: 14px;
 }
 
-.add-user:hover img{
-    content: url('/assets/images/add-white.png');
-}
 
 @media screen and (max-width: 700px) {
     

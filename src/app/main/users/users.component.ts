@@ -1,5 +1,6 @@
 import { Component, ViewChild, EventEmitter, Output } from '@angular/core';
 import { AddUserFormComponent } from './add-user-form/add-user-form.component';
+import { AddUserModalComponent } from './add-user-modal/add-user-modal.component';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { SearchfieldComponent } from './searchfield/searchfield.component';
@@ -30,6 +31,9 @@ import { Subscription } from 'rxjs';
 })
 export class UsersComponent {
   @ViewChild(AddUserFormComponent) addUserFormContainer!: AddUserFormComponent;
+  @ViewChild(AddUserModalComponent) addUserModalContainer! : AddUserModalComponent;
+
+
   @ViewChild(SearchfieldComponent) searchFieldComponent!: SearchfieldComponent;
   @Output() sortOptionChanged = new EventEmitter<string>();
 
@@ -55,7 +59,10 @@ export class UsersComponent {
   }
 
   onAddUserBtnClicked() {
-    this.addUserFormContainer.showAddUserForm();
+    this.addUserModalContainer.showAddUserModal();
+    //this.addUserFormContainer.showAddUserForm();
+    
+  
   }
 
   toggleFilter() {

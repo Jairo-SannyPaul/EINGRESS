@@ -5,7 +5,6 @@
     <div class="navbar" [ngClass]="{'locked': isNavbarLocked}">
         <app-navbar (lockStateChange)="onLockStateChange($event)"></app-navbar>
       </div>
-      
     <div class="pages">
         <div class="inner-page">
             <router-outlet></router-outlet>
