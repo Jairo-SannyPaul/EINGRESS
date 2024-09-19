@@ -18,23 +18,28 @@ export class RecentLoginComponent {
 
   findRecentLoginEmployee(): void {
     this.employeeService.getEmployee().subscribe((employees: Employee[]) => {
-      let latestLastLoginDate: Date | null = null;
+      const today = new Date();
+      today.setHours(0, 0, 0, 0); // Start of today
+      const endOfDay = new Date(today);
+      endOfDay.setHours(23, 59, 59, 999); // End of today
+  
       let recentLoginEmployee: Employee | null = null;
-
+  
       employees.forEach((employee: Employee) => {
         if (employee.lastlogdate) {
           const lastLoginDateTime = new Date(employee.lastlogdate);
-          if (!latestLastLoginDate || lastLoginDateTime > latestLastLoginDate) {
-            latestLastLoginDate = lastLoginDateTime;
+          // Check if the last login date is today
+          if (lastLoginDateTime >= today && lastLoginDateTime <= endOfDay) {
             recentLoginEmployee = employee;
           }
         }
       });
-
-      this.recentLogin = recentLoginEmployee;
+  
+      this.recentLogin = recentLoginEmployee || null;
       console.log('Recent Login:', this.recentLogin);
     });
   }
+  
 
   getProfileImage(employee: Employee | null): string {
     // Check if selectedEmployee exists and has a profileImage
@@ -44,7 +49,7 @@ export class RecentLoginComponent {
       return `${this.baseUrl}/profile-image/${employee.profileImage}`;
     } else {
       // Default profile image URL
-      return '/assets/images/default-profile-image.png'; // Replace with your default image path
+      return '/assets/images/default-profile.svg'; // Replace with your default image path
     }
   }
 

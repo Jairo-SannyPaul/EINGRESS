@@ -13,7 +13,7 @@ import { ErrorLog } from 'src/app/interface/error-log.interface';
   styleUrls: ['./recent-alerts.component.css']
 })
 export class RecentAlertsComponent implements OnInit {
-  recentAlerts: { type: string, message: string }[] = [];
+  recentAlerts: { type: string, name: string, date: string, time: string }[] = [];
   matchedEmployees: Employee[] = [];
   maxEmployeesDisplayed: number = 4;
 
@@ -35,6 +35,9 @@ export class RecentAlertsComponent implements OnInit {
     ]).subscribe(
       ([employees, accessLogs, errorLogs]: [Employee[], AccessLog[], ErrorLog[]]) => {
         const currentDate = new Date().toLocaleDateString();
+
+        // Define time format options for 12-hour format
+      const timeOptions: Intl.DateTimeFormatOptions = { hour: '2-digit', minute: '2-digit', hour12: true };
         
         // Process access logs
         this.matchedEmployees = employees.filter(employee => {
@@ -50,8 +53,10 @@ export class RecentAlertsComponent implements OnInit {
         const firstSixEmployees = this.matchedEmployees.slice(0, this.maxEmployeesDisplayed);
         const accessLogAlerts = firstSixEmployees.map(employee => {
           const mostRecentTime = this.getMostRecentAccessTime(employee);
-          const formattedTime = mostRecentTime.toLocaleTimeString();
-          return { type: 'login', message: `${employee.fullname} has entered the building at ${formattedTime}`, timestamp: mostRecentTime.toISOString() };
+          const formattedTime = mostRecentTime.toLocaleTimeString([], timeOptions);
+          const formattedDate = mostRecentTime.toLocaleDateString();
+          const firstName = employee.fullname.split(' ')[0];
+          return { type: 'login', name: firstName, date: formattedDate, time: formattedTime };
         });
   
         // Process error logs
@@ -59,31 +64,33 @@ export class RecentAlertsComponent implements OnInit {
           .filter(log => new Date(log.timestamp!).toLocaleDateString() === currentDate)
           .map(log => {
             const timeOnly = new Date(log.timestamp!).toLocaleTimeString();
-            let message: string;
+            const dateOnly = new Date(log.timestamp!).toLocaleDateString();
+            let name: string;
   
-            // Check the message and transform it accordingly
+            // Determine the name for error logs
             if (log.message === 'Employee not found.') {
-              message = `Someone not registered tried to enter the building at ${timeOnly}`;
+              name = 'Unknown';
             } else if (log.message === 'Error Fingerprint not match:') {
-              message = `Someone tried to login with wrong fingerprint at ${timeOnly}`;
+              name = 'Unknown';
             } else {
-              message = log.message;
+              name = 'Error';
             }
   
-            return { type: 'error', message: message, timestamp: log.timestamp };
+            return { type: 'error', name: name, date: dateOnly, time: timeOnly };
           });
   
         // Combine and sort by time (most recent first)
         const combinedAlerts = [...accessLogAlerts, ...errorLogAlerts];
         this.recentAlerts = combinedAlerts
-          .sort((a, b) => new Date(b.timestamp!).getTime() - new Date(a.timestamp!).getTime())
-          .slice(0, 4); // Keep only the top 4 most recent alerts
+          .sort((a, b) => new Date(b.date + ' ' + b.time).getTime() - new Date(a.date + ' ' + a.time).getTime())
+          .slice(0,11); // Keep only the top 4 most recent alerts
       },
       error => {
         console.error('Error fetching data:', error);
       }
     );
   }
+  
 
   filterAndSortAlerts(alerts: { type: string, message: string, timestamp?: string }[]): { type: string, message: string }[] {
     return alerts

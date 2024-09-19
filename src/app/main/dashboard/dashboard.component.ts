@@ -1,9 +1,10 @@
-import { Component, HostListener, ViewChild, ElementRef, EventEmitter, Output } from '@angular/core';
+import { Component, HostListener, ViewChild, ElementRef, EventEmitter, Output, OnInit } from '@angular/core';
 import { combineLatest } from 'rxjs';
 import { AccessLogService } from 'src/app/services/access-log.service';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { LoginTotalService } from 'src/app/services/login-total.service';
 import { Router } from '@angular/router';
+import { HeaderLabelService } from 'src/app/services/header-label.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -30,6 +31,7 @@ export class DashboardComponent {
     private accessLogService: AccessLogService,
     private employeeService: EmployeeService,
     private logintotalService: LoginTotalService,
+    private headerLabelService: HeaderLabelService,
     private router: Router
   ) {
     this.fetchLoginsToday();
@@ -39,6 +41,11 @@ export class DashboardComponent {
       this.noBio = counts.noBioRegistered;
     });
     this.fetchRegisteredWithRFIDandBio();
+  }
+
+  ngOnInit(): void{
+    // Update the header title to "Dashboard"
+    this.headerLabelService.updateTitle('Dashboard');
   }
 
   @HostListener('window:resize', ['$event'])

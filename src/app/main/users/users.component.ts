@@ -5,6 +5,7 @@ import { EmployeeService } from 'src/app/services/employee.service';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { SearchfieldComponent } from './searchfield/searchfield.component';
 import { Subscription } from 'rxjs';
+import { HeaderLabelService } from 'src/app/services/header-label.service';
 
 @Component({
   selector: 'app-users',
@@ -41,13 +42,16 @@ export class UsersComponent {
   selectedFilter: string = 'name';
   sortOption: string = 'nameAsc';
   private sortOptionSubscription!: Subscription;
-  constructor(private employeeService: EmployeeService) {}
+  constructor(private employeeService: EmployeeService, private headerLabelService: HeaderLabelService,) {}
 
   ngOnInit() {
     // Subscribe to the sortOption observable
     this.sortOptionSubscription = this.employeeService.sortOption$.subscribe(sortOption => {
       this.sortOption = sortOption;
     });
+
+    // Update the header title to "Dashboard"
+    this.headerLabelService.updateTitle('Users Overview');
   }
 
   onSortChange() {

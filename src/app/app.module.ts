@@ -49,8 +49,10 @@ import { AlertDialogComponent } from './dialogs/alert-dialog/alert-dialog.compon
 import { SuccessDialogComponent } from './dialogs/success-dialog/success-dialog.component';
 import { AdminpopupComponent } from './adminpopup/adminpopup.component';
 import { AddUserModalComponent } from './main/users/add-user-modal/add-user-modal.component';
+import { HeaderSearchComponent } from './header/header-search/header-search.component';
+import { HeaderBellComponent } from './header/header-bell/header-bell.component';
+import { HeaderProfileComponent } from './header/header-profile/header-profile.component';
 import { AdminComponent } from './admin/admin.component';
-
 
 
 @NgModule({
@@ -85,7 +87,10 @@ import { AdminComponent } from './admin/admin.component';
     SuccessDialogComponent,
     AdminpopupComponent,
     AddUserModalComponent,
-    AdminComponent,
+    HeaderSearchComponent,
+    HeaderBellComponent,
+    HeaderProfileComponent,
+    AdminComponent
   ],
   imports: [
     BrowserModule,
