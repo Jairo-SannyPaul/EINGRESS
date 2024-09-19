@@ -9,8 +9,8 @@
 
 .photoholder {
     border-radius: 50%;
-    height: 92px;
-    width: 92px;
+    height: 99px;
+    width: 99px;
     perspective: 1000px;
     background-color: var(--background);
     border: 5px solid var(--secondary); 
