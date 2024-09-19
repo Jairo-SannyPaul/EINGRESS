@@ -1,6 +1,7 @@
 import { Component, HostListener, ElementRef, Renderer2, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AdminpopupComponent } from '../adminpopup/adminpopup.component';
+import { HeaderLabelService } from '../services/header-label.service';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -10,13 +11,19 @@ export class HeaderComponent implements OnInit {
   isActive = false;
   isDropdownOpen = false;
   isNotificationOpen = false;
+  headerTitle: string = '';
   username: string = '';
 
-  constructor(private elRef: ElementRef, public dialog: MatDialog) {}
+  constructor(private elRef: ElementRef, public dialog: MatDialog, private headerLabelService: HeaderLabelService) {}
 
   ngOnInit(): void {
     // Retrieve the username from localStorage
     this.username = localStorage.getItem('username') || 'Admin';  // Default to 'Admin' if username is not found
+
+    // Subscribe to the title changes from the service
+    this.headerLabelService.currentTitle.subscribe((title: string) => {
+      this.headerTitle = title;
+    });
   }
 
   openDialog(): void {

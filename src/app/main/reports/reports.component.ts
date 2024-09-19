@@ -7,6 +7,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 import { ReportsSearchfieldComponent } from './reports-searchfield/reports-searchfield.component';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { HeaderLabelService } from 'src/app/services/header-label.service';
 type LoginSession = {
   date: string;
   time: string;
@@ -53,6 +54,7 @@ export class ReportsComponent implements OnInit {
   constructor(
     private accessLogService: AccessLogService,
     private employeeService: EmployeeService,
+    private headerLabelService: HeaderLabelService,
     private route: ActivatedRoute
   ) { }
 
@@ -65,6 +67,9 @@ export class ReportsComponent implements OnInit {
     this.sortOptionSubscription = this.employeeService.sortOption$.subscribe(sortOption => {
       this.sortOption = sortOption;
     });
+
+    // Update the header title to "Dashboard"
+    this.headerLabelService.updateTitle('Reports');
   }
 
     getEmployeeById(userId: string) {
