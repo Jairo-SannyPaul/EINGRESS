@@ -1,9 +1,16 @@
 <div class="table-body">
 <div *ngIf="paginatedEmployees && paginatedEmployees.length > 0; else noMatch">
   <div *ngFor="let employee of paginatedEmployees" class="user pointer">
+    <label *ngIf="deleteMode">
+      <input type="checkbox" [(ngModel)]="employee.selected" (change)="toggleSelection(employee, $event)">
+      <span class="custom-checkbox">
+        <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2.79755 6L0 3.15593L0.699386 2.44491L2.79755 4.57796L7.30061 0L8 0.711019L2.79755 6Z" fill="#464646"/>
+        </svg>
+      </span>
+    </label>
     <div class="profile-image-container">
-      <img [src]="baseUrl + '/profile-image/' + employee.profileImage" alt="Profile Image"
-        [ngClass]="{'no-bio-border': !hasBio(employee), 'bio-border': hasBio(employee)}">
+      <img [src]="baseUrl + '/profile-image/' + employee.profileImage" alt="Profile Image">
     </div>
     <!-- <div class="profile-image-container">
       <img [src]="baseUrl + '/profile-image/' + employee.profileImage" alt="Profile Image">
@@ -11,8 +18,12 @@
     <div class="employee-info-container" (click)="selectedEmployee(employee)">
       <div class="employee-fullname">{{ employee.fullname }}</div>
       <div class="role-content">{{ employee.role }}</div>
-      <div class="registered-date-content">{{ employee.regdate }}</div>
-      <div class="last-login-content">{{ employee.lastlogdate }}</div>
+      
+      <div class="status-content">
+        {{ hasBio(employee) ? 'Registered' : 'Unregistered' }}
+      </div>
+      <div class="registered-date-content">{{ convertRegDate(employee.regdate) }}</div>
+      <div class="last-login-content">{{ convertLastLog(employee.lastlogdate) }}</div>
     </div>
   </div>
 </div>
@@ -26,7 +37,10 @@
 
 <!-- Pagination Controls -->
 <div class="pagination" *ngIf="totalPages > 1">
-  <div class="prev-btn pointer" (click)="prevPage()" [class.disabled]="currentPage === 1">&lt;</div>
+  <div class="prev-btn pointer" 
+       (click)="prevPage()" 
+       [class.disabled]="currentPage === 1" 
+       [attr.disabled]="currentPage === 1 ? true : null">&lt;</div>
 
   <div *ngFor="let page of totalPagesArray" 
        class="page-btn pointer" 
@@ -35,5 +49,8 @@
     {{ page }}
   </div>
 
-  <div class="next-btn pointer" (click)="nextPage()" [class.disabled]="currentPage === totalPages">&gt;</div>
+  <div class="next-btn pointer" 
+       (click)="nextPage()" 
+       [class.disabled]="currentPage === totalPages" 
+       [attr.disabled]="currentPage === totalPages ? true : null">&gt;</div>
 </div>

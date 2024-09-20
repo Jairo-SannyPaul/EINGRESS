@@ -6,7 +6,7 @@ export interface Employee {
   email: string;
   role: string;
   regdate?: Date;
-  lastlogdate?: string; // Make lastlogdate optional to align with the backend
+  lastlogdate?: string; 
   profileImage?: string;
   rfidtag?: string;
   selected?: boolean;

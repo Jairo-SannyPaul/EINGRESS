@@ -151,4 +151,19 @@ export class EmployeeService {
   setFilterOption(filter: string) {
     this.selectedFilterSource.next(filter);
   }
+
+  private deleteModeSource = new BehaviorSubject<boolean>(false);
+  deleteMode$ = this.deleteModeSource.asObservable();
+
+  toggleDeleteMode() {
+    const currentDeleteMode = this.deleteModeSource.getValue();
+    this.deleteModeSource.next(!currentDeleteMode);
+  }
+
+  private checkedStateSource = new Subject<boolean>();
+  checkedState$ = this.checkedStateSource.asObservable();
+
+  updateCheckedState(isChecked: boolean) {
+    this.checkedStateSource.next(isChecked);
+  }
 }

@@ -45,7 +45,8 @@
           </select>
         </div>
       </div>
-      <app-table></app-table>
+      <app-table (statusChanged)="onSortChange($event)"></app-table>
+
       <app-add-user-modal></app-add-user-modal>
 
       <!--

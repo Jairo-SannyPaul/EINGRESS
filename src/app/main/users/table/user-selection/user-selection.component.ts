@@ -12,9 +12,11 @@ import { formatDate } from '@angular/common';
   styleUrls: ['./user-selection.component.css']
 })
 export class UserSelectionComponent implements OnInit, OnDestroy {
-  
+
+
   baseUrl = this.employeeService.apiUrl;
   loading = true;
+  employee!: Employee;
   employees: Employee[] = [];
   filteredEmployees: Employee[] = [];
   paginatedEmployees: Employee[] = [];
@@ -25,6 +27,8 @@ export class UserSelectionComponent implements OnInit, OnDestroy {
   private reloadSubscription: Subscription = new Subscription();
   private sortOptionSubscription: Subscription | undefined;
   sortOption: string = 'nameAsc';
+  deleteMode: boolean = false;
+  checked: boolean = false;
   @Input() selectedFilter: string = 'name';  // Selected filter input
   @Output() employeeSelected = new EventEmitter<Employee>();
 
@@ -35,6 +39,9 @@ export class UserSelectionComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    this.employeeService.deleteMode$.subscribe(mode => {
+      this.deleteMode = mode;
+    });
     this.loadEmployeeInfo();
 
     this.employeeService.deletedClicked$.subscribe(() => {
@@ -70,7 +77,7 @@ export class UserSelectionComponent implements OnInit, OnDestroy {
       startWith(''),
       switchMap(searchInputValue => {
         return searchInputValue.trim()
-          ? this.employeeService.searchEmployee(searchInputValue) 
+          ? this.employeeService.searchEmployee(searchInputValue)
           : this.employeeService.getEmployee();
       })
     ).subscribe(employees => {
@@ -92,7 +99,7 @@ export class UserSelectionComponent implements OnInit, OnDestroy {
   updatePaginatedEmployees() {
     const start = (this.currentPage - 1) * this.itemsPerPage;
     const end = start + this.itemsPerPage;
-    this.paginatedEmployees = this.filteredEmployees.slice(start, end);
+    this.paginatedEmployees = this.filteredEmployees.slice(start, Math.min(end, this.filteredEmployees.length));
   }
 
   goToPage(page: number) {
@@ -202,6 +209,7 @@ export class UserSelectionComponent implements OnInit, OnDestroy {
   }
 
   deleteEmployee() {
+
     const selectedEmployeeIds = this.employees
       .filter(employee => employee.selected)
       .map(employee => employee.id);
@@ -225,7 +233,7 @@ export class UserSelectionComponent implements OnInit, OnDestroy {
   hasBio(employee: Employee): boolean {
     return !!((employee.fingerprint1 && employee.fingerprint1.trim() !== '') || (employee.fingerprint2 && employee.fingerprint2.trim() !== ''));
   }
-  
+
   currentDate: string = formatDate(new Date(), 'MM/dd/yyyy', 'en-US'); // Format date to match lastlogdate format
 
   isActiveToday(employee: Employee): boolean {
@@ -233,5 +241,50 @@ export class UserSelectionComponent implements OnInit, OnDestroy {
 
     const employeeDate = formatDate(new Date(employee.lastlogdate), 'MM/dd/yyyy', 'en-US');
     return employeeDate === this.currentDate;
+  }
+
+  convertRegDate(dateInput: Date | undefined): string {
+    if (!dateInput) return ''; // Return an empty string if date is undefined or null
+    const date = new Date(dateInput);
+    const options: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    };
+    return date.toLocaleString('en-US', options);
+  }
+
+
+  convertLastLog(dateString: string | undefined): string {
+    if (!dateString) return ''; // Handle undefined or empty input
+
+    // Split date and time parts (MM/DD/YYYY and HH:MM:SS)
+    const [datePart, timePart] = dateString.split(', ');
+
+    // Split date part into month, day, and year
+    const [month, day, year] = datePart.split('/').map(part => parseInt(part, 10));
+
+    // Create a new Date object using the extracted parts
+    const date = new Date(year, month - 1, day, ...timePart.split(':').map(part => parseInt(part, 10)));
+
+    // Format the date as desired, e.g., "January 1, 2024, 12:00 PM"
+    return date.toLocaleString('en-US', {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric'
+    });
+  }
+
+  toggleDeleteMode() {
+    this.deleteMode = !this.deleteMode;
+  }
+
+
+  toggleSelection(employee: any, event: Event): void {
+    const checked = (event.target as HTMLInputElement).checked; // Store checked state
+    console.log('Employee:', employee, 'Checked:', checked); // Log the employee and the checked state
+
+    // Update the service with the checked state
+    this.employeeService.updateCheckedState(checked);
   }
 }
