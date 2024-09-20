@@ -12,40 +12,12 @@
 
 .date {
     grid-column: 2 / 3;
-    padding-left: 10px;
+    padding-left: 13.5px; /* Moves Date 30px to the left */
 }
 
 .time {
     grid-column: 3 / 4;
-    padding-left: 10px;
-}
-
-.day-header{
-    color: #464646;
-    font-family: Poppins;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-}
-
-.date-header{
-    color: #464646;
-    text-align: start;
-    font-family: Poppins;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-}
-
-.time-header{
-    color: #464646;
-    font-family: Poppins;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
+    padding-left: 13.5px; /* Moves Date 30px to the left */
 }
 
 .table {

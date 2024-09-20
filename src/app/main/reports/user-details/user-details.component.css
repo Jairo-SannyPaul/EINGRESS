@@ -62,6 +62,17 @@ height: 24px;
     white-space: nowrap;
 }
 
+.user-email
+{
+    height:25px;
+}
+
+.user-contact
+{
+    height:40.5px;
+}
+
+
 span{
     margin-left: 16px;
 }
