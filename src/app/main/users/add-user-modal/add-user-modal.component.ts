@@ -105,11 +105,7 @@ export class AddUserModalComponent {
         this.employeeService.addEmployeeWithoutImage(newEmployee)
           .subscribe(
             response => {
-              this.dialogService.openSuccessDialog('Employee Created Successfully').subscribe(confirmed => {
-                if (confirmed) {
-                  this.hideAddUserModal();
-                }
-              });
+              this.isPopupVisible = true; // Show the popup;
             },
             handleError
           );
@@ -136,4 +132,9 @@ export class AddUserModalComponent {
     return this.userForm.valid;
   }
 
+  closePopup(): void {
+    this.isPopupVisible = false; // Hide the popup
+    this.isVisible = false;
+    this.resetForm(); // Clear form on closing
+    }
 }

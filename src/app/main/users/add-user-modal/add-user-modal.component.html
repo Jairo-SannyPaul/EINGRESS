@@ -163,6 +163,10 @@
             <div class = "footer">
                 <button class="btn clear-btn" type = "button" (click)="resetForm()">Clear</button>
                 <button class="btn submit-btn" [ngClass]="{'btn-active': validateForm()}"  (click)="onSubmit()">Submit</button>
+                <app-add-user-submit-popup 
+                [isVisible]="isPopupVisible" 
+                (close)="closePopup()">
+                </app-add-user-submit-popup>
             </div>
         </div>
     </div>
