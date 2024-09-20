@@ -13,6 +13,7 @@ import { formatDate } from '@angular/common';
 })
 export class UserSelectionComponent implements OnInit, OnDestroy {
   
+  
   baseUrl = this.employeeService.apiUrl;
   loading = true;
   employee!: Employee;
@@ -26,6 +27,8 @@ export class UserSelectionComponent implements OnInit, OnDestroy {
   private reloadSubscription: Subscription = new Subscription();
   private sortOptionSubscription: Subscription | undefined;
   sortOption: string = 'nameAsc';
+  deleteMode: boolean = false;
+  checked: boolean = false;
   @Input() selectedFilter: string = 'name';  // Selected filter input
   @Output() employeeSelected = new EventEmitter<Employee>();
 
@@ -36,6 +39,9 @@ export class UserSelectionComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    this.employeeService.deleteMode$.subscribe(mode => {
+      this.deleteMode = mode;
+    });
     this.loadEmployeeInfo();
 
     this.employeeService.deletedClicked$.subscribe(() => {
@@ -203,6 +209,7 @@ export class UserSelectionComponent implements OnInit, OnDestroy {
   }
 
   deleteEmployee() {
+
     const selectedEmployeeIds = this.employees
       .filter(employee => employee.selected)
       .map(employee => employee.id);
@@ -268,4 +275,16 @@ export class UserSelectionComponent implements OnInit, OnDestroy {
     });
   }
   
+  toggleDeleteMode() {
+    this.deleteMode = !this.deleteMode;
+  }
+
+
+  toggleSelection(employee: any, event: Event): void {
+    const checked = (event.target as HTMLInputElement).checked; // Store checked state
+    console.log('Employee:', employee, 'Checked:', checked); // Log the employee and the checked state
+    
+    // Update the service with the checked state
+    this.employeeService.updateCheckedState(checked);
+  }
 }

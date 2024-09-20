@@ -1,5 +1,7 @@
 <div class="table">
-    <div class="table-header">
+    <div class="table-header"   [ngStyle]="{
+        'grid-template-columns': deleteMode ? '20px 70px 1fr 400px repeat(3, 1fr) 36px' : '20px 34px 1fr 400px repeat(3, 1fr) 36px'
+      }">
         <div class="checkbox-content"></div>
         <div class="user-header">Employee Name</div>
         <div class="role-header">Role</div>
