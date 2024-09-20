@@ -6,7 +6,9 @@
             <h4>Notifications</h4>
         </div>
         <div class="dropdown-body">
-            <!-- Notification data will be placed here -->
+            <div *ngFor="let alert of recentAlerts" class="alert-item">
+                <span>{{ alert.type }}: {{ alert.name }} at {{ alert.time }} on {{ alert.date }}</span>
+            </div>
         </div>
         <div class="dropdown-footer">
             <button (click)="viewPreviousNotifications()">See previous notifications</button>
