@@ -3,81 +3,114 @@ body {
 }
 
 .popup {
-    display: flex;
-    padding: 46px;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-    border-radius: 3px;
-    background: var(--white-900, #FFF);
-    
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-  }
+  display: flex;
+  padding: 46px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  border-radius: 3px;
+  background: var(--white-900, #FFF);
+  animation: popup-in 0.2s ease-out;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 1;
+}
 
-  .popup-content {
-    display: flex;
-    width: 297px;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 34px;
-  }
+.popup-content {
+  display: flex;
+  width: 297px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 34px;
+}
 
-  .popup-text {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-    align-self: stretch;
-  }
-  
-  svg {
-    width: 86px;
-    height: 86px;
-  }
+.popup-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  align-self: stretch;
+}
 
-  h1 {
-    align-self: stretch;  
-    color: #464646;
-    text-align: center;
-    font-family: Poppins;
-    font-size: 26px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-  }
+svg {
+  width: 86px;
+  height: 86px;
+}
 
-  h2 {
-    align-self: stretch;
-    color: #464646;
-    text-align: center;
-    font-family: Poppins;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-  }
-  
-  button {
-    display: flex;
-    padding: 10px 16px;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    flex: 1 0 0;
-    align-self: stretch;
-    border-radius: 3px;
-    border: 1px solid #70C964;
-    background: #70C964;
+h1 {
+  align-self: stretch;
+  color: #464646;
+  text-align: center;
+  font-family: Poppins;
+  font-size: 26px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
 
-    color: var(--white-900, #FFF);
-    font-family: Poppins;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
+h2 {
+  align-self: stretch;
+  color: #464646;
+  text-align: center;
+  font-family: Poppins;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+button {
+  display: flex;
+  padding: 10px 16px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex: 1 0 0;
+  align-self: stretch;
+  border-radius: 3px;
+  border: 1px solid #70C964;
+  background: #70C964;
+
+  color: var(--white-900, #FFF);
+  font-family: Poppins;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+/* Animation for appearing */
+@keyframes popup-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.5) translate(-50%, -50%);
   }
+  100% {
+    opacity: 1;
+    transform: scale(1) translate(-50%, -50%);
+  }
+}
+
+/* Animation for disappearing */
+@keyframes popup-out {
+  0% {
+    opacity: 1;
+    transform: scale(1) translate(-50%, -50%);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.5) translate(-50%, -50%);
+  }
+}
+
+/* Add this class to trigger close animation */
+.popup-closing {
+  animation: popup-out 0.2s ease-out forwards;
+}

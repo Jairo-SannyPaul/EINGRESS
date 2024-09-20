@@ -2,6 +2,7 @@ import { Component, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { DialogService } from 'src/app/services/dialog.service';
+import { AddUserModalService } from 'src/app/services/add-user-modal.service';
 
 
 @Component({
@@ -15,7 +16,7 @@ export class AddUserModalComponent {
   userForm: FormGroup;
   selectedImage!: File;
   isPopupVisible: boolean = false; // Popup visibility flag
-  constructor(private formBuilder: FormBuilder, private employeeService: EmployeeService, private dialogService: DialogService) { 
+  constructor(private formBuilder: FormBuilder, private employeeService: EmployeeService, private dialogService: DialogService, private addUserModalService: AddUserModalService) {
     this.userForm = this.formBuilder.group({
       fullname: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -49,10 +50,10 @@ export class AddUserModalComponent {
     phone: '',
     role: '',
     rfidtag: '',
-    profileImage: '' ,
+    profileImage: '',
     fingerprint1: '',
     fingerprint2: '',
-    branch:''
+    branch: ''
   };
 
   resetForm() {
@@ -65,33 +66,31 @@ export class AddUserModalComponent {
       role: '',
       rfidtag: '',
       profileImage: '',
-      fingerprint1: '', 
+      fingerprint1: '',
       fingerprint2: '',
-      branch:''
+      branch: ''
     }
   }
 
-  
+
   // Show the modal
   showAddUserModal(): void {
     this.isVisible = true;
   }
-
   // Hide the modal
   hideAddUserModal(): void {
-    this.isVisible = false;
+    this.addUserModalService.closeModal();
     this.resetForm(); // Clear form on closing
   }
 
-
   // Submit the form data
   onSubmit(): void {
- // Mark all fields as touched to trigger validation messages
+    // Mark all fields as touched to trigger validation messages
     this.userForm.markAllAsTouched();
     this.userForm.get('fingerprint2')?.setValue('');
     if (this.userForm.valid) {
       const newEmployee = this.userForm.value;
-  
+
       const handleError = (error: any) => {
         let errorMessage = 'Error creating employee.';
         if (error.status === 400 && error.error && error.error.message) {
@@ -100,7 +99,7 @@ export class AddUserModalComponent {
         }
         this.dialogService.openAlertDialog(errorMessage);
       };
-  
+
       if (!this.selectedImage) {
         this.employeeService.addEmployeeWithoutImage(newEmployee)
           .subscribe(
@@ -120,8 +119,10 @@ export class AddUserModalComponent {
       }
     } else {
       if (this.userForm.get('email')?.errors?.['email']) {
+        this.addUserModalService.closeModal();
         this.dialogService.openAlertDialog('Please enter a valid email address.');
       } else {
+        this.addUserModalService.closeModal();
         this.dialogService.openAlertDialog('Please fill in all required fields correctly.');
       }
     }
@@ -136,5 +137,5 @@ export class AddUserModalComponent {
     this.isPopupVisible = false; // Hide the popup
     this.isVisible = false;
     this.resetForm(); // Clear form on closing
-    }
+  }
 }

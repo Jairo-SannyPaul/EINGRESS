@@ -14,6 +14,7 @@ export class DialogService {
 
   openConfirmDialog(message: string, cancelText:string, confirmText: string): Observable<boolean> {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      panelClass: 'dialog-z-index',  // Add this line
       width: '350px',
       data: 
       { 
@@ -28,6 +29,7 @@ export class DialogService {
 
   openAlertDialog(message: string) {
     this.dialog.open(AlertDialogComponent, {
+      panelClass: 'dialog-z-index',  // Add this line
       width: '350px',
       data: 
       { 
@@ -38,6 +40,7 @@ export class DialogService {
 
   openSuccessDialog(message: string): Observable<boolean> {
     const dialogRef = this.dialog.open(SuccessDialogComponent, {
+      panelClass: 'dialog-z-index',  // Add this line
       width: '350px',
       data: 
       { 

@@ -230,4 +230,6 @@
   height: 600px;
 }
 
-
+.dialog-z-index {
+  z-index: 9999 !important;
+}

@@ -18,11 +18,11 @@
             <!--start of left div-->
             <div class = "modal-content-left">
                 <div class = "name-container">
-                    <p><span class = "required">*</span> Full Name</p>
+                    <p><span class = "required" *ngIf="!userForm.get('fullname')?.valid">*</span> Full Name</p>
                     <input type="text" id="addUserName" formControlName="fullname" name="fullname" placeholder="Input Full Name">
                  </div>
                  <div class = "role-container">
-                    <p><span class = "required">*</span>Role</p>
+                    <p><span class = "required" *ngIf="!userForm.get('role')?.valid">*</span>Role</p>
                     <div class = "drop-down">
                         <select id="addRole" formControlName="role" name="roleDropDown">
                             <option value="" disabled selected>Select Role</option>
@@ -82,7 +82,7 @@
 
                  <div class = "branch-RFID-container">
                     <div class = "branch-container">
-                        <p><span class = "required">*</span>Branch</p>
+                        <p><span class = "required" *ngIf="!userForm.get('branch')?.valid">*</span>Branch</p>
                         <div class ="drop-down">
                             <select id="addBranch" formControlName="branch" name="branchDropDown">
                                 <option value="" disabled selected>Select Branch</option>
@@ -98,7 +98,7 @@
                         </div>
                     </div>
                     <div class="rfid-container">
-                        <p><span class="required">*</span>RFID Card</p>
+                        <p><span class="required" *ngIf="!userForm.get('rfidtag')?.valid">*</span>RFID Card</p>
                         <div class="input-wrapper">
                           <input type="text" id="addRFID" formControlName="rfidtag" name="rfid" placeholder="Click Here" >
                           <svg class="rfid-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="18" viewBox="0 0 16 18" fill="none">
@@ -122,16 +122,16 @@
 
             <div class = "modal-content-right">
                 <div class = "email-container">
-                    <p><span class = "required">*</span>Email</p>
+                    <p><span class = "required" *ngIf="!userForm.get('email')?.valid">*</span>Email</p>
                     <input type="text" id="addEmail" formControlName="email" name="email" placeholder="Input Email">
                  </div>
                  <div class = "contact-container">
-                    <p><span class = "required">*</span>Contact</p>
+                    <p><span class = "required" *ngIf="!userForm.get('phone')?.valid">*</span>Contact</p>
                     <input type="text" id="addContact" formControlName="phone"name="contact" placeholder="+63 XXX XXX XXXX">
                 </div>
                 <div class="fingerprint-id-container">
                     <div class="fingerprint-id-1">
-                      <p><span class="required">*</span>Fingerprint ID 1</p>
+                      <p><span class="required" *ngIf="!userForm.get('fingerprint1')?.valid">*</span>Fingerprint ID 1</p>
                       <input 
                         type="text" 
                         id="finger-id-1" 
@@ -162,7 +162,11 @@
         </form>
             <div class = "footer">
                 <button class="btn clear-btn" type = "button" (click)="resetForm()">Clear</button>
-                <button class="btn submit-btn" [ngClass]="{'btn-active': validateForm()}"  (click)="onSubmit()">Submit</button>
+                <button class="btn submit-btn" 
+                [ngClass]="{'btn-active': validateForm()}" 
+                [disabled]="!userForm.valid"  
+                (click)="onSubmit()" 
+                [ngStyle]="{'background-color': userForm.valid ? '#2165C9' : '#2165C999'}">Submit </button>
                 <app-add-user-submit-popup 
                 [isVisible]="isPopupVisible" 
                 (close)="closePopup()">
