@@ -1,10 +1,8 @@
-
-
 .add-user{
     width: 107px;
     height: 33px;
     border-radius: 3px; /* Updated border-radius */
-    display: flex;
+    display: flex;  
     align-items: center;
     background-color: #70C964;
     justify-content: center;

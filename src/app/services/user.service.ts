@@ -73,6 +73,8 @@ export class UserService {
   private modalStateSubject = new BehaviorSubject<boolean>(false);
   modalState$ = this.modalStateSubject.asObservable();
 
+  //change_pass modal
+
   openModal() {
     this.modalStateSubject.next(true);
     console.log("Modal opened!");

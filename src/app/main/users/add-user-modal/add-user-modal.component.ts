@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { HostListener, Component, Input, Output, EventEmitter } from '@angular/core';
+import { AddUserModalService } from 'src/app/services/add-user-modal.service';
 
 interface User {
   fullName: string;
@@ -19,7 +20,16 @@ interface User {
   styleUrls: ['./add-user-modal.component.css']
 })
 export class AddUserModalComponent {
-  isVisible: boolean = false;
+
+  @Output() closeModal = new EventEmitter<void>();
+
+  // Method to emit the close event
+  onClose() {
+    this.closeModal.emit();
+  }
+
+  @Input() isVisible: boolean = false; // Input to control visibility
+  isPopupVisible: boolean = false; // Popup visibility flag
 
   // Initialize the user model to bind with the form fields
   user: User = {
@@ -35,16 +45,23 @@ export class AddUserModalComponent {
     fingerprint2: ''
   };
 
-  constructor() {}
+  constructor(private addusermodalService: AddUserModalService) {}
 
   // Show the modal
   showAddUserModal(): void {
-    this.isVisible = true;
+    this.addusermodalService.openModal();
+  }
+
+  @HostListener('window:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    if (event.key === 'Escape') {
+      this.addusermodalService.closeModal();
+    }
   }
 
   // Hide the modal
   hideAddUserModal(): void {
-    this.isVisible = false;
+    this.addusermodalService.closeModal();
     this.onClear(); // Clear form on closing
   }
 
@@ -64,11 +81,10 @@ export class AddUserModalComponent {
     };
   }
 
-  // Submit the form data
   onSubmit(): void {
     if (this.validateForm()) {
       console.log('Form Submitted:', this.user);
-      // Perform necessary actions like sending data to an API or service
+      this.isPopupVisible = true; // Show the popup
     } else {
       console.error('Form validation failed');
     }
@@ -87,4 +103,10 @@ export class AddUserModalComponent {
     ) ? true : false;
   }
 
+  
+  closePopup(): void {
+    this.isPopupVisible = false; // Hide the popup
+    this.isVisible = false;
+    this.onClear(); // Clear form on closing
+    }
 }

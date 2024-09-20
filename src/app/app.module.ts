@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
@@ -53,9 +54,11 @@ import { HeaderSearchComponent } from './header/header-search/header-search.comp
 import { HeaderBellComponent } from './header/header-bell/header-bell.component';
 import { HeaderProfileComponent } from './header/header-profile/header-profile.component';
 import { AdminComponent } from './admin/admin.component';
+import { AddUserSubmitPopupComponent } from './main/users/add-user-submit-popup/add-user-submit-popup.component';
 
-
-
+const routes: Routes = [
+  { path: 'submit-popup', component: AddUserSubmitPopupComponent },
+];
 
 @NgModule({
   declarations: [
@@ -92,9 +95,11 @@ import { AdminComponent } from './admin/admin.component';
     HeaderSearchComponent,
     HeaderBellComponent,
     HeaderProfileComponent,
-    AdminComponent
+    AdminComponent,
+    AddUserSubmitPopupComponent,
   ],
   imports: [
+    RouterModule.forRoot(routes),
     BrowserModule,
     AppRoutingModule,
     FormsModule,
@@ -112,6 +117,9 @@ import { AdminComponent } from './admin/admin.component';
     MatToolbarModule,
     MatTooltipModule
   ],
+
+  exports: [RouterModule],
+
   providers: [
     UserService,
     {
@@ -121,5 +129,8 @@ import { AdminComponent } from './admin/admin.component';
     }
   ],
   bootstrap: [AppComponent]
+ 
 })
+
+
 export class AppModule { }
