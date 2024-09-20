@@ -137,6 +137,8 @@ input[type="checkbox"] {
     grid-template-columns: 1fr 400px repeat(3, 1fr);
     cursor: pointer;
     width: 100%;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
 .table-body{
@@ -207,3 +209,8 @@ input[type="checkbox"] {
     background-color: #0B203F;
     color: white;
 }
+
+.disabled {
+    pointer-events: none; /* Prevent click events */
+    opacity: 0.5; /* Make it look disabled */
+  }

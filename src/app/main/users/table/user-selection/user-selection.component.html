@@ -37,7 +37,10 @@
 
 <!-- Pagination Controls -->
 <div class="pagination" *ngIf="totalPages > 1">
-  <div class="prev-btn pointer" (click)="prevPage()" [class.disabled]="currentPage === 1">&lt;</div>
+  <div class="prev-btn pointer" 
+       (click)="prevPage()" 
+       [class.disabled]="currentPage === 1" 
+       [attr.disabled]="currentPage === 1 ? true : null">&lt;</div>
 
   <div *ngFor="let page of totalPagesArray" 
        class="page-btn pointer" 
@@ -46,5 +49,8 @@
     {{ page }}
   </div>
 
-  <div class="next-btn pointer" (click)="nextPage()" [class.disabled]="currentPage === totalPages">&gt;</div>
+  <div class="next-btn pointer" 
+       (click)="nextPage()" 
+       [class.disabled]="currentPage === totalPages" 
+       [attr.disabled]="currentPage === totalPages ? true : null">&gt;</div>
 </div>

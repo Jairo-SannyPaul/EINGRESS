@@ -1,4 +1,7 @@
 
+*{
+  user-select: none;
+}
 .side-bar {
   display: flex;
   flex-direction: column;
