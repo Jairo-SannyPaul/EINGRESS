@@ -11,6 +11,9 @@ import { EmployeeService } from 'src/app/services/employee.service';
 })
 
 export class TableComponent  {
+  registered: boolean = true;
+  unregistered: boolean = false;
+  showStatusSelection: boolean = false;
   @Input() sortOption: string = '';
   @ViewChild(EmployeeDetailsComponent) employeeDetailsComponent!: EmployeeDetailsComponent; 
   deleteMode: boolean = false;
@@ -26,5 +29,21 @@ export class TableComponent  {
       this.deleteMode = mode;
     });
   }
+
+  isStatusClicked: boolean = false; // Track the SVG state
+
+  toggleShowStatus() {
+    this.showStatusSelection = !this.showStatusSelection;
+    // this.isStatusClicked = !this.isStatusClicked;
+  }
   
+  toggleRegistered(){
+    this.registered = true;
+    this.unregistered = false;
+  }
+
+  toggleUnregistered(){
+    this.registered = false;
+    this.unregistered = true;
+  }
 }
