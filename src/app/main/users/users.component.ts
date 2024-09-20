@@ -1,10 +1,12 @@
 import { Component, ViewChild, EventEmitter, Output } from '@angular/core';
-import { AddUserFormComponent } from './add-user-form/add-user-form.component';
+import { MainComponent } from '../main.component';
 import { AddUserModalComponent } from './add-user-modal/add-user-modal.component';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { SearchfieldComponent } from './searchfield/searchfield.component';
 import { Subscription } from 'rxjs';
+
+import { AddUserModalService } from 'src/app/services/add-user-modal.service';
 
 @Component({
   selector: 'app-users',
@@ -30,7 +32,8 @@ import { Subscription } from 'rxjs';
   ]
 })
 export class UsersComponent {
-  @ViewChild(AddUserFormComponent) addUserFormContainer!: AddUserFormComponent;
+  @ViewChild(MainComponent, { static: false }) mainComponentContainer!: MainComponent;
+
   @ViewChild(AddUserModalComponent) addUserModalContainer! : AddUserModalComponent;
 
 
@@ -41,7 +44,11 @@ export class UsersComponent {
   selectedFilter: string = 'name';
   sortOption: string = 'nameAsc';
   private sortOptionSubscription!: Subscription;
-  constructor(private employeeService: EmployeeService) {}
+  
+  constructor(
+    private employeeService: EmployeeService,
+    private addusermodalService: AddUserModalService // Inject the ModalService here
+  ) {}
 
   ngOnInit() {
     // Subscribe to the sortOption observable
@@ -59,12 +66,10 @@ export class UsersComponent {
   }
 
   onAddUserBtnClicked() {
-    this.addUserModalContainer.showAddUserModal();
-    //this.addUserFormContainer.showAddUserForm();
+    this.addusermodalService.openModal();
     
-  
+    
   }
-
   toggleFilter() {
     this.filterToggle = !this.filterToggle;
   }

@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-
+import { HostListener, Component, Input, Output, EventEmitter } from '@angular/core';
+import { AddUserModalService } from 'src/app/services/add-user-modal.service';
 
 interface User {
   fullName: string;
@@ -21,6 +21,13 @@ interface User {
 })
 export class AddUserModalComponent {
 
+  @Output() closeModal = new EventEmitter<void>();
+
+  // Method to emit the close event
+  onClose() {
+    this.closeModal.emit();
+  }
+
   @Input() isVisible: boolean = false; // Input to control visibility
   isPopupVisible: boolean = false; // Popup visibility flag
 
@@ -38,16 +45,23 @@ export class AddUserModalComponent {
     fingerprint2: ''
   };
 
-  constructor() {}
+  constructor(private addusermodalService: AddUserModalService) {}
 
   // Show the modal
   showAddUserModal(): void {
-    this.isVisible = true;
+    this.addusermodalService.openModal();
+  }
+
+  @HostListener('window:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    if (event.key === 'Escape') {
+      this.addusermodalService.closeModal();
+    }
   }
 
   // Hide the modal
   hideAddUserModal(): void {
-    this.isVisible = false;
+    this.addusermodalService.closeModal();
     this.onClear(); // Clear form on closing
   }
 
