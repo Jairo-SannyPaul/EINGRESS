@@ -35,11 +35,19 @@
     font-weight: 400;
     color: #464646;
   }
-  
-  .name-holder {
-    flex: 1;
-  }
 
-  .date-holder{
+  .default-holder {
+    display: flex;
+    justify-content: center; /* Horizontally center */
+    align-items: center;     /* Vertically center */
+    height: 450px;           /* Adjust the height if necessary */
+    font-size: 16px;         /* Make the "No data" text slightly larger */
+    font-weight: 400;
+    color: #464646;
+    width: 100%;             /* Make sure it takes the full width */
+    text-align: center;
+  }
+  
+  .name-holder, .date-holder, .time-holder {
     flex: 1;
   }

@@ -5,7 +5,12 @@
     <div class="date-header">Date</div>
     <div class="time-header">Time</div>
   </div>
-  <div class="alerts-holder" *ngFor="let alert of recentAlerts">
+
+  <div *ngIf="recentAlerts.length === 0" class="default-holder">
+    <p>No data</p>
+  </div>
+
+  <div *ngFor="let alert of recentAlerts" class="alerts-holder">
     <div class="name-holder">
       <p>{{ alert.name }}</p>
     </div>
@@ -16,4 +21,5 @@
       <p>{{ alert.time }}</p>
     </div>
   </div>
+  
 </div>

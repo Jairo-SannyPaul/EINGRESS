@@ -13,7 +13,7 @@
     width: 99px;
     perspective: 1000px;
     background-color: var(--background);
-    border: 5px solid var(--secondary); 
+    border: 4px solid #a3c8ff; 
     cursor: pointer;
     flex-shrink: 0;
 }
