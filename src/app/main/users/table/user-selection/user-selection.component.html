@@ -19,6 +19,8 @@
     <div class="employee-info-container" (click)="selectedEmployee(employee)">
       <div class="employee-fullname">{{ employee.fullname }}</div>
       <div class="role-content">{{ employee.role }}</div>
+      
+      <div class="status-content">Registered</div>
       <div class="registered-date-content">{{ convertRegDate(employee.regdate) }}</div>
       <div class="last-login-content">{{ convertLastLog(employee.lastlogdate) }}</div>
     </div>
