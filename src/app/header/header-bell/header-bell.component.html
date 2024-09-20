@@ -6,10 +6,26 @@
             <h4>Notifications</h4>
         </div>
         <div class="dropdown-body">
-            <div *ngFor="let alert of recentAlerts" class="alert-item">
-                <span>{{ alert.type }}: {{ alert.name }} at {{ alert.time }} on {{ alert.date }}</span>
+            <div *ngIf="recentAlerts.length === 0">
+                <p class="no-data">No data</p>
             </div>
-        </div>
+            <div *ngIf="recentAlerts.length > 0">
+                <div *ngFor="let alert of recentAlerts" class="alert-item">
+                    <img *ngIf="alert.message.includes('Unregister')" src="/assets/images/unregister-notification.svg" alt="Unregister Icon" class="alert-icon">
+                    <img *ngIf="alert.message.includes('Unauthorized Bio')" src="/assets/images/Unauthorized-notif.svg" alt="Unauthorized Bio Icon" class="alert-icon">
+                    
+                    <div class="alert-message">
+                      <p [ngClass]="{'unregistered': alert.message.includes('Unregister'), 'unauthorized': alert.message.includes('Unauthorized Bio'), 'success': alert.message.includes('entered') }">
+                        {{ alert.message }}
+                      </p>
+                      <p *ngIf="alert.message.includes('Unregister')" class="alert-description">Someone is trying to enter.</p>
+                      <p *ngIf="alert.message.includes('Unauthorized Bio')" class="alert-description">Someone is trying to attempt.</p>
+                    </div>
+                    
+                    <span class="notification-time">{{ formatTimeAgo(alert.timestamp) }}</span>
+                  </div>                                    
+            </div>
+        </div>            
         <div class="dropdown-footer">
             <button (click)="viewPreviousNotifications()">See previous notifications</button>
         </div>
