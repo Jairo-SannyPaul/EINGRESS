@@ -12,10 +12,12 @@
 
 .date {
     grid-column: 2 / 3;
+    padding-left: 13.5px; /* Moves Date 30px to the left */
 }
 
 .time {
     grid-column: 3 / 4;
+    padding-left: 13.5px; /* Moves Date 30px to the left */
 }
 
 .table {
