@@ -1,4 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { EmployeeService } from 'src/app/services/employee.service';
+import { AccessLogService } from 'src/app/services/access-log.service';
+import { ErrorLogService } from 'src/app/services/error-log.service';
+import { combineLatest } from 'rxjs';
+import { AccessLog } from 'src/app/interface/access-log.interface';
+import { Employee } from 'src/app/interface/employee.interface';
+import { ErrorLog } from 'src/app/interface/error-log.interface';
+
 
 @Component({
   selector: 'app-header-bell',
@@ -6,7 +14,24 @@ import { Component } from '@angular/core';
   styleUrls: ['./header-bell.component.css']
 })
 export class HeaderBellComponent {
+  recentAlerts: { type: string, message: string, timestamp: string }[] = []; // Ensure this is present
+  matchedEmployees: Employee[] = [];
+  maxEmployeesDisplayed: number = 100;
   isNotificationOpen = false;
+
+  constructor(
+    private employeeService: EmployeeService,
+    private accessLogService: AccessLogService,
+    private errorLogService: ErrorLogService
+  ) { }
+
+  ngOnInit(): void {
+  //   this.recentAlerts = [
+  //     { type: 'login', message: 'Test User has entered the building at 10:00 AM' },
+  //     { type: 'error', message: 'Unregister: Someone is trying to enter.' }
+  // ];
+    this.loadRecentAlerts();
+  }
 
   // Method to toggle notification dropdown visibility
   toggleNotificationDropdown(): void {
@@ -18,4 +43,134 @@ export class HeaderBellComponent {
     console.log('Navigating to previous notifications...');
     // Add logic to navigate or show previous notifications here
   }
+
+  loadRecentAlerts() {
+    combineLatest([
+        this.employeeService.getEmployee(),
+        this.accessLogService.getAccessLogs(),
+        this.errorLogService.getErrorLogs()
+    ]).subscribe(
+        ([employees, accessLogs, errorLogs]: [Employee[], AccessLog[], ErrorLog[]]) => {
+            const currentDate = new Date().toLocaleDateString();
+  
+            // Process access logs
+            this.matchedEmployees = employees.filter(employee => {
+                return employee.accessLogs?.some(log => new Date(log.accessDateTime).toLocaleDateString() === currentDate);
+            });
+
+            this.matchedEmployees.sort((a, b) => {
+                const accessTimeA = this.getMostRecentAccessTime(a);
+                const accessTimeB = this.getMostRecentAccessTime(b);
+                return accessTimeB.getTime() - accessTimeA.getTime();
+            });
+  
+            const firstSixEmployees = this.matchedEmployees.slice(0, this.maxEmployeesDisplayed);
+            const accessLogAlerts = firstSixEmployees.map(employee => {
+                const mostRecentTime = this.getMostRecentAccessTime(employee);
+                const timestamp = mostRecentTime.toISOString();
+                let message: string;
+  
+                // Check for RFID and biometric conditions
+                if (!employee.rfidtag) {
+                    message = `Unregister`;
+                } else if (employee.fingerprint1) {
+                    message = `Unauthorized Bio`;
+                } else if (employee.fingerprint2) {
+                    message = `Unauthorized Bio`;
+                } else {
+                    message = `${employee.fullname} has entered the building`;
+                }
+
+                return { type: 'login', message: message, timestamp: timestamp };
+            });
+
+            // Process error logs
+            const errorLogAlerts = errorLogs
+                .filter(log => new Date(log.timestamp!).toLocaleDateString() === currentDate)
+                .map(log => {
+                    const timestamp = log.timestamp || '';
+                    let message: string;
+
+                    // Transform error log messages accordingly
+                    if (log.message === 'Employee not found.') {
+                        message = `Unregister`;
+                    } else if (log.message === 'Error Fingerprint not match:') {
+                        message = `Unauthorized Bio`;
+                    } else {
+                        message = log.message;
+                    }
+
+                    return { type: 'error', message: message, timestamp: timestamp };
+                });
+
+            // Combine and sort by time (most recent first)
+            const combinedAlerts = [...accessLogAlerts, ...errorLogAlerts];
+            this.recentAlerts = combinedAlerts
+                .sort((a, b) => new Date(b.timestamp!).getTime() - new Date(a.timestamp!).getTime())
+                .slice(0, 100) 
+                .map(alert => ({
+                    type: alert.type,
+                    message: alert.message,
+                    timestamp: alert.timestamp
+                }));
+
+            console.log(this.recentAlerts);
+        },
+        error => {
+            console.error('Error fetching data:', error);
+        }
+    );
+}
+
+
+  filterAndSortAlerts(alerts: { type: string, message: string, timestamp?: string }[]): { type: string, message: string }[] {
+    return alerts
+      .filter(alert => alert.timestamp) // Ensure timestamp exists
+      .sort((a, b) => {
+        const timeA = new Date(a.timestamp!).getTime();
+        const timeB = new Date(b.timestamp!).getTime();
+        return timeB - timeA; // Most recent first
+      })
+      .map(alert => ({
+        type: alert.type,
+        message: alert.message
+      }));
+  }
+
+  getMostRecentAccessTime(employee: Employee): Date {
+    const accessTimes = employee.accessLogs?.map(log => new Date(log.accessDateTime)) || [];
+    return accessTimes.reduce((mostRecent, current) => (current > mostRecent ? current : mostRecent), new Date(0));
+  }
+
+  formatTimeAgo(timestamp: string): string {
+    const now = new Date();
+    const alertTime = new Date(timestamp);
+    const timeDiffInSeconds = Math.floor((now.getTime() - alertTime.getTime()) / 1000);
+
+    if (timeDiffInSeconds < 3600) {
+      const minutes = Math.floor(timeDiffInSeconds / 60);
+      return minutes === 1 ? '1 minute ago' : `${minutes} minutes ago`;
+    } else if (timeDiffInSeconds < 86400) {
+      const hours = Math.floor(timeDiffInSeconds / 3600);
+      return hours === 1 ? '1 hour ago' : `${hours} hours ago`;
+    } else {
+      const days = Math.floor(timeDiffInSeconds / 86400);
+      return days === 1 ? '1 day ago' : `${days} days ago`;
+    }
+  }
+
+  // ----USE THIS IF THEY WANT SECONDS TO BE SEEN----
+  // if (timeDiffInSeconds < 60) {
+  //   return timeDiffInSeconds === 1 ? '1 second ago' : `${timeDiffInSeconds} seconds ago`;
+  // } else if (timeDiffInSeconds < 3600) {
+  //   const minutes = Math.floor(timeDiffInSeconds / 60);
+  //   return minutes === 1 ? '1 minute ago' : `${minutes} minutes ago`;
+  // } else if (timeDiffInSeconds < 86400) {
+  //   const hours = Math.floor(timeDiffInSeconds / 3600);
+  //   return hours === 1 ? '1 hour ago' : `${hours} hours ago`;
+  // } else {
+  //   const days = Math.floor(timeDiffInSeconds / 86400);
+  //   return days === 1 ? '1 day ago' : `${days} days ago`;
+  // }
+  
 }
