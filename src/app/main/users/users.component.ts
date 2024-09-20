@@ -54,13 +54,15 @@ export class UsersComponent {
     this.headerLabelService.updateTitle('Users Overview');
   }
 
-  onSortChange() {
-    console.log('Sort option changed:', this.sortOption);
-    this.sortOptionChanged.emit(this.sortOption);
-
-    // Optional: you might also update the service or trigger other actions if needed
-    this.employeeService.setSortOption(this.sortOption);
+onSortChange(sortOption?: string) {
+  if (sortOption) {
+    this.sortOption = sortOption; // Update sort option based on emitted value
   }
+  console.log('Sort option changed:', this.sortOption);
+  this.sortOptionChanged.emit(this.sortOption);
+  this.employeeService.setSortOption(this.sortOption);
+  this.employeeService.triggerReload();
+}
 
   onAddUserBtnClicked() {
     this.addUserModalContainer.showAddUserModal();
