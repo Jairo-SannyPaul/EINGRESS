@@ -1,5 +1,6 @@
-<div class="modal-overlay" >
-    <div class="modal-container" >
+<body>
+<div class="modal-overlay">
+    <div class="modal-container">
         <div class = "header">
             <div class = "header-text">
                 <span class="header-title">Add User</span>
@@ -12,18 +13,18 @@
         </button>
         </div>
       <!-- Add your form or content here -->
-
+      <form [formGroup]="userForm" (keydown.enter)="preventDefault($event)">
         <div class = "modal-content">
             <!--start of left div-->
             <div class = "modal-content-left">
                 <div class = "name-container">
                     <p><span class = "required">*</span> Full Name</p>
-                    <input type="text" id="addUserName" name="fullname" placeholder="Input Full Name" [(ngModel)]="user.fullName" [ngClass]="{'filled': user.fullName}">
+                    <input type="text" id="addUserName" formControlName="fullname" name="fullname" placeholder="Input Full Name">
                  </div>
                  <div class = "role-container">
                     <p><span class = "required">*</span>Role</p>
                     <div class = "drop-down">
-                        <select id="addRole" name="roleDropDown"  [(ngModel)]="user.role" [ngClass]="{'filled': user.role}">
+                        <select id="addRole" formControlName="role" name="roleDropDown">
                             <option value="" disabled selected>Select Role</option>
                             <option value="Admin Aide">Admin Aide</option>
                             <option value="Administrative Assistant">Administrative Assistant</option>
@@ -83,7 +84,7 @@
                     <div class = "branch-container">
                         <p><span class = "required">*</span>Branch</p>
                         <div class ="drop-down">
-                            <select id="addBranch" name="branchDropDown"  [(ngModel)]="user.branch" [ngClass]="{'filled': user.branch}">
+                            <select id="addBranch" formControlName="branch" name="branchDropDown">
                                 <option value="" disabled selected>Select Branch</option>
                                 <option value="Cebu">Cebu</option>
                                 <option value="Davao">Davao</option>
@@ -99,7 +100,7 @@
                     <div class="rfid-container">
                         <p><span class="required">*</span>RFID Card</p>
                         <div class="input-wrapper">
-                          <input type="text" id="addRFID" name="rfid" placeholder="Click Here"   [(ngModel)]="user.rfid" [ngClass]="{'filled': user.rfid}">
+                          <input type="text" id="addRFID" formControlName="rfidtag" name="rfid" placeholder="Click Here" >
                           <svg class="rfid-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="18" viewBox="0 0 16 18" fill="none">
                             <path opacity="0.4" d="M14.4392 7.83165L13.7859 10.9667C13.2259 13.6742 12.1192 14.7692 10.0392 14.5442C9.70585 14.5142 9.34585 14.4467 8.95918 14.3417L7.83918 14.0417C5.05918 13.2992 4.19918 11.7542 4.85252 8.61915L5.50585 5.47665C5.63918 4.83915 5.79918 4.28415 5.99918 3.82665C6.77918 2.01165 8.10585 1.52415 10.3325 2.11665L11.4459 2.40915C14.2392 3.14415 15.0925 4.69665 14.4392 7.83165Z" fill="#B4B4B4"/>
                             <path d="M10.0391 14.5427C9.6258 14.8577 9.1058 15.1202 8.47246 15.3527L7.41913 15.7427C4.77246 16.7027 3.37913 15.9002 2.51913 12.9227L1.6658 9.96017C0.812462 6.98267 1.51913 5.40766 4.1658 4.44766L5.21913 4.05766C5.49246 3.96016 5.75246 3.87766 5.99913 3.82516C5.79913 4.28266 5.63913 4.83766 5.5058 5.47517L4.85246 8.61766C4.19913 11.7527 5.05913 13.2977 7.83913 14.0402L8.95913 14.3402C9.3458 14.4452 9.7058 14.5127 10.0391 14.5427Z" fill="#B4B4B4"/>
@@ -111,7 +112,7 @@
 
                 <div class = "fingerprint-1-container">
                     <p><span class = "notRequired">*</span> Fingerprint Template 1</p>
-                    <input type="text" id="addFinger-1" name="fingerprint-1" placeholder="Fingerprint Code"  [(ngModel)]="user.fingerprint1" [ngClass]="{'filled': user.fingerprint1}">
+                    <input type="text" id="addFinger-1" name="fingerprint-1" placeholder="Fingerprint Code">
                 </div>
 
             </div>
@@ -122,11 +123,11 @@
             <div class = "modal-content-right">
                 <div class = "email-container">
                     <p><span class = "required">*</span>Email</p>
-                    <input type="text" id="addEmail" name="email" placeholder="Input Email"  [(ngModel)]="user.email" [ngClass]="{'filled': user.email}">
+                    <input type="text" id="addEmail" formControlName="email" name="email" placeholder="Input Email">
                  </div>
                  <div class = "contact-container">
                     <p><span class = "required">*</span>Contact</p>
-                    <input type="text" id="addContact" name="contact" placeholder="+63 XXX XXX XXXX"  [(ngModel)]="user.contact" [ngClass]="{'filled': user.contact}">
+                    <input type="text" id="addContact" formControlName="phone"name="contact" placeholder="+63 XXX XXX XXXX">
                 </div>
                 <div class="fingerprint-id-container">
                     <div class="fingerprint-id-1">
@@ -135,9 +136,8 @@
                         type="text" 
                         id="finger-id-1" 
                         name="finger-1" 
-                        placeholder="Biometric ID"  
-                        [(ngModel)]="user.fingerprintId1" 
-                        [ngClass]="{'filled': user.fingerprintId1}"
+                        placeholder="Biometric ID"
+                        formControlName="fingerprint1"
                       >
                     </div>
                     <div class="fingerprint-id-2">
@@ -146,9 +146,8 @@
                         type="text" 
                         id="finger-id-2" 
                         name="finger-2" 
-                        placeholder="Biometric ID"  
-                        [(ngModel)]="user.fingerprintId2" 
-                        [ngClass]="{'filled': user.fingerprintId2}"
+                        placeholder="Biometric ID"
+                        formControlName="fingerprint2"
                       >
                     </div>
                   </div>
@@ -156,19 +155,16 @@
 
                 <div class = "fingerprint-2-container">
                     <p><span class = "notRequired">*</span>Fingerprint Template 2</p>
-                    <input type="text" id="addFinger-2" name="fingerprint-2" placeholder="Fingerprint Code"  [(ngModel)]="user.fingerprint2" [ngClass]="{'filled': user.fingerprint2}">
+                    <input type="text" id="addFinger-2" name="fingerprint-2" placeholder="Fingerprint Code">
                 </div>
             </div>
             </div>
+        </form>
             <div class = "footer">
-                <button class="btn clear-btn" type = "button" (click)="onClear()">Clear</button>
-                <button class="btn submit-btn" [ngClass]="{'btn-active': validateForm()}" (click)="onSubmit()">Submit</button>
-                <app-add-user-submit-popup 
-                [isVisible]="isPopupVisible" 
-                (close)="closePopup()">
-                </app-add-user-submit-popup>
+                <button class="btn clear-btn" type = "button" (click)="resetForm()">Clear</button>
+                <button class="btn submit-btn" [ngClass]="{'btn-active': validateForm()}"  (click)="onSubmit()">Submit</button>
             </div>
         </div>
     </div>
-
+</body>
   

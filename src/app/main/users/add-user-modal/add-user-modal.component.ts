@@ -1,18 +1,8 @@
-import { HostListener, Component, Input, Output, EventEmitter } from '@angular/core';
-import { AddUserModalService } from 'src/app/services/add-user-modal.service';
+import { Component, ViewChild, ElementRef, HostListener } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { EmployeeService } from 'src/app/services/employee.service';
+import { DialogService } from 'src/app/services/dialog.service';
 
-interface User {
-  fullName: string;
-  role: string;
-  branch: string;
-  rfid: string;
-  email: string;
-  contact: string;
-  fingerprint1: string;
-  fingerprintId1: string;
-  fingerprintId2?: string;
-  fingerprint2?: string;
-}
 
 @Component({
   selector: 'app-add-user-modal',
@@ -20,93 +10,130 @@ interface User {
   styleUrls: ['./add-user-modal.component.css']
 })
 export class AddUserModalComponent {
-
-  @Output() closeModal = new EventEmitter<void>();
-
-  // Method to emit the close event
-  onClose() {
-    this.closeModal.emit();
-  }
-
-  @Input() isVisible: boolean = false; // Input to control visibility
+  isVisible: boolean = false;
+  addUserForm: boolean = false;
+  userForm: FormGroup;
+  selectedImage!: File;
   isPopupVisible: boolean = false; // Popup visibility flag
-
-  // Initialize the user model to bind with the form fields
-  user: User = {
-    fullName: '',
-    role: '',
-    branch: '',
-    rfid: '',
-    email: '',
-    contact: '',
-    fingerprint1: '',
-    fingerprintId1: '',
-    fingerprintId2: '',
-    fingerprint2: ''
-  };
-
-  constructor(private addusermodalService: AddUserModalService) {}
-
-  // Show the modal
-  showAddUserModal(): void {
-    this.addusermodalService.openModal();
+  constructor(private formBuilder: FormBuilder, private employeeService: EmployeeService, private dialogService: DialogService) { 
+    this.userForm = this.formBuilder.group({
+      fullname: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      role: ['', Validators.required],
+      profileImage: [''],
+      phone: ['', Validators.required],
+      rfidtag: [''],
+      fingerprint1: [''],
+      fingerprint2: [''],
+      branch: ['', Validators.required],
+    });
   }
 
   @HostListener('window:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
     if (event.key === 'Escape') {
-      this.addusermodalService.closeModal();
+      this.hideAddUserModal();
     }
+  }
+
+  preventDefault(event: Event): void {
+    if ((event as KeyboardEvent).key === 'Enter') {
+      event.preventDefault();
+    }
+  }
+
+  newEmployee = {
+    id: 0,
+    fullname: '',
+    email: '',
+    phone: '',
+    role: '',
+    rfidtag: '',
+    profileImage: '' ,
+    fingerprint1: '',
+    fingerprint2: '',
+    branch:''
+  };
+
+  resetForm() {
+    this.userForm.reset();
+    this.newEmployee = {
+      id: 0,
+      fullname: '',
+      email: '',
+      phone: '',
+      role: '',
+      rfidtag: '',
+      profileImage: '',
+      fingerprint1: '', 
+      fingerprint2: '',
+      branch:''
+    }
+  }
+
+  
+  // Show the modal
+  showAddUserModal(): void {
+    this.isVisible = true;
   }
 
   // Hide the modal
   hideAddUserModal(): void {
-    this.addusermodalService.closeModal();
-    this.onClear(); // Clear form on closing
+    this.isVisible = false;
+    this.resetForm(); // Clear form on closing
   }
 
-  // Clear form fields
-  onClear(): void {
-    this.user = {
-      fullName: '',
-      role: '',
-      branch: '',
-      rfid: '',
-      email: '',
-      contact: '',
-      fingerprint1: '',
-      fingerprintId1: '',
-      fingerprintId2: '',
-      fingerprint2: ''
-    };
-  }
 
+  // Submit the form data
   onSubmit(): void {
-    if (this.validateForm()) {
-      console.log('Form Submitted:', this.user);
-      this.isPopupVisible = true; // Show the popup
+ // Mark all fields as touched to trigger validation messages
+    this.userForm.markAllAsTouched();
+    this.userForm.get('fingerprint2')?.setValue('');
+    if (this.userForm.valid) {
+      const newEmployee = this.userForm.value;
+  
+      const handleError = (error: any) => {
+        let errorMessage = 'Error creating employee.';
+        if (error.status === 400 && error.error && error.error.message) {
+          // Extract the message from the backend response
+          errorMessage = error.error.message;
+        }
+        this.dialogService.openAlertDialog(errorMessage);
+      };
+  
+      if (!this.selectedImage) {
+        this.employeeService.addEmployeeWithoutImage(newEmployee)
+          .subscribe(
+            response => {
+              this.dialogService.openSuccessDialog('Employee Created Successfully').subscribe(confirmed => {
+                if (confirmed) {
+                  this.hideAddUserModal();
+                }
+              });
+            },
+            handleError
+          );
+      } else {
+        this.employeeService.addEmployee(newEmployee, this.selectedImage)
+          .subscribe(
+            response => {
+              this.isPopupVisible = true; // Show the popup;
+            },
+            handleError
+          );
+      }
     } else {
-      console.error('Form validation failed');
+      if (this.userForm.get('email')?.errors?.['email']) {
+        this.dialogService.openAlertDialog('Please enter a valid email address.');
+      } else {
+        this.dialogService.openAlertDialog('Please fill in all required fields correctly.');
+      }
     }
   }
 
   // Form validation logic (you can add more complex logic here if needed)
   validateForm(): boolean {
-    return (
-      this.user.fullName &&
-      this.user.role &&
-      this.user.branch &&
-      this.user.rfid &&
-      this.user.email &&
-      this.user.contact &&
-      this.user.fingerprintId1
-    ) ? true : false;
+    return this.userForm.valid;
   }
 
-  
-  closePopup(): void {
-    this.isPopupVisible = false; // Hide the popup
-    this.isVisible = false;
-    this.onClear(); // Clear form on closing
-    }
 }
