@@ -1,9 +1,9 @@
 <div class="table">
-    <div class="table-header">
-      <div class="day-header">Day</div>
-      <div class="date-header">Date</div>
-      <div class="time-header">Time</div>
-    </div>
+  <div class="table-header">
+    <div class="day-header">Day</div>
+    <div class="date-header">Date</div>
+    <div class="time-header">Time</div>
+  </div>
   
     <div class="table-body">
       <div *ngIf="loginSessions && loginSessions.length > 0; else noLoginSessions">
@@ -21,7 +21,7 @@
       </div>
       <ng-template #noLoginSessions>
         <div class="no-login">
-          No logins yet
+          No Logins Yet
         </div>
       </ng-template>
     </div>

@@ -12,23 +12,67 @@
 
 .date {
     grid-column: 2 / 3;
-    padding-left: 13.5px; /* Moves Date 30px to the left */
+    width: 94px;
+    height: 24px;
 }
 
 .time {
     grid-column: 3 / 4;
-    padding-left: 13.5px; /* Moves Date 30px to the left */
+
 }
 
-.table {
-    display: grid;
-    width: 100%;
-    max-height: calc(100% - 40px);
-    grid-template-rows: 60px auto;
-    padding-left: 16px;
-    padding-right: 16px;
-    padding-bottom: 10px;
-    overflow-y: auto;
+.day{
+    font-family: Poppins;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: left;
+    width: Hug (65px)px;
+    height: Hug (24px)px;
+
+}
+
+.date, .time{
+
+    font-family: Poppins;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: left;
+    padding-left: 30px;
+
+}
+
+.date-header, .time-header{
+    width: 39px;
+    height: 24px;
+    font-family: Poppins;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    text-align: left;
+    padding-left: 30px;
+}
+
+.day-header{
+    width: 39px;
+    height: 24px;
+    font-family: Poppins;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    text-align: left;
+}
+
+.no-login{
+    display: flex;
+    height: 50vh;
+    align-items: center;
+    justify-content: center;
+    font-family: Poppins;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
 }
 
 .table-header {
@@ -36,13 +80,40 @@
     align-items: center;
     position: sticky;
     grid-template-columns: 33% 33% 33%;
-    color: #464646; 
+    height: 30px;
+    color: #464646;
+    top: 0;
+    background-color: #f8fbff;
+}
+
+.table {
+    display: grid;
+    width: 100%;
+    max-height: calc(100% - 40px);
+    grid-template-rows: auto;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-bottom: 10px;
+    overflow: hidden;
+}
+
+.table-header, .table-body {
+    display: contents; /* Ensure rows/cells align with grid */
+}
+
+.table-header {
+    display: grid;
+    align-items: center;
+    grid-template-columns: 33% 33% 33%;
+    color: #464646;
     position: sticky;
     top: 0;
     background-color: #f8fbff;
 }
 
 .table-body {
+    display: block;
+    max-height: 55vh; /* Adjust this based on your container */
     overflow-y: auto;
     color: #464646;
     font-family: Poppins;
