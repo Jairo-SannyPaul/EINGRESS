@@ -35,11 +35,27 @@ export class EmployeeService {
     return this.http.get<Employee[]>(getEmployeeInfoUrl);
   }
 
-  deleteEmployee(employeeID: number[]): Observable<any> {
-    const deleteEmployeeUrl = employeeID.map(id => `${this.apiUrl}/${id}`);
-    const deleteRequest = deleteEmployeeUrl.map(url => this.http.delete(url));
-    return forkJoin(deleteRequest);
+  // deleteEmployee(employeeID: number[]): Observable<any> {
+  //   const deleteEmployeeUrl = employeeID.map(id => `${this.apiUrl}/${id}`);
+  //   const deleteRequest = deleteEmployeeUrl.map(url => this.http.delete(url));
+  //   return forkJoin(deleteRequest);
+  // }
+
+  deleteEmployee(id: number): Observable<any> {
+    const formData: FormData = new FormData();
+  
+    // Only update the delDate field to the current date
+    const deldate = new Date().toISOString(); 
+    const employeeData = { deldate };
+  
+    // Append employee data (with only delDate) to FormData
+    formData.append('employee', JSON.stringify(employeeData));
+    
+    const updateEmployeeUrl = `${this.apiUrl}/${id}`;
+    return this.http.put(updateEmployeeUrl, formData); // Send PUT request with FormData
   }
+  
+  
 
   addEmployee(employee: Employee, file: File): Observable<any> {
     const formData: FormData = new FormData();
@@ -64,7 +80,7 @@ export class EmployeeService {
     formData.append('employee', JSON.stringify(employee));
   
     const updateEmployeeUrl = `${this.apiUrl}/${id}`;
-    return this.http.put<Employee>(updateEmployeeUrl, formData); // Use FormData in the PUT request
+    return this.http.put<Employee>(updateEmployeeUrl, formData); 
   }
   
   updateEmployeeWithoutImage(id: number, employee: Employee): Observable<any> {

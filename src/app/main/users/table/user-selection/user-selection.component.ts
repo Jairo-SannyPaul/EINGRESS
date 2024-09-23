@@ -210,19 +210,38 @@ export class UserSelectionComponent implements OnInit, OnDestroy {
 
   deleteEmployee() {
 
-    const selectedEmployeeIds = this.employees
-      .filter(employee => employee.selected)
-      .map(employee => employee.id);
+    // const selectedEmployeeIds = this.employees
+    //   .filter(employee => employee.selected)
+    //   .map(employee => employee.id);
 
-    if (selectedEmployeeIds.length > 0) {
-      this.dialogService.openConfirmDialog('Do you want to Delete this user/s?', 'Cancel', 'Confirm').subscribe(confirmed => {
+    // if (selectedEmployeeIds.length > 0) {
+    //   this.dialogService.openConfirmDialog('Do you want to Delete this user/s?', 'Cancel', 'Confirm').subscribe(confirmed => {
+    //     if (confirmed) {
+    //       this.employeeService.deleteEmployee(selectedEmployeeIds).subscribe(() => {
+    //         this.loadEmployeeInfo(); // Refresh employee info after deletion
+    //       });
+    //     }
+    //   });
+    // }
+
+    //soft-delete code:
+    
+    const selectedEmployeeIds = this.employees
+    .filter(employee => employee.selected)
+    .map(employee => employee.id);
+
+  if (selectedEmployeeIds.length > 0) {
+    this.dialogService.openConfirmDialog('Do you want to delete this user/s?', 'Cancel', 'Confirm')
+      .subscribe(confirmed => {
         if (confirmed) {
-          this.employeeService.deleteEmployee(selectedEmployeeIds).subscribe(() => {
-            this.loadEmployeeInfo(); // Refresh employee info after deletion
+          selectedEmployeeIds.forEach(id => {
+            this.employeeService.deleteEmployee(id).subscribe(() => {
+              this.loadEmployeeInfo(); // Refresh employee info after deletion
+            });
           });
         }
       });
-    }
+  }
   }
 
   selectedEmployee(employee: Employee) {
