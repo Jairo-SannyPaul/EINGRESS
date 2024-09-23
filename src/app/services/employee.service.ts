@@ -83,7 +83,7 @@ export class EmployeeService {
   
           switch (selectedFilter) {
             case 'name':
-              return employee.fullname.toLowerCase().startsWith(searchValueLower);
+              return employee.fullname.toLowerCase().includes(searchValueLower);
             case 'role':
               return employee.role.toLowerCase().includes(searchValueLower);
             case 'rfid':

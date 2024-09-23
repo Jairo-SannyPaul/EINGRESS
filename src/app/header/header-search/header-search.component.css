@@ -13,10 +13,17 @@
 .search-field input {
   width: 100%;
   height: 100%;
-  padding-left: 35px; /* Space for the icon */
+  padding-left: 35px; 
   font-size: 14px;
   border-radius: 5px;
   box-sizing: border-box;
+  border: none; 
+}
+
+.search-field input:focus {
+  outline: none; 
+  border: 2px solid #878787; 
+  border-width: 2px; 
 }
 
 .search-field .search-icon {
@@ -28,6 +35,59 @@
   width: 16px;
   height: 16px;
 }
+
+.dropdown {
+  margin-top: 4px;
+  position: absolute;
+  left: 0;
+  width: 100%;
+  background: #ffffff;
+  border-radius: 6px;
+  max-height: 160px; /* Control the dropdown height */
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.dropdown-item {
+  display: flex;
+  justify-content: space-between; /* This aligns name and RFID on opposite ends */
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+  cursor: pointer;
+}
+
+.dropdown-item:hover{
+  background: #f6f6f6;
+}
+
+.employee-name {
+  font-size: 14px;
+  font-weight: 300;
+  margin-left: 15px;
+}
+
+.employee-rfid {
+  font-size: 12px;
+  font-weight: 400;
+  color: #464646; /* Make the RFID tag lighter in color */
+}
+
+.result-found:hover {
+  background-color: #f1f1f1;
+}
+
+.no-results {
+  height: 73px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px; /* Add some padding for spacing */
+  color: #464646; /* Adjust color as needed */
+  font-size: 14px; /* Adjust font size as needed */
+  font-weight: 300;
+  pointer-events: none;
+}
+
 
 .filter-button {
   display: flex;
