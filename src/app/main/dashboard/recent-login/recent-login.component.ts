@@ -18,10 +18,11 @@ export class RecentLoginComponent {
 
   findRecentLoginEmployee(): void {
     this.employeeService.getEmployee().subscribe((employees: Employee[]) => {
+      console.log('Fetched Employees:', employees);
       const today = new Date();
-      today.setHours(0, 0, 0, 0); // Start of today
+      today.setUTCHours(0, 0, 0, 0); // Start of today
       const endOfDay = new Date(today);
-      endOfDay.setHours(23, 59, 59, 999); // End of today
+      endOfDay.setUTCHours(23, 59, 59, 999); // End of today
   
       let recentLoginEmployee: Employee | null = null;
   
