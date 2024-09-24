@@ -1,3 +1,5 @@
+
+
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { EmployeeService } from '../services/employee.service';
 
@@ -19,6 +21,13 @@ export class AdminDiscardPopupComponent {
     this.close.emit(); // Emit close event
     this.employeeService.closeModal();
     this.employeeService.reload$;
+  }
+
+  confirm(){
+    this.close.emit(); // Emit close event
+    this.employeeService.closeModal();
+    this.employeeService.reload$;
+    this.employeeService.closeEditModeAndReload();
   }
 
 }

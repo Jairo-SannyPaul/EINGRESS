@@ -19,6 +19,9 @@ export class AdminComponent {
   currentUsername!: string;
   currentAge!: string;
   currentGender!: string;
+  originalValues: any;
+  discardPopupVisible: boolean = false; 
+
   private reloadSubscription: Subscription = new Subscription();
 
 
@@ -59,6 +62,14 @@ export class AdminComponent {
       // Call a method to reload or refresh data
       this.loadAdminInfo();  // Fetch admin data again when reload$ is triggered
     });
+
+    this.employeeService.editMode$.subscribe(isEditing => {
+      this.editMode = isEditing;
+      // Add any additional logic that should occur when edit mode changes
+      if (!isEditing) {
+       this.editMode = false;
+      }
+    });
   }
 
   ngOnDestroy() {
@@ -80,6 +91,17 @@ export class AdminComponent {
           address: user.address || '',
           age: user.age || '',
         });
+
+        // Store original values
+        this.originalValues = {
+          username: user.username,
+          email: user.email,
+          bday: user.bday,
+          number: user.number,
+          address: user.address,
+          age: user.age
+        };
+
         console.log("Fetched User: ", user);
       },
       error: (err) => {
@@ -162,8 +184,19 @@ export class AdminComponent {
     }
   }
 
+  hasUnsavedChanges(): boolean {
+    // Compare current form values with original values
+    const currentValues = this.form.value;
+    return Object.keys(currentValues).some(key => currentValues[key] !== this.originalValues[key]);
+  }
+
+
   clearChanges() {
-    this.employeeService.setDiscardPopupVisibility(true);
-    // this.editMode = !this.editMode;
+    if (this.hasUnsavedChanges()) {
+      this.employeeService.setDiscardPopupVisibility(true);
+    }
+    else{
+      this.editMode = false;
+    }
   }
 }

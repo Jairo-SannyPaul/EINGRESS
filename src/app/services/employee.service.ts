@@ -216,4 +216,16 @@ export class EmployeeService {
   closeModal() {
     this.modalVisibleSubject.next(false);
   }
+
+  //for clicking yes in discard popup
+  private editModeSource = new BehaviorSubject<boolean>(false);
+  editMode$ = this.editModeSource.asObservable();
+  
+  closeEditModeAndReload() {
+    this.setEditMode(false); // Close edit mode
+    this.triggerReload(); // Trigger reload for other components that need to refresh
+  }
+  setEditMode(isEditing: boolean) {
+    this.editModeSource.next(isEditing);
+  }
 }
