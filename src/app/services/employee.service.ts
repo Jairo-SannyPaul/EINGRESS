@@ -183,4 +183,34 @@ export class EmployeeService {
   updateCheckedState(isChecked: boolean) {
     this.checkedStateSource.next(isChecked);
   }
+//for success popup
+  private popupVisibleSubject = new BehaviorSubject<boolean>(false);
+  popupVisible$ = this.popupVisibleSubject.asObservable();
+
+  setPopupVisibility(isVisible: boolean) {
+    this.popupVisibleSubject.next(isVisible);
+  }
+  
+//for error popup
+
+private errorPopupVisibleSubject = new BehaviorSubject<boolean>(false);
+errorPopupVisibleSubject$ = this.errorPopupVisibleSubject.asObservable();
+
+setPopupErrorVisibility(isVisible: boolean) {
+  this.errorPopupVisibleSubject.next(isVisible);
+}
+
+  //for user modal popup
+  private modalVisibleSubject = new BehaviorSubject<boolean>(false);
+  modalVisible$ = this.modalVisibleSubject.asObservable();
+
+  // Method to open the modal
+  openModal() {
+    this.modalVisibleSubject.next(true);
+  }
+
+  // Method to close the modal
+  closeModal() {
+    this.modalVisibleSubject.next(false);
+  }
 }

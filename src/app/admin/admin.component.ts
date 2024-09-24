@@ -1,5 +1,6 @@
 import { Component, HostListener } from '@angular/core';
 import { UserService } from '../services/user.service';
+import { EmployeeService } from '../services/employee.service';
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
@@ -7,8 +8,10 @@ import { UserService } from '../services/user.service';
 })
 export class AdminComponent {
   changePass:boolean = false
+  editMode:boolean = false
+  isPopupVisible: boolean = false;
 
-  constructor (private userService: UserService ){
+  constructor (private userService: UserService, private employeeService: EmployeeService){
   }
 
 
@@ -25,5 +28,17 @@ export class AdminComponent {
     if (event.key === 'Escape') {
       this.userService.closeModal();
     }
+  }
+
+  editAdmin(){
+    this.editMode = !this.editMode;
+  }
+
+  saveChanges(){
+this.employeeService.setPopupVisibility(true)
+  }
+
+  clearChanges(){
+    this.editMode = !this.editMode;
   }
 }

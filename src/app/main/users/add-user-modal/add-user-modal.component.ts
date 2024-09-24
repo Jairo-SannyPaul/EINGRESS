@@ -2,7 +2,6 @@ import { Component, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { DialogService } from 'src/app/services/dialog.service';
-import { AddUserModalService } from 'src/app/services/add-user-modal.service';
 
 
 @Component({
@@ -16,7 +15,7 @@ export class AddUserModalComponent {
   userForm: FormGroup;
   selectedImage!: File;
   isPopupVisible: boolean = false; // Popup visibility flag
-  constructor(private formBuilder: FormBuilder, private employeeService: EmployeeService, private dialogService: DialogService, private addUserModalService: AddUserModalService) {
+  constructor(private formBuilder: FormBuilder, private employeeService: EmployeeService, private dialogService: DialogService) {
     this.userForm = this.formBuilder.group({
       fullname: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -79,7 +78,7 @@ export class AddUserModalComponent {
   }
   // Hide the modal
   hideAddUserModal(): void {
-    this.addUserModalService.closeModal();
+    this.employeeService.closeModal();
     this.resetForm(); // Clear form on closing
   }
 
@@ -97,14 +96,16 @@ export class AddUserModalComponent {
           // Extract the message from the backend response
           errorMessage = error.error.message;
         }
-        this.dialogService.openAlertDialog(errorMessage);
+        this.employeeService.closeModal(); //close the modal
+        this.employeeService.setPopupErrorVisibility(true); //show error popup
       };
 
       if (!this.selectedImage) {
         this.employeeService.addEmployeeWithoutImage(newEmployee)
           .subscribe(
             response => {
-              this.isPopupVisible = true; // Show the popup;
+              this.employeeService.closeModal(); //close the modal
+              this.employeeService.setPopupVisibility(true) // Show the popup;
             },
             handleError
           );
@@ -112,17 +113,18 @@ export class AddUserModalComponent {
         this.employeeService.addEmployee(newEmployee, this.selectedImage)
           .subscribe(
             response => {
-              this.isPopupVisible = true; // Show the popup;
+              this.employeeService.closeModal(); //close the modal
+              this.employeeService.setPopupVisibility(true) // Show the popup;
             },
             handleError
           );
       }
     } else {
       if (this.userForm.get('email')?.errors?.['email']) {
-        this.addUserModalService.closeModal();
+        this.employeeService.closeModal();
         this.dialogService.openAlertDialog('Please enter a valid email address.');
       } else {
-        this.addUserModalService.closeModal();
+        this.employeeService.closeModal();
         this.dialogService.openAlertDialog('Please fill in all required fields correctly.');
       }
     }
@@ -132,6 +134,7 @@ export class AddUserModalComponent {
   validateForm(): boolean {
     return this.userForm.valid;
   }
+  
 
   closePopup(): void {
     this.isPopupVisible = false; // Hide the popup

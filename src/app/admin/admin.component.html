@@ -14,7 +14,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="edit-holder">
+                <div class="edit-holder" *ngIf="!editMode" (click)="editAdmin()">
                     <div class="edit">
                         <svg width="10" height="11" viewBox="0 0 10 11" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -22,6 +22,15 @@
                                 fill="white" />
                         </svg>
                         <span>Edit Profile</span>
+                    </div>
+                </div>
+                <div class="edit-mode" *ngIf="editMode">
+                    <div class="saveBtn pointer" (click)="saveChanges()">Save Changes</div>
+                    <div class="cancel pointer" (click)="clearChanges()">
+                        <svg width="10" height="11" viewBox="0 0 10 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 10.5L0 9.5L4 5.5L0 1.5L1 0.5L5 4.5L9 0.5L10 1.5L6 5.5L10 9.5L9 10.5L5 6.5L1 10.5Z" fill="#C0C0C0"/>
+                            </svg>
+                            
                     </div>
                 </div>
             </div>
@@ -59,9 +68,42 @@
                         </div>
                     </div>
                     <div class="labelContents-right">
-                        <div class="value">Sanny Paul Geraldino</div>
-                        <div class="value">June 27, 2001</div>
-                        <div class="value">+63 908 167 3567</div>
+                        <input
+                        type="text"
+                        class="value"
+                        value="Sanny Paul Geraldino"
+                        [disabled]="!editMode"
+                        [ngClass]="{ 'editable-input': editMode }"
+                        [ngStyle]="{
+                          'background-color': editMode ? 'white' : '#f8fbff',
+                          'border': editMode ? '1px solid #CFE0FC' : 'none',
+                          'border-radius': editMode ? '3px' : '0'
+                        }"
+                      />
+                      <input
+                        type="text"
+                        class="value"
+                        value="June 27, 2001"
+                        [disabled]="!editMode"
+                        [ngClass]="{ 'editable-input': editMode }"
+                        [ngStyle]="{
+                          'background-color': editMode ? 'white' : '#f8fbff',
+                          'border': editMode ? '1px solid #CFE0FC' : 'none',
+                          'border-radius': editMode ? '3px' : '0'
+                        }"
+                      />
+                      <input
+                        type="text"
+                        class="value"
+                        value="+63 908 167 3567"
+                        [disabled]="!editMode"
+                        [ngClass]="{ 'editable-input': editMode }"
+                        [ngStyle]="{
+                          'background-color': editMode ? 'white' : '#f8fbff',
+                          'border': editMode ? '1px solid #CFE0FC' : 'none',
+                          'border-radius': editMode ? '3px' : '0'
+                        }"
+                      />
                     </div>
                 </div>
                 <div class="details-left">
@@ -96,10 +138,44 @@
                         </div>
                     </div>
                     <div class="labelContents-left">
-                        <div class="value">23</div>
-                        <div class="value">sgeraldino@jairosoft.com</div>
-                        <div class="value">Davao City, Davao Del Sur 8000</div>
-                    </div>
+                        <input
+                          type="text"
+                          class="value"
+                          value="23"
+                          [disabled]="!editMode"
+                          [ngClass]="{ 'editable-input': editMode }"
+                          [ngStyle]="{
+                            'background-color': editMode ? 'white' : '#f8fbff',
+                            'border': editMode ? '1px solid #CFE0FC' : 'none',
+                            'border-radius': editMode ? '3px' : '0'
+                          }"
+                        />
+                        <input
+                          type="text"
+                          class="value"
+                          value="sgeraldino@jairosoft.com"
+                          [disabled]="!editMode"
+                          [ngClass]="{ 'editable-input': editMode }"
+                          [ngStyle]="{
+                            'background-color': editMode ? 'white' : '#f8fbff',
+                            'border': editMode ? '1px solid #CFE0FC' : 'none',
+                            'border-radius': editMode ? '3px' : '0'
+                          }"
+                        />
+                        <input
+                          type="text"
+                          class="value"
+                          value="Davao City, Davao Del Sur 8000"
+                          [disabled]="!editMode"
+                          [ngClass]="{ 'editable-input': editMode }"
+                          [ngStyle]="{
+                            'background-color': editMode ? 'white' : '#f8fbff',
+                            'border': editMode ? '1px solid #CFE0FC' : 'none',
+                            'border-radius': editMode ? '3px' : '0'
+                          }"
+                        />
+                      </div>
+                      
                 </div>
             </div>
         </div>

@@ -40,6 +40,15 @@
     </div>
 
     <app-add-user-modal *ngIf = "showAddUserModal"></app-add-user-modal>
- 
 
+    <app-success-popup *ngIf="isPopupVisible"
+    [isVisible]="isPopupVisible"
+    (close)="closePopup()">
+    </app-success-popup>
+
+    <app-error-popup
+    *ngIf="isErrorPopupVisible"
+    [isVisible]="isErrorPopupVisible"
+    (close)="closePopup()">
+    </app-error-popup>
 </div>

@@ -5,8 +5,6 @@ import { EmployeeService } from 'src/app/services/employee.service';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { SearchfieldComponent } from './searchfield/searchfield.component';
 import { Subscription } from 'rxjs';
-
-import { AddUserModalService } from 'src/app/services/add-user-modal.service';
 import { HeaderLabelService } from 'src/app/services/header-label.service';
 
 @Component({
@@ -48,7 +46,6 @@ export class UsersComponent {
   
   constructor(
     private employeeService: EmployeeService,
-    private addusermodalService: AddUserModalService,
     private headerLabelService: HeaderLabelService,
   ) {}
 
@@ -73,7 +70,7 @@ onSortChange(sortOption?: string) {
 }
 
   onAddUserBtnClicked() {
-    this.addusermodalService.openModal();
+    this.employeeService.openModal();
     
     
   }

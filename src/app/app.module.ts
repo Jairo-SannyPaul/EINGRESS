@@ -54,10 +54,11 @@ import { HeaderSearchComponent } from './header/header-search/header-search.comp
 import { HeaderBellComponent } from './header/header-bell/header-bell.component';
 import { HeaderProfileComponent } from './header/header-profile/header-profile.component';
 import { AdminComponent } from './admin/admin.component';
-import { AddUserSubmitPopupComponent } from './main/users/add-user-submit-popup/add-user-submit-popup.component';
+import { SuccessPopupComponent } from './success-popup/success-popup.component';
+import { ErrorPopupComponent } from './error-popup/error-popup.component';
 
 const routes: Routes = [
-  { path: 'submit-popup', component: AddUserSubmitPopupComponent },
+  { path: 'submit-popup', component: SuccessPopupComponent },
 ];
 
 @NgModule({
@@ -96,7 +97,8 @@ const routes: Routes = [
     HeaderBellComponent,
     HeaderProfileComponent,
     AdminComponent,
-    AddUserSubmitPopupComponent,
+    SuccessPopupComponent,
+    ErrorPopupComponent,
   ],
   imports: [
     RouterModule.forRoot(routes),
