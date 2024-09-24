@@ -70,16 +70,16 @@ export class HeaderSearchComponent {
     const target = event.target as HTMLElement;
     const inputField = document.querySelector('.search-field input') as HTMLElement;
     const dropdown = document.querySelector('.dropdown') as HTMLElement;
-
-    // Check if the click was outside the input and dropdown
-    if (target !== inputField && !dropdown.contains(target)) {
+  
+    // Check if dropdown is not null before using it
+    if (dropdown && target !== inputField && !dropdown.contains(target)) {
       this.showDropdown = false; // Hide dropdown
     } else if (target === inputField) {
       // Do not show dropdown if input is empty
       this.showDropdown = this.inputValue.length > 0 && (this.filteredOptions.length > 0 || this.noResultsFound);
     }
   }
-
+  
   ngOnDestroy() {
     // Unsubscribe to avoid memory leaks
     if (this.searchSubscription) {
