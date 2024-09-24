@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { HeaderLabelService } from 'src/app/services/header-label.service';
 import { ErrorLogService } from 'src/app/services/error-log.service';
 import { Employee } from 'src/app/interface/employee.interface';
+import { ErrorLog } from 'src/app/interface/error-log.interface';
 
 
 @Component({
@@ -116,59 +117,31 @@ export class DashboardComponent implements OnInit{
   }
 
   loadRecentAlerts() {
-    combineLatest([
-        this.employeeService.getEmployee(),
-        this.accessLogService.getAccessLogs(),
-        this.errorLogService.getErrorLogs()
-    ]).subscribe(
-        ([employees, accessLogs, errorLogs]) => {
-            const currentDate = new Date().toLocaleDateString();
-            let unauthorizedBioCount = 0; // Local count for unauthorized bios
+    this.errorLogService.getErrorLogs().subscribe(
+        (errorLogs: ErrorLog[]) => {
+            const currentDate = new Date().toLocaleDateString(); // Get today's date
+            
+            // Reset the unauthorized bio count for the current day
+            this.unauthorizedBioCount = 0; // Always reset before counting for today
 
-            // Filter employees with access logs for today
-            const matchedEmployees = employees.filter(employee => {
-                return employee.accessLogs?.some(log => 
-                    new Date(log.accessDateTime).toLocaleDateString() === currentDate
-                );
-            });
-
-            matchedEmployees.sort((a, b) => {
-                const accessTimeA = this.getMostRecentAccessTime(a);
-                const accessTimeB = this.getMostRecentAccessTime(b);
-                return accessTimeB.getTime() - accessTimeA.getTime();
-            });
-
-            const accessLogAlerts = matchedEmployees.map(employee => {
-                const mostRecentTime = this.getMostRecentAccessTime(employee);
-                const timestamp = mostRecentTime.toISOString();
-                let message: string;
-
-                // Check for RFID and biometric conditions
-                if (!employee.rfidtag) {
-                    message = `Unregister`;
-                } else if (employee.fingerprint1 || employee.fingerprint2) {
-                    unauthorizedBioCount++; // Count unauthorized bio attempts here
-                    message = `Unauthorized Bio - Attempts: ${unauthorizedBioCount}`;
-                } else {
-                    message = `${employee.fullname} has entered the building`;
+            // Count unauthorized bio attempts only for the current date
+            errorLogs.forEach(log => {
+                // Check if the log's date matches today's date and the message indicates fingerprint mismatch
+                if (new Date(log.timestamp!).toLocaleDateString() === currentDate && 
+                    log.message === 'Error Fingerprint not match:') {
+                    this.unauthorizedBioCount++; // Increment the count for today's unauthorized bio attempts
                 }
-
-                return { type: 'login', message: message, timestamp: timestamp };
             });
 
-            // Update recent alerts
-            this.recentAlerts = accessLogAlerts.slice(0, 7);
-
-            // Store the total unauthorized bio attempts
-            this.unauthorizedBioCount = unauthorizedBioCount;
-            console.log(`Total Unauthorized Bio Attempts: ${this.unauthorizedBioCount}`);
+            // Log the total count with the specific date
+            console.log(`Total count of unauthorized bio attempts for ${currentDate} is: ${this.unauthorizedBioCount}`);
         },
         error => {
-            console.error('Error fetching data:', error);
+            console.error('Error fetching error logs:', error);
         }
     );
 }
-  
+
   loadEmployeeInfo() {
     this.employeeService.getEmployee().subscribe(
       employees => {
