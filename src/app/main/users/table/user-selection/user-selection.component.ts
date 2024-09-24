@@ -22,7 +22,7 @@ export class UserSelectionComponent implements OnInit, OnDestroy {
   paginatedEmployees: Employee[] = [];
   currentPage: number = 1; // Active page
   totalPages: number = 1;  // Total number of pages
-  itemsPerPage: number = 10; // Number of employees per page
+  itemsPerPage: number = 11; // Number of employees per page
   searchSubscription: Subscription | undefined;
   private reloadSubscription: Subscription = new Subscription();
   private sortOptionSubscription: Subscription | undefined;
