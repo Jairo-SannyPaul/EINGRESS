@@ -1,8 +1,28 @@
-<div class="search-container">
+<div class="search-container" #searchField>
     <div class="search-field">
-        <input type="text" placeholder=" Search">
+        <input 
+            type="text" 
+            placeholder="Search" 
+            [(ngModel)]="inputValue" 
+            (focus)="handleFocus()" 
+            (input)="filterOptions($event)"
+        >
         <img src="/assets/images/search-icon.svg" alt="Search Icon" class="search-icon">
+        
+        <div class="dropdown" *ngIf="showDropdown">
+            <ul>
+                <li *ngFor="let option of filteredOptions" class="dropdown-item" (click)="selectOption(option)">
+                <span class="employee-name">{{ option.fullname }}</span>
+                <span class="employee-rfid">RFID: {{ option.rfid }}</span>
+              </li>
+              <li *ngIf="noResultsFound" class="dropdown-item no-results">
+                NO RESULTS FOUND.
+              </li>
+            </ul>
+          </div>          
     </div>
+
     <button *ngIf="showFilterButton" class="filter-button">
-        <img src="/assets/images/search-filter-bar.svg" alt="Filter Search Bar Icon">Filter Search Bar</button>
+        <img src="/assets/images/search-filter-bar.svg" alt="Filter Search Bar Icon"> Filter Search Bar
+    </button>
 </div>

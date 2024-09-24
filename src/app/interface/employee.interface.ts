@@ -14,4 +14,5 @@ export interface Employee {
   fingerprint1?: string;
   fingerprint2?: string;
   branch: string;
+  deldate?: Date;
 }

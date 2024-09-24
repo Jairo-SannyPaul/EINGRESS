@@ -22,7 +22,7 @@ export class UserSelectionComponent implements OnInit, OnDestroy {
   paginatedEmployees: Employee[] = [];
   currentPage: number = 1; // Active page
   totalPages: number = 1;  // Total number of pages
-  itemsPerPage: number = 10; // Number of employees per page
+  itemsPerPage: number = 11; // Number of employees per page
   searchSubscription: Subscription | undefined;
   private reloadSubscription: Subscription = new Subscription();
   private sortOptionSubscription: Subscription | undefined;
@@ -210,19 +210,38 @@ export class UserSelectionComponent implements OnInit, OnDestroy {
 
   deleteEmployee() {
 
-    const selectedEmployeeIds = this.employees
-      .filter(employee => employee.selected)
-      .map(employee => employee.id);
+    // const selectedEmployeeIds = this.employees
+    //   .filter(employee => employee.selected)
+    //   .map(employee => employee.id);
 
-    if (selectedEmployeeIds.length > 0) {
-      this.dialogService.openConfirmDialog('Do you want to Delete this user/s?', 'Cancel', 'Confirm').subscribe(confirmed => {
+    // if (selectedEmployeeIds.length > 0) {
+    //   this.dialogService.openConfirmDialog('Do you want to Delete this user/s?', 'Cancel', 'Confirm').subscribe(confirmed => {
+    //     if (confirmed) {
+    //       this.employeeService.deleteEmployee(selectedEmployeeIds).subscribe(() => {
+    //         this.loadEmployeeInfo(); // Refresh employee info after deletion
+    //       });
+    //     }
+    //   });
+    // }
+
+    //soft-delete code:
+    
+    const selectedEmployeeIds = this.employees
+    .filter(employee => employee.selected)
+    .map(employee => employee.id);
+
+  if (selectedEmployeeIds.length > 0) {
+    this.dialogService.openConfirmDialog('Do you want to delete this user/s?', 'Cancel', 'Confirm')
+      .subscribe(confirmed => {
         if (confirmed) {
-          this.employeeService.deleteEmployee(selectedEmployeeIds).subscribe(() => {
-            this.loadEmployeeInfo(); // Refresh employee info after deletion
+          selectedEmployeeIds.forEach(id => {
+            this.employeeService.deleteEmployee(id).subscribe(() => {
+              this.loadEmployeeInfo(); // Refresh employee info after deletion
+            });
           });
         }
       });
-    }
+  }
   }
 
   selectedEmployee(employee: Employee) {

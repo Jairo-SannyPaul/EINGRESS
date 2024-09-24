@@ -18,6 +18,7 @@ export class HeaderBellComponent {
   matchedEmployees: Employee[] = [];
   maxEmployeesDisplayed: number = 100;
   isNotificationOpen = false;
+  isPreviousNotificationsView = false;
 
   constructor(
     private employeeService: EmployeeService,
@@ -35,11 +36,16 @@ export class HeaderBellComponent {
 
   // Method to toggle notification dropdown visibility
   toggleNotificationDropdown(): void {
+    if (this.isNotificationOpen) {
+      // If closing, reset the previous notifications view
+      this.isPreviousNotificationsView = false;
+    }
     this.isNotificationOpen = !this.isNotificationOpen;
   }
 
   // Method to handle 'See previous notifications' button click
   viewPreviousNotifications(): void {
+    this.isPreviousNotificationsView = true;
     console.log('Navigating to previous notifications...');
     // Add logic to navigate or show previous notifications here
   }

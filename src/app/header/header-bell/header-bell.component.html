@@ -5,7 +5,7 @@
         <div class="dropdown-header">
             <h4>Notifications</h4>
         </div>
-        <div class="dropdown-body">
+        <div class="dropdown-body" [ngStyle]="{ height: isPreviousNotificationsView ? '780px' : '392px' }">
             <div *ngIf="recentAlerts.length === 0">
                 <p class="no-data">No data</p>
             </div>
@@ -26,7 +26,7 @@
                   </div>                                    
             </div>
         </div>            
-        <div class="dropdown-footer">
+        <div class="dropdown-footer" *ngIf="!isPreviousNotificationsView">
             <button (click)="viewPreviousNotifications()">See previous notifications</button>
         </div>
     </div>
