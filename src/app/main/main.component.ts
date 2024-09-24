@@ -8,7 +8,7 @@ import { EmployeeService } from '../services/employee.service';
   styleUrls: ['./main.component.css']
 })
 export class MainComponent {
-
+  currentAdmin!: number;
   private users: User[] = [];
   isNavbarLocked: boolean = false;
   username: string = '';
@@ -43,6 +43,7 @@ export class MainComponent {
   }
 
   ngOnInit(): void {
+    this.currentAdmin = this.userService.currentUserId;
     this.username = localStorage.getItem('username') || 'Admin';
     this.loadUser();
     this.employeeService.popupVisible$.subscribe((visible: boolean) => {

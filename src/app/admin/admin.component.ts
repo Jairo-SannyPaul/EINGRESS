@@ -3,6 +3,7 @@ import { UserService } from '../services/user.service';
 import { EmployeeService } from '../services/employee.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { User } from '../interface/user.interface';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-admin',
@@ -10,20 +11,82 @@ import { User } from '../interface/user.interface';
   styleUrls: ['./admin.component.css']
 })
 export class AdminComponent {
-  changePass:boolean = false
-  editMode:boolean = false
+  form: FormGroup;
+  changePass: boolean = false
+  editMode: boolean = false
   isPopupVisible: boolean = false;
   currentAdmin!: number;
+  currentUsername!: string;
+  currentAge!: string;
+  currentGender!: string;
+  private reloadSubscription: Subscription = new Subscription();
 
-  constructor (private userService: UserService, 
-    private employeeService: EmployeeService){
+
+  constructor(
+    private userService: UserService,
+    private employeeService: EmployeeService,
+    private formbuilder: FormBuilder) {
+    this.form = this.formbuilder.group({
+      username: [''],
+      bday: [''],
+      email: ['', Validators.email],
+      number: [''],
+      age: [''],
+      address: ['']
+    });
   }
 
-  ngOnInit(){
+  adminUpdate = {
+    username: '',
+    bday: '',
+    email: '',
+    number: '',
+    age: '',
+    address: ''
+  };
+
+
+  ngOnInit() {
     this.currentAdmin = this.userService.currentUserId;
     console.log("Current ID: ", this.currentAdmin);
+
+    if (this.currentAdmin) {
+      this.loadAdminInfo(); // Fetch admin info if there's a valid ID
+    }
+
+    // Subscribe to reload events
+    this.reloadSubscription = this.employeeService.reload$.subscribe(() => {
+      // Call a method to reload or refresh data
+      this.loadAdminInfo();  // Fetch admin data again when reload$ is triggered
+    });
   }
 
+  ngOnDestroy() {
+    this.reloadSubscription.unsubscribe();
+  }
+
+
+  loadAdminInfo() {
+    this.userService.getUserById(this.currentAdmin).subscribe({
+      next: (user: User) => {
+        this.currentUsername = user.username || '';
+        this.currentAge = user.age || '';
+        this.currentGender = user.gender || '';
+        this.form.patchValue({
+          username: user.username || '',
+          email: user.email || '',
+          bday: user.bday || '',
+          number: user.number || '',
+          address: user.address || '',
+          age: user.age || '',
+        });
+        console.log("Fetched User: ", user);
+      },
+      error: (err) => {
+        console.error('Failed to fetch user details', err);
+      }
+    });
+  }
 
   toggleChangePass() {
     if (!this.changePass) {  // Fix the condition to check the value, not assign
@@ -32,7 +95,7 @@ export class AdminComponent {
     this.changePass = !this.changePass;  // Toggle the state after opening/closing the modal
   }
 
-  
+
   @HostListener('window:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
     if (event.key === 'Escape') {
@@ -40,15 +103,66 @@ export class AdminComponent {
     }
   }
 
-  editAdmin(){
+  editAdmin() {
     this.editMode = !this.editMode;
   }
 
-  saveChanges(){
-this.employeeService.setPopupVisibility(true)
+  saveChanges() {
+    // this.employeeService.setPopupVisibility(true)
+    if (this.form.invalid) {
+      this.employeeService.setPopupErrorVisibility(true);
+      return;
+    }
+    else {
+      const updateData = {
+        username: this.form.get('username')?.value,
+        bday: this.form.get('bday')?.value,
+        email: this.form.get('email')?.value,
+        number: this.form.get('number')?.value,
+        age: this.form.get('age')?.value,
+        address: this.form.get('address')?.value,
+      };
+
+      console.log("Updating data");
+      this.userService.updateUser(this.currentAdmin, updateData).subscribe({
+
+        next: (response) => {
+          if (response.message === 'User updated successfully with new email') {
+            console.log('Email changed');
+            // Prepare data for sending verification email
+            const verificationData = {
+              name: this.form.get('newusername')?.value,
+              address: this.form.get('newEmail')?.value,
+              verification_otp: response.user.verify_otp, // Ensure verify_token is part of response
+            };
+
+            // Call send verification email
+            this.userService.sendVerificationEmail(verificationData).subscribe({
+              next: (emailResponse) => {
+                console.log('Verification email sent:', emailResponse);
+              },
+              error: (emailError) => {
+                console.error('Error sending verification email:', emailError);
+              }
+            });
+          }
+          else {
+            this.editMode = false;
+            this.currentUsername = updateData.username; // Update current username
+            this.currentAge = updateData.age; // Update current age
+            this.employeeService.setPopupVisibility(true);
+          }
+        },
+        error: (error) => {
+          console.error('Error updating profile:', error);
+          this.editMode = false;
+          this.employeeService.setPopupErrorVisibility(true);
+        }
+      });
+    }
   }
 
-  clearChanges(){
+  clearChanges() {
     this.employeeService.setDiscardPopupVisibility(true);
     // this.editMode = !this.editMode;
   }

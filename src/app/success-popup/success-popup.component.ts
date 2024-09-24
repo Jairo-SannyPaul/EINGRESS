@@ -9,11 +9,13 @@ export class SuccessPopupComponent {
 
   constructor (private employeeService: EmployeeService){}
 
-
-
   @Input() isVisible: boolean = false; // Input to control visibility
   @Output() close = new EventEmitter<void>(); // Output event to close the popup
 
+  ngOnInit(){
+    this.employeeService.reload$;
+  }
+  
   closePopup(): void {
     this.close.emit(); // Emit close event
     this.employeeService.closeModal();
