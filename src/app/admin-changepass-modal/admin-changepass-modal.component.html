@@ -1,26 +1,34 @@
 <div *ngIf="changePass" class="changePass-modal">
-    <div class="modal">
-        <div class="upper-modal">
-            <span class="security">Security</span>
-            <span class="label">Change Password</span>
-            <div class="exit" (click)="exitModal()">
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                        d="M1.4 14L0 12.6L5.6 7L0 1.4L1.4 0L7 5.6L12.6 0L14 1.4L8.4 7L14 12.6L12.6 14L7 8.4L1.4 14Z"
-                        fill="#464646" />
-                </svg>
+    <form [formGroup]="form">
+        <div class="modal">
+            <div class="upper-modal">
+                <span class="security">Security</span>
+                <span class="label">Change Password</span>
+                <div class="exit" (click)="exitModal()">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M1.4 14L0 12.6L5.6 7L0 1.4L1.4 0L7 5.6L12.6 0L14 1.4L8.4 7L14 12.6L12.6 14L7 8.4L1.4 14Z"
+                            fill="#464646" />
+                    </svg>
+                </div>
+            </div>
+            <div class="lower-modal">
+                <div class="forms">
+                    <input formControlName="oldPassword" type="password" class="old" placeholder="Old Password">
+                    <div class="new">
+                        <input formControlName="newPassword" type="password" class="new" placeholder="New Password">
+                        <span class="normal">Your password must be different to previous used passwords.</span>
+                    </div>
+                    <div class="confirmation">
+                        <input formControlName="confirmPassword" type="password" class="confirm" placeholder="Confirm Password">
+                        <span *ngIf="passNotMatch" class="error-text">Password doesn’t match!</span>
+                    </div>
+                </div>
+                <div class="save" (click)="saveChanges()" 
+                [ngClass]="{'disabled': form.invalid || form.pristine, 'enabled': !form.invalid && !form.pristine}">
+               Save Changes
+           </div>
             </div>
         </div>
-        <div class="lower-modal">
-        <div class="forms">
-            <input type="text" class="old" placeholder="Old Password">
-            <div class="new">
-                <input type="text" class="new"  placeholder="New Password">
-            <span>Your password must be different to previous used passwords. </span>
-            </div>
-            <input type="text" class="confirm"  placeholder="Confirm Password">
-        </div>
-        <div class="save">Save Changes</div>
-        </div>
-    </div>
+    </form>
 </div>

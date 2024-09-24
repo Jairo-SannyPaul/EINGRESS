@@ -4,6 +4,7 @@ import { EmployeeService } from '../services/employee.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { User } from '../interface/user.interface';
 import { Subscription } from 'rxjs';
+import { HeaderComponent } from '../header/header.component';
 
 @Component({
   selector: 'app-admin',
@@ -169,6 +170,7 @@ export class AdminComponent {
             });
           }
           else {
+            this.employeeService.triggerReload(); // Notify other components to reload
             this.editMode = false;
             this.currentUsername = updateData.username; // Update current username
             this.currentAge = updateData.age; // Update current age

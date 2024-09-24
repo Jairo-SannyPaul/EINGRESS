@@ -11,9 +11,6 @@ import { EmployeeService } from '../services/employee.service';
 export class AdminDiscardPopupComponent {
 
   constructor (private employeeService: EmployeeService){}
-
-
-
   @Input() isVisible: boolean = false; // Input to control visibility
   @Output() close = new EventEmitter<void>(); // Output event to close the popup
 
