@@ -1,6 +1,9 @@
 import { Component, HostListener } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { EmployeeService } from '../services/employee.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { User } from '../interface/user.interface';
+
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
@@ -10,8 +13,15 @@ export class AdminComponent {
   changePass:boolean = false
   editMode:boolean = false
   isPopupVisible: boolean = false;
+  currentAdmin!: number;
 
-  constructor (private userService: UserService, private employeeService: EmployeeService){
+  constructor (private userService: UserService, 
+    private employeeService: EmployeeService){
+  }
+
+  ngOnInit(){
+    this.currentAdmin = this.userService.currentUserId;
+    console.log("Current ID: ", this.currentAdmin);
   }
 
 
@@ -39,6 +49,7 @@ this.employeeService.setPopupVisibility(true)
   }
 
   clearChanges(){
-    this.editMode = !this.editMode;
+    this.employeeService.setDiscardPopupVisibility(true);
+    // this.editMode = !this.editMode;
   }
 }

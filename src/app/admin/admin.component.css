@@ -313,22 +313,33 @@
     color: #FFFFFF;
 }
 
+.saveBtn:hover{
+    background-color: white;
+    border: 1px solid #70C964;
+    color: #70C964;
+}
+
+.cancel-hover:hover .svg-path {
+    fill: white; /* Change the fill color to white on hover */
+  }
+
+
 .cancel {
     width: 32px;
     height: 33px;
-    padding: 6px, 11px, 6px, 11px;
-    gap: 10px;
     border-radius: 3px;
     border: 1px solid #C0C0C0;
-    background-color: #FFFFFF;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.cancel:hover {
+    background-color: #C0C0C0;
 }
 
 .editable-input {
     background-color: white;
     border: 1px solid #CFE0FC;
     border-radius: 3px;
-  }
-  
+}

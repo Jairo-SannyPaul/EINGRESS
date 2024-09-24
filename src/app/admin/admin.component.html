@@ -26,13 +26,13 @@
                 </div>
                 <div class="edit-mode" *ngIf="editMode">
                     <div class="saveBtn pointer" (click)="saveChanges()">Save Changes</div>
-                    <div class="cancel pointer" (click)="clearChanges()">
-                        <svg width="10" height="11" viewBox="0 0 10 11" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M1 10.5L0 9.5L4 5.5L0 1.5L1 0.5L5 4.5L9 0.5L10 1.5L6 5.5L10 9.5L9 10.5L5 6.5L1 10.5Z" fill="#C0C0C0"/>
-                            </svg>
-                            
+                    <div class="cancel pointer cancel-hover" (click)="clearChanges()">
+                      <svg width="10" height="11" viewBox="0 0 10 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path class="svg-path" d="M1 10.5L0 9.5L4 5.5L0 1.5L1 0.5L5 4.5L9 0.5L10 1.5L6 5.5L10 9.5L9 10.5L5 6.5L1 10.5Z" fill="#C0C0C0"/>
+                      </svg>
                     </div>
-                </div>
+                  </div>
+                  
             </div>
         </div>
         <div class="lower-details">

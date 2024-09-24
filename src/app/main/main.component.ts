@@ -15,8 +15,9 @@ export class MainComponent {
   user!: User;
   changePass = false;
   isPopupVisible: boolean = false;
-  isErrorPopupVisible: boolean = true;
+  isErrorPopupVisible: boolean = false;
   showAddUserModal: boolean = false;
+  isDiscardPopupVisible: boolean = false;
 
   openAddUserModal() {
     this.employeeService.openModal();
@@ -50,6 +51,9 @@ export class MainComponent {
     this.employeeService.errorPopupVisibleSubject$.subscribe((visible: boolean) => {
       this.isErrorPopupVisible = visible;
     });
+    this.employeeService.discardPopupVisibleSubject$.subscribe((visible: boolean) => {
+      this.isDiscardPopupVisible = visible;
+    });
   }
 
   exitModal() {
@@ -74,6 +78,7 @@ export class MainComponent {
   closePopup() {
     this.employeeService.setPopupVisibility(this.isPopupVisible = false);
     this.employeeService.setPopupErrorVisibility(this.isErrorPopupVisible = false);
+    this.employeeService.setDiscardPopupVisibility(this.isErrorPopupVisible = false);
   }
 
   
