@@ -8,6 +8,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './header-search.component.html',
   styleUrls: ['./header-search.component.css']
 })
+
 export class HeaderSearchComponent {
   @Input() showFilterButton: boolean = false;
   @Output() searchEvent = new EventEmitter<string>();
