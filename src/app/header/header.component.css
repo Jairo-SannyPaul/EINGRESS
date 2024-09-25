@@ -6,7 +6,6 @@
   /* background-color: red; */
   width: 100%;
   height: 120px;
-  padding-right: 130px;
   z-index: -9999!important;
 }   
 
@@ -16,7 +15,6 @@
   line-height: 30px;
   text-align: left;
   color: #464646;
-  margin-left: 180px;
 }
 
 .header-label h2 {
