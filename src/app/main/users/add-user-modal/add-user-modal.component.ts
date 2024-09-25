@@ -212,19 +212,7 @@ export class AddUserModalComponent {
   }
 
 
-    // Form validation logic (you can add more complex logic here if needed)
-  validateForm(): boolean {
-    return this.userForm.valid;
-  }
-  
 
-  closePopup(): void {
-    this.isPopupVisible = false; // Hide the popup
-    this.isVisible = false;
-    this.resetForm(); // Clear form on closing
-  
-
-  }
 }
 
 
