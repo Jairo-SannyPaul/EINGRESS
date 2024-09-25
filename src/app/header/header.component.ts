@@ -1,4 +1,4 @@
-import { Component, HostListener, ElementRef, Renderer2, OnInit } from '@angular/core';
+import { Component, HostListener, ElementRef, Renderer2, OnInit, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router, NavigationEnd } from '@angular/router';
 import { AdminpopupComponent } from '../adminpopup/adminpopup.component';
@@ -16,8 +16,7 @@ export class HeaderComponent implements OnInit {
   headerTitle: string = '';
   descriptionTitle: string = '';
   username: string = '';
-
-
+  filterClick: boolean = false;
   constructor(private elRef: ElementRef, public dialog: MatDialog, private headerLabelService: HeaderLabelService, private router: Router) {}
 
   ngOnInit(): void {
@@ -45,6 +44,10 @@ export class HeaderComponent implements OnInit {
         this.showFilterButton = !event.urlAfterRedirects.includes('/dashboard');
       }
     });
+  }
+
+  toggleFilter() {
+    this.filterClick = !this.filterClick;
   }
 
   openDialog(): void {
