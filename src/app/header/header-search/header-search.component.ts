@@ -19,6 +19,7 @@ export class HeaderSearchComponent {
   inputValue: string = '';
   noResultsFound: boolean = false;
   filterToggle: boolean = false;  // New property to control filter visibility
+  currentFilterState!: boolean; 
   
   private searchSubscription: Subscription = new Subscription(); // Subscription to handle search
 
@@ -26,12 +27,12 @@ export class HeaderSearchComponent {
 
   // Toggle the visibility of filter options
   toggleFilterOptions(): void {
-    this.filterToggle = !this.filterToggle;
+    // Get the current value of filterClick and toggle it
+    this.employeeService.filterClick$.subscribe((currentValue: boolean) => {
+      this.employeeService.setFilterClick(!currentValue); // Toggle value
+    }).unsubscribe(); // Unsubscribe immediately to avoid multiple triggers
   }
-
   
-
-
 
   // Filter options based on input
   filterOptions(event: Event): void {

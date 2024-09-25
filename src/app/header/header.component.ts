@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router, NavigationEnd } from '@angular/router';
 import { AdminpopupComponent } from '../adminpopup/adminpopup.component';
 import { HeaderLabelService } from '../services/header-label.service';
+import { EmployeeService } from '../services/employee.service';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -17,7 +18,7 @@ export class HeaderComponent implements OnInit {
   descriptionTitle: string = '';
   username: string = '';
   filterClick: boolean = false;
-  constructor(private elRef: ElementRef, public dialog: MatDialog, private headerLabelService: HeaderLabelService, private router: Router) {}
+  constructor(private elRef: ElementRef, public dialog: MatDialog, private headerLabelService: HeaderLabelService, private router: Router, private employeeService: EmployeeService) {}
 
   ngOnInit(): void {
     // Retrieve the username from localStorage
@@ -43,6 +44,11 @@ export class HeaderComponent implements OnInit {
       if (event instanceof NavigationEnd) {
         this.showFilterButton = !event.urlAfterRedirects.includes('/dashboard');
       }
+    });
+
+    this.employeeService.filterClick$.subscribe((value: boolean) => {
+      this.filterClick = value;
+      console.log('Filter clicked:', this.filterClick);
     });
   }
 
@@ -85,5 +91,10 @@ export class HeaderComponent implements OnInit {
     // this.isActive = !this.isActive;
     // this.isDropdownOpen = this.isActive; 
     this.router.navigateByUrl('/main/admin')
+  }
+  
+  toggleFilterOptions(): void {
+    // Emit true when the filter is toggled
+    this.employeeService.setFilterClick(true);
   }
 }

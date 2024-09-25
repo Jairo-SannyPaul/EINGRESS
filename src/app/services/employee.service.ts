@@ -247,4 +247,12 @@ export class EmployeeService {
   setEditMode(isEditing: boolean) {
     this.editModeSource.next(isEditing);
   }
+
+  //for toggling filter
+  private filterClickSource = new BehaviorSubject<boolean>(false); // Default is false
+  filterClick$ = this.filterClickSource.asObservable();
+
+  setFilterClick(value: boolean): void {
+    this.filterClickSource.next(value); // Emit the new value
+  }
 }
