@@ -167,10 +167,6 @@
                 [disabled]="!userForm.valid"  
                 (click)="onSubmit()" 
                 [ngStyle]="{'background-color': userForm.valid ? '#2165C9' : '#2165C999'}">Submit </button>
-                <app-add-user-submit-popup 
-                [isVisible]="isPopupVisible" 
-                (close)="closePopup()">
-                </app-add-user-submit-popup>
             </div>
         </div>
     </div>

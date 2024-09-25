@@ -1,0 +1,41 @@
+<div *ngIf="changePass" class="changePass-modal">
+    <form [formGroup]="form">
+        <div class="modal">
+            <div class="upper-modal">
+                <span class="security">Security</span>
+                <span class="label">Change Password</span>
+                <div class="exit" (click)="exitModal()">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M1.4 14L0 12.6L5.6 7L0 1.4L1.4 0L7 5.6L12.6 0L14 1.4L8.4 7L14 12.6L12.6 14L7 8.4L1.4 14Z"
+                            fill="#464646" />
+                    </svg>
+                </div>
+            </div>
+            <div class="lower-modal">
+                <div class="forms">
+                    <div class="input-wrapper">
+                        <input [type]="showOldPass ? 'text' : 'password'" formControlName="oldPassword" class="old" placeholder="Old Password">
+                        <img [src]="showOldPass ? '/assets/images/showpass.png' : '/assets/images/hidepass.png'" (click)="toggleOldPass()">
+                    </div>
+                    <div class="input-wrapper newPass">
+                        <input [type]="showNewPass ? 'text' : 'password'" formControlName="newPassword" class="new" placeholder="New Password">
+                        <img [src]="showNewPass ? '/assets/images/showpass.png' : '/assets/images/hidepass.png'" (click)="toggleNewPass()">
+                        <span class="normal">Your password must be different from previously used passwords.</span>
+                    </div>
+                    <div class="input-wrapper confirmPass">
+                        <input [type]="showConfirmPass ? 'text' : 'password'" formControlName="confirmPassword" class="confirm" placeholder="Confirm Password">
+                        <img [src]="showConfirmPass ? '/assets/images/showpass.png' : '/assets/images/hidepass.png'" (click)="toggleConfirmPass()" 
+                             [ngClass]="{'img-error': passNotMatch}">
+                        <span *ngIf="passNotMatch" class="error-text">Password doesn’t match!</span>
+                    </div>
+                </div>
+                
+                <div class="save" (click)="saveChanges()" 
+                [ngClass]="{'disabled': form.invalid || form.pristine, 'enabled': !form.invalid && !form.pristine}">
+               Save Changes
+           </div>
+            </div>
+        </div>
+    </form>
+</div>

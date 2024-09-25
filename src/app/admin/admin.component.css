@@ -25,6 +25,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 32px;
 }
 
 
@@ -256,7 +257,7 @@
     align-items: center;
 }
 
-.instruction{
+.instruction {
     padding-left: 0;
     grid-column: 1 / 2;
     grid-row: 2 / 3;
@@ -266,11 +267,11 @@
     font-weight: 400;
 }
 
-.change{
+.change {
     padding-bottom: 5px;
 }
 
-.changePassBtn{
+.changePassBtn {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
@@ -280,10 +281,66 @@
     cursor: pointer;
 }
 
-.changePassBtn span{
+.changePassBtn span {
     margin-left: 5px;
     font-family: "Poppins";
     font-size: 16px;
     font-weight: 500;
 }
 
+
+.edit-mode {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: end;
+    gap: 8px;
+}
+
+.saveBtn {
+    width: 127px;
+    height: 33px;
+    padding: 6px, 12px, 6px, 12px;
+    border-radius: 3px 0px 0px 0px;
+    background-color: #70C964;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Poppins;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 21px;
+    text-align: left;
+    color: #FFFFFF;
+}
+
+.saveBtn:hover{
+    background-color: white;
+    border: 1px solid #70C964;
+    color: #70C964;
+}
+
+.cancel-hover:hover .svg-path {
+    fill: white; /* Change the fill color to white on hover */
+  }
+
+
+.cancel {
+    width: 32px;
+    height: 33px;
+    border-radius: 3px;
+    border: 1px solid #C0C0C0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cancel:hover {
+    background-color: #C0C0C0;
+}
+
+.editable-input {
+    background-color: white;
+    border: 1px solid #CFE0FC;
+    border-radius: 3px;
+}

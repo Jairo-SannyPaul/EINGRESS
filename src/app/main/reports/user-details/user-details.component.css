@@ -74,7 +74,14 @@ img{
     height:40.5px;
 }
 
-.user-role-text-wrap, .user-email-text-wrap{
+.user-role-text-wrap{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 17px;
+}
+
+.user-email-text-wrap{
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

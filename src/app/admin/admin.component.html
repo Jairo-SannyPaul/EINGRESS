@@ -1,4 +1,5 @@
 <div class="main-container">
+    <form [formGroup]="form">
     <div class="details">
         <div class="upper-details">
             <div class="gradient-cover"></div>
@@ -6,16 +7,16 @@
                 <div class="detail-holder">
                     <img class="profile-photo" src="/assets/images/max-smith.png" alt="">
                     <div class="name">
-                        <div class="upper-name">Sanny Paul Geraldino</div>
+                        <div class="upper-name">{{currentUsername}}</div>
                         <div class="lower-name">
-                            <span class="role">Software Engineer 1/Trainee</span>
-                            <span class="age">Age: 23</span>
-                            <span class="gender">Gender: Male</span>
+                            <span class="role">Admin</span>
+                            <span class="age">Age: {{currentAge}}</span>
+                            <span class="gender">Gender: {{currentGender}}</span>
                         </div>
                     </div>
                 </div>
-                <div class="edit-holder">
-                    <div class="edit">
+                <div class="edit-holder" *ngIf="!editMode" >
+                    <div class="edit" (click)="editAdmin()">
                         <svg width="10" height="11" viewBox="0 0 10 11" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path
                                 d="M0 10.5V8.68182H10V10.5H0ZM2 6.86364H2.7L6.6 3.32955L6.2375 3L5.8875 2.68182L2 6.22727V6.86364ZM1 7.77273V5.84091L6.6 0.761364C6.69167 0.67803 6.79792 0.613636 6.91875 0.568182C7.03958 0.522727 7.16667 0.5 7.3 0.5C7.43333 0.5 7.5625 0.522727 7.6875 0.568182C7.8125 0.613636 7.925 0.681818 8.025 0.772727L8.7125 1.40909C8.8125 1.49242 8.88542 1.59091 8.93125 1.70455C8.97708 1.81818 9 1.93561 9 2.05682C9 2.17045 8.97708 2.2822 8.93125 2.39205C8.88542 2.50189 8.8125 2.60227 8.7125 2.69318L3.125 7.77273H1ZM6.6 3.32955L6.2375 3L5.8875 2.68182L6.6 3.32955Z"
@@ -24,8 +25,18 @@
                         <span>Edit Profile</span>
                     </div>
                 </div>
+                <div class="edit-mode" *ngIf="editMode">
+                    <div class="saveBtn pointer" (click)="saveChanges()">Save Changes</div>
+                    <div class="cancel pointer cancel-hover" (click)="clearChanges()">
+                      <svg width="10" height="11" viewBox="0 0 10 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path class="svg-path" d="M1 10.5L0 9.5L4 5.5L0 1.5L1 0.5L5 4.5L9 0.5L10 1.5L6 5.5L10 9.5L9 10.5L5 6.5L1 10.5Z" fill="#C0C0C0"/>
+                      </svg>
+                    </div>
+                  </div>
+                  
             </div>
         </div>
+
         <div class="lower-details">
             <div class="complete-details">
                 <div class="details-right">
@@ -59,9 +70,49 @@
                         </div>
                     </div>
                     <div class="labelContents-right">
-                        <div class="value">Sanny Paul Geraldino</div>
-                        <div class="value">June 27, 2001</div>
-                        <div class="value">+63 908 167 3567</div>
+                        <input
+                        formControlName="username"
+                        type="text"
+                        class="value"
+                        [ngClass]="{ 'editable-input': editMode }"
+                        [ngStyle]="{
+                          'background-color': editMode ? 'white' : '#f8fbff',
+                          'border': editMode ? '1px solid #CFE0FC' : 'none',
+                          'border-radius': editMode ? '3px' : '0',
+                          'pointer-events': editMode ? 'auto' : 'none',
+                          'user-select': editMode ? 'auto' : 'none'  
+                        }"
+                        [attr.disabled]="!editMode ? true : null"
+                      />
+                      <input
+                        formControlName="bday"
+                        type="text"
+                        type="text"
+                        class="value"
+                        [ngClass]="{ 'editable-input': editMode }"
+                        [ngStyle]="{
+                          'background-color': editMode ? 'white' : '#f8fbff',
+                          'border': editMode ? '1px solid #CFE0FC' : 'none',
+                          'border-radius': editMode ? '3px' : '0',
+                          'pointer-events': editMode ? 'auto' : 'none',
+                          'user-select': editMode ? 'auto' : 'none'  
+                        }"
+                        [attr.disabled]="!editMode ? true : null"
+                      />
+                      <input
+                        formControlName="number"
+                        type="text"
+                        class="value"
+                        [ngClass]="{ 'editable-input': editMode }"
+                        [ngStyle]="{
+                          'background-color': editMode ? 'white' : '#f8fbff',
+                          'border': editMode ? '1px solid #CFE0FC' : 'none',
+                          'border-radius': editMode ? '3px' : '0',
+                          'pointer-events': editMode ? 'auto' : 'none',
+                          'user-select': editMode ? 'auto' : 'none'  
+                        }"
+                        [attr.disabled]="!editMode ? true : null"
+                      />
                     </div>
                 </div>
                 <div class="details-left">
@@ -92,14 +143,54 @@
                                     d="M19.95 21C17.8667 21 15.8083 20.5458 13.775 19.6375C11.7417 18.7292 9.89167 17.4417 8.225 15.775C6.55833 14.1083 5.27083 12.2583 4.3625 10.225C3.45417 8.19167 3 6.13333 3 4.05C3 3.75 3.1 3.5 3.3 3.3C3.5 3.1 3.75 3 4.05 3H8.1C8.33333 3 8.54167 3.07917 8.725 3.2375C8.90833 3.39583 9.01667 3.58333 9.05 3.8L9.7 7.3C9.73333 7.56667 9.725 7.79167 9.675 7.975C9.625 8.15833 9.53333 8.31667 9.4 8.45L6.975 10.9C7.30833 11.5167 7.70417 12.1125 8.1625 12.6875C8.62083 13.2625 9.125 13.8167 9.675 14.35C10.1917 14.8667 10.7333 15.3458 11.3 15.7875C11.8667 16.2292 12.4667 16.6333 13.1 17L15.45 14.65C15.6 14.5 15.7958 14.3875 16.0375 14.3125C16.2792 14.2375 16.5167 14.2167 16.75 14.25L20.2 14.95C20.4333 15.0167 20.625 15.1375 20.775 15.3125C20.925 15.4875 21 15.6833 21 15.9V19.95C21 20.25 20.9 20.5 20.7 20.7C20.5 20.9 20.25 21 19.95 21ZM6.025 9L7.675 7.35L7.25 5H5.025C5.10833 5.68333 5.225 6.35833 5.375 7.025C5.525 7.69167 5.74167 8.35 6.025 9ZM14.975 17.95C15.625 18.2333 16.2875 18.4583 16.9625 18.625C17.6375 18.7917 18.3167 18.9 19 18.95V16.75L16.65 16.275L14.975 17.95Z"
                                     fill="#464646" />
                             </svg>
-                            <span>Contact</span>
+                            <span>Address</span>
                         </div>
                     </div>
                     <div class="labelContents-left">
-                        <div class="value">23</div>
-                        <div class="value">sgeraldino@jairosoft.com</div>
-                        <div class="value">Davao City, Davao Del Sur 8000</div>
-                    </div>
+                        <input
+                        formControlName="age"
+                        type="text"
+                        class="value"
+                        [ngClass]="{ 'editable-input': editMode }"
+                        [ngStyle]="{
+                          'background-color': editMode ? 'white' : '#f8fbff',
+                          'border': editMode ? '1px solid #CFE0FC' : 'none',
+                          'border-radius': editMode ? '3px' : '0',
+                          'pointer-events': editMode ? 'auto' : 'none',
+                          'user-select': editMode ? 'auto' : 'none'  
+                        }"
+                        [attr.disabled]="!editMode ? true : null"
+                        />
+                        <input
+                        formControlName="email"
+                        type="text"
+                        class="value"
+                        [ngClass]="{ 'editable-input': editMode }"
+                        [ngStyle]="{
+                          'background-color': editMode ? 'white' : '#f8fbff',
+                          'border': editMode ? '1px solid #CFE0FC' : 'none',
+                          'border-radius': editMode ? '3px' : '0',
+                          'pointer-events': editMode ? 'auto' : 'none',
+                          'user-select': editMode ? 'auto' : 'none'  
+                        }"
+                        [attr.disabled]="!editMode ? true : null"
+                        />
+                        <input
+                        formControlName="address"
+                        type="text"
+                        class="value"
+                        [ngClass]="{ 'editable-input': editMode }"
+                        [ngStyle]="{
+                          'background-color': editMode ? 'white' : '#f8fbff',
+                          'border': editMode ? '1px solid #CFE0FC' : 'none',
+                          'border-radius': editMode ? '3px' : '0',
+                          'pointer-events': editMode ? 'auto' : 'none',
+                          'user-select': editMode ? 'auto' : 'none'  
+                        }"
+                        [attr.disabled]="!editMode ? true : null"
+                        />
+                      </div>
+                      
                 </div>
             </div>
         </div>
@@ -118,5 +209,6 @@
             </div>
         </div>
     </div>
+</form>
 </div>
 

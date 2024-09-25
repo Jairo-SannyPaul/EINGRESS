@@ -27,6 +27,7 @@ import { Table1Component } from './main/reports/table1/table1.component';
 import { UserDetailsComponent } from './main/reports/user-details/user-details.component';
 import { LoginSessionsComponent } from './main/reports/login-sessions/login-sessions.component';
 
+
 import { CustomInterceptor } from './services/custom.interceptor';
 
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
@@ -54,10 +55,12 @@ import { HeaderSearchComponent } from './header/header-search/header-search.comp
 import { HeaderBellComponent } from './header/header-bell/header-bell.component';
 import { HeaderProfileComponent } from './header/header-profile/header-profile.component';
 import { AdminComponent } from './admin/admin.component';
-import { AddUserSubmitPopupComponent } from './main/users/add-user-submit-popup/add-user-submit-popup.component';
-
+import { SuccessPopupComponent } from './success-popup/success-popup.component';
+import { ErrorPopupComponent } from './error-popup/error-popup.component';
+import { AdminChangepassModalComponent} from './admin-changepass-modal/admin-changepass-modal.component';
+import { AdminDiscardPopupComponent } from './admin-discard-popup/admin-discard-popup.component';
 const routes: Routes = [
-  { path: 'submit-popup', component: AddUserSubmitPopupComponent },
+  { path: 'submit-popup', component: SuccessPopupComponent },
 ];
 
 @NgModule({
@@ -96,7 +99,10 @@ const routes: Routes = [
     HeaderBellComponent,
     HeaderProfileComponent,
     AdminComponent,
-    AddUserSubmitPopupComponent,
+    SuccessPopupComponent,
+    ErrorPopupComponent,
+    AdminChangepassModalComponent,
+    AdminDiscardPopupComponent,
   ],
   imports: [
     RouterModule.forRoot(routes),

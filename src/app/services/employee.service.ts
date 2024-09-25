@@ -28,7 +28,7 @@ export class EmployeeService {
 
   setToggle: boolean = false;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getEmployee(): Observable<Employee[]> {
     const getEmployeeInfoUrl = `${this.apiUrl}`;
@@ -43,19 +43,19 @@ export class EmployeeService {
 
   deleteEmployee(id: number): Observable<any> {
     const formData: FormData = new FormData();
-  
+
     // Only update the delDate field to the current date
-    const deldate = new Date().toISOString(); 
+    const deldate = new Date().toISOString();
     const employeeData = { deldate };
-  
+
     // Append employee data (with only delDate) to FormData
     formData.append('employee', JSON.stringify(employeeData));
-    
+
     const updateEmployeeUrl = `${this.apiUrl}/${id}`;
     return this.http.put(updateEmployeeUrl, formData); // Send PUT request with FormData
   }
-  
-  
+
+
 
   addEmployee(employee: Employee, file: File): Observable<any> {
     const formData: FormData = new FormData();
@@ -78,11 +78,11 @@ export class EmployeeService {
       formData.append('file', file);
     }
     formData.append('employee', JSON.stringify(employee));
-  
+
     const updateEmployeeUrl = `${this.apiUrl}/${id}`;
-    return this.http.put<Employee>(updateEmployeeUrl, formData); 
+    return this.http.put<Employee>(updateEmployeeUrl, formData);
   }
-  
+
   updateEmployeeWithoutImage(id: number, employee: Employee): Observable<any> {
     const formData: FormData = new FormData();
     formData.append('employee', JSON.stringify(employee));
@@ -96,18 +96,18 @@ export class EmployeeService {
         const selectedFilter = this.selectedFilterSource.getValue();
         const filteredEmployees = employees.filter(employee => {
           const searchValueLower = searchInputValue.toLowerCase();
-  
+
           switch (selectedFilter) {
             case 'name':
               return employee.fullname.toLowerCase().startsWith(searchValueLower);
-              // return employee.fullname.toLowerCase().includes(searchValueLower); use this if they want keyword letters
+            // return employee.fullname.toLowerCase().includes(searchValueLower); use this if they want keyword letters
             case 'role':
               return employee.role.toLowerCase().includes(searchValueLower);
             case 'rfid':
               return employee.rfidtag?.toLowerCase().includes(searchValueLower) || false;
             case 'fingerprint':
               return employee.fingerprint1?.toLowerCase().includes(searchValueLower) ||
-                     employee.fingerprint2?.toLowerCase().includes(searchValueLower);
+                employee.fingerprint2?.toLowerCase().includes(searchValueLower);
             default:
               return false;
           }
@@ -116,7 +116,7 @@ export class EmployeeService {
       })
     );
   }
-  
+
   countBiometricRegistrations(): Observable<{ BioRegistered: number; noBioRegistered: number }> {
     return this.getEmployee().pipe(
       map(employees => {
@@ -140,7 +140,7 @@ export class EmployeeService {
   }
   getEmployeeById(id: string): Observable<Employee> {
     return this.http.get<Employee>(`${this.apiUrl}/${id}`);
-  }  
+  }
   triggerDelete() {
     this.deletedClickedSource.next();
   }
@@ -182,5 +182,50 @@ export class EmployeeService {
 
   updateCheckedState(isChecked: boolean) {
     this.checkedStateSource.next(isChecked);
+  }
+  //for success popup
+  private popupVisibleSubject = new BehaviorSubject<boolean>(false);
+  popupVisible$ = this.popupVisibleSubject.asObservable();
+
+  setPopupVisibility(isVisible: boolean) {
+    this.popupVisibleSubject.next(isVisible);
+  }
+
+  //for error popup
+  private errorPopupVisibleSubject = new BehaviorSubject<boolean>(false);
+  errorPopupVisibleSubject$ = this.errorPopupVisibleSubject.asObservable();
+
+  setPopupErrorVisibility(isVisible: boolean) {
+    this.errorPopupVisibleSubject.next(isVisible);
+  }
+
+  //for discard popup
+  private discardPopupVisibleSubject = new BehaviorSubject<boolean>(false);
+  discardPopupVisibleSubject$ = this.discardPopupVisibleSubject.asObservable();
+
+  setDiscardPopupVisibility(isVisible: boolean) {
+    this.discardPopupVisibleSubject.next(isVisible);
+  }
+
+  //for user modal popup
+  private modalVisibleSubject = new BehaviorSubject<boolean>(false);
+  modalVisible$ = this.modalVisibleSubject.asObservable();
+  openModal() {
+    this.modalVisibleSubject.next(true);
+  }
+  closeModal() {
+    this.modalVisibleSubject.next(false);
+  }
+
+  //for clicking yes in discard popup
+  private editModeSource = new BehaviorSubject<boolean>(false);
+  editMode$ = this.editModeSource.asObservable();
+  
+  closeEditModeAndReload() {
+    this.setEditMode(false); // Close edit mode
+    this.triggerReload(); // Trigger reload for other components that need to refresh
+  }
+  setEditMode(isEditing: boolean) {
+    this.editModeSource.next(isEditing);
   }
 }

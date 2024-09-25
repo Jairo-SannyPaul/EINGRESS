@@ -49,7 +49,7 @@
 
 .user-details {
     display: flex;
-    padding: 26px 36px 26px 26px;
+    padding: 26px 36px 31px 26px;
     flex-direction: column;
     align-items: flex-start;
     justify-items: center;
