@@ -19,7 +19,7 @@ export class HeaderBellComponent {
   maxEmployeesDisplayed: number = 100;
   isNotificationOpen = false;
   isPreviousNotificationsView = false;
-  hasNewAlerts = false;
+  hasNewAlerts: boolean = false;
 
   constructor(
     private employeeService: EmployeeService,
@@ -33,6 +33,9 @@ export class HeaderBellComponent {
   //     { type: 'error', message: 'Unregister: Someone is trying to enter.' }
   // ];
     this.loadRecentAlerts();
+    // Check if there is a stored value for hasNewAlerts in local storage
+    const storedHasNewAlerts = localStorage.getItem('hasNewAlerts');
+    this.hasNewAlerts = storedHasNewAlerts === 'true'; // Set from local storage
   }
 
   // Method to toggle notification dropdown visibility
@@ -41,7 +44,11 @@ export class HeaderBellComponent {
       // If closing, reset the previous notifications view
       this.isPreviousNotificationsView = false;
     } else {
-      this,this.hasNewAlerts = false;
+      // If opening, only set hasNewAlerts to false if there are new alerts
+      if (this.hasNewAlerts) {
+        this.hasNewAlerts = false;
+        localStorage.setItem('hasNewAlerts', 'false'); // Update local storage
+      }
     }
     this.isNotificationOpen = !this.isNotificationOpen;
   }
@@ -77,10 +84,8 @@ export class HeaderBellComponent {
                     return { type: 'error', message: message, timestamp: timestamp };
                 });
 
-                // Check if new alerts have arrived since the last check
-      if (errorLogAlerts.length > this.recentAlerts.length) {
-        this.hasNewAlerts = true;
-      }
+                const previousAlertCount = this.recentAlerts.length;
+
 
             // Sort the logs by timestamp (most recent first)
             this.recentAlerts = errorLogAlerts
@@ -91,6 +96,14 @@ export class HeaderBellComponent {
                     message: alert.message,
                     timestamp: alert.timestamp
                 }));
+
+              // Check for new alerts
+              this.hasNewAlerts = this.recentAlerts.some(alert =>
+                alert.message === 'Unregister' || alert.message === 'Unauthorized Bio'
+              );
+
+              // Update local storage for hasNewAlerts
+              localStorage.setItem('hasNewAlerts', String(this.hasNewAlerts));
 
             console.log(this.recentAlerts); // Debugging: Logs the processed alerts
         },
@@ -126,13 +139,13 @@ export class HeaderBellComponent {
 
     if (timeDiffInSeconds < 3600) {
       const minutes = Math.floor(timeDiffInSeconds / 60);
-      return minutes === 1 ? '1 minute ago' : `${minutes} minutes ago`;
+      return minutes === 1 ? '1m ago' : `${minutes}m ago`;
     } else if (timeDiffInSeconds < 86400) {
       const hours = Math.floor(timeDiffInSeconds / 3600);
-      return hours === 1 ? '1 hour ago' : `${hours} hours ago`;
+      return hours === 1 ? '1h ago' : `${hours}h ago`;
     } else {
       const days = Math.floor(timeDiffInSeconds / 86400);
-      return days === 1 ? '1 day ago' : `${days} days ago`;
+      return days === 1 ? '1day ago' : `${days}days ago`;
     }
   }
 

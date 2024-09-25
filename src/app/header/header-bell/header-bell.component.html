@@ -4,6 +4,9 @@
     <div class="notification-dropdown" [ngClass]="{ 'show': isNotificationOpen }">
         <div class="dropdown-header">
             <h4>Notifications</h4>
+            <button class="close-button" (click)="isNotificationOpen = false">
+                <img src="/assets/images/close-button.svg" alt="close">
+            </button>
         </div>
         <div class="dropdown-body" [ngStyle]="{ height: isPreviousNotificationsView ? '750px' : '392px' }">
             <div *ngIf="recentAlerts.length === 0">

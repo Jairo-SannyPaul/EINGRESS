@@ -4,8 +4,8 @@
   display: flex;
   position: absolute;
   justify-content: center;
-  width: calc(100% - 48px);
-  height: calc(100% - 48px);
+  width: 100%;
+  height: 100%;
   left: 48px;
   transition: left 0.2s ease, width 0.2s ease-out;
 }
@@ -15,7 +15,7 @@
   position: absolute;
   justify-content: center;
   background-color: #EDF4FF;
-  width: calc(100% - 48px);
+  width: 100%;
   height: 100%;
   top: 95px;
   left: 48px;
