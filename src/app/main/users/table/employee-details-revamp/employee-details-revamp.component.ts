@@ -1,7 +1,7 @@
-import { Component, ViewChild, ElementRef, HostListener } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, Input, OnChanges, OnInit, Output, SimpleChanges, ElementRef, ViewChild, HostListener } from '@angular/core';
+import { Employee } from 'src/app/interface/employee.interface';
 import { EmployeeService } from 'src/app/services/employee.service';
-import { DialogService } from 'src/app/services/dialog.service';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-employee-details-revamp',
@@ -9,13 +9,16 @@ import { DialogService } from 'src/app/services/dialog.service';
   styleUrls: ['./employee-details-revamp.component.css']
 })
 export class EmployeeDetailsRevampComponent {
-  isVisible: boolean = false;
-  addUserForm: boolean = false;
-  userForm: FormGroup;
-  selectedImage!: File;
-  isPopupVisible: boolean = false; // Popup visibility flag
-  constructor(private formBuilder: FormBuilder, private employeeService: EmployeeService, private dialogService: DialogService) {
-    this.userForm = this.formBuilder.group({
+  updateEmployeeForm!: FormGroup;
+  employeeDetails!: Employee | undefined;
+  hasVal: boolean = false;
+  added!: boolean;
+  route: any;
+  constructor(
+    private employeeService: EmployeeService,
+    private formBuilder: FormBuilder
+  ){
+    this.updateEmployeeForm = this.formBuilder.group({
       fullname: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       role: ['', Validators.required],
@@ -27,155 +30,62 @@ export class EmployeeDetailsRevampComponent {
       branch: ['', Validators.required],
     });
   }
+  ngOnInit(): void {
+    this.employeeService.selectedEmployee$.subscribe((employee) => {
+      if (employee) {
+        this.showEmployeeDetails(employee);
+      }
+    });
+    
+    this.route.queryParams.subscribe((params: { [x: string]: any; }) => {
+      const userId = params['userId'];
+      if (userId) {
+        this.loadEmployeeDetails(userId);
+      }
+    });
+  }
+
+    loadEmployeeDetails(userId: string): void {
+    this.employeeService.getEmployeeById(userId).subscribe(employee => {
+      this.employeeDetails = employee;
+      this.updateEmployeeForm.patchValue(employee);
+    }, error => {
+      console.error('Error fetching employee details:', error);
+    });
+  }
+
+
 
   @HostListener('window:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
     if (event.key === 'Escape') {
-      this.hideAddUserModal();
+      this.exitUpdateModal();
+      console.log("esc clicked");
     }
   }
-
-  preventDefault(event: Event): void {
-    if ((event as KeyboardEvent).key === 'Enter') {
-      event.preventDefault();
-    }
+  exitUpdateModal(){
+    this.employeeService.closeUpdateModal();
   }
 
-  newEmployee = {
-    id: 0,
-    fullname: '',
-    email: '',
-    phone: '',
-    role: '',
-    rfidtag: '',
-    profileImage: '',
-    fingerprint1: '',
-    fingerprint2: '',
-    branch: ''
-  };
-
-  resetForm() {
-    this.userForm.reset();
-    this.newEmployee = {
-      id: 0,
-      fullname: '',
-      email: '',
-      phone: '',
-      role: '',
-      rfidtag: '',
-      profileImage: '',
-      fingerprint1: '',
-      fingerprint2: '',
-      branch: ''
-    }
-  }
-
-
-  // Show the modal
-  showAddUserModal(): void {
-    this.isVisible = true;
-  }
-  // Hide the modal
-  hideAddUserModal(): void {
-    this.employeeService.closeModal();
-    this.resetForm(); // Clear form on closing
-  }
-
-   // Utility function to generate profile picture data
-  generateProfilePicture(initial: string): string {
-    const canvas = document.createElement('canvas');
-    const size = 100; // Adjust the canvas size as needed
-    canvas.width = size;
-    canvas.height = size;
-    const ctx = canvas.getContext('2d');
-
-    if (ctx) {
-      // Generate random gradient
-      const gradient = ctx.createLinearGradient(0, 0, size, size);
-      const colors = this.getRandomColors();
-      gradient.addColorStop(0, colors[0]);
-      gradient.addColorStop(1, colors[1]);
-
-      // Draw the background gradient
-      ctx.fillStyle = gradient;
-      ctx.fillRect(0, 0, size, size);
-
-      // Draw the initial
-      ctx.fillStyle = '#FFF'; // White color for the text
-      ctx.font = 'bold 50px Arial'; // Adjust font size and style
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText(initial, size / 2, size / 2);
-    }
-
-    // Return the base64 image data
-    return canvas.toDataURL('image/png');
-  }
-
-  // Helper function to generate random colors for the gradient
-  getRandomColors(): [string, string] {
-    const randomColor = () => `#${Math.floor(Math.random() * 16777215).toString(16)}`;
-    return [randomColor(), randomColor()];
-  }
-
-
-  // Submit the form data
-  onSubmit(): void {
-    // Mark all fields as touched to trigger validation messages
-    this.userForm.markAllAsTouched();
-    this.userForm.get('fingerprint2')?.setValue('');
-    if (this.userForm.valid) {
-      const newEmployee = this.userForm.value;
-
-      const handleError = (error: any) => {
-        let errorMessage = 'Error creating employee.';
-        if (error.status === 400 && error.error && error.error.message) {
-          // Extract the message from the backend response
-          errorMessage = error.error.message;
-        }
-        this.employeeService.closeModal(); //close the modal
-        this.employeeService.setPopupErrorVisibility(true); //show error popup
-      };
-
-      if (!this.selectedImage) {
-        this.employeeService.addEmployeeWithoutImage(newEmployee)
-          .subscribe(
-            response => {
-              this.employeeService.closeModal(); //close the modal
-              this.employeeService.setPopupVisibility(true) // Show the popup;
-            },
-            handleError
-          );
-      } else {
-        this.employeeService.addEmployee(newEmployee, this.selectedImage)
-          .subscribe(
-            response => {
-              this.employeeService.closeModal(); //close the modal
-              this.employeeService.setPopupVisibility(true) // Show the popup;
-            },
-            handleError
-          );
-      }
-    } else {
-      if (this.userForm.get('email')?.errors?.['email']) {
-        this.employeeService.closeModal();
-        this.dialogService.openAlertDialog('Please enter a valid email address.');
-      } else {
-        this.employeeService.closeModal();
-        this.dialogService.openAlertDialog('Please fill in all required fields correctly.');
-      }
-    }
-  }
-
-  // Form validation logic (you can add more complex logic here if needed)
-  validateForm(): boolean {
-    return this.userForm.valid;
-  }
+  showEmployeeDetails(employee: Employee): void {
+    console.log("patching values: ", employee )
+    console.log(employee);
+    this.updateEmployeeForm.patchValue({
+      fullname: employee.fullname,
+      email: employee.email,
+      role: employee.role,
+      phone: employee.phone,
+      rfidtag: employee.rfidtag,
+      fingerprint1: employee.fingerprint1,
+      fingerprint2: employee.fingerprint2,
+      branch: employee.branch
+    });
+    this.employeeDetails = employee;
   
-
-  closePopup(): void {
-    this.isPopupVisible = false; // Hide the popup
-    this.isVisible = false;
-    this.resetForm(); // Clear form on closing
+    const fingerprint2Value = this.updateEmployeeForm.get('fingerprint2')?.value;
+    if (fingerprint2Value) {
+      this.hasVal = true;
+      this.added = true;
+    }
   }
 }

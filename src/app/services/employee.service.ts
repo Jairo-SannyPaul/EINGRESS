@@ -218,7 +218,7 @@ export class EmployeeService {
   }
 
   //for update modal popup
-  private updateModalVisibleSubject = new BehaviorSubject<boolean>(true);
+  private updateModalVisibleSubject = new BehaviorSubject<boolean>(false);
   updateModalVisible$ = this.updateModalVisibleSubject.asObservable();
   openUpdateModal() {
     console.log("update modal opened")
@@ -226,6 +226,14 @@ export class EmployeeService {
   }
   closeUpdateModal() {
     this.updateModalVisibleSubject.next(false);
+  }
+
+  //selected Employee for update modal
+  private selectedEmployeeSubject = new BehaviorSubject<Employee | null>(null);
+  selectedEmployee$ = this.selectedEmployeeSubject.asObservable();
+
+  setSelectedEmployee(employee: Employee) {
+    this.selectedEmployeeSubject.next(employee);
   }
 
   //for clicking yes in discard popup

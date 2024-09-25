@@ -245,7 +245,6 @@ export class UserSelectionComponent implements OnInit, OnDestroy {
   }
 
   selectedEmployee(employee: Employee) {
-    this.employeeService.openUpdateModal();
     this.employeeSelected.emit(employee);
   }
 

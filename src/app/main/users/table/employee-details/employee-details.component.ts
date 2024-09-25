@@ -63,6 +63,7 @@ export class EmployeeDetailsComponent implements OnChanges {
   }
 
   loadEmployeeDetails(userId: string): void {
+    console.log("Patching values")
     this.employeeService.getEmployeeById(userId).subscribe(employee => {
       this.employeeDetails = employee;
       this.updateEmployeeForm.patchValue(employee);
@@ -186,6 +187,7 @@ export class EmployeeDetailsComponent implements OnChanges {
   }
 
   showEmployeeDetails(employee: Employee): void {
+ 
     this.updateEmployeeForm.patchValue({
       fullname: employee.fullname,
       email: employee.email,
