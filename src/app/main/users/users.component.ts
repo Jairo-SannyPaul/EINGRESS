@@ -5,6 +5,9 @@ import { EmployeeService } from 'src/app/services/employee.service';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { SearchfieldComponent } from './searchfield/searchfield.component';
 import { Subscription } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+
+
 import { HeaderLabelService } from 'src/app/services/header-label.service';
 
 @Component({
@@ -39,6 +42,7 @@ export class UsersComponent {
   @ViewChild(SearchfieldComponent) searchFieldComponent!: SearchfieldComponent;
   @Output() sortOptionChanged = new EventEmitter<string>();
 
+  filterStatus: string = '';
   filterToggle: boolean = false;
   selectedFilter: string = 'name';
   sortOption: string = 'nameAsc';
@@ -47,6 +51,7 @@ export class UsersComponent {
   constructor(
     private employeeService: EmployeeService,
     private headerLabelService: HeaderLabelService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -55,9 +60,22 @@ export class UsersComponent {
       this.sortOption = sortOption;
     });
 
+    this.route.queryParams.subscribe(params => {
+      this.filterStatus = params['status'] || '';
+
+      if (this.filterStatus === 'registered') {
+          // Apply the filter logic for registered users
+          this.filterUsersByStatus('registered');
+      }
+  });
+
     // Update the header title to "Dashboard"
     this.headerLabelService.updateTitle('Users Overview');
   }
+
+  filterUsersByStatus(status: string) {
+    // Add your filtering logic here to filter users by the 'registered' status
+}
 
 onSortChange(sortOption?: string) {
   if (sortOption) {

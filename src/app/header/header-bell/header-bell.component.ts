@@ -51,45 +51,10 @@ export class HeaderBellComponent {
   }
 
   loadRecentAlerts() {
-    combineLatest([
-        this.employeeService.getEmployee(),
-        this.accessLogService.getAccessLogs(),
-        this.errorLogService.getErrorLogs()
-    ]).subscribe(
-        ([employees, accessLogs, errorLogs]: [Employee[], AccessLog[], ErrorLog[]]) => {
+    this.errorLogService.getErrorLogs().subscribe(
+        (errorLogs: ErrorLog[]) => {
             const currentDate = new Date().toLocaleDateString();
-  
-            // Process access logs
-            this.matchedEmployees = employees.filter(employee => {
-                return employee.accessLogs?.some(log => new Date(log.accessDateTime).toLocaleDateString() === currentDate);
-            });
-
-            this.matchedEmployees.sort((a, b) => {
-                const accessTimeA = this.getMostRecentAccessTime(a);
-                const accessTimeB = this.getMostRecentAccessTime(b);
-                return accessTimeB.getTime() - accessTimeA.getTime();
-            });
-  
-            const firstSixEmployees = this.matchedEmployees.slice(0, this.maxEmployeesDisplayed);
-            const accessLogAlerts = firstSixEmployees.map(employee => {
-                const mostRecentTime = this.getMostRecentAccessTime(employee);
-                const timestamp = mostRecentTime.toISOString();
-                let message: string;
-  
-                // Check for RFID and biometric conditions
-                if (!employee.rfidtag) {
-                    message = `Unregister`;
-                } else if (employee.fingerprint1) {
-                    message = `Unauthorized Bio`;
-                } else if (employee.fingerprint2) {
-                    message = `Unauthorized Bio`;
-                } else {
-                    message = `${employee.fullname} has entered the building`;
-                }
-
-                return { type: 'login', message: message, timestamp: timestamp };
-            });
-
+            
             // Process error logs
             const errorLogAlerts = errorLogs
                 .filter(log => new Date(log.timestamp!).toLocaleDateString() === currentDate)
@@ -97,37 +62,35 @@ export class HeaderBellComponent {
                     const timestamp = log.timestamp || '';
                     let message: string;
 
-                    // Transform error log messages accordingly
+                    // Transform error log messages into alerts
                     if (log.message === 'Employee not found.') {
                         message = `Unregister`;
                     } else if (log.message === 'Error Fingerprint not match:') {
                         message = `Unauthorized Bio`;
                     } else {
-                        message = log.message;
+                        message = log.message; // Catch-all for other messages
                     }
 
                     return { type: 'error', message: message, timestamp: timestamp };
                 });
 
-            // Combine and sort by time (most recent first)
-            const combinedAlerts = [...accessLogAlerts, ...errorLogAlerts];
-            this.recentAlerts = combinedAlerts
+            // Sort the logs by timestamp (most recent first)
+            this.recentAlerts = errorLogAlerts
                 .sort((a, b) => new Date(b.timestamp!).getTime() - new Date(a.timestamp!).getTime())
-                .slice(0, 100) 
+                .slice(0, 100) // Limit to 100 most recent alerts
                 .map(alert => ({
                     type: alert.type,
                     message: alert.message,
                     timestamp: alert.timestamp
                 }));
 
-            console.log(this.recentAlerts);
+            console.log(this.recentAlerts); // Debugging: Logs the processed alerts
         },
         error => {
-            console.error('Error fetching data:', error);
+            console.error('Error fetching error logs:', error);
         }
     );
 }
-
 
   filterAndSortAlerts(alerts: { type: string, message: string, timestamp?: string }[]): { type: string, message: string }[] {
     return alerts

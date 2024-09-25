@@ -69,6 +69,7 @@
 .employee-rfid {
   font-size: 12px;
   font-weight: 400;
+  margin-right: 15px;
   color: #464646; /* Make the RFID tag lighter in color */
 }
 

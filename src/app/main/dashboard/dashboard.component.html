@@ -1,12 +1,12 @@
 <div class="content1">
-    <div class="total-registered">
+    <div class="total-registered pointer" (click)="redirectToUsersStatus()">
         <img src="assets/images/total-registered-icon.svg" alt="Total Registered Icon" class="icon">
         <div class="content">
             <div class="number">{{TotalRegistered}}</div>
             <span>Total Registered</span>
         </div>
     </div>    
-    <div class="logins-today pointer" >
+    <div class="logins-today" >
         <img src="assets/images/logins-today-icon.svg" alt="Logins Today Icon" class="icon">
         <div class="content">
             <div class="number">{{LoginsToday}}</div>
@@ -22,7 +22,7 @@
       <!-- <div class="count">{{ NotOnSite }}</div> -->
        </div>
     </div>
-    <div class="total pointer" >
+    <div class="total" >
         <img src="assets/images/unregistered-icon.svg" alt="Unregistered Icon" class="icon">
         <div class="content">
             <div class="number">{{noBio}}</div>
