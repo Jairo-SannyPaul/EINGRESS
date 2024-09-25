@@ -115,6 +115,10 @@ export class AddUserModalComponent {
       const firstLetter = this.getFirstLetter(newEmployee.fullname);
       console.log('First letter of fullname:', firstLetter); // Log the first letter
 
+        // Set the profileImage using the first letter of the fullname with a random gradient
+      const gradient = this.generateRandomGradient();
+      newEmployee.profileImage = `${firstLetter}|${gradient}`; // Store both the letter and gradient
+
 
       const handleError = (error: any) => {
         let errorMessage = 'Error creating employee.';
