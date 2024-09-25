@@ -1,10 +1,11 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit, OnDestroy } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { EmployeeService } from '../services/employee.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { User } from '../interface/user.interface';
 import { Subscription } from 'rxjs';
 import { HeaderComponent } from '../header/header.component';
+import { HeaderLabelService } from '../services/header-label.service';
 
 @Component({
   selector: 'app-admin',
@@ -22,6 +23,8 @@ export class AdminComponent {
   currentGender!: string;
   originalValues: any;
   discardPopupVisible: boolean = false; 
+  descriptionTitle: string | null = null;
+  private titleSubscription!: Subscription;
 
   private reloadSubscription: Subscription = new Subscription();
 
@@ -29,7 +32,8 @@ export class AdminComponent {
   constructor(
     private userService: UserService,
     private employeeService: EmployeeService,
-    private formbuilder: FormBuilder) {
+    private formbuilder: FormBuilder,
+    private headerLabelService: HeaderLabelService) {
     this.form = this.formbuilder.group({
       username: [''],
       bday: [''],
@@ -51,6 +55,13 @@ export class AdminComponent {
 
 
   ngOnInit() {
+    this.titleSubscription = this.headerLabelService.currentDescription.subscribe(description => {
+      this.descriptionTitle = description;
+    });
+
+    this.headerLabelService.updateTitle('Admin Details');
+    this.headerLabelService.updateHeaderTitle('Profile &  Security ')
+
     this.currentAdmin = this.userService.currentUserId;
     console.log("Current ID: ", this.currentAdmin);
 
@@ -74,6 +85,7 @@ export class AdminComponent {
   }
 
   ngOnDestroy() {
+    this.headerLabelService.clearDescription();
     this.reloadSubscription.unsubscribe();
   }
 
