@@ -3,13 +3,12 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { DialogService } from 'src/app/services/dialog.service';
 
-
 @Component({
-  selector: 'app-add-user-modal',
-  templateUrl: './add-user-modal.component.html',
-  styleUrls: ['./add-user-modal.component.css']
+  selector: 'app-employee-details-revamp',
+  templateUrl: './employee-details-revamp.component.html',
+  styleUrls: ['./employee-details-revamp.component.css']
 })
-export class AddUserModalComponent {
+export class EmployeeDetailsRevampComponent {
   isVisible: boolean = false;
   addUserForm: boolean = false;
   userForm: FormGroup;

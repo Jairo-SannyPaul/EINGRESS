@@ -217,6 +217,17 @@ export class EmployeeService {
     this.modalVisibleSubject.next(false);
   }
 
+  //for update modal popup
+  private updateModalVisibleSubject = new BehaviorSubject<boolean>(true);
+  updateModalVisible$ = this.updateModalVisibleSubject.asObservable();
+  openUpdateModal() {
+    console.log("update modal opened")
+    this.updateModalVisibleSubject.next(true);
+  }
+  closeUpdateModal() {
+    this.updateModalVisibleSubject.next(false);
+  }
+
   //for clicking yes in discard popup
   private editModeSource = new BehaviorSubject<boolean>(false);
   editMode$ = this.editModeSource.asObservable();

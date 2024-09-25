@@ -15,13 +15,15 @@ export class TableComponent {
   showStatusSelection: boolean = false;
   @Input() sortOption: string = '';
   @Output() statusChanged = new EventEmitter<string>(); // Emit status changes
-  @ViewChild(EmployeeDetailsComponent) employeeDetailsComponent!: EmployeeDetailsComponent; 
+  // @ViewChild(EmployeeDetailsComponent) employeeDetailsComponent!: EmployeeDetailsComponent; 
   deleteMode: boolean = false;
 
   constructor(private employeeService: EmployeeService) {}
 
   onEmployeeSelected(employee: Employee) {
-    this.employeeDetailsComponent.showEmployeeDetails(employee);
+    // this.employeeDetailsComponent.showEmployeeDetails(employee);
+    console.log("Selected Employee")
+    this.employeeService.openUpdateModal();
   }
 
   ngOnInit() {
