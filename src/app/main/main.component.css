@@ -1,3 +1,4 @@
+
 .header {
   background-color: #EDF4FF;
   display: flex;
@@ -6,7 +7,6 @@
   width: calc(100% - 48px);
   height: calc(100% - 48px);
   left: 48px;
-  z-index: -1;
   transition: left 0.2s ease, width 0.2s ease-out;
 }
 
@@ -16,22 +16,16 @@
   justify-content: center;
   background-color: #EDF4FF;
   width: calc(100% - 48px);
+  height: 100%;
   top: 95px;
   left: 48px;
   transition: left 0.2s ease, width 0.2s ease-out;
-  z-index: -1;
 }
 
-
-/* .navbar:not(.locked):hover ~ .pages {
-    width: calc(100% - 216px);
-    left: 216px;
-  } */
-
-  .contents.navbar-locked .header {
-    width: calc(100% - 216px);
-    left: 300px;
-    transition: 0.2s ease;
+.contents.navbar-locked .header {
+  width: calc(100% - 216px);
+  left: 300px;
+  transition: 0.2s ease;
 }
 
 .navbar.locked~.pages {
@@ -57,9 +51,6 @@
   transition: left 0.2s ease, width 0.2s ease-out;
   background-color: #EDF4FF;
 }
-
-
-
 
 @media screen and (max-width: 1620px) {
   .inner-page {

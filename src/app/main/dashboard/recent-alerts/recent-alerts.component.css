@@ -13,7 +13,6 @@
     justify-content: space-between;
     position: sticky;
     top: 0;
-    z-index: 1;
     grid-template-columns: 33% 33% 33%;
     /* Fixed width first column, rest are 1fr */
     color: #464646;

@@ -19,6 +19,7 @@ export class HeaderBellComponent {
   maxEmployeesDisplayed: number = 100;
   isNotificationOpen = false;
   isPreviousNotificationsView = false;
+  hasNewAlerts = false;
 
   constructor(
     private employeeService: EmployeeService,
@@ -39,6 +40,8 @@ export class HeaderBellComponent {
     if (this.isNotificationOpen) {
       // If closing, reset the previous notifications view
       this.isPreviousNotificationsView = false;
+    } else {
+      this,this.hasNewAlerts = false;
     }
     this.isNotificationOpen = !this.isNotificationOpen;
   }
@@ -73,6 +76,11 @@ export class HeaderBellComponent {
 
                     return { type: 'error', message: message, timestamp: timestamp };
                 });
+
+                // Check if new alerts have arrived since the last check
+      if (errorLogAlerts.length > this.recentAlerts.length) {
+        this.hasNewAlerts = true;
+      }
 
             // Sort the logs by timestamp (most recent first)
             this.recentAlerts = errorLogAlerts

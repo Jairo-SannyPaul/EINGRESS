@@ -24,7 +24,6 @@ input[type="checkbox"] {
     padding: 10px, 16px, 10px, 16px;
     position: sticky;
     top: 0;
-    z-index: 1;
     height: 44px;
     background-color: #FFFFFF99;
     border-radius: 6px;
