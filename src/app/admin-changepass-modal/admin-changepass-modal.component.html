@@ -14,16 +14,23 @@
             </div>
             <div class="lower-modal">
                 <div class="forms">
-                    <input formControlName="oldPassword" type="password" class="old" placeholder="Old Password">
-                    <div class="new">
-                        <input formControlName="newPassword" type="password" class="new" placeholder="New Password">
-                        <span class="normal">Your password must be different to previous used passwords.</span>
+                    <div class="input-wrapper">
+                        <input [type]="showOldPass ? 'text' : 'password'" formControlName="oldPassword" class="old" placeholder="Old Password">
+                        <img [src]="showOldPass ? '/assets/images/showpass.png' : '/assets/images/hidepass.png'" (click)="toggleOldPass()">
                     </div>
-                    <div class="confirmation">
-                        <input formControlName="confirmPassword" type="password" class="confirm" placeholder="Confirm Password">
+                    <div class="input-wrapper newPass">
+                        <input [type]="showNewPass ? 'text' : 'password'" formControlName="newPassword" class="new" placeholder="New Password">
+                        <img [src]="showNewPass ? '/assets/images/showpass.png' : '/assets/images/hidepass.png'" (click)="toggleNewPass()">
+                        <span class="normal">Your password must be different from previously used passwords.</span>
+                    </div>
+                    <div class="input-wrapper confirmPass">
+                        <input [type]="showConfirmPass ? 'text' : 'password'" formControlName="confirmPassword" class="confirm" placeholder="Confirm Password">
+                        <img [src]="showConfirmPass ? '/assets/images/showpass.png' : '/assets/images/hidepass.png'" (click)="toggleConfirmPass()" 
+                             [ngClass]="{'img-error': passNotMatch}">
                         <span *ngIf="passNotMatch" class="error-text">Password doesn’t match!</span>
                     </div>
                 </div>
+                
                 <div class="save" (click)="saveChanges()" 
                 [ngClass]="{'disabled': form.invalid || form.pristine, 'enabled': !form.invalid && !form.pristine}">
                Save Changes
