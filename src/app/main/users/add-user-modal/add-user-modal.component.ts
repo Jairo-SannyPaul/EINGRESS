@@ -83,6 +83,44 @@ export class AddUserModalComponent {
     this.resetForm(); // Clear form on closing
   }
 
+   // Utility function to generate profile picture data
+  generateProfilePicture(initial: string): string {
+    const canvas = document.createElement('canvas');
+    const size = 100; // Adjust the canvas size as needed
+    canvas.width = size;
+    canvas.height = size;
+    const ctx = canvas.getContext('2d');
+
+    if (ctx) {
+      // Generate random gradient
+      const gradient = ctx.createLinearGradient(0, 0, size, size);
+      const colors = this.getRandomColors();
+      gradient.addColorStop(0, colors[0]);
+      gradient.addColorStop(1, colors[1]);
+
+      // Draw the background gradient
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, size, size);
+
+      // Draw the initial
+      ctx.fillStyle = '#FFF'; // White color for the text
+      ctx.font = 'bold 50px Arial'; // Adjust font size and style
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(initial, size / 2, size / 2);
+    }
+
+    // Return the base64 image data
+    return canvas.toDataURL('image/png');
+  }
+
+  // Helper function to generate random colors for the gradient
+  getRandomColors(): [string, string] {
+    const randomColor = () => `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+    return [randomColor(), randomColor()];
+  }
+
+
   // Submit the form data
   onSubmit(): void {
     // Mark all fields as touched to trigger validation messages

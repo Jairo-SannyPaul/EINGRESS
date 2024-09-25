@@ -55,6 +55,7 @@ import { HeaderBellComponent } from './header/header-bell/header-bell.component'
 import { HeaderProfileComponent } from './header/header-profile/header-profile.component';
 import { AdminComponent } from './admin/admin.component';
 import { AddUserSubmitPopupComponent } from './main/users/add-user-submit-popup/add-user-submit-popup.component';
+import { EmployeeDetailsRevampComponent } from './main/users/table/employee-details-revamp/employee-details-revamp.component';
 
 const routes: Routes = [
   { path: 'submit-popup', component: AddUserSubmitPopupComponent },
@@ -97,6 +98,7 @@ const routes: Routes = [
     HeaderProfileComponent,
     AdminComponent,
     AddUserSubmitPopupComponent,
+    EmployeeDetailsRevampComponent,
   ],
   imports: [
     RouterModule.forRoot(routes),
