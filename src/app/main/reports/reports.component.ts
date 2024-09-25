@@ -192,30 +192,35 @@ export class ReportsComponent implements OnInit {
   }
 
   selectName() {
+    console.log("Name filter selected")
     this.selectedReportsFilter = 'name';
     this.employeeService.setFilterOption(this.selectedReportsFilter);
     this.reportsSearchFieldComponent.clearSearchField();
   }
 
   selectRole() {
+    console.log("Role filter selected")
     this.selectedReportsFilter = 'role';
     this.employeeService.setFilterOption(this.selectedReportsFilter);
     this.reportsSearchFieldComponent.clearSearchField();
   }
 
   selectRfid() {
+    console.log("Rfid filter selected")
     this.selectedReportsFilter = 'rfid';
     this.employeeService.setFilterOption(this.selectedReportsFilter);
     this.reportsSearchFieldComponent.clearSearchField();
   }
 
   selectFingerprint() {
+    console.log("Fingerprint filter selected")
     this.selectedReportsFilter = 'fingerprint';
     this.employeeService.setFilterOption(this.selectedReportsFilter);
     this.reportsSearchFieldComponent.clearSearchField();
   }
 
   selectBranch(){
+    console.log("Branch filter selected")
     this.selectedReportsFilter = 'branch';
     this.employeeService.setFilterOption(this.selectedReportsFilter);
     this.reportsSearchFieldComponent.clearSearchField();
