@@ -104,10 +104,21 @@ export class AddUserModalComponent {
   }
 
   generateRandomGradient(): string {
-    const colors = ['#FF5733', '#33FF57', '#3357FF', '#FF33A6', '#33FFF5'];
-    const randomColor1 = colors[Math.floor(Math.random() * colors.length)];
+    const colors = ['#FFFFFF', '#8B0000', // Dark Red
+  '#006400', // Dark Green
+  '#00008B', // Dark Blue
+  '#8B008B', // Dark Magenta
+  '#2F4F4F', // Dark Slate Gray
+  '#4B0082', // Indigo
+  '#483D8B', // Dark Slate Blue
+  '#2E8B57', // Sea Green
+  '#556B2F', // Dark Olive Green
+  '#8B4513', // Saddle Brown
+  '#800000', // Maroon
+  '#3B3B6D']; // Dark Purple]
+    const randomColor1 = colors[0];
     const randomColor2 = colors[Math.floor(Math.random() * colors.length)];
-    return `linear-gradient(0deg, ${randomColor1}, ${randomColor2})`;
+    return `linear-gradient(45deg, ${randomColor1}, ${randomColor2})`;
   }
   
   // Submit the form data
