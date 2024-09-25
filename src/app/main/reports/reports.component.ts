@@ -70,6 +70,7 @@ export class ReportsComponent implements OnInit {
 
     // Update the header title to "Dashboard"
     this.headerLabelService.updateTitle('Reports');
+    this.headerLabelService.updateHeaderTitle('Employees Login Session')
   }
 
     getEmployeeById(userId: string) {
@@ -218,5 +219,10 @@ export class ReportsComponent implements OnInit {
     this.selectedReportsFilter = 'branch';
     this.employeeService.setFilterOption(this.selectedReportsFilter);
     this.reportsSearchFieldComponent.clearSearchField();
+  }
+  
+  ngOnDestroy(): void {
+    // Clear the title when navigating away from this component
+    this.headerLabelService.clearDescription();
   }
 }

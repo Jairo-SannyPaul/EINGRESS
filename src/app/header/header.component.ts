@@ -14,7 +14,9 @@ export class HeaderComponent implements OnInit {
   isNotificationOpen = false;
   showFilterButton: boolean = false
   headerTitle: string = '';
+  descriptionTitle: string = '';
   username: string = '';
+
 
   constructor(private elRef: ElementRef, public dialog: MatDialog, private headerLabelService: HeaderLabelService, private router: Router) {}
 
@@ -26,6 +28,16 @@ export class HeaderComponent implements OnInit {
     this.headerLabelService.currentTitle.subscribe((title: string) => {
       this.headerTitle = title;
     });
+
+    this.headerLabelService.currentDescription.subscribe((description: string | null) => {
+      // Handle the case when the description is null
+      if (description !== null) {
+        this.descriptionTitle = description;
+      } else {
+        this.descriptionTitle = ''; // Set a default value or handle it accordingly
+      }
+    });
+    
 
     // Subscribe to route changes to update filter button visibility
     this.router.events.subscribe(event => {

@@ -8,13 +8,32 @@
   height: 120px;
   padding-right: 130px;
   z-index: -9999!important;
-}   
+}
 
-.header-label h2 {
+.header-label{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.header-label h1{
+  font-family: Poppins;
   font-size: 20px;
   font-weight: 600;
+  line-height: 30px;
+  text-align: left;
   color: #464646;
-  margin-left: 180px; /* Adjust margin as needed */
+  margin-left: 180px;
+}
+
+.header-label h2 {
+  font-family: Poppins;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  text-align: left;
+  color: #2C5CA7;
+  margin-left: 180px; /*Adjust margin as needed */
 }
 
 .header-bell-profile {
@@ -51,7 +70,7 @@ h2{
   color: white;
   margin: 0;
   padding: 0;
-  margin-left: 5px;
+  margin-left: 5px; 
 }
 
 h5{
