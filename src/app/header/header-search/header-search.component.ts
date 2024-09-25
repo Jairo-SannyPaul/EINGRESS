@@ -8,20 +8,30 @@ import { Subscription } from 'rxjs';
   templateUrl: './header-search.component.html',
   styleUrls: ['./header-search.component.css']
 })
-
 export class HeaderSearchComponent {
   @Input() showFilterButton: boolean = false;
   @Output() searchEvent = new EventEmitter<string>();
+  @Output() filterToggleEvent = new EventEmitter<boolean>(); 
 
   showDropdown = false;
   options: string[] = [];
   filteredOptions: { fullname: string; rfid: string }[] = [];
   inputValue: string = '';
   noResultsFound: boolean = false;
-
+  filterToggle: boolean = false;  // New property to control filter visibility
+  
   private searchSubscription: Subscription = new Subscription(); // Subscription to handle search
 
   constructor(private employeeService: EmployeeService) {}
+
+  // Toggle the visibility of filter options
+  toggleFilterOptions(): void {
+    this.filterToggle = !this.filterToggle;
+  }
+
+  
+
+
 
   // Filter options based on input
   filterOptions(event: Event): void {
@@ -64,7 +74,6 @@ export class HeaderSearchComponent {
     this.searchEvent.emit(option.fullname); // Emit the selected fullname, or you can emit the entire option if needed
   }
   
-
   // Hide dropdown when clicking outside
   @HostListener('document:click', ['$event'])
   onClick(event: MouseEvent): void {
