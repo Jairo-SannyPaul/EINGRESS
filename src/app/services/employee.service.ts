@@ -49,6 +49,8 @@ export class EmployeeService {
     return this.http.post<any>(`${this.apiUrl}`, formData);
   }
 
+  
+
   addEmployeeWithoutImage(employee: Employee): Observable<any> {
     const formData: FormData = new FormData();
     console.log(employee);

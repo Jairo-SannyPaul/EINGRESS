@@ -83,51 +83,38 @@ export class AddUserModalComponent {
     this.resetForm(); // Clear form on closing
   }
 
-   // Utility function to generate profile picture data
-  generateProfilePicture(initial: string): string {
-    const canvas = document.createElement('canvas');
-    const size = 100; // Adjust the canvas size as needed
-    canvas.width = size;
-    canvas.height = size;
-    const ctx = canvas.getContext('2d');
+  getFirstLetter(fullname: string): string {
+    return fullname.charAt(0).toUpperCase(); // Get the first letter and convert it to uppercase
+  }
+  
 
-    if (ctx) {
-      // Generate random gradient
-      const gradient = ctx.createLinearGradient(0, 0, size, size);
-      const colors = this.getRandomColors();
-      gradient.addColorStop(0, colors[0]);
-      gradient.addColorStop(1, colors[1]);
-
-      // Draw the background gradient
-      ctx.fillStyle = gradient;
-      ctx.fillRect(0, 0, size, size);
-
-      // Draw the initial
-      ctx.fillStyle = '#FFF'; // White color for the text
-      ctx.font = 'bold 50px Arial'; // Adjust font size and style
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText(initial, size / 2, size / 2);
-    }
-
-    // Return the base64 image data
-    return canvas.toDataURL('image/png');
+  generateRandomGradient(): string {
+    const colors = [
+      '#FF5733', // Color 1
+      '#33FF57', // Color 2
+      '#3357FF', // Color 3
+      '#FF33A6', // Color 4
+      '#33FFF5', // Color 5
+    ];
+    const randomColor1 = colors[Math.floor(Math.random() * colors.length)];
+    const randomColor2 = colors[Math.floor(Math.random() * colors.length)];
+    return `linear-gradient(135deg, ${randomColor1}, ${randomColor2})`;
   }
 
-  // Helper function to generate random colors for the gradient
-  getRandomColors(): [string, string] {
-    const randomColor = () => `#${Math.floor(Math.random() * 16777215).toString(16)}`;
-    return [randomColor(), randomColor()];
-  }
-
-
+  
   // Submit the form data
   onSubmit(): void {
     // Mark all fields as touched to trigger validation messages
     this.userForm.markAllAsTouched();
-    this.userForm.get('fingerprint2')?.setValue('');
+    this.userForm.get('fingerprint2')?.setValue('');   
+
     if (this.userForm.valid) {
       const newEmployee = this.userForm.value;
+
+        // Get the first letter and log it to the console
+      const firstLetter = this.getFirstLetter(newEmployee.fullname);
+      console.log('First letter of fullname:', firstLetter); // Log the first letter
+
 
       const handleError = (error: any) => {
         let errorMessage = 'Error creating employee.';
@@ -165,6 +152,9 @@ export class AddUserModalComponent {
       }
     }
   }
+
+
+
 
   // Form validation logic (you can add more complex logic here if needed)
   validateForm(): boolean {

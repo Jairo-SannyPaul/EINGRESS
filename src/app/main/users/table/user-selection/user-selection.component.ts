@@ -5,6 +5,7 @@ import { startWith, switchMap } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { DialogService } from 'src/app/services/dialog.service';
 import { formatDate } from '@angular/common';
+import { AddUserModalComponent } from '../../add-user-modal/add-user-modal.component';
 
 @Component({
   selector: 'app-user-selection',

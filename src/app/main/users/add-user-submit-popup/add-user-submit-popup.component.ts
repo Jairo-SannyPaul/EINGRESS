@@ -19,6 +19,9 @@ export class AddUserSubmitPopupComponent {
     this.close.emit(); // Emit close event
     this.addusermodalService.closeModal();
     this.employeeService.reload$;
+
+    // Auto-refresh the page after successfully adding the employee
+    location.reload(); // Refresh the page
   }
 
   
