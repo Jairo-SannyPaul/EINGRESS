@@ -3,7 +3,8 @@
         <div class="modal-container">
             <div class="header">
                 <div class="upperHeader">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="exitUpdate pointer" (click)="exitUpdateModal()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        class="exitUpdate pointer" (click)="exitUpdateModal()">
                         <path
                             d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z"
                             fill="#464646" />
@@ -11,21 +12,23 @@
                 </div>
                 <div class="lowerHeader">
                     <div class="leftLH">
-                        <div class="profile-picture">
-                            <!-- <img src="/assets/images/max-smith.png" alt=""> -->
-                        </div>
+                        <img class="profile-picture"
+                            [src]="photoSrc || baseUrl + '/profile-image/' + employeeDetails?.profileImage">
                         <div class="header-text">
-                            <span class="header-title">Pamela May Lamela</span>
-                            <span class="header-subtitle">plamela@jairosoft.com</span>
+                            <span class="header-title">{{currentName}}</span>
+                            <span class="header-subtitle">{{currentEmail}}</span>
                         </div>
                     </div>
                     <div class="rightLH">
-                        <div class="UploadPhoto pointer">Upload Photo</div>
+                        <div class="UploadPhoto pointer" (click)="fileInput.click()">Upload Profile
+                        </div>
+                        <input type="file" formControlName="profileImage" (change)="onFileSelected($event)"
+                            accept="image/png, image/jpeg" #fileInput style="display: none;">
                     </div>
                 </div>
             </div>
             <div class="lowerModal">
-                <form [formGroup]="updateEmployeeForm" >
+                <form [formGroup]="updateEmployeeForm">
                     <div class="modal-content">
                         <!--start of left div-->
                         <div class="modal-content-left">
@@ -181,7 +184,12 @@
                 </form>
                 <div class="footer">
                     <button class="btn clear-btn" type="button">Cancel</button>
-                    <button class="btn submit-btn" [ngStyle]="{'background-color': '#2165C999'}">Save Changes </button>
+                    <button class="btn submit-btn"
+                        [ngStyle]="{'background-color': updateEmployeeForm.dirty ? '#2165C9' : '#2165C999'}"
+                        [disabled]="!updateEmployeeForm.dirty || !updateEmployeeForm.valid"
+                        (click)="updateEmployee($event)">
+                        Save Changes
+                    </button>
                 </div>
             </div>
 

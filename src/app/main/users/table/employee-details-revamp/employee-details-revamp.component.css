@@ -321,14 +321,6 @@ input {
   background-color: #5984C8;
 }
 
-.profile-picture img{
-  height: 98px;
-  width: 98px;
-  border-radius: 53px;
-}
-
-
-
 
 .header-text {
   display: flex;
