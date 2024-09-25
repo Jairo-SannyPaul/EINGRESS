@@ -52,7 +52,6 @@
   display: flex;
   justify-content: space-between; /* This aligns name and RFID on opposite ends */
   padding: 8px;
-  border-bottom: 1px solid #ddd;
   cursor: pointer;
 }
 
