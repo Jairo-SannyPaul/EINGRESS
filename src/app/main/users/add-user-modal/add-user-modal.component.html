@@ -12,6 +12,11 @@
               </svg>
         </button>
         </div>
+
+        <!-- add-user-modal.component.html -->
+        <canvas #canvas width="100" height="100" style="display: none;"></canvas>
+
+
       <!-- Add your form or content here -->
       <form [formGroup]="userForm" (keydown.enter)="preventDefault($event)">
         <div class = "modal-content">

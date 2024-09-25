@@ -11,6 +11,10 @@ import { AddUserModalService } from 'src/app/services/add-user-modal.service';
   styleUrls: ['./add-user-modal.component.css']
 })
 export class AddUserModalComponent {
+
+  @ViewChild('canvas', { static: false }) canvas!: ElementRef<HTMLCanvasElement>;
+
+
   isVisible: boolean = false;
   addUserForm: boolean = false;
   userForm: FormGroup;
@@ -83,24 +87,28 @@ export class AddUserModalComponent {
     this.resetForm(); // Clear form on closing
   }
 
-  getFirstLetter(fullname: string): string {
-    return fullname.charAt(0).toUpperCase(); // Get the first letter and convert it to uppercase
+  // Form validation logic (you can add more complex logic here if needed)
+  validateForm(): boolean {
+    return this.userForm.valid;
   }
-  
+
+  closePopup(): void {
+    this.isPopupVisible = false; // Hide the popup
+    this.isVisible = false;
+    this.resetForm(); // Clear form on closing
+  }
+
+
+  getFirstLetter(fullname: string): string {
+    return fullname.charAt(0).toUpperCase();
+  }
 
   generateRandomGradient(): string {
-    const colors = [
-      '#FF5733', // Color 1
-      '#33FF57', // Color 2
-      '#3357FF', // Color 3
-      '#FF33A6', // Color 4
-      '#33FFF5', // Color 5
-    ];
+    const colors = ['#FF5733', '#33FF57', '#3357FF', '#FF33A6', '#33FFF5'];
     const randomColor1 = colors[Math.floor(Math.random() * colors.length)];
     const randomColor2 = colors[Math.floor(Math.random() * colors.length)];
     return `linear-gradient(135deg, ${randomColor1}, ${randomColor2})`;
   }
-
   
   // Submit the form data
   onSubmit(): void {
@@ -110,14 +118,19 @@ export class AddUserModalComponent {
 
     if (this.userForm.valid) {
       const newEmployee = this.userForm.value;
-
-        // Get the first letter and log it to the console
+      
       const firstLetter = this.getFirstLetter(newEmployee.fullname);
-      console.log('First letter of fullname:', firstLetter); // Log the first letter
-
-        // Set the profileImage using the first letter of the fullname with a random gradient
       const gradient = this.generateRandomGradient();
-      newEmployee.profileImage = `${firstLetter}|${gradient}`; // Store both the letter and gradient
+
+      // Set the profileImage to a combination of the first letter and gradient for use later
+      newEmployee.profileImage = `${firstLetter}|${gradient}`;
+
+      // Draw on canvas and export to PNG
+      this.drawToCanvas(firstLetter, gradient, (pngDataUrl) => {
+        // Optionally, use the PNG data URL here
+        console.log('Generated PNG URL:', pngDataUrl);
+        // You can now set this PNG URL as an image source or save it
+      });
 
 
       const handleError = (error: any) => {
@@ -158,16 +171,45 @@ export class AddUserModalComponent {
   }
 
 
+  // Function to draw the letter and gradient on a canvas and export as PNG
+  drawToCanvas(letter: string, gradient: string, callback: (dataUrl: string) => void): void {
+    const canvas = this.canvas.nativeElement;
+    const context = canvas.getContext('2d');
 
+    if (!context) {
+      console.error('Canvas context could not be obtained.');
+      return;
+    }
 
-  // Form validation logic (you can add more complex logic here if needed)
-  validateForm(): boolean {
-    return this.userForm.valid;
-  }
+    // Parse gradient colors from the string
+    const gradientColors = gradient.match(/#[0-9A-Fa-f]{6}/g);
+    if (!gradientColors || gradientColors.length < 2) {
+      console.error('Invalid gradient colors.');
+      return;
+    }
 
-  closePopup(): void {
-    this.isPopupVisible = false; // Hide the popup
-    this.isVisible = false;
-    this.resetForm(); // Clear form on closing
+    // Create the gradient
+    const canvasGradient = context.createLinearGradient(0, 0, canvas.width, canvas.height);
+    canvasGradient.addColorStop(0, gradientColors[0]);
+    canvasGradient.addColorStop(1, gradientColors[1]);
+
+    // Fill the canvas with the gradient
+    context.fillStyle = canvasGradient;
+    context.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Draw the letter in the center
+    context.fillStyle = '#FFFFFF'; // Set the text color
+    context.font = 'bold 60px Arial';
+    context.textAlign = 'center';
+    context.textBaseline = 'middle';
+    context.fillText(letter, canvas.width / 2, canvas.height / 2);
+
+    // Export the canvas content to a PNG data URL
+    const dataUrl = canvas.toDataURL('image/png');
+    callback(dataUrl);
   }
 }
+
+
+
+  
