@@ -138,6 +138,49 @@ input {
   cursor: not-allowed;
 }
 
+.input-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.input-wrapper input {
+  width: 100%;
+  padding-right: 40px; /* Add padding to make room for the image */
+  border: none;
+  border-bottom: 2px solid #ccc; /* Your bottom border */
+  outline: none;
+}
+
+.input-wrapper img {
+  position: absolute;
+  right: 0px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer; /* Optional, if you want the icon to be clickable */
+  height: 20px;
+  width: 20px;
+}
+
+.newPass img{
+  top: 25%;
+}
+
+
+.confirmPass img {
+  position: absolute;
+  right: 0px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  height: 20px;
+  width: 20px;
+}
+
+.confirmPass img.img-error {
+  top: calc(50% - 10px); /* Move 10px above the original position */
+}
+
+
 
 @keyframes modalPopup {
   from {
