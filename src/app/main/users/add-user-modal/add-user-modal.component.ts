@@ -107,7 +107,7 @@ export class AddUserModalComponent {
     const colors = ['#FF5733', '#33FF57', '#3357FF', '#FF33A6', '#33FFF5'];
     const randomColor1 = colors[Math.floor(Math.random() * colors.length)];
     const randomColor2 = colors[Math.floor(Math.random() * colors.length)];
-    return `linear-gradient(135deg, ${randomColor1}, ${randomColor2})`;
+    return `linear-gradient(0deg, ${randomColor1}, ${randomColor2})`;
   }
   
   // Submit the form data
