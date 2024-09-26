@@ -33,6 +33,8 @@ export class AddUserModalComponent {
     });
   }
 
+  
+
   @HostListener('window:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
     if (event.key === 'Escape') {
@@ -103,10 +105,34 @@ export class AddUserModalComponent {
   }
 
   generateRandomGradient(): string {
-    const colors = ['#FF5733', '#33FF57', '#3357FF', '#FF33A6', '#33FFF5'];
+    const colors = ['#FFFFFF', '#8B0000', // Dark Red
+  '#B22222', // Firebrick (Mid-light Red)
+  '#006400', // Dark Green
+  '#6B8E23', // Olive Drab (Mid-light Green)
+  '#00008B', // Dark Blue
+  '#4169E1', // Royal Blue (Mid-light Blue)
+  '#8B008B', // Dark Magenta
+  '#DA70D6', // Orchid (Mid-light Magenta)
+  '#2F4F4F', // Dark Slate Gray
+  '#708090', // Slate Gray (Mid-light Gray)
+  '#4B0082', // Indigo
+  '#8A2BE2', // Blue Violet (Mid-light Indigo)
+  '#483D8B', // Dark Slate Blue
+  '#6A5ACD', // Slate Blue (Mid-light Slate Blue)
+  '#2E8B57', // Sea Green
+  '#3CB371', // Medium Sea Green (Mid-light Sea Green)
+  '#556B2F', // Dark Olive Green
+  '#9ACD32', // Yellow Green (Mid-light Olive Green)
+  '#8B4513', // Saddle Brown
+  '#D2691E', // Chocolate (Mid-light Brown)
+  '#800000', // Maroon
+  '#CD5C5C', // Indian Red (Mid-light Maroon)
+  '#3B3B6D',  // Dark Purple
+  '#7B68EE'];
+  
     const randomColor1 = colors[Math.floor(Math.random() * colors.length)];
     const randomColor2 = colors[Math.floor(Math.random() * colors.length)];
-    return `linear-gradient(135deg, ${randomColor1}, ${randomColor2})`;
+    return `linear-gradient(45deg, ${randomColor1}, ${randomColor2})`;
   }
   
   // Submit the form data
@@ -120,18 +146,24 @@ export class AddUserModalComponent {
       
       const firstLetter = this.getFirstLetter(newEmployee.fullname);
       const gradient = this.generateRandomGradient();
+      
 
-      // Set the profileImage to a combination of the first letter and gradient for use later
-      newEmployee.profileImage = `${firstLetter}|${gradient}`;
+    // Draw on canvas and export to PNG
+    this.drawToCanvas(firstLetter, gradient, (pngDataUrl) => {
+      console.log('Generated PNG URL:', pngDataUrl);
+      
+       // Generate the filename using the full name
+       const formattedName = newEmployee.fullname
 
-      // Draw on canvas and export to PNG
-      this.drawToCanvas(firstLetter, gradient, (pngDataUrl) => {
-        // Optionally, use the PNG data URL here
-        console.log('Generated PNG URL:', pngDataUrl);
-        // You can now set this PNG URL as an image source or save it
+       // Convert the data URL to a Blob
+      const blob = this.dataUrlToBlob(pngDataUrl);
+      
+      
+       // Trigger the download
+       this.downloadImage(pngDataUrl, formattedName);
+       
       });
-
-
+      
       const handleError = (error: any) => {
         let errorMessage = 'Error creating employee.';
         if (error.status === 400 && error.error && error.error.message) {
@@ -201,7 +233,7 @@ export class AddUserModalComponent {
 
     // Draw the letter in the center
     context.fillStyle = '#FFFFFF'; // Set the text color
-    context.font = 'bold 60px Arial';
+    context.font = 'bold 60px Poppins';
     context.textAlign = 'center';
     context.textBaseline = 'middle';
     context.fillText(letter, canvas.width / 2, canvas.height / 2);
@@ -211,10 +243,32 @@ export class AddUserModalComponent {
     callback(dataUrl);
   }
 
-
-
+private dataUrlToBlob(dataUrl: string): Blob {
+  const byteString = atob(dataUrl.split(',')[1]);
+  const mimeString = dataUrl.split(',')[0].split(':')[1].split(';')[0];
+  const ab = new ArrayBuffer(byteString.length);
+  const ia = new Uint8Array(ab);
+  
+  for (let i = 0; i < byteString.length; i++) {
+    ia[i] = byteString.charCodeAt(i);
+  }
+  
+  return new Blob([ab], { type: mimeString });
 }
 
-
-
+private downloadImage(dataUrl: string, filename: string): void {
+  const blob = this.dataUrlToBlob(dataUrl);
+  const url = URL.createObjectURL(blob);
   
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+//
+
+}
