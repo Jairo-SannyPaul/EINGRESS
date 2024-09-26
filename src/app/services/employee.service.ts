@@ -102,7 +102,7 @@ export class EmployeeService {
           switch (selectedFilter) {
             case 'name':
               return employee.fullname.toLowerCase().startsWith(searchValueLower);
-            // return employee.fullname.toLowerCase().includes(searchValueLower); use this if they want keyword letters
+            // return employee.fullname.toLowerCase().includes(searchValueLower); //use this if they want keyword letters
             case 'role':
               return employee.role.toLowerCase().includes(searchValueLower);
             case 'rfid':
