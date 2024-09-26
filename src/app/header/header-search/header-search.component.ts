@@ -4,6 +4,7 @@ import { Employee } from 'src/app/interface/employee.interface'; // Make sure th
 import { Subscription } from 'rxjs';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { FiltersService } from 'src/app/services/filters.service';
 
 @Component({
   selector: 'app-header-search',
@@ -22,7 +23,9 @@ export class HeaderSearchComponent {
   noResultsFound: boolean = false;
   filterToggle: boolean = false;  // New property to control filter visibility
   currentFilterState!: boolean;
-  isDashboardState: boolean = false; // Flag to track if we are in the dashboard state
+  isDashboardState: boolean = false;
+  isReportsState!: boolean;
+  isUsersState!: boolean;
 
   private searchSubscription: Subscription = new Subscription(); // Subscription to handle search
   private filterClickSubscription: Subscription = new Subscription(); // Subscription for filter click
@@ -30,6 +33,7 @@ export class HeaderSearchComponent {
   constructor(
     private employeeService: EmployeeService,
     private router: Router,
+    private filtersService: FiltersService
   ) { }
 
   ngOnInit(): void {
@@ -52,14 +56,24 @@ export class HeaderSearchComponent {
   changeSearchState(url: string) {
     // Check if the current URL includes specific paths
     if (url.includes('/reports')) {
+      this.isReportsState = true;
+      this.isDashboardState = false;
+      this.isUsersState = false;
       console.log("Reports search state");
       this.isDashboardState = false; // Set the flag for dashboard state
+      this.filtersService.setFilter('reports');
       // Change the search state for reports
     } else if (url.includes('/dashboard')) {
+      this.isReportsState = false;
+      this.isDashboardState = true;
+      this.isUsersState = false;
       console.log("Dashboard search state");
       this.isDashboardState = true; // Set the flag for dashboard state
       // Change the search state for dashboard
     } else if (url.includes('/users')) {
+      this.isReportsState = false;
+      this.isDashboardState = false;
+      this.isUsersState = true;
       console.log("User search state");
       this.isDashboardState = false; // Set the flag for dashboard state
       // Change the search state for users
@@ -72,32 +86,32 @@ export class HeaderSearchComponent {
     this.employeeService.setFilterClick(!this.filterToggle);
   }
 
-  // Filter options based on input
+
+  // Update this method to emit the search value when in reports state
   filterOptions(event: Event): void {
-    if (!this.isDashboardState) {
-      return; // Exit if we are not in the dashboard state
+    console.log("filterOptions called"); // Add this line
+    this.inputValue = (event.target as HTMLInputElement).value;
+
+    if (this.isDashboardState) {
+      if (this.inputValue.length > 0) {
+        // Call the service to fetch filtered employee names
+        this.searchSubscription = this.employeeService.searchEmployee(this.inputValue).subscribe((employees: Employee[]) => {
+          this.filteredOptions = employees.map(employee => ({
+            fullname: employee.fullname,
+            rfid: employee.rfidtag || 'No RFID'
+          }));
+
+          this.noResultsFound = this.filteredOptions.length === 0;
+          this.showDropdown = this.filteredOptions.length > 0 || this.noResultsFound;
+        });
+      }
+    } 
+    else if (this.isReportsState) {
+      this.filtersService.setSearchValue(this.inputValue); // Pass the input value
     }
-
-    this.inputValue = (event.target as HTMLInputElement).value; // Update input value
-
-    if (this.inputValue.length > 0) {
-      // Call the service to fetch filtered employee names
-      this.searchSubscription = this.employeeService.searchEmployee(this.inputValue).subscribe((employees: Employee[]) => {
-        // Map the result to employee full names
-        this.filteredOptions = employees.map(employee => ({
-          fullname: employee.fullname,
-          rfid: employee.rfidtag || 'No RFID'  // Display 'No RFID' if the employee has no RFID tag
-        }));
-
-        // If there are no matches, show 'No results found'
-        this.noResultsFound = this.filteredOptions.length === 0;
-
-        // Show dropdown if there are filtered options or no results
-        this.showDropdown = this.filteredOptions.length > 0 || this.noResultsFound;
-      });
-    } else {
+    else {
       this.filteredOptions = [];
-      this.showDropdown = false; // Hide dropdown if there's no input
+      this.showDropdown = false;
       this.noResultsFound = false;
     }
   }
