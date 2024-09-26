@@ -8,6 +8,7 @@ import { ReportsSearchfieldComponent } from './reports-searchfield/reports-searc
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { HeaderLabelService } from 'src/app/services/header-label.service';
+import { FiltersService } from 'src/app/services/filters.service';
 type LoginSession = {
   date: string;
   time: string;
@@ -55,10 +56,33 @@ export class ReportsComponent implements OnInit {
     private accessLogService: AccessLogService,
     private employeeService: EmployeeService,
     private headerLabelService: HeaderLabelService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private filtersService: FiltersService
   ) { }
 
   ngOnInit(): void {
+    this.filtersService.selectedFilter$.subscribe(filter => {
+      switch (filter) {
+        case 'name':
+          this.selectName();
+          break;
+        case 'role':
+          this.selectRole();
+          break;
+        case 'rfid':
+          this.selectRfid();
+          break;
+        case 'fingerprint':
+          this.selectFingerprint();
+          break;
+        case 'branch':
+          this.selectBranch();
+          break;
+        default:
+          break;
+      }
+    });
+
     this.route.queryParams.subscribe(params => {
       const userId = params['userId'];
       console.log('Navigated with userId:', userId);

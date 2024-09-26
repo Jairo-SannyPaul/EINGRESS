@@ -2,6 +2,7 @@ import { Component, Input, HostListener, Output, EventEmitter } from '@angular/c
 import { EmployeeService } from 'src/app/services/employee.service';
 import { Employee } from 'src/app/interface/employee.interface'; // Make sure the Employee interface is imported
 import { Subscription } from 'rxjs';
+import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-header-search',
@@ -22,15 +23,21 @@ export class HeaderSearchComponent {
   currentFilterState!: boolean; 
   
   private searchSubscription: Subscription = new Subscription(); // Subscription to handle search
+  private filterClickSubscription: Subscription = new Subscription(); // Subscription for filter click
+  
 
   constructor(private employeeService: EmployeeService) {}
+  ngOnInit(): void {
+    // Subscribe to the filterClick$ once in ngOnInit and track current filter state
+    this.filterClickSubscription = this.employeeService.filterClick$.subscribe(currentValue => {
+      this.filterToggle = currentValue;
+    });
+  }
 
   // Toggle the visibility of filter options
   toggleFilterOptions(): void {
-    // Get the current value of filterClick and toggle it
-    this.employeeService.filterClick$.subscribe((currentValue: boolean) => {
-      this.employeeService.setFilterClick(!currentValue); // Toggle value
-    }).unsubscribe(); // Unsubscribe immediately to avoid multiple triggers
+    // Toggle the value of filterClick using the current filter state
+    this.employeeService.setFilterClick(!this.filterToggle);
   }
   
 

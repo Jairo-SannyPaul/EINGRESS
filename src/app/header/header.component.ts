@@ -4,6 +4,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import { AdminpopupComponent } from '../adminpopup/adminpopup.component';
 import { HeaderLabelService } from '../services/header-label.service';
 import { EmployeeService } from '../services/employee.service';
+import { FiltersService } from '../services/filters.service';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -18,7 +19,14 @@ export class HeaderComponent implements OnInit {
   descriptionTitle: string = '';
   username: string = '';
   filterClick: boolean = false;
-  constructor(private elRef: ElementRef, public dialog: MatDialog, private headerLabelService: HeaderLabelService, private router: Router, private employeeService: EmployeeService) {}
+  constructor(
+    private elRef: ElementRef, 
+    public dialog: MatDialog, 
+    private headerLabelService: HeaderLabelService, 
+    private router: Router, 
+    private employeeService: EmployeeService,
+    private filtersService: FiltersService
+   ) {}
 
   ngOnInit(): void {
     // Retrieve the username from localStorage
@@ -95,6 +103,28 @@ export class HeaderComponent implements OnInit {
   
   toggleFilterOptions(): void {
     // Emit true when the filter is toggled
-    this.employeeService.setFilterClick(true);
+    // this.filterService.setFilterClick(true);
   }
+  
+  setNameFilter() {
+    this.filtersService.setFilter('name');
+  }
+
+  setRoleFilter() {
+    this.filtersService.setFilter('role');
+  }
+
+  setRFIDFilter() {
+    this.filtersService.setFilter('rfid');
+  }
+
+  setBranchFilter() {
+    this.filtersService.setFilter('branch');
+  }
+
+  setFingerprintFilter() {
+    this.filtersService.setFilter('fingerprint');
+  }
+
+  
 }
