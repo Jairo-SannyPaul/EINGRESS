@@ -40,6 +40,12 @@ export class TableComponent {
         this.toggleRegistered();
       }
     });
+
+    this.route.queryParams.subscribe(params => {
+      if (params['status'] === 'unregistered') {
+        this.toggleUnregistered();
+      }
+    });
   }
 
   toggleShowStatus() {
