@@ -25,4 +25,12 @@ export class FiltersService {
     this.searchValueSubject.next(value); // Update the search value
   }
 
+
+  //for datepickers
+  private dateFilterSubject = new BehaviorSubject<string>('');
+  dateFilter$ = this.dateFilterSubject.asObservable();
+
+  updateDateFilter(date: string) {
+    this.dateFilterSubject.next(date);
+  }
 }

@@ -5,6 +5,7 @@ import { AdminpopupComponent } from '../adminpopup/adminpopup.component';
 import { HeaderLabelService } from '../services/header-label.service';
 import { EmployeeService } from '../services/employee.service';
 import { FiltersService } from '../services/filters.service';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -145,5 +146,10 @@ setFingerprintFilter() {
 onSortChange() {
   console.log('Sort option from header changes:', this.sortOption); // Debugging log
   this.employeeService.setSortOption(this.sortOption);
+}
+
+onDateChanged(event: MatDatepickerInputEvent<Date>) {
+  const selectedDate = event.value ? event.value.toLocaleDateString() : '';
+  this.filtersService.updateDateFilter(selectedDate); // Update date in service
 }
 }

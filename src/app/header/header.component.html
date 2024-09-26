@@ -70,7 +70,7 @@
                 </div>
                 
                 <div class="sort-options-container">
-                    <select class="sort-options" [(ngModel)]="sortOption" (change)="onSortChange()">
+                    <select class="sort-options" [(ngModel)]="sortOption" (change)="onSortChange()" >
                         <option value="" disabled selected>Choose</option>
                         <option value="nameAsc">Sort by Name (A-Z)</option>
                         <option value="nameDsc">Sort by Name (Z-A)</option>
@@ -90,7 +90,7 @@
                 </div>
                 <div class="datepicker" >
                     <mat-form-field appearance="fill" class="date-field">
-                      <input matInput [matDatepicker]="picker" placeholder="MM/DD/YYYY" class="date-input">
+                      <input matInput [matDatepicker]="picker" placeholder="MM/DD/YYYY" class="date-input" (dateChange)="onDateChanged($event)" >
                       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                       <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field>
