@@ -64,6 +64,7 @@ export class HeaderSearchComponent {
       this.filtersService.setFilter('reports');
       // Change the search state for reports
     } else if (url.includes('/dashboard')) {
+      this.employeeService.setFilterClick(false);
       this.isReportsState = false;
       this.isDashboardState = true;
       this.isUsersState = false;
