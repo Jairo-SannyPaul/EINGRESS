@@ -56,6 +56,7 @@ export class HeaderSearchComponent {
   changeSearchState(url: string) {
     // Check if the current URL includes specific paths
     if (url.includes('/reports')) {
+      this.employeeService.setFilterClick(false);
       this.isReportsState = true;
       this.isDashboardState = false;
       this.isUsersState = false;
@@ -72,6 +73,7 @@ export class HeaderSearchComponent {
       this.isDashboardState = true; // Set the flag for dashboard state
       // Change the search state for dashboard
     } else if (url.includes('/users')) {
+      this.employeeService.setFilterClick(false);
       this.isReportsState = false;
       this.isDashboardState = false;
       this.isUsersState = true;

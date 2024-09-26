@@ -108,6 +108,13 @@
   cursor: pointer;
 }
 
+.name-button.active, 
+.role-button.active, 
+.rfid-button.active, 
+.branch-button.active, 
+.fingerprint-button.active {
+    background-color: #DAECFF;
+}
 
 .header-label h1 {
   font-size: 20px;

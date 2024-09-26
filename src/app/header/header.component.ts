@@ -19,6 +19,7 @@ export class HeaderComponent implements OnInit {
   descriptionTitle: string = '';
   username: string = '';
   filterClick: boolean = false;
+  activeFilter: string = 'name';
   constructor(
     private elRef: ElementRef, 
     public dialog: MatDialog, 
@@ -111,24 +112,30 @@ export class HeaderComponent implements OnInit {
     // this.filterService.setFilterClick(true);
   }
 
-  setNameFilter() {
-    this.filtersService.setFilter('name');
-  }
+// Update the filter functions to set the active filter
+setNameFilter() {
+  this.activeFilter = 'name';
+  this.filtersService.setFilter('name');
+}
 
-  setRoleFilter() {
-    this.filtersService.setFilter('role');
-  }
+setRoleFilter() {
+  this.activeFilter = 'role';
+  this.filtersService.setFilter('role');
+}
 
-  setRFIDFilter() {
-    this.filtersService.setFilter('rfid');
-  }
+setRFIDFilter() {
+  this.activeFilter = 'rfid';
+  this.filtersService.setFilter('rfid');
+}
 
-  setBranchFilter() {
-    this.filtersService.setFilter('branch');
-  }
+setBranchFilter() {
+  this.activeFilter = 'branch';
+  this.filtersService.setFilter('branch');
+}
 
-  setFingerprintFilter() {
-    this.filtersService.setFilter('fingerprint');
-  }
+setFingerprintFilter() {
+  this.activeFilter = 'fingerprint';
+  this.filtersService.setFilter('fingerprint');
+}
 
 }
