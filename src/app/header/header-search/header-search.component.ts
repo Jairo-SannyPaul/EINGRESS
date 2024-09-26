@@ -109,6 +109,9 @@ export class HeaderSearchComponent {
     else if (this.isReportsState) {
       this.filtersService.setSearchValue(this.inputValue); // Pass the input value
     }
+    else if (this.isUsersState) {
+      this.filtersService.setSearchValue(this.inputValue); // Pass the input value
+    }
     else {
       this.filteredOptions = [];
       this.showDropdown = false;
