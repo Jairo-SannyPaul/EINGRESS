@@ -1,5 +1,9 @@
 <app-reports-searchfield class="searchField" [selectedReportsFilter]="selectedReportsFilter"></app-reports-searchfield>
-<div class="contents">
+<div class="contents" 
+             [ngStyle]="{
+               'height': filterClick ? 'calc(100% - 100px)' : 'calc(100% - 40px)',
+               'margin-top': filterClick ? '60px' : '0'
+             }">
   <div class="users-list">
     <!-- <div class="header">
       <div class="left">

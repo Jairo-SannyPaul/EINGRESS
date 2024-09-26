@@ -38,6 +38,7 @@ type LoginSession = {
   ]
 })
 export class ReportsComponent implements OnInit {
+  filterClick: boolean =false;
   headerShown = false;
   loading: boolean = true;
   employeeList: Employee[] = [];
@@ -100,6 +101,11 @@ export class ReportsComponent implements OnInit {
     this.filtersService.dateFilter$.subscribe(date => {
       this.selectedDate = date;
       this.filterEmployeesByDate(); // Call the filtering method whenever the date changes
+    });
+
+    this.employeeService.filterClick$.subscribe((value: boolean) => {
+      this.filterClick = value;
+      console.log('Filter clicked:', this.filterClick);
     });
   }
 
