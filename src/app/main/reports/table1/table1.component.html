@@ -6,7 +6,7 @@
 
   <div class="table-body pointer" [ngClass]="{'filter-active': filterToggle}">
     <ng-container *ngIf="employees.length > 0; else noEmployees">
-      <div *ngFor="let employee of filteredEmployees" 
+      <div *ngFor="let employee of employees" 
            class="user" 
            [class.selected]="employee === selectedEmployee"
            (click)="selectEmployee(employee)">

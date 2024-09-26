@@ -142,6 +142,7 @@ export class ReportsComponent implements OnInit {
   }
 
   fetchLoginSessions(employee: Employee) {
+    console.log("Date changed")
     this.accessLogService.getAccessLogsByEmployeeId(employee.id)
       .subscribe(
         accessLogs => {
@@ -161,7 +162,9 @@ export class ReportsComponent implements OnInit {
       );
   }
   filterEmployeesByDate() {
+    
     if (this.selectedDate) {
+      console.log("Filtered Employees: ", this.filteredEmployees)
       this.filteredEmployees = this.employeeList.filter(employee =>
         employee.accessLogs && employee.accessLogs.some(log =>
           new Date(log.accessDateTime).toLocaleDateString() === this.selectedDate
@@ -179,6 +182,7 @@ export class ReportsComponent implements OnInit {
   }
 
   onSearchChanged(searchTerm: string) {
+    
     // Filter employees whose names start with the search term
     if (searchTerm) {
       this.filteredEmployees = this.employeeList.filter(employee =>
@@ -192,6 +196,7 @@ export class ReportsComponent implements OnInit {
 
 
   onDateChanged(event: MatDatepickerInputEvent<Date>) {
+
     if (event.value) {
       this.selectedDate = event.value.toLocaleDateString();
     } else {

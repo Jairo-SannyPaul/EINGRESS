@@ -14,7 +14,7 @@ import { formatDate } from '@angular/common';
 })
 export class Table1Component implements OnInit {
   baseUrl = this.employeeService.apiUrl;
-  filteredEmployees: Employee[] = [];
+
   @Input() employees: Employee[] = [];
   @Output() employeeSelected = new EventEmitter<Employee>();
   @Input() filterToggle: boolean = false;
@@ -36,6 +36,7 @@ export class Table1Component implements OnInit {
     this.filterToggle = !this.filterToggle;
   }
   ngOnInit() {
+
     this.loadEmployeeInfo();
 
     this.reloadSubscription = this.employeeService.reload$.subscribe(() => {
@@ -63,6 +64,7 @@ export class Table1Component implements OnInit {
   }
 
   loadEmployeeInfo() {
+
     this.employeeService.searchUserTrigger$.pipe(
       startWith(''),
       switchMap(searchInputValue => {
@@ -72,7 +74,7 @@ export class Table1Component implements OnInit {
       })
     ).subscribe(employees => {
       this.employees = employees;
-      this.filteredEmployees = [...this.employees];
+      this.employees = [...this.employees];
       this.sortEmployees(this.sortOption); // Sort employees after loading
     });
   }
@@ -80,13 +82,13 @@ export class Table1Component implements OnInit {
   sortEmployees(sortOption: string) {
     switch (sortOption) {
       case 'nameAsc':
-        this.filteredEmployees.sort((a, b) => a.fullname.localeCompare(b.fullname));
+        this.employees.sort((a, b) => a.fullname.localeCompare(b.fullname));
         break;
       case 'nameDsc':
-        this.filteredEmployees.sort((a, b) => b.fullname.localeCompare(a.fullname));
+        this.employees.sort((a, b) => b.fullname.localeCompare(a.fullname));
         break;
       case 'roleAsc':
-        this.filteredEmployees.sort((a, b) => {
+        this.employees.sort((a, b) => {
           if (a.role === b.role) {
             return a.fullname.localeCompare(b.fullname);
           }
@@ -94,7 +96,7 @@ export class Table1Component implements OnInit {
         });
         break;
       case 'roleDsc':
-        this.filteredEmployees.sort((a, b) => {
+        this.employees.sort((a, b) => {
           if (a.role === b.role) {
             return b.fullname.localeCompare(a.fullname);
           }
@@ -102,7 +104,7 @@ export class Table1Component implements OnInit {
         });
         break;
         case 'branchAsc':
-        this.filteredEmployees.sort((a, b) => {
+        this.employees.sort((a, b) => {
           if (a.branch === b.branch) {
             return a.fullname.localeCompare(b.fullname);
           }
@@ -110,7 +112,7 @@ export class Table1Component implements OnInit {
         });
         break;
         case 'branchDsc':
-          this.filteredEmployees.sort((a, b) => {
+          this.employees.sort((a, b) => {
             if (a.branch === b.branch) {
               return b.fullname.localeCompare(a.fullname);
             }
@@ -118,7 +120,7 @@ export class Table1Component implements OnInit {
           });
           break;
         case 'logAsc':
-          this.filteredEmployees.sort((a, b) => {
+          this.employees.sort((a, b) => {
             const dateA = a.lastlogdate
               ? new Date(a.lastlogdate.replace(/(\d{2})\/(\d{2})\/(\d{4}), (\d{2}):(\d{2}):(\d{2})/, '$3-$1-$2T$4:$5:$6'))
               : new Date(0);
@@ -129,7 +131,7 @@ export class Table1Component implements OnInit {
           });
           break;
           case 'bio':
-        this.filteredEmployees.sort((a, b) => {
+        this.employees.sort((a, b) => {
           const aHasBio = (a.fingerprint1 && a.fingerprint1.trim() !== '') || (a.fingerprint2 && a.fingerprint2.trim() !== '');
           const bHasBio = (b.fingerprint1 && b.fingerprint1.trim() !== '') || (b.fingerprint2 && b.fingerprint2.trim() !== '');
 
@@ -139,7 +141,7 @@ export class Table1Component implements OnInit {
         });
         break;
       case 'noBio':
-        this.filteredEmployees.sort((a, b) => {
+        this.employees.sort((a, b) => {
           const aHasBio = (a.fingerprint1 && a.fingerprint1.trim() !== '') || (a.fingerprint2 && a.fingerprint2.trim() !== '');
           const bHasBio = (b.fingerprint1 && b.fingerprint1.trim() !== '') || (b.fingerprint2 && b.fingerprint2.trim() !== '');
 
@@ -152,6 +154,7 @@ export class Table1Component implements OnInit {
   }
 
   onSortChange(sortOption: string) {
+    console.log("Filtered Employees on table: ", this.employees)
     this.sortOption = sortOption;
     this.sortEmployees(this.sortOption);
   }
