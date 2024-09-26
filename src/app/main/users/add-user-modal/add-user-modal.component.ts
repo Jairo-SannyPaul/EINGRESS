@@ -10,6 +10,10 @@ import { DialogService } from 'src/app/services/dialog.service';
   styleUrls: ['./add-user-modal.component.css']
 })
 export class AddUserModalComponent {
+
+  @ViewChild('canvas', { static: false }) canvas!: ElementRef<HTMLCanvasElement>;
+
+
   isVisible: boolean = false;
   addUserForm: boolean = false;
   userForm: FormGroup;
@@ -82,51 +86,51 @@ export class AddUserModalComponent {
     this.resetForm(); // Clear form on closing
   }
 
-   // Utility function to generate profile picture data
-  generateProfilePicture(initial: string): string {
-    const canvas = document.createElement('canvas');
-    const size = 100; // Adjust the canvas size as needed
-    canvas.width = size;
-    canvas.height = size;
-    const ctx = canvas.getContext('2d');
-
-    if (ctx) {
-      // Generate random gradient
-      const gradient = ctx.createLinearGradient(0, 0, size, size);
-      const colors = this.getRandomColors();
-      gradient.addColorStop(0, colors[0]);
-      gradient.addColorStop(1, colors[1]);
-
-      // Draw the background gradient
-      ctx.fillStyle = gradient;
-      ctx.fillRect(0, 0, size, size);
-
-      // Draw the initial
-      ctx.fillStyle = '#FFF'; // White color for the text
-      ctx.font = 'bold 50px Arial'; // Adjust font size and style
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText(initial, size / 2, size / 2);
-    }
-
-    // Return the base64 image data
-    return canvas.toDataURL('image/png');
+  // Form validation logic (you can add more complex logic here if needed)
+  validateForm(): boolean {
+    return this.userForm.valid;
   }
 
-  // Helper function to generate random colors for the gradient
-  getRandomColors(): [string, string] {
-    const randomColor = () => `#${Math.floor(Math.random() * 16777215).toString(16)}`;
-    return [randomColor(), randomColor()];
+  closePopup(): void {
+    this.isPopupVisible = false; // Hide the popup
+    this.isVisible = false;
+    this.resetForm(); // Clear form on closing
   }
 
 
+  getFirstLetter(fullname: string): string {
+    return fullname.charAt(0).toUpperCase();
+  }
+
+  generateRandomGradient(): string {
+    const colors = ['#FF5733', '#33FF57', '#3357FF', '#FF33A6', '#33FFF5'];
+    const randomColor1 = colors[Math.floor(Math.random() * colors.length)];
+    const randomColor2 = colors[Math.floor(Math.random() * colors.length)];
+    return `linear-gradient(135deg, ${randomColor1}, ${randomColor2})`;
+  }
+  
   // Submit the form data
   onSubmit(): void {
     // Mark all fields as touched to trigger validation messages
     this.userForm.markAllAsTouched();
-    this.userForm.get('fingerprint2')?.setValue('');
+    this.userForm.get('fingerprint2')?.setValue('');   
+
     if (this.userForm.valid) {
       const newEmployee = this.userForm.value;
+      
+      const firstLetter = this.getFirstLetter(newEmployee.fullname);
+      const gradient = this.generateRandomGradient();
+
+      // Set the profileImage to a combination of the first letter and gradient for use later
+      newEmployee.profileImage = `${firstLetter}|${gradient}`;
+
+      // Draw on canvas and export to PNG
+      this.drawToCanvas(firstLetter, gradient, (pngDataUrl) => {
+        // Optionally, use the PNG data URL here
+        console.log('Generated PNG URL:', pngDataUrl);
+        // You can now set this PNG URL as an image source or save it
+      });
+
 
       const handleError = (error: any) => {
         let errorMessage = 'Error creating employee.';
@@ -168,15 +172,49 @@ export class AddUserModalComponent {
     }
   }
 
-  // Form validation logic (you can add more complex logic here if needed)
-  validateForm(): boolean {
-    return this.userForm.valid;
-  }
-  
 
-  closePopup(): void {
-    this.isPopupVisible = false; // Hide the popup
-    this.isVisible = false;
-    this.resetForm(); // Clear form on closing
+  // Function to draw the letter and gradient on a canvas and export as PNG
+  drawToCanvas(letter: string, gradient: string, callback: (dataUrl: string) => void): void {
+    const canvas = this.canvas.nativeElement;
+    const context = canvas.getContext('2d');
+
+    if (!context) {
+      console.error('Canvas context could not be obtained.');
+      return;
+    }
+
+    // Parse gradient colors from the string
+    const gradientColors = gradient.match(/#[0-9A-Fa-f]{6}/g);
+    if (!gradientColors || gradientColors.length < 2) {
+      console.error('Invalid gradient colors.');
+      return;
+    }
+
+    // Create the gradient
+    const canvasGradient = context.createLinearGradient(0, 0, canvas.width, canvas.height);
+    canvasGradient.addColorStop(0, gradientColors[0]);
+    canvasGradient.addColorStop(1, gradientColors[1]);
+
+    // Fill the canvas with the gradient
+    context.fillStyle = canvasGradient;
+    context.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Draw the letter in the center
+    context.fillStyle = '#FFFFFF'; // Set the text color
+    context.font = 'bold 60px Arial';
+    context.textAlign = 'center';
+    context.textBaseline = 'middle';
+    context.fillText(letter, canvas.width / 2, canvas.height / 2);
+
+    // Export the canvas content to a PNG data URL
+    const dataUrl = canvas.toDataURL('image/png');
+    callback(dataUrl);
   }
+
+
+
 }
+
+
+
+  
