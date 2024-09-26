@@ -3,7 +3,7 @@ import { UserSelectionComponent } from './user-selection/user-selection.componen
 import { Employee } from 'src/app/interface/employee.interface';
 import { EmployeeDetailsComponent } from './employee-details/employee-details.component';
 import { EmployeeService } from 'src/app/services/employee.service';
-
+import { EmployeeDetailsRevampComponent } from './employee-details-revamp/employee-details-revamp.component';
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
@@ -17,11 +17,15 @@ export class TableComponent {
   @Output() statusChanged = new EventEmitter<string>(); // Emit status changes
   @ViewChild(EmployeeDetailsComponent) employeeDetailsComponent!: EmployeeDetailsComponent; 
   deleteMode: boolean = false;
-
-  constructor(private employeeService: EmployeeService) {}
+  private employeeUpdate!: EmployeeDetailsRevampComponent
+  constructor(private employeeService: EmployeeService, ) {}
 
   onEmployeeSelected(employee: Employee) {
-    this.employeeDetailsComponent.showEmployeeDetails(employee);
+    console.log("Selected Employee")
+    // this.employeeDetailsComponent.showEmployeeDetails(employee);
+    this.employeeService.setSelectedEmployee(employee);
+    this.employeeService.openUpdateModal();
+    
   }
 
   ngOnInit() {

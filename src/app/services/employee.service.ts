@@ -65,6 +65,8 @@ export class EmployeeService {
     return this.http.post<any>(`${this.apiUrl}`, formData);
   }
 
+  
+
   addEmployeeWithoutImage(employee: Employee): Observable<any> {
     const formData: FormData = new FormData();
     console.log(employee);
@@ -217,6 +219,25 @@ export class EmployeeService {
     this.modalVisibleSubject.next(false);
   }
 
+  //for update modal popup
+  private updateModalVisibleSubject = new BehaviorSubject<boolean>(false);
+  updateModalVisible$ = this.updateModalVisibleSubject.asObservable();
+  openUpdateModal() {
+    console.log("update modal opened")
+    this.updateModalVisibleSubject.next(true);
+  }
+  closeUpdateModal() {
+    this.updateModalVisibleSubject.next(false);
+  }
+
+  //selected Employee for update modal
+  private selectedEmployeeSubject = new BehaviorSubject<Employee | null>(null);
+  selectedEmployee$ = this.selectedEmployeeSubject.asObservable();
+
+  setSelectedEmployee(employee: Employee) {
+    this.selectedEmployeeSubject.next(employee);
+  }
+
   //for clicking yes in discard popup
   private editModeSource = new BehaviorSubject<boolean>(false);
   editMode$ = this.editModeSource.asObservable();
@@ -227,5 +248,13 @@ export class EmployeeService {
   }
   setEditMode(isEditing: boolean) {
     this.editModeSource.next(isEditing);
+  }
+
+  //for toggling filter
+  private filterClickSource = new BehaviorSubject<boolean>(false); // Default is false
+  filterClick$ = this.filterClickSource.asObservable();
+
+  setFilterClick(value: boolean): void {
+    this.filterClickSource.next(value); // Emit the new value
   }
 }

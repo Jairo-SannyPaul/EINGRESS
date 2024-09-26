@@ -17,6 +17,7 @@ export class MainComponent {
   isPopupVisible: boolean = false;
   isErrorPopupVisible: boolean = false;
   showAddUserModal: boolean = false;
+  showUpdateModal: boolean = true;
   isDiscardPopupVisible: boolean = false;
 
   openAddUserModal() {
@@ -39,6 +40,11 @@ export class MainComponent {
 
     this.employeeService.modalVisible$.subscribe((visible: boolean) => {
       this.showAddUserModal = visible;
+    });
+
+    this.employeeService.updateModalVisible$.subscribe((visible: boolean) => {
+      console.log("update modal visible")
+      this.showUpdateModal = visible;
     });
   }
 

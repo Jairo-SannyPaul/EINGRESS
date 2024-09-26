@@ -13,5 +13,79 @@
             <app-header-bell></app-header-bell>
             <app-header-profile></app-header-profile>
         </div>
-    </div>    
+        <!-- <div class="dropdown" [ngClass]="{ 'show': isDropdownOpen }">
+            <h2>{{ username }}</h2>
+            <h5>Administrator</h5>
+            <button class="manage-account" (click)="openDialog()">
+                <img src="/assets/images/settings.png" alt="Manage Account Icon" class="icon">
+                <span>Manage account</span>
+            </button>        
+        </div> -->
+    </div>
 </div>
+
+<div *ngIf="filterClick" class="filter-container">
+    <div class="filter-options">
+        <div class="left">
+            <div class="search-label">
+                <label>Search by:</label>
+              </div>
+          
+              <div class="name-button">
+                <button class="name-option" (click)="setNameFilter()">Name</button>
+              </div>
+          
+              <div class="role-button">
+                <button class="role-option" (click)="setRoleFilter()">Role</button>
+              </div>
+          
+              <div class="rfid-button">
+                <button class="rfid-option" (click)="setRFIDFilter()">RFID</button>
+              </div>
+          
+              <div class="branch-button">
+                <button class="branch-option" (click)="setBranchFilter()">Branch</button>
+              </div>
+          
+              <div class="fingerprint-button">
+                <button class="fingerprint-option" (click)="setFingerprintFilter()">Fingerprint</button>
+              </div>
+        </div>
+      
+        <div class="right">
+            <div class="sort-container">
+                <div class="sort-label">
+                    <label>Sort by:</label>
+                </div>
+                
+                <div class="sort-options-container">
+                    <select class="sort-options">
+                        <option value="" disabled selected>Choose</option>
+                        <option value="nameAsc">Sort by Name (A-Z)</option>
+                        <option value="nameDsc">Sort by Name (Z-A)</option>
+                        <option value="roleAsc">Sort by Role (A-Z)</option>
+                        <option value="roleDsc">Sort by Role (Z-A)</option>
+                        <option value="branchAsc">Sort by Branch (A-Z)</option>
+                        <option value="branchDsc">Sort by Branch (Z-A)</option>
+                        <option value="logAsc">Sort by Last Log (Recent)</option>
+                        <option value="bio">Has Registered Bio</option>
+                        <option value="noBio">No Registered Bio</option>
+                    </select>
+                </div>
+            </div>
+            <div class="date-container">
+                <div class="date-label">
+                    <label>Date:</label>
+                </div>
+                <div class="datepicker" >
+                    <mat-form-field appearance="fill" class="date-field">
+                      <input matInput [matDatepicker]="picker" placeholder="MM/DD/YYYY" class="date-input">
+                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                      <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+  

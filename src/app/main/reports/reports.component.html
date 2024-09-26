@@ -1,9 +1,8 @@
-
+<app-reports-searchfield class="searchField" [selectedReportsFilter]="selectedReportsFilter"></app-reports-searchfield>
 <div class="contents">
   <div class="users-list">
     <!-- <div class="header">
       <div class="left">
-        <app-reports-searchfield [selectedReportsFilter]="selectedReportsFilter"></app-reports-searchfield>
         <button class="filterbtn" (click)="toggleFilter()">
           <img src="/assets/images/filter-black.png">
         </button>
@@ -23,7 +22,7 @@
 
     <div *ngIf="filterToggle" @slideIn class="filterTab">
       <div class="searchBy">
-        <span>Search by:</span>
+        <span>Search by:</span> 
         <div>
         <button class="filter name" [ngClass]="{'active-filter': selectedReportsFilter === 'name'}"
           (click)="selectName()">Name</button>

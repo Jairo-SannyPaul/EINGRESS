@@ -1,8 +1,10 @@
-import { Component, HostListener, ElementRef, Renderer2, OnInit } from '@angular/core';
+import { Component, HostListener, ElementRef, Renderer2, OnInit, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router, NavigationEnd } from '@angular/router';
 import { AdminpopupComponent } from '../adminpopup/adminpopup.component';
 import { HeaderLabelService } from '../services/header-label.service';
+import { EmployeeService } from '../services/employee.service';
+import { FiltersService } from '../services/filters.service';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -16,9 +18,15 @@ export class HeaderComponent implements OnInit {
   headerTitle: string = '';
   descriptionTitle: string = '';
   username: string = '';
-
-
-  constructor(private elRef: ElementRef, public dialog: MatDialog, private headerLabelService: HeaderLabelService, private router: Router) {}
+  filterClick: boolean = false;
+  constructor(
+    private elRef: ElementRef, 
+    public dialog: MatDialog, 
+    private headerLabelService: HeaderLabelService, 
+    private router: Router, 
+    private employeeService: EmployeeService,
+    private filtersService: FiltersService
+   ) {}
 
   ngOnInit(): void {
     // Retrieve the username from localStorage
@@ -39,12 +47,26 @@ export class HeaderComponent implements OnInit {
     });
     
 
-    // Subscribe to route changes to update filter button visibility
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        this.showFilterButton = !event.urlAfterRedirects.includes('/dashboard');
-      }
+    this.employeeService.filterClick$.subscribe((value: boolean) => {
+      this.filterClick = value;
+      console.log('Filter clicked:', this.filterClick);
     });
+ // Initialize the filter button based on the current URL when the component is loaded (page refresh)
+  this.checkFilterButtonVisibility(this.router.url);
+
+ // Subscribe to router events to handle navigation changes
+  this.router.events.subscribe(event => {
+    if (event instanceof NavigationEnd) {
+      this.checkFilterButtonVisibility(event.urlAfterRedirects);
+    }
+  });
+}
+  checkFilterButtonVisibility(url: string) {
+    this.showFilterButton = url.includes('/reports') || url.includes('/users');
+  }
+
+  toggleFilter() {
+    this.filterClick = !this.filterClick;
   }
 
   openDialog(): void {
@@ -83,4 +105,30 @@ export class HeaderComponent implements OnInit {
     // this.isDropdownOpen = this.isActive; 
     this.router.navigateByUrl('/main/admin')
   }
+  
+  toggleFilterOptions(): void {
+    // Emit true when the filter is toggled
+    // this.filterService.setFilterClick(true);
+  }
+
+  setNameFilter() {
+    this.filtersService.setFilter('name');
+  }
+
+  setRoleFilter() {
+    this.filtersService.setFilter('role');
+  }
+
+  setRFIDFilter() {
+    this.filtersService.setFilter('rfid');
+  }
+
+  setBranchFilter() {
+    this.filtersService.setFilter('branch');
+  }
+
+  setFingerprintFilter() {
+    this.filtersService.setFilter('fingerprint');
+  }
+
 }
