@@ -38,6 +38,7 @@ type LoginSession = {
   ]
 })
 export class ReportsComponent implements OnInit {
+  headerShown = false;
   loading: boolean = true;
   employeeList: Employee[] = [];
   selectedEmployee: Employee | null = null;
@@ -95,6 +96,11 @@ export class ReportsComponent implements OnInit {
     // Update the header title to "Dashboard"
     this.headerLabelService.updateTitle('Reports');
     this.headerLabelService.updateHeaderTitle('Employees Login Session')
+
+    this.filtersService.dateFilter$.subscribe(date => {
+      this.selectedDate = date;
+      this.filterEmployeesByDate(); // Call the filtering method whenever the date changes
+    });
   }
 
     getEmployeeById(userId: string) {
@@ -154,7 +160,6 @@ export class ReportsComponent implements OnInit {
         }
       );
   }
-
   filterEmployeesByDate() {
     if (this.selectedDate) {
       this.filteredEmployees = this.employeeList.filter(employee =>
@@ -163,8 +168,7 @@ export class ReportsComponent implements OnInit {
         )
       );
     } else {
-      // If no date is selected, show all employees
-      this.filteredEmployees = this.employeeList;
+      this.filteredEmployees = this.employeeList; // Show all employees if no date is selected
     }
   }
 

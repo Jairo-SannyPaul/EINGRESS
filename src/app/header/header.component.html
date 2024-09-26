@@ -31,25 +31,36 @@
                 <label>Search by:</label>
               </div>
           
-              <div class="name-button">
-                <button class="name-option" (click)="setNameFilter()">Name</button>
-              </div>
-          
-              <div class="role-button">
-                <button class="role-option" (click)="setRoleFilter()">Role</button>
-              </div>
-          
-              <div class="rfid-button">
-                <button class="rfid-option" (click)="setRFIDFilter()">RFID</button>
-              </div>
-          
-              <div class="branch-button">
-                <button class="branch-option" (click)="setBranchFilter()">Branch</button>
-              </div>
-          
-              <div class="fingerprint-button">
-                <button class="fingerprint-option" (click)="setFingerprintFilter()">Fingerprint</button>
-              </div>
+              <div class="name-button" 
+              [ngClass]="{'active': activeFilter === 'name'}" 
+              (click)="setNameFilter()">
+             Name
+         </div>
+         
+         <div class="role-button" 
+              [ngClass]="{'active': activeFilter === 'role'}" 
+              (click)="setRoleFilter()">
+             Role
+         </div>
+         
+         <div class="rfid-button" 
+              [ngClass]="{'active': activeFilter === 'rfid'}" 
+              (click)="setRFIDFilter()">
+             RFID
+         </div>
+         
+         <div class="branch-button" 
+              [ngClass]="{'active': activeFilter === 'branch'}" 
+              (click)="setBranchFilter()">
+             Branch
+         </div>
+         
+         <div class="fingerprint-button" 
+              [ngClass]="{'active': activeFilter === 'fingerprint'}" 
+              (click)="setFingerprintFilter()">
+             Fingerprint
+         </div>
+         
         </div>
       
         <div class="right">
@@ -59,7 +70,7 @@
                 </div>
                 
                 <div class="sort-options-container">
-                    <select class="sort-options">
+                    <select class="sort-options" [(ngModel)]="sortOption" (change)="onSortChange()" >
                         <option value="" disabled selected>Choose</option>
                         <option value="nameAsc">Sort by Name (A-Z)</option>
                         <option value="nameDsc">Sort by Name (Z-A)</option>
@@ -79,7 +90,7 @@
                 </div>
                 <div class="datepicker" >
                     <mat-form-field appearance="fill" class="date-field">
-                      <input matInput [matDatepicker]="picker" placeholder="MM/DD/YYYY" class="date-input">
+                      <input matInput [matDatepicker]="picker" placeholder="MM/DD/YYYY" class="date-input" (dateChange)="onDateChanged($event)" >
                       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                       <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field>

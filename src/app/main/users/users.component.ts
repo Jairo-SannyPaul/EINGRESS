@@ -9,6 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 
 
 import { HeaderLabelService } from 'src/app/services/header-label.service';
+import { FiltersService } from 'src/app/services/filters.service';
 
 @Component({
   selector: 'app-users',
@@ -51,10 +52,31 @@ export class UsersComponent {
   constructor(
     private employeeService: EmployeeService,
     private headerLabelService: HeaderLabelService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private filtersService: FiltersService
   ) {}
 
   ngOnInit() {
+    this.filtersService.selectedFilter$.subscribe(filter => {
+      switch (filter) {
+        case 'name':
+          this.selectName();
+          break;
+        case 'role':
+          this.selectRole();
+          break;
+        case 'rfid':
+          this.selectRfid();
+          break;
+        case 'fingerprint':
+          this.selectFingerprint();
+          break;
+        default:
+          break;
+      }
+    });
+
+
     // Subscribe to the sortOption observable
     this.sortOptionSubscription = this.employeeService.sortOption$.subscribe(sortOption => {
       this.sortOption = sortOption;
@@ -97,24 +119,28 @@ onSortChange(sortOption?: string) {
   }
 
   selectName(){
+    console.log("Users name filter selected")
     this.selectedFilter ='name';
     this.employeeService.setFilterOption(this.selectedFilter);
     this.searchFieldComponent.clearSearchField();
   }
 
   selectRole(){
+    console.log("Users role filter selected")
     this.selectedFilter ='role';
     this.employeeService.setFilterOption(this.selectedFilter);
     this.searchFieldComponent.clearSearchField();
   }
 
   selectRfid(){
+    console.log("Users RFID filter selected")
     this.selectedFilter ='rfid';
     this.employeeService.setFilterOption(this.selectedFilter);
     this.searchFieldComponent.clearSearchField();
   }
 
   selectFingerprint(){
+    console.log("Users fingerprint filter selected")
     this.selectedFilter ='fingerprint';
     this.employeeService.setFilterOption(this.selectedFilter);
     this.searchFieldComponent.clearSearchField();

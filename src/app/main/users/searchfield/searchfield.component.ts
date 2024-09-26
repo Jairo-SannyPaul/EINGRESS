@@ -2,6 +2,7 @@ import { Component, ElementRef, Input, EventEmitter, Output, ViewChild } from '@
 import { EmployeeService } from 'src/app/services/employee.service';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import { FiltersService } from 'src/app/services/filters.service';
 
 @Component({
   selector: 'app-searchfield',
@@ -16,12 +17,20 @@ export class SearchfieldComponent {
   searchEmployee: string = '';
   isFocused: boolean = false;
   private reloadSubscription: Subscription = new Subscription();
+  private searchValueSubscription: Subscription = new Subscription(); // Subscription for search value changes
 
-  constructor(private employeeService: EmployeeService, private route: ActivatedRoute) { }
+
+  constructor(private employeeService: EmployeeService, private route: ActivatedRoute, private filtersService: FiltersService) { }
 
   ngOnInit() {
     this.reloadSubscription = this.employeeService.reload$.subscribe(() => {
       this.searchInput.nativeElement.value = "";
+    });
+
+    this.searchValueSubscription = this.filtersService.searchValue$.subscribe(value => {
+      this.searchEmployee = value; // Update searchEmployee with the value emitted from FiltersService
+      this.searchInput.nativeElement.value = this.searchEmployee; // Set the input field value
+      this.onSearchUserInputChanged(); // Trigger search based on new input
     });
   }
 
@@ -46,7 +55,8 @@ export class SearchfieldComponent {
     }
   }
   onSearchUserInputChanged() {
-    this.searchEmployee = this.searchInput.nativeElement.value;
+    this.searchEmployee = this.searchInput.nativeElement.value; // Get the latest value
+    console.log("Input value: ", this.searchEmployee); // Log the current input value
     this.employeeService.triggerSearchUser(this.searchEmployee);
   }
 
