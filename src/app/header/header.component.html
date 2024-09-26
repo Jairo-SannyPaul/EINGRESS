@@ -70,7 +70,7 @@
                 </div>
                 
                 <div class="sort-options-container">
-                    <select class="sort-options">
+                    <select class="sort-options" [(ngModel)]="sortOption" (change)="onSortChange()">
                         <option value="" disabled selected>Choose</option>
                         <option value="nameAsc">Sort by Name (A-Z)</option>
                         <option value="nameDsc">Sort by Name (Z-A)</option>

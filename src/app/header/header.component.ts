@@ -20,6 +20,8 @@ export class HeaderComponent implements OnInit {
   username: string = '';
   filterClick: boolean = false;
   activeFilter: string = 'name';
+  sortOption: string = 'nameAsc';
+
   constructor(
     private elRef: ElementRef, 
     public dialog: MatDialog, 
@@ -138,4 +140,10 @@ setFingerprintFilter() {
   this.filtersService.setFilter('fingerprint');
 }
 
+
+
+onSortChange() {
+  console.log('Sort option from header changes:', this.sortOption); // Debugging log
+  this.employeeService.setSortOption(this.sortOption);
+}
 }

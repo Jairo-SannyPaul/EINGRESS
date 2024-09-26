@@ -38,6 +38,7 @@ type LoginSession = {
   ]
 })
 export class ReportsComponent implements OnInit {
+  headerShown = false;
   loading: boolean = true;
   employeeList: Employee[] = [];
   selectedEmployee: Employee | null = null;
