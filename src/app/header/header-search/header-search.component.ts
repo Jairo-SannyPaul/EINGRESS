@@ -22,10 +22,10 @@ export class HeaderSearchComponent {
   noResultsFound: boolean = false;
   filterToggle: boolean = false;  // New property to control filter visibility
   currentFilterState!: boolean;
+  isDashboardState: boolean = false; // Flag to track if we are in the dashboard state
 
   private searchSubscription: Subscription = new Subscription(); // Subscription to handle search
   private filterClickSubscription: Subscription = new Subscription(); // Subscription for filter click
-
 
   constructor(
     private employeeService: EmployeeService,
@@ -36,10 +36,10 @@ export class HeaderSearchComponent {
     // Subscribe to the filterClick$ once in ngOnInit and track current filter state
     this.filterClickSubscription = this.employeeService.filterClick$.subscribe(currentValue => {
       this.filterToggle = currentValue;
-    })
+    });
 
-     // Initialize the filtersearch based on the current URL when the component is loaded (page refresh)
-  this.changeSearchState(this.router.url);
+    // Initialize the filter search based on the current URL when the component is loaded (page refresh)
+    this.changeSearchState(this.router.url);
 
     // Subscribe to router events to handle navigation changes
     this.router.events.subscribe(event => {
@@ -53,12 +53,15 @@ export class HeaderSearchComponent {
     // Check if the current URL includes specific paths
     if (url.includes('/reports')) {
       console.log("Reports search state");
+      this.isDashboardState = false; // Set the flag for dashboard state
       // Change the search state for reports
     } else if (url.includes('/dashboard')) {
       console.log("Dashboard search state");
+      this.isDashboardState = true; // Set the flag for dashboard state
       // Change the search state for dashboard
     } else if (url.includes('/users')) {
       console.log("User search state");
+      this.isDashboardState = false; // Set the flag for dashboard state
       // Change the search state for users
     }
   }
@@ -69,9 +72,12 @@ export class HeaderSearchComponent {
     this.employeeService.setFilterClick(!this.filterToggle);
   }
 
-
   // Filter options based on input
   filterOptions(event: Event): void {
+    if (!this.isDashboardState) {
+      return; // Exit if we are not in the dashboard state
+    }
+
     this.inputValue = (event.target as HTMLInputElement).value; // Update input value
 
     if (this.inputValue.length > 0) {
