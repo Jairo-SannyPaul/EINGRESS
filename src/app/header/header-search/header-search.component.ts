@@ -3,6 +3,7 @@ import { EmployeeService } from 'src/app/services/employee.service';
 import { Employee } from 'src/app/interface/employee.interface'; // Make sure the Employee interface is imported
 import { Subscription } from 'rxjs';
 import { Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-header-search',
@@ -12,7 +13,7 @@ import { Router, NavigationEnd } from '@angular/router';
 export class HeaderSearchComponent {
   @Input() showFilterButton: boolean = false;
   @Output() searchEvent = new EventEmitter<string>();
-  @Output() filterToggleEvent = new EventEmitter<boolean>(); 
+  @Output() filterToggleEvent = new EventEmitter<boolean>();
 
   showDropdown = false;
   options: string[] = [];
@@ -20,18 +21,46 @@ export class HeaderSearchComponent {
   inputValue: string = '';
   noResultsFound: boolean = false;
   filterToggle: boolean = false;  // New property to control filter visibility
-  currentFilterState!: boolean; 
-  
+  currentFilterState!: boolean;
+
   private searchSubscription: Subscription = new Subscription(); // Subscription to handle search
   private filterClickSubscription: Subscription = new Subscription(); // Subscription for filter click
-  
 
-  constructor(private employeeService: EmployeeService) {}
+
+  constructor(
+    private employeeService: EmployeeService,
+    private router: Router,
+  ) { }
+
   ngOnInit(): void {
     // Subscribe to the filterClick$ once in ngOnInit and track current filter state
     this.filterClickSubscription = this.employeeService.filterClick$.subscribe(currentValue => {
       this.filterToggle = currentValue;
+    })
+
+     // Initialize the filtersearch based on the current URL when the component is loaded (page refresh)
+  this.changeSearchState(this.router.url);
+
+    // Subscribe to router events to handle navigation changes
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.changeSearchState(event.urlAfterRedirects);
+      }
     });
+  }
+
+  changeSearchState(url: string) {
+    // Check if the current URL includes specific paths
+    if (url.includes('/reports')) {
+      console.log("Reports search state");
+      // Change the search state for reports
+    } else if (url.includes('/dashboard')) {
+      console.log("Dashboard search state");
+      // Change the search state for dashboard
+    } else if (url.includes('/users')) {
+      console.log("User search state");
+      // Change the search state for users
+    }
   }
 
   // Toggle the visibility of filter options
@@ -39,7 +68,7 @@ export class HeaderSearchComponent {
     // Toggle the value of filterClick using the current filter state
     this.employeeService.setFilterClick(!this.filterToggle);
   }
-  
+
 
   // Filter options based on input
   filterOptions(event: Event): void {
@@ -81,14 +110,14 @@ export class HeaderSearchComponent {
     this.showDropdown = false;          // Hide the dropdown once an option is selected
     this.searchEvent.emit(option.fullname); // Emit the selected fullname, or you can emit the entire option if needed
   }
-  
+
   // Hide dropdown when clicking outside
   @HostListener('document:click', ['$event'])
   onClick(event: MouseEvent): void {
     const target = event.target as HTMLElement;
     const inputField = document.querySelector('.search-field input') as HTMLElement;
     const dropdown = document.querySelector('.dropdown') as HTMLElement;
-  
+
     // Check if dropdown is not null before using it
     if (dropdown && target !== inputField && !dropdown.contains(target)) {
       this.showDropdown = false; // Hide dropdown
@@ -97,7 +126,7 @@ export class HeaderSearchComponent {
       this.showDropdown = this.inputValue.length > 0 && (this.filteredOptions.length > 0 || this.noResultsFound);
     }
   }
-  
+
   ngOnDestroy() {
     // Unsubscribe to avoid memory leaks
     if (this.searchSubscription) {
