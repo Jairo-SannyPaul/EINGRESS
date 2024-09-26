@@ -82,22 +82,6 @@ export class RecentAlertsComponent implements OnInit {
       }
     );
   }
-  
-  
-
-  filterAndSortAlerts(alerts: { type: string, message: string, timestamp?: string }[]): { type: string, message: string }[] {
-    return alerts
-      .filter(alert => alert.timestamp) // Ensure timestamp exists
-      .sort((a, b) => {
-        const timeA = new Date(a.timestamp!).getTime();
-        const timeB = new Date(b.timestamp!).getTime();
-        return timeB - timeA; // Most recent first
-      })
-      .map(alert => ({
-        type: alert.type,
-        message: alert.message
-      }));
-  }
 
   getMostRecentAccessTime(employee: Employee): Date {
     const accessTimes = employee.accessLogs?.map(log => new Date(log.accessDateTime)) || [];

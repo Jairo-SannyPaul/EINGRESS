@@ -15,6 +15,7 @@
   box-shadow: 5px 0px 10px rgba(0, 0, 0, 0.3);
   overflow: hidden;
   padding: 10px;
+  z-index: 1;
 }
 .side-bar:not(.locked){
   padding-left: 15px;

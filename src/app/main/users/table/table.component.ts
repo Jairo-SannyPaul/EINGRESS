@@ -4,6 +4,8 @@ import { Employee } from 'src/app/interface/employee.interface';
 import { EmployeeDetailsComponent } from './employee-details/employee-details.component';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { EmployeeDetailsRevampComponent } from './employee-details-revamp/employee-details-revamp.component';
+import { ActivatedRoute } from '@angular/router';
+
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
@@ -18,7 +20,7 @@ export class TableComponent {
   @ViewChild(EmployeeDetailsComponent) employeeDetailsComponent!: EmployeeDetailsComponent; 
   deleteMode: boolean = false;
   private employeeUpdate!: EmployeeDetailsRevampComponent
-  constructor(private employeeService: EmployeeService, ) {}
+  constructor(private employeeService: EmployeeService, private route: ActivatedRoute ) {}
 
   onEmployeeSelected(employee: Employee) {
     console.log("Selected Employee")
@@ -31,6 +33,18 @@ export class TableComponent {
   ngOnInit() {
     this.employeeService.deleteMode$.subscribe((mode: boolean) => {
       this.deleteMode = mode;
+    });
+
+    this.route.queryParams.subscribe(params => {
+      if (params['status'] === 'registered') {
+        this.toggleRegistered();
+      }
+    });
+
+    this.route.queryParams.subscribe(params => {
+      if (params['status'] === 'unregistered') {
+        this.toggleUnregistered();
+      }
     });
   }
 

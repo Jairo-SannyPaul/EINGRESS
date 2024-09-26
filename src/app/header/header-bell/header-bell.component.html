@@ -1,11 +1,14 @@
 <div class="notification-bell">
-    <img src="/assets/images/notification-bell-icon.svg" alt="Notification Bell" (click)="toggleNotificationDropdown()">
+    <img [src]="hasNewAlerts ? '/assets/images/new-alerts-icon.svg' : '/assets/images/notification-bell-icon.svg'" alt="Notification Bell" (click)="toggleNotificationDropdown()">
     <!-- Notification Dropdown -->
     <div class="notification-dropdown" [ngClass]="{ 'show': isNotificationOpen }">
         <div class="dropdown-header">
             <h4>Notifications</h4>
+            <button class="close-button" (click)="isNotificationOpen = false">
+                <img src="/assets/images/close-button.svg" alt="close">
+            </button>
         </div>
-        <div class="dropdown-body" [ngStyle]="{ height: isPreviousNotificationsView ? '780px' : '392px' }">
+        <div class="dropdown-body" [ngStyle]="{ height: isPreviousNotificationsView ? '750px' : '392px' }">
             <div *ngIf="recentAlerts.length === 0">
                 <p class="no-data">No data</p>
             </div>

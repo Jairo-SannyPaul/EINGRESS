@@ -206,9 +206,11 @@ export class DashboardComponent implements OnInit{
     this.loading = isLoading;
   }
 
-  redirectToUsersStatus() {
-    // Navigate to the 'users' component with the 'status' query parameter set to 'registered'
-    console.log("Redirecting to UsersComponent...");
+  redirectToUsersRegistered() {
     this.router.navigate(['/main/users'], { queryParams: { status: 'registered' } });
+}
+
+  redirectToUsersUnregistered(){
+    this.router.navigate(['/main/users'], { queryParams: { status: 'unregistered'} });
 }
 }

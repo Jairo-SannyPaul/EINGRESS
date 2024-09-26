@@ -1,6 +1,8 @@
-<div class="contents">
+<div class="contents" [ngClass]="{'navbar-locked': isNavbarLocked}">
     <div class="header">
-        <app-header></app-header>
+        <div class="inner-header">
+            <app-header></app-header>
+        </div>
     </div>
     <div class="navbar" [ngClass]="{'locked': isNavbarLocked}">
         <app-navbar (lockStateChange)="onLockStateChange($event)"></app-navbar>

@@ -19,6 +19,7 @@ export class HeaderBellComponent {
   maxEmployeesDisplayed: number = 100;
   isNotificationOpen = false;
   isPreviousNotificationsView = false;
+  hasNewAlerts: boolean = false;
 
   constructor(
     private employeeService: EmployeeService,
@@ -27,70 +28,74 @@ export class HeaderBellComponent {
   ) { }
 
   ngOnInit(): void {
-  //   this.recentAlerts = [
-  //     { type: 'login', message: 'Test User has entered the building at 10:00 AM' },
-  //     { type: 'error', message: 'Unregister: Someone is trying to enter.' }
-  // ];
     this.loadRecentAlerts();
+    this.hasNewAlerts = false;
   }
 
-  // Method to toggle notification dropdown visibility
   toggleNotificationDropdown(): void {
-    if (this.isNotificationOpen) {
-      // If closing, reset the previous notifications view
-      this.isPreviousNotificationsView = false;
+    console.log('Dropdown toggled. Current state:', this.isNotificationOpen);
+    if (!this.isNotificationOpen) {
+      this.hasNewAlerts = false; // Reset to false
+      localStorage.setItem('hasNewAlerts', 'false');
     }
-    this.isNotificationOpen = !this.isNotificationOpen;
-  }
 
-  // Method to handle 'See previous notifications' button click
+    this.isNotificationOpen = !this.isNotificationOpen; 
+}
+
   viewPreviousNotifications(): void {
     this.isPreviousNotificationsView = true;
-    console.log('Navigating to previous notifications...');
-    // Add logic to navigate or show previous notifications here
   }
 
   loadRecentAlerts() {
     this.errorLogService.getErrorLogs().subscribe(
-        (errorLogs: ErrorLog[]) => {
-            const currentDate = new Date().toLocaleDateString();
-            
-            // Process error logs
-            const errorLogAlerts = errorLogs
-                .filter(log => new Date(log.timestamp!).toLocaleDateString() === currentDate)
-                .map(log => {
-                    const timestamp = log.timestamp || '';
-                    let message: string;
+      (errorLogs: ErrorLog[]) => {
+        const currentDate = new Date().toLocaleDateString();
 
-                    // Transform error log messages into alerts
-                    if (log.message === 'Employee not found.') {
-                        message = `Unregister`;
-                    } else if (log.message === 'Error Fingerprint not match:') {
-                        message = `Unauthorized Bio`;
-                    } else {
-                        message = log.message; // Catch-all for other messages
-                    }
+        // Process error logs
+        const errorLogAlerts = errorLogs
+          .filter(log => new Date(log.timestamp!).toLocaleDateString() === currentDate)
+          .map(log => {
+            const timestamp = log.timestamp || '';
+            let message: string;
 
-                    return { type: 'error', message: message, timestamp: timestamp };
-                });
+            // Transform error log messages into alerts
+            if (log.message === 'Employee not found.') {
+              message = `Unregister`;
+            } else if (log.message === 'Error Fingerprint not match:') {
+              message = `Unauthorized Bio`;
+            } else {
+              message = log.message; // Catch-all for other messages
+            }
 
-            // Sort the logs by timestamp (most recent first)
-            this.recentAlerts = errorLogAlerts
-                .sort((a, b) => new Date(b.timestamp!).getTime() - new Date(a.timestamp!).getTime())
-                .slice(0, 100) // Limit to 100 most recent alerts
-                .map(alert => ({
-                    type: alert.type,
-                    message: alert.message,
-                    timestamp: alert.timestamp
-                }));
+            return { type: 'error', message: message, timestamp: timestamp };
+          });
 
-            console.log(this.recentAlerts); // Debugging: Logs the processed alerts
-        },
-        error => {
-            console.error('Error fetching error logs:', error);
-        }
+        const previousAlertCount = this.recentAlerts.length;
+
+        // Sort the logs by timestamp (most recent first)
+        this.recentAlerts = errorLogAlerts
+          .sort((a, b) => new Date(b.timestamp!).getTime() - new Date(a.timestamp!).getTime())
+          .slice(0, 100) // Limit to 100 most recent alerts
+          .map(alert => ({
+            type: alert.type,
+            message: alert.message,
+            timestamp: alert.timestamp
+          }));
+
+        // Check for new alerts
+        this.hasNewAlerts = this.recentAlerts.some(alert =>
+          alert.message === 'Unregister' || alert.message === 'Unauthorized Bio'
+        );
+
+        // Update local storage for hasNewAlerts
+        localStorage.setItem('hasNewAlerts', String(this.hasNewAlerts));
+      },
+      error => {
+        console.error('Error fetching error logs:', error);
+      }
     );
-}
+  }
+
 
   filterAndSortAlerts(alerts: { type: string, message: string, timestamp?: string }[]): { type: string, message: string }[] {
     return alerts
@@ -118,13 +123,13 @@ export class HeaderBellComponent {
 
     if (timeDiffInSeconds < 3600) {
       const minutes = Math.floor(timeDiffInSeconds / 60);
-      return minutes === 1 ? '1 minute ago' : `${minutes} minutes ago`;
+      return minutes === 1 ? '1m ago' : `${minutes}m ago`;
     } else if (timeDiffInSeconds < 86400) {
       const hours = Math.floor(timeDiffInSeconds / 3600);
-      return hours === 1 ? '1 hour ago' : `${hours} hours ago`;
+      return hours === 1 ? '1h ago' : `${hours}h ago`;
     } else {
       const days = Math.floor(timeDiffInSeconds / 86400);
-      return days === 1 ? '1 day ago' : `${days} days ago`;
+      return days === 1 ? '1day ago' : `${days}days ago`;
     }
   }
 
