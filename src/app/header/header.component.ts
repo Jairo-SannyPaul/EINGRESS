@@ -39,17 +39,22 @@ export class HeaderComponent implements OnInit {
     });
     
 
-    // Subscribe to route changes to update filter button visibility
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        this.showFilterButton = !event.urlAfterRedirects.includes('/dashboard');
-      }
-    });
-
     this.employeeService.filterClick$.subscribe((value: boolean) => {
       this.filterClick = value;
       console.log('Filter clicked:', this.filterClick);
     });
+ // Initialize the filter button based on the current URL when the component is loaded (page refresh)
+  this.checkFilterButtonVisibility(this.router.url);
+
+ // Subscribe to router events to handle navigation changes
+  this.router.events.subscribe(event => {
+    if (event instanceof NavigationEnd) {
+      this.checkFilterButtonVisibility(event.urlAfterRedirects);
+    }
+  });
+}
+  checkFilterButtonVisibility(url: string) {
+    this.showFilterButton = url.includes('/reports') || url.includes('/users');
   }
 
   toggleFilter() {
