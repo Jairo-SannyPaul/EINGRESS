@@ -22,7 +22,7 @@ export class HeaderComponent implements OnInit {
   filterClick: boolean = false;
   activeFilter: string = 'name';
   sortOption: string = 'nameAsc';
-
+  isUsersState: boolean = false;
   constructor(
     private elRef: ElementRef, 
     public dialog: MatDialog, 
@@ -64,7 +64,32 @@ export class HeaderComponent implements OnInit {
       this.checkFilterButtonVisibility(event.urlAfterRedirects);
     }
   });
+
+  this.changeSearchState(this.router.url);
+
+  // Subscribe to router events to handle navigation changes
+  this.router.events.subscribe(event => {
+    if (event instanceof NavigationEnd) {
+      this.changeSearchState(event.urlAfterRedirects);
+    }
+  });
 }
+
+changeSearchState(url: string) {
+  if (url.includes('/reports')) {
+    this.isUsersState = false;
+    console.log("Reports search state");
+    this.filtersService.setFilter('reports');
+    // Change the search state for reports
+  } else if (url.includes('/dashboard')) {
+    this.isUsersState = false;
+    // Change the search state for dashboard
+  } else if (url.includes('/users')) {
+    this.isUsersState = true;
+    console.log("User search state");
+  }
+}
+
   checkFilterButtonVisibility(url: string) {
     this.showFilterButton = url.includes('/reports') || url.includes('/users');
   }

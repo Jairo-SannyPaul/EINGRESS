@@ -13,6 +13,7 @@
   justify-content: center;
   position: relative;
   z-index: 1;
+  
 }
 
 .filter-options{
@@ -23,11 +24,12 @@
   width: 75%;
   height: 79px;
   margin-top: 15px;
-  padding: 16px 22px 16px 22px;
+  padding: 16px;
   gap: 10px;
   border-radius: 5px;
   background-color: #FFFFFF;
   justify-content: left;
+  justify-content: space-between;
 }
 
 .left{

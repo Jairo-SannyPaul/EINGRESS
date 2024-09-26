@@ -25,78 +25,89 @@
 </div>
 
 <div *ngIf="filterClick" class="filter-container">
-    <div class="filter-options">
+    <div class="filter-options" [ngStyle]="{ 'width': isUsersState ? '80%' : '75%' }">
         <div class="left">
             <div class="search-label">
                 <label>Search by:</label>
-              </div>
-          
-              <div class="name-button" 
-              [ngClass]="{'active': activeFilter === 'name'}" 
-              (click)="setNameFilter()">
-             Name
-         </div>
-         
-         <div class="role-button" 
-              [ngClass]="{'active': activeFilter === 'role'}" 
-              (click)="setRoleFilter()">
-             Role
-         </div>
-         
-         <div class="rfid-button" 
-              [ngClass]="{'active': activeFilter === 'rfid'}" 
-              (click)="setRFIDFilter()">
-             RFID
-         </div>
-         
-         <div class="branch-button" 
-              [ngClass]="{'active': activeFilter === 'branch'}" 
-              (click)="setBranchFilter()">
-             Branch
-         </div>
-         
-         <div class="fingerprint-button" 
-              [ngClass]="{'active': activeFilter === 'fingerprint'}" 
-              (click)="setFingerprintFilter()">
-             Fingerprint
-         </div>
-         
+            </div>
+
+            <div class="name-button" [ngClass]="{ 'active': activeFilter === 'name' }" (click)="setNameFilter()">
+                Name
+            </div>
+
+            <div class="role-button" [ngClass]="{ 'active': activeFilter === 'role' }" (click)="setRoleFilter()">
+                Role
+            </div>
+
+            <div class="rfid-button" [ngClass]="{ 'active': activeFilter === 'rfid' }" (click)="setRFIDFilter()">
+                RFID
+            </div>
+
+            <div class="branch-button" [ngClass]="{ 'active': activeFilter === 'branch' }" (click)="setBranchFilter()">
+                Branch
+            </div>
+
+            <div class="fingerprint-button" [ngClass]="{ 'active': activeFilter === 'fingerprint' }"
+                (click)="setFingerprintFilter()">
+                Fingerprint
+            </div>
         </div>
-      
+
         <div class="right">
-            <div class="sort-container">
-                <div class="sort-label">
-                    <label>Sort by:</label>
-                </div>
-                
-                <div class="sort-options-container">
-                    <select class="sort-options" [(ngModel)]="sortOption" (change)="onSortChange()" >
-                        <option value="" disabled selected>Choose</option>
-                        <option value="nameAsc">Sort by Name (A-Z)</option>
-                        <option value="nameDsc">Sort by Name (Z-A)</option>
-                        <option value="roleAsc">Sort by Role (A-Z)</option>
-                        <option value="roleDsc">Sort by Role (Z-A)</option>
-                        <option value="branchAsc">Sort by Branch (A-Z)</option>
-                        <option value="branchDsc">Sort by Branch (Z-A)</option>
-                        <option value="logAsc">Sort by Last Log (Recent)</option>
-                        <option value="bio">Has Registered Bio</option>
-                        <option value="noBio">No Registered Bio</option>
-                    </select>
+            <div *ngIf="!isUsersState">
+                <div class="sort-container">
+                    <div class="sort-label">
+                        <label>Sort by:</label>
+                    </div>
+
+                    <div class="sort-options-container">
+                        <select class="sort-options" [(ngModel)]="sortOption" (change)="onSortChange()">
+                            <option value="" disabled selected>Choose</option>
+                            <option value="nameAsc">Sort by Name (A-Z)</option>
+                            <option value="nameDsc">Sort by Name (Z-A)</option>
+                            <option value="roleAsc">Sort by Role (A-Z)</option>
+                            <option value="roleDsc">Sort by Role (Z-A)</option>
+                            <option value="branchAsc">Sort by Branch (A-Z)</option>
+                            <option value="branchDsc">Sort by Branch (Z-A)</option>
+                            <option value="logAsc">Sort by Last Log (Recent)</option>
+                            <option value="bio">Has Registered Bio</option>
+                            <option value="noBio">No Registered Bio</option>
+                        </select>
+                    </div>
                 </div>
             </div>
+
+            <div *ngIf="isUsersState">
+                <div class="sort-container">
+                    <div class="sort-label">
+                        <label>Registered</label>
+                    </div>
+                    <div class="datepicker" *ngIf="isUsersState">
+                        <mat-form-field appearance="fill" class="date-field">
+                            <input matInput [matDatepicker]="picker" placeholder="MM/DD/YYYY" class="date-input"
+                                (dateChange)="onDateChanged($event)">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+
             <div class="date-container">
                 <div class="date-label">
-                    <label>Date:</label>
+                    <label *ngIf="!isUsersState">Date:</label>
+
+                    <label *ngIf="isUsersState">Last login:</label>
                 </div>
-                <div class="datepicker" >
+                <div class="datepicker">
                     <mat-form-field appearance="fill" class="date-field">
-                      <input matInput [matDatepicker]="picker" placeholder="MM/DD/YYYY" class="date-input" (dateChange)="onDateChanged($event)" >
-                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                      <mat-datepicker #picker></mat-datepicker>
+                        <input matInput [matDatepicker]="picker" placeholder="MM/DD/YYYY" class="date-input"
+                            (dateChange)="onDateChanged($event)">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field>
                 </div>
             </div>
         </div>
     </div>
 </div>
-  
