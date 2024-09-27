@@ -177,4 +177,14 @@ onDateChanged(event: MatDatepickerInputEvent<Date>) {
   const selectedDate = event.value ? event.value.toLocaleDateString() : '';
   this.filtersService.updateDateFilter(selectedDate); // Update date in service
 }
+
+onRegisteredDateChanged(event: MatDatepickerInputEvent<Date>) {
+  const selectedDate = event.value || null; // Keep it as a Date object
+  this.filtersService.updateRegDateFilter(selectedDate); // Update date in service
+}
+
+onLastLogDateChanged(event: MatDatepickerInputEvent<Date>) {
+  const selectedDate = event.value ? event.value.toLocaleDateString() : '';
+  this.filtersService.updateDateFilter(selectedDate); // Update date in service
+}
 }

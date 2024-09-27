@@ -82,10 +82,11 @@
                     <div class="sort-label">
                         <label>Registered</label>
                     </div>
+                    <!-- FOR USERS REGISTERED DATE DATEPICKER-->
                     <div class="datepicker" *ngIf="isUsersState">
                         <mat-form-field appearance="fill" class="date-field">
                             <input matInput [matDatepicker]="picker" placeholder="MM/DD/YYYY" class="date-input"
-                                (dateChange)="onDateChanged($event)">
+                                (dateChange)="onRegisteredDateChanged($event)">
                             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                             <mat-datepicker #picker></mat-datepicker>
                         </mat-form-field>
@@ -97,9 +98,12 @@
                 <div class="date-label">
                     <label *ngIf="!isUsersState">Date:</label>
 
+
                     <label *ngIf="isUsersState">Last login:</label>
                 </div>
-                <div class="datepicker">
+
+                <!-- FOR REPORTS DATEPICKER-->
+                <div *ngIf="!isUsersState" class="datepicker">
                     <mat-form-field appearance="fill" class="date-field">
                         <input matInput [matDatepicker]="picker" placeholder="MM/DD/YYYY" class="date-input"
                             (dateChange)="onDateChanged($event)">
@@ -107,6 +111,18 @@
                         <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field>
                 </div>
+                <!-- FOR USERS LAST LOGIN DATEPICKER-->
+                <div *ngIf="isUsersState" class="datepicker">
+                    <mat-form-field appearance="fill" class="date-field">
+                        <input matInput [matDatepicker]="picker" placeholder="MM/DD/YYYY" class="date-input"
+                            (dateChange)="onLastLogDateChanged($event)">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+
+
+
             </div>
         </div>
     </div>

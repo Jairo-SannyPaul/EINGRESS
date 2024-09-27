@@ -119,6 +119,31 @@ export class EmployeeService {
     );
   }
 
+  searchByRegDate(regdateFilter: Date | null): Observable<Employee[]> {
+    return this.getEmployee().pipe(
+      map(employees => {
+        if (!regdateFilter) {
+          return employees; // Return all employees if no date filter is provided
+        }
+  
+        const formattedRegdate = this.formatDateToYYYYMMDD(regdateFilter); // Format the filter date
+        return employees.filter(employee => {
+          // Compare formatted regdate with employee regdate
+          return this.formatDateToYYYYMMDD(new Date(employee.regdate)) === formattedRegdate;
+        });
+      })
+    );
+  }
+  
+  private formatDateToYYYYMMDD(date: Date | null): string {
+    if (!date) return ''; // Return an empty string if date is null
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+  
+
   countBiometricRegistrations(): Observable<{ BioRegistered: number; noBioRegistered: number }> {
     return this.getEmployee().pipe(
       map(employees => {

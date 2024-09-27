@@ -5,7 +5,7 @@ export interface Employee {
   phone: string;
   email: string;
   role: string;
-  regdate?: Date;
+  regdate: Date;
   lastlogdate?: string; 
   profileImage?: string;
   rfidtag?: string;

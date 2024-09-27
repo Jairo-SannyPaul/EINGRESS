@@ -1,11 +1,12 @@
 import { Component, ChangeDetectorRef, EventEmitter, Input, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Employee } from 'src/app/interface/employee.interface';
 import { EmployeeService } from 'src/app/services/employee.service';
-import { startWith, switchMap } from 'rxjs/operators';
-import { Subscription } from 'rxjs';
+import { map, startWith, switchMap } from 'rxjs/operators';
+import { combineLatest, of, Subscription } from 'rxjs';
 import { DialogService } from 'src/app/services/dialog.service';
 import { formatDate } from '@angular/common';
 import { AddUserModalComponent } from '../../add-user-modal/add-user-modal.component';
+import { FiltersService } from 'src/app/services/filters.service';
 
 @Component({
   selector: 'app-user-selection',
@@ -36,7 +37,8 @@ export class UserSelectionComponent implements OnInit, OnDestroy {
   constructor(
     private employeeService: EmployeeService,
     private dialogService: DialogService,
-    private cdr: ChangeDetectorRef // Inject ChangeDetectorRef properly
+    private cdr: ChangeDetectorRef, // Inject ChangeDetectorRef properly
+    private filtersService: FiltersService
   ) { }
 
   ngOnInit() {
@@ -74,22 +76,42 @@ export class UserSelectionComponent implements OnInit, OnDestroy {
   }
 
   loadEmployeeInfo() {
-    this.employeeService.searchUserTrigger$.pipe(
-      startWith(''),
-      switchMap(searchInputValue => {
-        return searchInputValue.trim()
-          ? this.employeeService.searchEmployee(searchInputValue)
-          : this.employeeService.getEmployee();
+    combineLatest([
+      this.employeeService.searchUserTrigger$.pipe(startWith('')), // Search input observable
+      this.filtersService.regdateFilter$ // Registration date filter observable
+    ]).pipe(
+      switchMap(([searchInputValue, regdateFilter]) => {
+        // Check if there is a search input or a regdate filter
+        if (searchInputValue.trim() || regdateFilter) {
+          // If searchInputValue is present, filter by it; otherwise, just filter by regdate
+          const employeeSearch$ = searchInputValue.trim()
+            ? this.employeeService.searchEmployee(searchInputValue)
+            : this.employeeService.getEmployee();
+            
+          return employeeSearch$.pipe(
+            switchMap(employees => {
+              // Further filter employees by regdate if regdateFilter is provided
+              return regdateFilter
+                ? this.employeeService.searchByRegDate(regdateFilter).pipe(
+                    map(filteredByRegdate => filteredByRegdate.length ? filteredByRegdate : employees)
+                  )
+                : of(employees); // If no regdate filter, return the employees as is
+            })
+          );
+        } else {
+          // If no search input or regdate filter, return all employees
+          return this.employeeService.getEmployee();
+        }
       })
     ).subscribe(employees => {
       this.employees = employees;
       this.filteredEmployees = [...this.employees];
       this.sortEmployees(this.sortOption); // Sort employees after loading
-
       this.updatePagination(); // Apply pagination after loading and sorting
       this.loading = false;
     });
   }
+  
 
   updatePagination() {
     this.totalPages = Math.ceil(this.filteredEmployees.length / this.itemsPerPage);
