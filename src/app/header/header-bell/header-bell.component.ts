@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener, ElementRef } from '@angular/core';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { AccessLogService } from 'src/app/services/access-log.service';
 import { ErrorLogService } from 'src/app/services/error-log.service';
@@ -24,7 +24,8 @@ export class HeaderBellComponent {
   constructor(
     private employeeService: EmployeeService,
     private accessLogService: AccessLogService,
-    private errorLogService: ErrorLogService
+    private errorLogService: ErrorLogService,
+    private eRef: ElementRef
   ) { }
 
   ngOnInit(): void {
@@ -41,6 +42,14 @@ export class HeaderBellComponent {
 
     this.isNotificationOpen = !this.isNotificationOpen; 
 }
+
+@HostListener('document:click', ['$event'])
+  onClickOutside(event: Event): void {
+    // Check if the click was outside the notification dropdown
+    if (this.isNotificationOpen && !this.eRef.nativeElement.contains(event.target)) {
+      this.isNotificationOpen = false;
+    }
+  }
 
   viewPreviousNotifications(): void {
     this.isPreviousNotificationsView = true;
