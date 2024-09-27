@@ -134,6 +134,50 @@ export class EmployeeService {
       })
     );
   }
+
+  searchByLastLogDate(lastlogdate: string | null): Observable<Employee[]> {
+    return this.getEmployee().pipe(
+      map(employees => {
+        if (!lastlogdate) {
+          return employees; // Return all employees if no date is provided
+        }
+  
+        // Extract the date part in "MM/DD/YYYY" format
+        const searchDateString = lastlogdate.split(',')[0].trim(); // Get the date part only
+        const formattedSearchDate = this.formatDate(searchDateString); // Standardize the format
+  
+        // Filter employees based on lastlogdate
+        const matchedEmployees = employees.filter(employee => {
+          // Get date part from employee's lastlogdate
+          const employeeDate = employee.lastlogdate?.split(',')[0].trim(); // Get date part from employee's lastlogdate
+          const formattedEmployeeDate = this.formatDate(employeeDate); // Standardize employee date format
+          
+          return formattedEmployeeDate === formattedSearchDate; // Use strict equality for comparison
+        });
+  
+        // Log the matched employees
+        console.log("Matched Employees with lastlogdate:", matchedEmployees);
+        
+        return matchedEmployees;
+      })
+    );
+  }
+  
+  
+  // Helper function to format the date to "MM/DD/YYYY"
+  private formatDate(dateString: string): string {
+    const [month, day, year] = dateString.split('/').map(Number);
+    
+    // Pad month and day with leading zeros if necessary
+    const paddedMonth = String(month).padStart(2, '0');
+    const paddedDay = String(day).padStart(2, '0');
+    
+    return `${paddedMonth}/${paddedDay}/${year}`;
+  }
+  
+  
+  
+  
   
   private formatDateToYYYYMMDD(date: Date | null): string {
     if (!date) return ''; // Return an empty string if date is null
@@ -142,6 +186,8 @@ export class EmployeeService {
     const day = String(date.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
   }
+
+
   
 
   countBiometricRegistrations(): Observable<{ BioRegistered: number; noBioRegistered: number }> {

@@ -78,28 +78,41 @@ export class UserSelectionComponent implements OnInit, OnDestroy {
   loadEmployeeInfo() {
     combineLatest([
       this.employeeService.searchUserTrigger$.pipe(startWith('')), // Search input observable
-      this.filtersService.regdateFilter$ // Registration date filter observable
+      this.filtersService.regdateFilter$, // Registration date filter observable
+      this.filtersService.dateFilter$ // Last log date filter observable
     ]).pipe(
-      switchMap(([searchInputValue, regdateFilter]) => {
-        // Check if there is a search input or a regdate filter
-        if (searchInputValue.trim() || regdateFilter) {
-          // If searchInputValue is present, filter by it; otherwise, just filter by regdate
+      switchMap(([searchInputValue, regdateFilter, lastLogDateFilter]) => {
+        // Check if there is a search input, a regdate filter, or a last log date filter
+        if (searchInputValue.trim() || regdateFilter || lastLogDateFilter) {
+          // If searchInputValue is present, filter by it; otherwise, just get all employees
           const employeeSearch$ = searchInputValue.trim()
             ? this.employeeService.searchEmployee(searchInputValue)
             : this.employeeService.getEmployee();
-            
+  
           return employeeSearch$.pipe(
             switchMap(employees => {
-              // Further filter employees by regdate if regdateFilter is provided
-              return regdateFilter
-                ? this.employeeService.searchByRegDate(regdateFilter).pipe(
-                    map(filteredByRegdate => filteredByRegdate.length ? filteredByRegdate : employees)
-                  )
-                : of(employees); // If no regdate filter, return the employees as is
+              // Further filter employees by registration date if regdateFilter is provided
+              const filteredByRegdate = regdateFilter
+                ? this.employeeService.searchByRegDate(regdateFilter)
+                : of(employees); // If no regdate filter, return employees as is
+  
+              return filteredByRegdate.pipe(
+                switchMap(employeesByRegdate => {
+                  // Now filter the already filtered employees by last log date if lastLogDateFilter is provided
+                  return lastLogDateFilter
+                    ? this.employeeService.searchByLastLogDate(lastLogDateFilter).pipe(
+                        map(filteredByLastLogDate => {
+                          // If there's a match in last log date, return those employees
+                          return filteredByLastLogDate.length ? filteredByLastLogDate : employeesByRegdate;
+                        })
+                      )
+                    : of(employeesByRegdate); // If no last log date filter, return employees by regdate
+                })
+              );
             })
           );
         } else {
-          // If no search input or regdate filter, return all employees
+          // If no search input, regdate filter, or last log date filter, return all employees
           return this.employeeService.getEmployee();
         }
       })
@@ -111,6 +124,8 @@ export class UserSelectionComponent implements OnInit, OnDestroy {
       this.loading = false;
     });
   }
+  
+  
   
 
   updatePagination() {

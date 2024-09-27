@@ -31,6 +31,7 @@ export class FiltersService {
   dateFilter$ = this.dateFilterSubject.asObservable();
 
   updateDateFilter(date: string) {
+    console.log("Last log date search:", date)
     this.dateFilterSubject.next(date);
   }
 
