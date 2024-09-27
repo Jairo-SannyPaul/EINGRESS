@@ -35,12 +35,12 @@
                             <div class="name-container">
                                 <p> Full Name</p>
                                 <input type="text" id="addUserName" formControlName="fullname" name="fullname"
-                                    placeholder="Input Full Name">
+                                    placeholder="Input Full Name" [ngClass]="{'filled': updateEmployeeForm.get('fullname')?.value.length > 0}">
                             </div>
                             <div class="role-container">
                                 <p>Role</p>
                                 <div class="drop-down">
-                                    <select id="addRole" formControlName="role" name="roleDropDown">
+                                    <select id="addRole" formControlName="role" name="roleDropDown" [ngClass]="{'filled': updateEmployeeForm.get('role')?.value.length > 0}">
                                         <option value="" disabled selected>Select Role</option>
                                         <option value="Admin Aide">Admin Aide</option>
                                         <option value="Administrative Assistant">Administrative Assistant</option>
@@ -107,7 +107,7 @@
                                 <div class="branch-container">
                                     <p>Branch</p>
                                     <div class="drop-down">
-                                        <select id="addBranch" formControlName="branch" name="branchDropDown">
+                                        <select id="addBranch" formControlName="branch" name="branchDropDown" [ngClass]="{'filled': updateEmployeeForm.get('branch')?.value.length > 0}">
                                             <option value="" disabled selected>Select Branch</option>
                                             <option value="Cebu">Cebu</option>
                                             <option value="Davao">Davao</option>
@@ -125,7 +125,7 @@
                                     <p>RFID Card</p>
                                     <div class="input-wrapper">
                                         <input type="text" id="addRFID" formControlName="rfidtag" name="rfid"
-                                            placeholder="Click Here">
+                                            placeholder="Click Here" [ngClass]="{'filled': updateEmployeeForm.get('rfidtag')?.value.length > 0}">
                                         <svg class="rfid-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="18"
                                             viewBox="0 0 16 18" fill="none">
                                             <path opacity="0.4"
@@ -154,23 +154,23 @@
                             <div class="email-container">
                                 <p>Email</p>
                                 <input type="text" id="addEmail" formControlName="email" name="email"
-                                    placeholder="Input Email">
+                                    placeholder="Input Email" [ngClass]="{'filled': updateEmployeeForm.get('email')?.value.length > 0}">
                             </div>
                             <div class="contact-container">
                                 <p>Contact</p>
                                 <input type="text" id="addContact" formControlName="phone" name="contact"
-                                    placeholder="+63 XXX XXX XXXX">
+                                    placeholder="+63 XXX XXX XXXX" [ngClass]="{'filled': updateEmployeeForm.get('phone')?.value.length > 0}">
                             </div>
                             <div class="fingerprint-id-container">
                                 <div class="fingerprint-id-1">
                                     <p>Fingerprint ID 1</p>
                                     <input type="text" id="finger-id-1" name="finger-1" placeholder="Biometric ID"
-                                        formControlName="fingerprint1">
+                                        formControlName="fingerprint1" [ngClass]="{'filled': updateEmployeeForm.get('fingerprint1')?.value.length > 0}">
                                 </div>
                                 <div class="fingerprint-id-2">
                                     <p>Fingerprint ID 2</p>
                                     <input type="text" id="finger-id-2" name="finger-2" placeholder="Biometric ID"
-                                        formControlName="fingerprint2">
+                                        formControlName="fingerprint2" [ngClass]="{'filled': updateEmployeeForm.get('fingerprint2')?.value.length > 0}">
                                 </div>
                             </div>
 
