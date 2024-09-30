@@ -72,9 +72,11 @@
 
     .drop-down {
     position: relative;
-    display: flex;
     align-items: center;
     gap: 136px;
+    display: inline-block;
+    width: 100%;
+    overflow-y: visible;
     }    
 
 
@@ -85,23 +87,25 @@
     box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.05);
     }
 
-
-    #addRole {
-    font-family: 'Poppins', sans-serif;
-    font-size: 16px;
-    padding: 10px 16px;
-    border-radius: 3px;
-    border: 2px solid #CFE0FC;
-    background: #F6F6F6;
-    box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.05);
-    width: 387px; /* Full width of the container */
-    box-sizing: border-box; /* Includes padding and border in width and height */
-    appearance: none; /* Remove default dropdown arrow */
-    z-index: 1; /* Ensure dropdown options appear above other content */
-    height: auto;
-    overflow-y: hidden;
+    select { 
+      cursor: pointer;
+      height: auto!important;
+      max-height: 44px!important;
+      overflow-y: scroll!important;
     }
 
+    #addRole {
+      font-family: 'Poppins', sans-serif; /* Font styling */
+      font-size: 16px; /* Font size */
+      padding: 10px 16px; /* Padding for inner spacing */
+      border-radius: 3px; /* Rounded corners */
+      border: 2px solid #CFE0FC; /* Border style */
+      background: #F6F6F6; /* Background color */
+      box-shadow: 0 1px 10px rgba(0, 0, 0, 0.05); /* Subtle shadow for depth */
+      width: 387px; /* Set a maximum width */
+      appearance: none;      
+      
+  }
 
     .custom-arrow {
     position: absolute;
@@ -111,7 +115,6 @@
     pointer-events: none; /* Allows clicks to pass through */
     display: flex;
     align-items: center;
-    z-index: 2; /* Ensure the arrow is above other content */
     }
 
 
@@ -378,6 +381,12 @@
     background: #F7F7F7;
     }
 
+    .clear-btn:hover {
+      background-color: #E2E2E2; /* Lighter background on hover */
+      color: #313131; /* Darker text color on hover */
+      
+  }
+
     .submit-btn {
 
     color: var(--white-900, #FFF);
@@ -395,14 +404,18 @@
     gap: 10px;
     background: rgba(33, 101, 201, 0.60);
 
-
+    }
+    
+    .btn-active:hover {
+      background-color: #1A4A8E; /* Darker background on hover */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow effect on hover */
     }
 
     /* Styles for the submit button when all required fields are filled */
     .btn-active {
     border-radius: 3px;
     background: #2165C9!important;
-    color: var(--white-900, #FFF) !important;
+    color: var(--white-900, #e7e6e6) !important;
     font-family: Poppins;
     font-size: 16px;
     font-style: normal;

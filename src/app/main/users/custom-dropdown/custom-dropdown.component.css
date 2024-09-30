@@ -1,0 +1,27 @@
+.custom-dropdown {
+    position: relative; /* Positioning for the dropdown options */
+    width: 387px; /* Fixed width for the dropdown */
+}
+
+.dropdown-toggle {
+    width: 100%; /* Full width button */
+    font-family: 'Poppins', sans-serif; /* Font styling */
+    font-size: 16px; /* Font size */
+    padding: 10px 16px; /* Padding for inner spacing */
+    border-radius: 3px; /* Rounded corners */
+    border: 2px solid #CFE0FC; /* Border style */
+    background: #F6F6F6; /* Background color */
+    box-shadow: 0 1px 10px rgba(0, 0, 0, 0.05); /* Subtle shadow for depth */
+    cursor: pointer; /* Pointer cursor for button */
+}
+
+.dropdown-options {
+    max-height: 100px; /* Maximum height for dropdown options */
+    overflow-y: auto; /* Enable vertical scrolling */
+    border: 2px solid #CFE0FC; /* Border matching the button */
+    border-radius: 3px; /* Rounded corners */
+    background: #F6F6F6; /* Background color for options */
+    position: absolute; /* Positioning options below the button */
+    width: 100%; /* Full width */
+    z-index: 10; /* Ensure it appears above other content */
+}

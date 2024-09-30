@@ -60,6 +60,7 @@ import { ErrorPopupComponent } from './error-popup/error-popup.component';
 import { AdminChangepassModalComponent} from './admin-changepass-modal/admin-changepass-modal.component';
 import { AdminDiscardPopupComponent } from './admin-discard-popup/admin-discard-popup.component';
 import { EmployeeDetailsRevampComponent } from './main/users/table/employee-details-revamp/employee-details-revamp.component';
+import { CustomDropdownComponent } from './main/users/custom-dropdown/custom-dropdown.component';
 
 const routes: Routes = [
   { path: 'submit-popup', component: SuccessPopupComponent },
@@ -106,6 +107,7 @@ const routes: Routes = [
     AdminChangepassModalComponent,
     AdminDiscardPopupComponent,
     EmployeeDetailsRevampComponent,
+    CustomDropdownComponent,
   ],
   imports: [
     RouterModule.forRoot(routes),
