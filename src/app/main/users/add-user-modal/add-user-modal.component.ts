@@ -9,7 +9,6 @@ import { DialogService } from 'src/app/services/dialog.service';
   styleUrls: ['./add-user-modal.component.css']
 })
 export class AddUserModalComponent {
-
   @ViewChild('canvas', { static: false }) canvas!: ElementRef<HTMLCanvasElement>;
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>; // Reference to the file input
 
@@ -61,19 +60,19 @@ export class AddUserModalComponent {
   };
 
   resetForm() {
-    this.userForm.reset();
-    this.newEmployee = {
-      id: 0,
+    // Reset the form to its initial state
+    this.userForm.reset({
       fullname: '',
       email: '',
-      phone: '',
       role: '',
-      rfidtag: '',
       profileImage: '',
+      phone: '',
+      rfidtag: '',
       fingerprint1: '',
       fingerprint2: '',
-      branch: ''
-    }
+      branch: '',
+    });
+    this.fileSelect = false; // Reset the file selection flag
   }
 
   // Show the modal
@@ -117,7 +116,6 @@ export class AddUserModalComponent {
       
       // Set fileSelect to true when a file is selected
       this.fileSelect = true;
-      this.submitEmployee(); // Call the submit function after selecting the file
     } else {
       this.fileSelect = false; // Reset fileSelect if no file
     }
@@ -128,7 +126,7 @@ export class AddUserModalComponent {
     this.userForm.markAllAsTouched();
     this.userForm.get('fingerprint2')?.setValue('');
 
-    if (this.userForm.valid) {
+    if (this.userForm.valid && this.fileSelect) {
       const newEmployee = this.userForm.value;
 
       const firstLetter = this.getFirstLetter(newEmployee.fullname);
@@ -142,6 +140,8 @@ export class AddUserModalComponent {
         this.downloadImage(pngDataUrl, formattedName);
         this.fileInput.nativeElement.click(); // Open the file selector
       });
+
+      this.submitEmployee(); // Call submitEmployee after all validations
     }
   }
 
@@ -224,5 +224,18 @@ export class AddUserModalComponent {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
+  }
+
+  isDropdownOpen = false;
+
+  onBranchChange() {
+    // Set isDropdownOpen to false when an item is selected
+    this.isDropdownOpen = false;
+  }
+
+  isRoleDropdownOpen = true;
+
+  onRoleChange() {
+    this.isRoleDropdownOpen = false; // Close the dropdown when an item is selected
   }
 }

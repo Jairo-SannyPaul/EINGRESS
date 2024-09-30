@@ -74,11 +74,11 @@
     position: relative;
     align-items: center;
     gap: 136px;
-    display: inline-block;
-    width: 100%;
-    overflow-y: visible;
     }    
 
+    .dropdown-container {
+      position: relative;
+  }
 
     #addRole:focus,#addBranch:focus {
     border-radius: 3px;
@@ -89,9 +89,9 @@
 
     select { 
       cursor: pointer;
-      height: auto!important;
-      max-height: 44px!important;
-      overflow-y: scroll!important;
+      max-height: 300px!important; /* Set the max height for dropdown */
+      overflow-y: auto!important; /* Enable vertical scrolling */
+      display: block;
     }
 
     #addRole {
@@ -115,8 +115,20 @@
     pointer-events: none; /* Allows clicks to pass through */
     display: flex;
     align-items: center;
+
     }
 
+    .custom-arrow.rotated {
+      transform: rotate(180deg);
+
+      position: absolute;
+      top: 25%;
+      right: 16px; /* Adjust to ensure it is inside the select box */
+      pointer-events: none; /* Allows clicks to pass through */
+      display: flex;
+      align-items: center;
+  }
+    
 
     .branch-RFID-container {
     display: flex;

@@ -129,17 +129,24 @@ select:focus {
 .custom-arrow {
   position: absolute;
   top: 50%;
-  right: 16px;
-  /* Adjust to ensure it is inside the select box */
+  right: 16px; /* Adjust to ensure it is inside the select box */
   transform: translateY(-50%);
-  pointer-events: none;
-  /* Allows clicks to pass through */
+  pointer-events: none; /* Allows clicks to pass through */
   display: flex;
   align-items: center;
-  z-index: 2;
-  /* Ensure the arrow is above other content */
-}
 
+  }
+
+  .custom-arrow.rotated {
+    transform: rotate(180deg);
+
+    position: absolute;
+    top: 25%;
+    right: 16px; /* Adjust to ensure it is inside the select box */
+    pointer-events: none; /* Allows clicks to pass through */
+    display: flex;
+    align-items: center;
+}
 
 .lowerModal {
   display: flex;

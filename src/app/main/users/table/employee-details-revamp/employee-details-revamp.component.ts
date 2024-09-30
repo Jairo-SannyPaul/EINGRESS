@@ -204,4 +204,17 @@ export class EmployeeDetailsRevampComponent {
       }
     }
   }
+
+  isDropdownOpen = false;
+
+  onBranchChange() {
+    // Set isDropdownOpen to false when an item is selected
+    this.isDropdownOpen = false;
+  }
+
+  isRoleDropdownOpen = true;
+
+  onRoleChange() {
+    this.isRoleDropdownOpen = false; // Close the dropdown when an item is selected
+  }
 }
