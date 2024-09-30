@@ -39,7 +39,7 @@
     width: 387px;
 
     border-radius: 3px;
-    border: 1px solid #CFE0FC;
+    border: 2px solid #CFE0FC;
     background: #F6F6F6;
     box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.05);
 
@@ -91,7 +91,7 @@
     font-size: 16px;
     padding: 10px 16px;
     border-radius: 3px;
-    border: 1px solid #CFE0FC;
+    border: 2px solid #CFE0FC;
     background: #F6F6F6;
     box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.05);
     width: 387px; /* Full width of the container */
@@ -147,7 +147,7 @@
     font-size: 16px;
     padding: 10px 16px;
     border-radius: 3px;
-    border: 1px solid #CFE0FC;
+    border: 2px solid #CFE0FC;
     background: #F6F6F6;
     box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.05);
     width: 183px; /* Full width of the container */
@@ -221,7 +221,7 @@
     width: 183px;
 
     border-radius: 3px;
-    border: 1px solid #CFE0FC;
+    border: 2px solid #CFE0FC;
     background: #F6F6F6;
     }
 
@@ -412,14 +412,14 @@
 
     input.filled {
         border-radius: 3px !important;
-        border: 1px solid #A5C8FF !important;
+        border: 2px solid #A5C8FF !important;
         background: #FBFBFB!important;
         box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.05);
       }
 
     select.filled {
         border-radius: 3px !important;
-        border: 1px solid #A5C8FF !important;
+        border: 2px solid #A5C8FF !important;
         background: #FBFBFB!important;
         box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.05);
     }
