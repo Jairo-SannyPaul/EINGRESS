@@ -60,7 +60,6 @@ export class HeaderSearchComponent {
       this.isReportsState = true;
       this.isDashboardState = false;
       this.isUsersState = false;
-      console.log("Reports search state");
       this.isDashboardState = false; // Set the flag for dashboard state
       this.filtersService.setFilter('reports');
       // Change the search state for reports
@@ -69,7 +68,6 @@ export class HeaderSearchComponent {
       this.isReportsState = false;
       this.isDashboardState = true;
       this.isUsersState = false;
-      console.log("Dashboard search state");
       this.isDashboardState = true; // Set the flag for dashboard state
       // Change the search state for dashboard
     } else if (url.includes('/users')) {
@@ -77,7 +75,6 @@ export class HeaderSearchComponent {
       this.isReportsState = false;
       this.isDashboardState = false;
       this.isUsersState = true;
-      console.log("User search state");
       this.isDashboardState = false; // Set the flag for dashboard state
       // Change the search state for users
     }

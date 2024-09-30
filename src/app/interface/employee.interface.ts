@@ -5,8 +5,8 @@ export interface Employee {
   phone: string;
   email: string;
   role: string;
-  regdate?: Date;
-  lastlogdate?: string; 
+  regdate: Date;
+  lastlogdate: string; 
   profileImage?: string;
   rfidtag?: string;
   selected?: boolean;

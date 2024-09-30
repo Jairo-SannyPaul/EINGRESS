@@ -22,15 +22,15 @@ export class HeaderComponent implements OnInit {
   filterClick: boolean = false;
   activeFilter: string = 'name';
   sortOption: string = 'nameAsc';
-
+  isUsersState: boolean = false;
   constructor(
-    private elRef: ElementRef, 
-    public dialog: MatDialog, 
-    private headerLabelService: HeaderLabelService, 
-    private router: Router, 
+    private elRef: ElementRef,
+    public dialog: MatDialog,
+    private headerLabelService: HeaderLabelService,
+    private router: Router,
     private employeeService: EmployeeService,
     private filtersService: FiltersService
-   ) {}
+  ) { }
 
   ngOnInit(): void {
     // Retrieve the username from localStorage
@@ -49,22 +49,47 @@ export class HeaderComponent implements OnInit {
         this.descriptionTitle = ''; // Set a default value or handle it accordingly
       }
     });
-    
+
 
     this.employeeService.filterClick$.subscribe((value: boolean) => {
       this.filterClick = value;
       console.log('Filter clicked:', this.filterClick);
     });
- // Initialize the filter button based on the current URL when the component is loaded (page refresh)
-  this.checkFilterButtonVisibility(this.router.url);
+    // Initialize the filter button based on the current URL when the component is loaded (page refresh)
+    this.checkFilterButtonVisibility(this.router.url);
 
- // Subscribe to router events to handle navigation changes
-  this.router.events.subscribe(event => {
-    if (event instanceof NavigationEnd) {
-      this.checkFilterButtonVisibility(event.urlAfterRedirects);
+    // Subscribe to router events to handle navigation changes
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.checkFilterButtonVisibility(event.urlAfterRedirects);
+      }
+    });
+
+    this.changeSearchState(this.router.url);
+
+    // Subscribe to router events to handle navigation changes
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.changeSearchState(event.urlAfterRedirects);
+      }
+    });
+  }
+
+  changeSearchState(url: string) {
+    if (url.includes('/reports')) {
+      this.isUsersState = false;
+      console.log("Reports search state");
+      this.filtersService.setFilter('reports');
+      // Change the search state for reports
+    } else if (url.includes('/dashboard')) {
+      this.isUsersState = false;
+      // Change the search state for dashboard
+    } else if (url.includes('/users')) {
+      this.isUsersState = true;
+      console.log("User search state");
     }
-  });
-}
+  }
+
   checkFilterButtonVisibility(url: string) {
     this.showFilterButton = url.includes('/reports') || url.includes('/users');
   }
@@ -75,9 +100,9 @@ export class HeaderComponent implements OnInit {
 
   openDialog(): void {
     this.dialog.open(AdminpopupComponent, {
-    width: '450px', 
-    height: '700px',
-    disableClose: false
+      width: '450px',
+      height: '700px',
+      disableClose: false
     });
 
     this.isDropdownOpen = false;
@@ -109,47 +134,54 @@ export class HeaderComponent implements OnInit {
     // this.isDropdownOpen = this.isActive; 
     this.router.navigateByUrl('/main/admin')
   }
-  
+
   toggleFilterOptions(): void {
     // Emit true when the filter is toggled
     // this.filterService.setFilterClick(true);
   }
 
-// Update the filter functions to set the active filter
-setNameFilter() {
-  this.activeFilter = 'name';
-  this.filtersService.setFilter('name');
-}
+  // Update the filter functions to set the active filter
+  setNameFilter() {
+    this.activeFilter = 'name';
+    this.filtersService.setFilter('name');
+  }
 
-setRoleFilter() {
-  this.activeFilter = 'role';
-  this.filtersService.setFilter('role');
-}
+  setRoleFilter() {
+    this.activeFilter = 'role';
+    this.filtersService.setFilter('role');
+  }
 
-setRFIDFilter() {
-  this.activeFilter = 'rfid';
-  this.filtersService.setFilter('rfid');
-}
+  setRFIDFilter() {
+    this.activeFilter = 'rfid';
+    this.filtersService.setFilter('rfid');
+  }
 
-setBranchFilter() {
-  this.activeFilter = 'branch';
-  this.filtersService.setFilter('branch');
-}
+  setBranchFilter() {
+    this.activeFilter = 'branch';
+    this.filtersService.setFilter('branch');
+  }
 
-setFingerprintFilter() {
-  this.activeFilter = 'fingerprint';
-  this.filtersService.setFilter('fingerprint');
-}
+  setFingerprintFilter() {
+    this.activeFilter = 'fingerprint';
+    this.filtersService.setFilter('fingerprint');
+  }
 
 
 
-onSortChange() {
-  console.log('Sort option from header changes:', this.sortOption); // Debugging log
-  this.employeeService.setSortOption(this.sortOption);
-}
+  onSortChange() {
+    console.log('Sort option from header changes:', this.sortOption); // Debugging log
+    this.employeeService.setSortOption(this.sortOption);
+  }
 
-onDateChanged(event: MatDatepickerInputEvent<Date>) {
-  const selectedDate = event.value ? event.value.toLocaleDateString() : '';
-  this.filtersService.updateDateFilter(selectedDate); // Update date in service
-}
+  onDateChanged(event: MatDatepickerInputEvent<Date>) {
+    const selectedDate = event.value ? event.value.toLocaleDateString() : '';
+    this.filtersService.updateDateFilter(selectedDate); // Update date in service
+  }
+
+  onRegisteredDateChanged(event: MatDatepickerInputEvent<Date>) {
+    const selectedDate = event.value || null; // Keep it as a Date object
+    this.filtersService.updateRegDateFilter(selectedDate); // Update date in service
+  }
+
+
 }

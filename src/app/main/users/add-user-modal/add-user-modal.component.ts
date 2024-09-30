@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { DialogService } from 'src/app/services/dialog.service';
 
-
 @Component({
   selector: 'app-add-user-modal',
   templateUrl: './add-user-modal.component.html',
@@ -12,13 +11,15 @@ import { DialogService } from 'src/app/services/dialog.service';
 export class AddUserModalComponent {
 
   @ViewChild('canvas', { static: false }) canvas!: ElementRef<HTMLCanvasElement>;
-
+  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>; // Reference to the file input
 
   isVisible: boolean = false;
   addUserForm: boolean = false;
   userForm: FormGroup;
   selectedImage!: File;
+  fileSelect: boolean = false;
   isPopupVisible: boolean = false; // Popup visibility flag
+
   constructor(private formBuilder: FormBuilder, private employeeService: EmployeeService, private dialogService: DialogService) {
     this.userForm = this.formBuilder.group({
       fullname: ['', Validators.required],
@@ -32,8 +33,6 @@ export class AddUserModalComponent {
       branch: ['', Validators.required],
     });
   }
-
-
 
   @HostListener('window:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
@@ -77,18 +76,18 @@ export class AddUserModalComponent {
     }
   }
 
-
   // Show the modal
   showAddUserModal(): void {
     this.isVisible = true;
   }
+  
   // Hide the modal
   hideAddUserModal(): void {
     this.employeeService.closeModal();
     this.resetForm(); // Clear form on closing
   }
 
-  // Form validation logic (you can add more complex logic here if needed)
+  // Form validation logic
   validateForm(): boolean {
     return this.userForm.valid;
   }
@@ -99,45 +98,33 @@ export class AddUserModalComponent {
     this.resetForm(); // Clear form on closing
   }
 
-
   getFirstLetter(fullname: string): string {
     return fullname.charAt(0).toUpperCase();
   }
 
   generateRandomGradient(): string {
-    const colors = ['#FFFFFF', '#8B0000', // Dark Red
-      '#B22222', // Firebrick (Mid-light Red)
-      '#006400', // Dark Green
-      '#6B8E23', // Olive Drab (Mid-light Green)
-      '#00008B', // Dark Blue
-      '#4169E1', // Royal Blue (Mid-light Blue)
-      '#8B008B', // Dark Magenta
-      '#DA70D6', // Orchid (Mid-light Magenta)
-      '#2F4F4F', // Dark Slate Gray
-      '#708090', // Slate Gray (Mid-light Gray)
-      '#4B0082', // Indigo
-      '#8A2BE2', // Blue Violet (Mid-light Indigo)
-      '#483D8B', // Dark Slate Blue
-      '#6A5ACD', // Slate Blue (Mid-light Slate Blue)
-      '#2E8B57', // Sea Green
-      '#3CB371', // Medium Sea Green (Mid-light Sea Green)
-      '#556B2F', // Dark Olive Green
-      '#9ACD32', // Yellow Green (Mid-light Olive Green)
-      '#8B4513', // Saddle Brown
-      '#D2691E', // Chocolate (Mid-light Brown)
-      '#800000', // Maroon
-      '#CD5C5C', // Indian Red (Mid-light Maroon)
-      '#3B3B6D',  // Dark Purple
-      '#7B68EE'];
-
+    const colors = ['#FFFFFF', '#8B0000', '#B22222', '#006400', '#6B8E23', '#00008B', '#4169E1', '#8B008B', '#DA70D6', '#2F4F4F', '#708090', '#4B0082', '#8A2BE2', '#483D8B', '#6A5ACD', '#2E8B57', '#3CB371', '#556B2F', '#9ACD32', '#8B4513', '#D2691E', '#800000', '#CD5C5C', '#3B3B6D', '#7B68EE'];
     const randomColor1 = colors[Math.floor(Math.random() * colors.length)];
     const randomColor2 = colors[Math.floor(Math.random() * colors.length)];
     return `linear-gradient(45deg, ${randomColor1}, ${randomColor2})`;
   }
 
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedImage = input.files[0]; // Store the selected file
+      console.log("Selected image:", this.selectedImage);
+      
+      // Set fileSelect to true when a file is selected
+      this.fileSelect = true;
+      this.submitEmployee(); // Call the submit function after selecting the file
+    } else {
+      this.fileSelect = false; // Reset fileSelect if no file
+    }
+  }
+
   // Submit the form data
   onSubmit(): void {
-    // Mark all fields as touched to trigger validation messages
     this.userForm.markAllAsTouched();
     this.userForm.get('fingerprint2')?.setValue('');
 
@@ -147,63 +134,37 @@ export class AddUserModalComponent {
       const firstLetter = this.getFirstLetter(newEmployee.fullname);
       const gradient = this.generateRandomGradient();
 
-
       // Draw on canvas and export to PNG
       this.drawToCanvas(firstLetter, gradient, (pngDataUrl) => {
         console.log('Generated PNG URL:', pngDataUrl);
-
-        // Generate the filename using the full name
-        const formattedName = newEmployee.fullname
-
-        // Convert the data URL to a Blob
+        const formattedName = newEmployee.fullname;
         const blob = this.dataUrlToBlob(pngDataUrl);
-
-
-        // Trigger the download
         this.downloadImage(pngDataUrl, formattedName);
-
+        this.fileInput.nativeElement.click(); // Open the file selector
       });
-
-      const handleError = (error: any) => {
-        let errorMessage = 'Error creating employee.';
-        if (error.status === 400 && error.error && error.error.message) {
-          // Extract the message from the backend response
-          errorMessage = error.error.message;
-        }
-        this.employeeService.closeModal(); //close the modal
-        this.employeeService.setPopupErrorVisibility(true); //show error popup
-      };
-
-      if (!this.selectedImage) {
-        this.employeeService.addEmployeeWithoutImage(newEmployee)
-          .subscribe(
-            response => {
-              this.employeeService.closeModal(); //close the modal
-              this.employeeService.setPopupVisibility(true) // Show the popup;
-            },
-            handleError
-          );
-      } else {
-        this.employeeService.addEmployee(newEmployee, this.selectedImage)
-          .subscribe(
-            response => {
-              this.employeeService.closeModal(); //close the modal
-              this.employeeService.setPopupVisibility(true) // Show the popup;
-            },
-            handleError
-          );
-      }
-    } else {
-      if (this.userForm.get('email')?.errors?.['email']) {
-        this.employeeService.closeModal();
-        this.dialogService.openAlertDialog('Please enter a valid email address.');
-      } else {
-        this.employeeService.closeModal();
-        this.dialogService.openAlertDialog('Please fill in all required fields correctly.');
-      }
     }
   }
 
+  submitEmployee(): void {
+    if (this.fileSelect) {
+      const newEmployee = this.userForm.value;
+      this.employeeService.addEmployee(newEmployee, this.selectedImage)
+        .subscribe(
+          response => {
+            this.employeeService.closeModal(); // Close the modal
+            this.employeeService.setPopupVisibility(true); // Show the popup
+          },
+          error => {
+            let errorMessage = 'Error creating employee.';
+            if (error.status === 400 && error.error && error.error.message) {
+              errorMessage = error.error.message; // Extract the message from the backend response
+            }
+            this.employeeService.closeModal(); // Close the modal
+            this.employeeService.setPopupErrorVisibility(true); // Show error popup
+          }
+        );
+    }
+  }
 
   // Function to draw the letter and gradient on a canvas and export as PNG
   drawToCanvas(letter: string, gradient: string, callback: (dataUrl: string) => void): void {
@@ -215,33 +176,26 @@ export class AddUserModalComponent {
       return;
     }
 
-    // Parse gradient colors from the string
     const gradientColors = gradient.match(/#[0-9A-Fa-f]{6}/g);
     if (!gradientColors || gradientColors.length < 2) {
       console.error('Invalid gradient colors.');
       return;
     }
 
-    // Create the gradient
     const canvasGradient = context.createLinearGradient(0, 0, canvas.width, canvas.height);
     canvasGradient.addColorStop(0, gradientColors[0]);
     canvasGradient.addColorStop(1, gradientColors[1]);
 
-    // Fill the canvas with the gradient
     context.fillStyle = canvasGradient;
     context.fillRect(0, 0, canvas.width, canvas.height);
-
-    // Draw the letter slightly lower than the center
     context.fillStyle = '#FFFFFF'; // Set the text color
     context.font = 'normal 45px Poppins';
     context.textAlign = 'center';
     context.textBaseline = 'middle';
 
-    // Adjust the y coordinate to move it lower
     const adjustment = 5; // Adjust this value to move it lower or higher
     context.fillText(letter, canvas.width / 2, (canvas.height / 2) + adjustment);
 
-    // Export the canvas content to a PNG data URL
     const dataUrl = canvas.toDataURL('image/png');
     callback(dataUrl);
   }
@@ -271,7 +225,4 @@ export class AddUserModalComponent {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
   }
-
-  //
-
 }

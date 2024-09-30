@@ -68,7 +68,7 @@
 .login-sessions {
     grid-column: 2 / 3;
     grid-row: 2 / 5;
-    height: calc(100% - 50px);
+    height: calc(100% - 100px);
     padding: 0px 16px 0px 26px;
     align-self: stretch;
     border-radius: 5px;
