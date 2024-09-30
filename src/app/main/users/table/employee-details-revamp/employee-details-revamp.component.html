@@ -183,7 +183,7 @@
                     </div>
                 </form>
                 <div class="footer">
-                    <button class="btn clear-btn" type="button">Cancel</button>
+                    <button class="btn clear-btn" type="button" (click)="resetForm()">Cancel</button>
                     <button class="btn submit-btn"
                         [ngStyle]="{'background-color': updateEmployeeForm.dirty ? '#2165C9' : '#2165C999'}"
                         [disabled]="!updateEmployeeForm.dirty || !updateEmployeeForm.valid"

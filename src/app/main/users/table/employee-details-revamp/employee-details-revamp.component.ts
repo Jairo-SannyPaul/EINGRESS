@@ -121,6 +121,28 @@ export class EmployeeDetailsRevampComponent {
     }
   }
 
+  resetForm(): void {
+    if (this.employeeDetails) {
+      this.updateEmployeeForm.patchValue({
+        fullname: this.employeeDetails.fullname,
+        email: this.employeeDetails.email,
+        role: this.employeeDetails.role,
+        phone: this.employeeDetails.phone,
+        rfidtag: this.employeeDetails.rfidtag,
+        fingerprint1: this.employeeDetails.fingerprint1,
+        fingerprint2: this.employeeDetails.fingerprint2,
+        branch: this.employeeDetails.branch,
+      });
+  
+      // Reset photoSrc to null or original image if needed
+      this.photoSrc = null; // Or revert to the original image source if applicable
+  
+      // Reset the form's dirty state
+      this.updateEmployeeForm.markAsPristine();
+    }
+  }
+  
+
   updateEmployee(event: Event): void {
     event.preventDefault(); // Prevent the default form submission behavior
     const id = this.employeeDetails?.id;
@@ -181,5 +203,18 @@ export class EmployeeDetailsRevampComponent {
         );
       }
     }
+  }
+
+  isDropdownOpen = false;
+
+  onBranchChange() {
+    // Set isDropdownOpen to false when an item is selected
+    this.isDropdownOpen = false;
+  }
+
+  isRoleDropdownOpen = true;
+
+  onRoleChange() {
+    this.isRoleDropdownOpen = false; // Close the dropdown when an item is selected
   }
 }
