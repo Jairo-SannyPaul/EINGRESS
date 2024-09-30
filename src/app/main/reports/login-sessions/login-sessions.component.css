@@ -90,11 +90,9 @@
     display: grid;
     width: 100%;
     max-height: calc(100% - 40px);
-    grid-template-rows: auto;
-    padding-left: 16px;
-    padding-right: 16px;
-    padding-bottom: 10px;
-    overflow: hidden;
+    grid-template-rows: auto;    
+    overflow-y: auto;
+
 }
 
 .table-header, .table-body {
@@ -113,7 +111,8 @@
 
 .table-body {
     display: block;
-    max-height: 55vh; /* Adjust this based on your container */
+    /* max-height: 55vh; */
+    height: auto;
     overflow-y: auto;
     color: #464646;
     font-family: Poppins;
