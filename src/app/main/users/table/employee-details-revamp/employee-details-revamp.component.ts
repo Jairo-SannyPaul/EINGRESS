@@ -90,25 +90,28 @@ export class EmployeeDetailsRevampComponent {
   }
 
   showEmployeeDetails(employee: Employee): void {
-    console.log("patching values: ", employee)
+    console.log("patching values: ", employee);
     console.log(employee);
+  
     this.currentName = employee.fullname;
     this.currentEmail = employee.email;
+  
+    // Patch the employee details into the form
     this.updateEmployeeForm.patchValue({
       fullname: employee.fullname,
       email: employee.email,
-      role: employee.role,
+      role: employee.role, // This is important for role
       phone: employee.phone,
       rfidtag: employee.rfidtag,
       fingerprint1: employee.fingerprint1,
       fingerprint2: employee.fingerprint2,
       branch: employee.branch
     });
-    this.employeeDetails = employee;
-
+  
     // Assign the role from the employee data to selectedRole
-  this.selectedRole = employee.role; // This ensures it is displayed
-
+    this.selectedRole = employee.role; // This ensures it is displayed
+  
+    this.employeeDetails = employee;
 
     const fingerprint2Value = this.updateEmployeeForm.get('fingerprint2')?.value;
     if (fingerprint2Value) {
