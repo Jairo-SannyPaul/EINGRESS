@@ -100,7 +100,14 @@
       background: #FBFBFB!important;
       box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.05);
     }
-     
+
+    .custom-dropdown.focus {
+      border-radius: 3px !important;
+      border: 2px solid #A5C8FF !important;
+      background: #FBFBFB!important;
+      box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.05);
+    }
+    
   
     .selected-option {
       padding: 10px;

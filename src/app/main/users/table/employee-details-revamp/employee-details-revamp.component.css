@@ -88,45 +88,70 @@ select:focus {
 
 /** start of right div **/
 
-.drop-down {
+.dropdown-option:hover {
+  background-color: #4173c3;
+  color: white;
+}
+
+  .drop-down {
   position: relative;
-  display: flex;
   align-items: center;
   gap: 136px;
+  }    
+
+  .dropdown-container {
+    position: relative;
 }
 
 
-#addRole:focus,
-#addBranch:focus {
-  border-radius: 3px;
-  border: 2px solid #5984C8;
-  background: var(--white-900, #FFF);
-  box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.05);
-}
+  select { 
+    cursor: pointer;
+  }
 
 
-#addRole {
-  font-family: 'Poppins', sans-serif;
-  font-size: 16px;
-  padding: 10px 16px;
+.custom-dropdown {
+  position: relative;
+  width: 387px;
   border-radius: 3px;
   border: 2px solid #CFE0FC;
   background: #F6F6F6;
   box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.05);
-  width: 387px;
-  /* Full width of the container */
-  box-sizing: border-box;
-  /* Includes padding and border in width and height */
-  appearance: none;
-  /* Remove default dropdown arrow */
-  z-index: 1;
-  /* Ensure dropdown options appear above other content */
-  height: auto;
-  overflow-y: hidden;
+  cursor: pointer;
+}
+
+.custom-dropdown.filled {
+  border-radius: 3px !important;
+  border: 2px solid #A5C8FF !important;
+  background: #FBFBFB!important;
+  box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.05);
+}
+ 
+
+.selected-option {
+  padding: 10px;
 }
 
 
-.custom-arrow {
+
+.dropdown-options {
+  position: absolute;
+  width: 387px!important;
+  border-radius: 3px;
+  border: 2px solid #CFE0FC;
+  background: #F6F6F6;
+  box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.05);
+  overflow-y: auto;
+  max-height: 287px!important;
+  appearance: none;
+  z-index: 1;
+}
+
+.dropdown-option {
+  padding: 10px;
+  cursor: pointer;
+}
+
+  .custom-arrow {
   position: absolute;
   top: 50%;
   right: 16px; /* Adjust to ensure it is inside the select box */
@@ -135,18 +160,22 @@ select:focus {
   display: flex;
   align-items: center;
 
+  transition: ease 0.3s;
+
   }
 
-  .custom-arrow.rotated {
-    transform: rotate(180deg);
-
-    position: absolute;
-    top: 25%;
-    right: 16px; /* Adjust to ensure it is inside the select box */
-    pointer-events: none; /* Allows clicks to pass through */
-    display: flex;
-    align-items: center;
+.custom-arrow.rotated {
+  transform: rotate(180deg);
+  position: absolute;
+  top: 30%;
+  right: 16px; /* Adjust to ensure it is inside the select box */
+  pointer-events: none; /* Allows clicks to pass through */
+  display: flex;
+  align-items: center;
 }
+
+
+
 
 .lowerModal {
   display: flex;

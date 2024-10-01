@@ -9,6 +9,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
   styleUrls: ['./employee-details-revamp.component.css']
 })
 export class EmployeeDetailsRevampComponent {
+  
   currentName!: string;
   currentEmail!: string;
   updateEmployeeForm!: FormGroup;
@@ -20,6 +21,11 @@ export class EmployeeDetailsRevampComponent {
   baseUrl = this.employeeService.apiUrl;
   selectedImage!: File;
   isUpdating: boolean = false;
+
+  
+  selectedRole: string | null = null;
+  roledropdownOpen: boolean = false;
+
 
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
@@ -40,6 +46,7 @@ export class EmployeeDetailsRevampComponent {
     });
   }
   ngOnInit(): void {
+ 
     this.employeeService.selectedEmployee$.subscribe((employee) => {
       if (employee) {
         this.showEmployeeDetails(employee);
@@ -49,6 +56,7 @@ export class EmployeeDetailsRevampComponent {
     this.updateEmployeeForm.valueChanges.subscribe(() => {
       this.checkFormChanges();
     });
+
   }
 
   loadEmployeeDetails(userId: string): void {
@@ -134,12 +142,15 @@ export class EmployeeDetailsRevampComponent {
         branch: this.employeeDetails.branch,
       });
   
+      
       // Reset photoSrc to null or original image if needed
       this.photoSrc = null; // Or revert to the original image source if applicable
   
       // Reset the form's dirty state
       this.updateEmployeeForm.markAsPristine();
     }
+
+
   }
   
 
@@ -205,6 +216,8 @@ export class EmployeeDetailsRevampComponent {
     }
   }
 
+
+  
   isDropdownOpen = false;
 
   onBranchChange() {
@@ -214,7 +227,32 @@ export class EmployeeDetailsRevampComponent {
 
   isRoleDropdownOpen = true;
 
-  onRoleChange() {
-    this.isRoleDropdownOpen = false; // Close the dropdown when an item is selected
+
+  roles: string[] = [
+    'Admin Aide', 'Administrative Assistant', 'Administrative Officer', 'Back End Developer',
+    'Bubble Developer', 'CAD Operator', 'Cebu Branch Manager', 'Chief Executive Officer',
+    'Chief Finance Officer', 'Co-CEO', 'Database Administrator', 'Developer', 'DevOps Engineer',
+    'Digital Creative Marketing', 'Driver/ Maintenance', 'Front-end Developer', 'Full Stack Developer',
+    'Guest', 'HR and Recruitment Assistant', 'HR Consultant', 'Intern', 'Internal Finance', 'IT Administrator',
+    'Junior Full Stack Developer', 'Lead UI/UX Designer', 'Liaison Officer', 'Logistics', 'Logistics Assistant',
+    'Maintenance Worker', 'PMO Manager', 'Principal Development Supervisor', 'Product Design Manager',
+    'Product Owner', 'Project Coordinator', 'Project Manager', 'QA Manager', 'Quality Assurance Specialist',
+    'Quality Assurance Specialist - Team Lead', 'Quality Automation Supervisor', 'Scrum Master',
+    'Scrum Master/Product Owner', 'Software Development Manager', 'Sr. Full Stack Developer', 'TVI Head', 
+    'UI/UX Designer'
+  ];
+
+  toggleDropdown() {
+    this.roledropdownOpen = !this.roledropdownOpen;
+  }
+
+  selectRole(role: string) {
+   this.selectedRole = role; // Update the selected role
+    this.updateEmployeeForm.get('role')?.setValue(role); // Update the form control value
+    
+
+
+    this.isRoleDropdownOpen = false; // Close the dropdown
+    
   }
 }
