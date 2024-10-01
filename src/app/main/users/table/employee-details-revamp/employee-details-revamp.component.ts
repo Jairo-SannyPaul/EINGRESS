@@ -141,27 +141,29 @@ export class EmployeeDetailsRevampComponent {
 
   resetForm(): void {
     if (this.employeeDetails) {
-      this.updateEmployeeForm.patchValue({
-        fullname: this.employeeDetails.fullname,
-        email: this.employeeDetails.email,
-        role: this.employeeDetails.role,
-        phone: this.employeeDetails.phone,
-        rfidtag: this.employeeDetails.rfidtag,
-        fingerprint1: this.employeeDetails.fingerprint1,
-        fingerprint2: this.employeeDetails.fingerprint2,
-        branch: this.employeeDetails.branch,
-      });
-  
-      
-      // Reset photoSrc to null or original image if needed
-      this.photoSrc = null; // Or revert to the original image source if applicable
-  
-      // Reset the form's dirty state
-      this.updateEmployeeForm.markAsPristine();
+        // Patch the form with the employee details
+        this.updateEmployeeForm.patchValue({
+            fullname: this.employeeDetails.fullname,
+            email: this.employeeDetails.email,
+            role: this.employeeDetails.role, // This will set the role to the registered one
+            phone: this.employeeDetails.phone,
+            rfidtag: this.employeeDetails.rfidtag,
+            fingerprint1: this.employeeDetails.fingerprint1,
+            fingerprint2: this.employeeDetails.fingerprint2,
+            branch: this.employeeDetails.branch,
+        });
+
+        // Optionally reset the selected role display
+        this.selectedRole = this.employeeDetails.role;
+
+        // Reset photoSrc to null or original image if needed
+        this.photoSrc = null; // Or revert to the original image source if applicable
+
+        // Reset the form's dirty state
+        this.updateEmployeeForm.markAsPristine();
     }
+}
 
-
-  }
   
 
   updateEmployee(event: Event): void {
@@ -255,7 +257,13 @@ export class EmployeeDetailsRevampComponent {
     this.selectedRole = role;
     this.roledropdownOpen = true; // Close the dropdown
 
-    // You can also programmatically set the value of the original hidden select element
-    this.updateEmployeeForm.controls['role'].setValue(role);
+   
+
+    const roleControl = this.updateEmployeeForm.get('role');
+    roleControl?.setValue(role); // Set the value of the role control
+    roleControl?.markAsDirty(); // Mark the control as dirty (optional)
+    console.log('Role selected:', role);
+    console.log('Form value:', this.updateEmployeeForm.value);
+    console.log('Form dirty:', this.updateEmployeeForm.dirty);
   }
 }
