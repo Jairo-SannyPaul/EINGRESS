@@ -57,6 +57,9 @@ export class EmployeeDetailsRevampComponent {
       this.checkFormChanges();
     });
 
+     // Synchronize selectedRole with form control value
+     this.selectedRole = this.updateEmployeeForm.get('role')?.value;
+
   }
 
   loadEmployeeDetails(userId: string): void {
@@ -102,6 +105,10 @@ export class EmployeeDetailsRevampComponent {
       branch: employee.branch
     });
     this.employeeDetails = employee;
+
+    // Assign the role from the employee data to selectedRole
+  this.selectedRole = employee.role; // This ensures it is displayed
+
 
     const fingerprint2Value = this.updateEmployeeForm.get('fingerprint2')?.value;
     if (fingerprint2Value) {
