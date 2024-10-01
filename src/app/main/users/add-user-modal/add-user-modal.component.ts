@@ -238,4 +238,35 @@ export class AddUserModalComponent {
   onRoleChange() {
     this.isRoleDropdownOpen = false; // Close the dropdown when an item is selected
   }
+
+  roles: string[] = [
+    'Admin Aide', 'Administrative Assistant', 'Administrative Officer', 'Back End Developer',
+    'Bubble Developer', 'CAD Operator', 'Cebu Branch Manager', 'Chief Executive Officer',
+    'Chief Finance Officer', 'Co-CEO', 'Database Administrator', 'Developer', 'DevOps Engineer',
+    'Digital Creative Marketing', 'Driver/ Maintenance', 'Front-end Developer', 'Full Stack Developer',
+    'Guest', 'HR and Recruitment Assistant', 'HR Consultant', 'Intern', 'Internal Finance', 'IT Administrator',
+    'Junior Full Stack Developer', 'Lead UI/UX Designer', 'Liaison Officer', 'Logistics', 'Logistics Assistant',
+    'Maintenance Worker', 'PMO Manager', 'Principal Development Supervisor', 'Product Design Manager',
+    'Product Owner', 'Project Coordinator', 'Project Manager', 'QA Manager', 'Quality Assurance Specialist',
+    'Quality Assurance Specialist - Team Lead', 'Quality Automation Supervisor', 'Scrum Master',
+    'Scrum Master/Product Owner', 'Software Development Manager', 'Sr. Full Stack Developer', 'TVI Head', 
+    'UI/UX Designer'
+  ];
+
+  selectedRole: string | null = null;
+  dropdownOpen: boolean = false;
+
+  toggleDropdown() {
+    this.dropdownOpen = !this.dropdownOpen;
+  }
+
+  selectRole(role: string) {
+    this.dropdownOpen = false;
+    this.selectedRole = role;
+    
+
+    // You can also programmatically set the value of the original hidden select element
+    this.userForm.controls['role'].setValue(role);
+
+  }
 }

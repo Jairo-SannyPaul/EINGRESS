@@ -80,32 +80,48 @@
       position: relative;
   }
 
-    #addRole:focus,#addBranch:focus {
-    border-radius: 3px;
-    border: 2px solid #5984C8;
-    background: var(--white-900, #FFF);
-    box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.05);
-    }
 
     select { 
       cursor: pointer;
-      max-height: 300px!important; /* Set the max height for dropdown */
-      overflow-y: auto!important; /* Enable vertical scrolling */
-      display: block;
     }
 
-    #addRole {
-      font-family: 'Poppins', sans-serif; /* Font styling */
-      font-size: 16px; /* Font size */
-      padding: 10px 16px; /* Padding for inner spacing */
-      border-radius: 3px; /* Rounded corners */
-      border: 2px solid #CFE0FC; /* Border style */
-      background: #F6F6F6; /* Background color */
-      box-shadow: 0 1px 10px rgba(0, 0, 0, 0.05); /* Subtle shadow for depth */
-      width: 387px; /* Set a maximum width */
-      appearance: none;      
-      
+
+  .custom-dropdown {
+    position: relative;
+    width: 387px;
+    border-radius: 3px;
+    border: 2px solid #CFE0FC;
+    background: #F6F6F6;
+    box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.05);
+    cursor: pointer;
   }
+  
+  .selected-option {
+    padding: 10px;
+  }
+  
+  .dropdown-options {
+    position: absolute;
+    width: 387px!important;
+    border-radius: 3px;
+    border: 2px solid #CFE0FC;
+    background: #F6F6F6;
+    box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.05);
+    overflow-y: auto;
+    max-height: 287px!important;
+    appearance: none;
+    z-index: 1;
+  }
+  
+  .dropdown-option {
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .dropdown-option:hover {
+    background-color: #f1f1f1;
+  }
+  
 
     .custom-arrow {
     position: absolute;
@@ -116,17 +132,23 @@
     display: flex;
     align-items: center;
 
+    transition: ease 0.3s;
+
     }
 
     .custom-arrow.rotated {
+
+      
       transform: rotate(180deg);
 
       position: absolute;
-      top: 25%;
+      top: 30%;
       right: 16px; /* Adjust to ensure it is inside the select box */
       pointer-events: none; /* Allows clicks to pass through */
       display: flex;
       align-items: center;
+
+
   }
     
 
