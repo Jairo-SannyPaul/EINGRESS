@@ -9,7 +9,8 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
   styleUrls: ['./employee-details-revamp.component.css']
 })
 export class EmployeeDetailsRevampComponent {
-  
+
+   
   currentName!: string;
   currentEmail!: string;
   updateEmployeeForm!: FormGroup;

@@ -35,7 +35,7 @@
                                 <div class="dropdown-container">
                                   <div 
                                     class="custom-dropdown" 
-                                    [ngClass]="{'filled': userForm.get('role')?.value}">
+                                    [ngClass]="{'filled': userForm.get('role')?.value.length > 0}">
                                     <div class="selected-option">{{ selectedRole || 'Select Role' }}</div>
                                     <div *ngIf="roledropdownOpen" class="dropdown-options">
                                       <div 
