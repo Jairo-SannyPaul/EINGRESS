@@ -117,6 +117,7 @@ export class AddUserModalComponent {
       
       // Set fileSelect to true when a file is selected
       this.fileSelect = true;
+      this.submitEmployee(); // Call the submit function after selecting the file
     } else {
       this.fileSelect = false; // Reset fileSelect if no file
     }
@@ -128,8 +129,8 @@ export class AddUserModalComponent {
     this.userForm.get('fingerprint2')?.setValue('');
 
     console.log(this.userForm.value)
-
-    if (this.userForm.valid && this.fileSelect) {
+    
+    if (this.userForm.valid) {
       const newEmployee = this.userForm.value;
 
       const firstLetter = this.getFirstLetter(newEmployee.fullname);
@@ -143,8 +144,6 @@ export class AddUserModalComponent {
         this.downloadImage(pngDataUrl, formattedName);
         this.fileInput.nativeElement.click(); // Open the file selector
       });
-
-      this.submitEmployee(); // Call submitEmployee after all validations
     }
   }
 
