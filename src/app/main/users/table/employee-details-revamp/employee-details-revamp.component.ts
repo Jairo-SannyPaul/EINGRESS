@@ -216,17 +216,12 @@ export class EmployeeDetailsRevampComponent {
     }
   }
 
-
-  
   isDropdownOpen = false;
 
   onBranchChange() {
     // Set isDropdownOpen to false when an item is selected
     this.isDropdownOpen = false;
   }
-
-  isRoleDropdownOpen = true;
-
 
   roles: string[] = [
     'Admin Aide', 'Administrative Assistant', 'Administrative Officer', 'Back End Developer',
@@ -247,12 +242,10 @@ export class EmployeeDetailsRevampComponent {
   }
 
   selectRole(role: string) {
-   this.selectedRole = role; // Update the selected role
-    this.updateEmployeeForm.get('role')?.setValue(role); // Update the form control value
-    
+    this.selectedRole = role;
+    this.roledropdownOpen = true; // Close the dropdown
 
-
-    this.isRoleDropdownOpen = false; // Close the dropdown
-    
+    // You can also programmatically set the value of the original hidden select element
+    this.updateEmployeeForm.controls['role'].setValue(role);
   }
 }

@@ -235,10 +235,7 @@ export class AddUserModalComponent {
     this.isDropdownOpen = false;
   }
 
-  isRoleDropdownOpen = true;
-
-
-  roles: string[] = [
+   roles: string[] = [
     'Admin Aide', 'Administrative Assistant', 'Administrative Officer', 'Back End Developer',
     'Bubble Developer', 'CAD Operator', 'Cebu Branch Manager', 'Chief Executive Officer',
     'Chief Finance Officer', 'Co-CEO', 'Database Administrator', 'Developer', 'DevOps Engineer',
