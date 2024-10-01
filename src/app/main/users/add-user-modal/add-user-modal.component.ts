@@ -72,6 +72,7 @@ export class AddUserModalComponent {
       fingerprint2: '',
       branch: '',
     });
+    this.selectedRole = null; // Set it to null or an empty string to reset the role
     this.fileSelect = false; // Reset the file selection flag
   }
 
@@ -125,6 +126,8 @@ export class AddUserModalComponent {
   onSubmit(): void {
     this.userForm.markAllAsTouched();
     this.userForm.get('fingerprint2')?.setValue('');
+
+    console.log(this.userForm.value)
 
     if (this.userForm.valid && this.fileSelect) {
       const newEmployee = this.userForm.value;
@@ -235,9 +238,6 @@ export class AddUserModalComponent {
 
   isRoleDropdownOpen = true;
 
-  onRoleChange() {
-    this.isRoleDropdownOpen = false; // Close the dropdown when an item is selected
-  }
 
   roles: string[] = [
     'Admin Aide', 'Administrative Assistant', 'Administrative Officer', 'Back End Developer',
@@ -254,14 +254,14 @@ export class AddUserModalComponent {
   ];
 
   selectedRole: string | null = null;
-  dropdownOpen: boolean = false;
+  roledropdownOpen: boolean = false;
 
   toggleDropdown() {
-    this.dropdownOpen = !this.dropdownOpen;
+    this.roledropdownOpen = !this.roledropdownOpen;
   }
 
   selectRole(role: string) {
-    this.dropdownOpen = false;
+    this.roledropdownOpen = true;
     this.selectedRole = role;
     
 
