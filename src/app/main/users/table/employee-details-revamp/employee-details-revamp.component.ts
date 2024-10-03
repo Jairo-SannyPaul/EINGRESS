@@ -27,7 +27,7 @@ export class EmployeeDetailsRevampComponent {
   selectedRole: string | null = null;
   roledropdownOpen: boolean = false;
 
-
+  @ViewChild('roleDropdown') roleDropdown!: ElementRef<HTMLDivElement>;
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
   constructor(
@@ -249,6 +249,16 @@ export class EmployeeDetailsRevampComponent {
     'Scrum Master/Product Owner', 'Software Development Manager', 'Sr. Full Stack Developer', 'TVI Head', 
     'UI/UX Designer'
   ];
+  // Add the HostListener for detecting clicks outside the role dropdown
+  @HostListener('document:click', ['$event'])
+  handleClickOutside(event: Event) {
+    if (this.roledropdownOpen && this.roleDropdown) {
+      const clickedInside = this.roleDropdown.nativeElement.contains(event.target as Node);
+      if (!clickedInside) {
+        this.roledropdownOpen = false;
+      }
+    }
+  }
 
   toggleDropdown() {
     this.roledropdownOpen = !this.roledropdownOpen;
@@ -256,15 +266,13 @@ export class EmployeeDetailsRevampComponent {
 
   selectRole(role: string) {
     this.selectedRole = role;
-    this.roledropdownOpen = true; // Close the dropdown
-
-   
-
+    this.roledropdownOpen = false; // Close the dropdown
+    
     const roleControl = this.updateEmployeeForm.get('role');
     roleControl?.setValue(role); // Set the value of the role control
     roleControl?.markAsDirty(); // Mark the control as dirty (optional)
     console.log('Role selected:', role);
     console.log('Form value:', this.updateEmployeeForm.value);
     console.log('Form dirty:', this.updateEmployeeForm.dirty);
-  }
+  }  
 }

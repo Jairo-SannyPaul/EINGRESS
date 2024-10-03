@@ -31,21 +31,21 @@
                         </div>
                         <div class="role-container">
                             <p><span class="required" *ngIf="!userForm.get('role')?.valid">*</span>Role</p>
-                            <div class="drop-down" (click)="toggleDropdown()">
+                            <div class="drop-down" (click)="toggleDropdown()" #roleDropdown>
                                 <div class="dropdown-container">
-                                  <div 
-                                    class="custom-dropdown" 
-                                    [ngClass]="{'filled': userForm.get('role')?.value.length > 0}">
-                                    <div class="selected-option">{{ selectedRole || 'Select Role' }}</div>
-                                    <div *ngIf="roledropdownOpen" class="dropdown-options">
-                                      <div 
-                                        class="dropdown-option" 
-                                        *ngFor="let role of roles" 
-                                        (click)="selectRole(role)">
-                                        {{ role }}
-                                      </div>
+                                    <div 
+                                        class="custom-dropdown" 
+                                        [ngClass]="{'filled': userForm.get('role')?.value.length > 0}">
+                                        <div class="selected-option">{{ selectedRole || 'Select Role' }}</div>
+                                        <div *ngIf="roledropdownOpen" class="dropdown-options">
+                                            <div 
+                                                class="dropdown-option" 
+                                                *ngFor="let role of roles" 
+                                                (click)="selectRole(role)">
+                                                {{ role }}
+                                            </div>
+                                        </div>
                                     </div>
-                                  </div>
                               
                                   <!-- Optional Hidden select element -->
                                   <select 

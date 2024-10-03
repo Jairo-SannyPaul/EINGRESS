@@ -11,6 +11,7 @@ import { DialogService } from 'src/app/services/dialog.service';
 export class AddUserModalComponent {
   @ViewChild('canvas', { static: false }) canvas!: ElementRef<HTMLCanvasElement>;
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>; // Reference to the file input
+  @ViewChild('roleDropdown') roleDropdown!: ElementRef<HTMLDivElement>;
 
   isVisible: boolean = false;
   addUserForm: boolean = false;
@@ -31,6 +32,16 @@ export class AddUserModalComponent {
       fingerprint2: [''],
       branch: ['', Validators.required],
     });
+  }
+
+  @HostListener('document:click', ['$event'])
+  handleClickOutside(event: Event) {
+    if (this.roledropdownOpen && this.roleDropdown) {
+      const clickedInside = this.roleDropdown.nativeElement.contains(event.target as Node);
+      if (!clickedInside) {
+        this.roledropdownOpen = false;
+      }
+    }
   }
 
   @HostListener('window:keydown', ['$event'])
@@ -257,7 +268,7 @@ export class AddUserModalComponent {
   }
 
   selectRole(role: string) {
-    this.roledropdownOpen = true;
+    this.roledropdownOpen = false;
     this.selectedRole = role;
     
 
