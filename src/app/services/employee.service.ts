@@ -57,11 +57,19 @@ export class EmployeeService {
 
 
 
-  addEmployee(employee: Employee, file: File): Observable<any> {
+  addEmployee(employee: Employee, file: File, fingerPrintFile1: File, fingerPrintFile2: File): Observable<any> {
     const formData: FormData = new FormData();
     console.log(employee);
     if (file) {
-      formData.append('file', file);
+      formData.append('file', file,);
+    }
+
+    if(fingerPrintFile1){
+      formData.append('fingerPrintFile', fingerPrintFile1);
+    }
+
+    if(fingerPrintFile2){
+      formData.append('fingerPrintFile', fingerPrintFile2);
     }
     formData.append('employee', JSON.stringify(employee)); // Convert employee object to JSON string
     return this.http.post<any>(`${this.apiUrl}`, formData);
