@@ -69,7 +69,7 @@
     grid-column: 2 / 3;
     grid-row: 2 / 5;
     height: calc(100% - 100px);
-    padding: 0px 16px 0px 26px;
+    padding: 0px 0px 0px 26px;
     align-self: stretch;
     border-radius: 5px;
     background: rgba(255, 255, 255, 0.60);
@@ -89,7 +89,7 @@
     font-style: normal;
     font-weight: 500;
     line-height: normal;
-    padding: 26px 0px 0px 16px;
+    padding: 26px 0px 0px 0px;
 }
 
 .left{

@@ -9,9 +9,9 @@ import { DialogService } from 'src/app/services/dialog.service';
   styleUrls: ['./add-user-modal.component.css']
 })
 export class AddUserModalComponent {
-
   @ViewChild('canvas', { static: false }) canvas!: ElementRef<HTMLCanvasElement>;
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>; // Reference to the file input
+  @ViewChild('roleDropdown') roleDropdown!: ElementRef<HTMLDivElement>;
 
   isVisible: boolean = false;
   addUserForm: boolean = false;
@@ -32,6 +32,16 @@ export class AddUserModalComponent {
       fingerprint2: [''],
       branch: ['', Validators.required],
     });
+  }
+
+  @HostListener('document:click', ['$event'])
+  handleClickOutside(event: Event) {
+    if (this.roledropdownOpen && this.roleDropdown) {
+      const clickedInside = this.roleDropdown.nativeElement.contains(event.target as Node);
+      if (!clickedInside) {
+        this.roledropdownOpen = false;
+      }
+    }
   }
 
   @HostListener('window:keydown', ['$event'])
@@ -61,19 +71,20 @@ export class AddUserModalComponent {
   };
 
   resetForm() {
-    this.userForm.reset();
-    this.newEmployee = {
-      id: 0,
+    // Reset the form to its initial state
+    this.userForm.reset({
       fullname: '',
       email: '',
-      phone: '',
       role: '',
-      rfidtag: '',
       profileImage: '',
+      phone: '',
+      rfidtag: '',
       fingerprint1: '',
       fingerprint2: '',
-      branch: ''
-    }
+      branch: '',
+    });
+    this.selectedRole = null; // Set it to null or an empty string to reset the role
+    this.fileSelect = false; // Reset the file selection flag
   }
 
   // Show the modal
@@ -128,6 +139,8 @@ export class AddUserModalComponent {
     this.userForm.markAllAsTouched();
     this.userForm.get('fingerprint2')?.setValue('');
 
+    console.log(this.userForm.value)
+    
     if (this.userForm.valid) {
       const newEmployee = this.userForm.value;
 
@@ -224,5 +237,43 @@ export class AddUserModalComponent {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
+  }
+
+  isDropdownOpen = false;
+
+  onBranchChange() {
+    // Set isDropdownOpen to false when an item is selected
+    this.isDropdownOpen = false;
+  }
+
+   roles: string[] = [
+    'Admin Aide', 'Administrative Assistant', 'Administrative Officer', 'Back End Developer',
+    'Bubble Developer', 'CAD Operator', 'Cebu Branch Manager', 'Chief Executive Officer',
+    'Chief Finance Officer', 'Co-CEO', 'Database Administrator', 'Developer', 'DevOps Engineer',
+    'Digital Creative Marketing', 'Driver/ Maintenance', 'Front-end Developer', 'Full Stack Developer',
+    'Guest', 'HR and Recruitment Assistant', 'HR Consultant', 'Intern', 'Internal Finance', 'IT Administrator',
+    'Junior Full Stack Developer', 'Lead UI/UX Designer', 'Liaison Officer', 'Logistics', 'Logistics Assistant',
+    'Maintenance Worker', 'PMO Manager', 'Principal Development Supervisor', 'Product Design Manager',
+    'Product Owner', 'Project Coordinator', 'Project Manager', 'QA Manager', 'Quality Assurance Specialist',
+    'Quality Assurance Specialist - Team Lead', 'Quality Automation Supervisor', 'Scrum Master',
+    'Scrum Master/Product Owner', 'Software Development Manager', 'Sr. Full Stack Developer', 'TVI Head', 
+    'UI/UX Designer'
+  ];
+
+  selectedRole: string | null = null;
+  roledropdownOpen: boolean = false;
+
+  toggleDropdown() {
+    this.roledropdownOpen = !this.roledropdownOpen;
+  }
+
+  selectRole(role: string) {
+    this.roledropdownOpen = false;
+    this.selectedRole = role;
+    
+
+    // You can also programmatically set the value of the original hidden select element
+    this.userForm.controls['role'].setValue(role);
+
   }
 }

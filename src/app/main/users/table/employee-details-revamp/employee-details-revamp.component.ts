@@ -9,6 +9,8 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
   styleUrls: ['./employee-details-revamp.component.css']
 })
 export class EmployeeDetailsRevampComponent {
+
+   
   currentName!: string;
   currentEmail!: string;
   updateEmployeeForm!: FormGroup;
@@ -21,6 +23,11 @@ export class EmployeeDetailsRevampComponent {
   selectedImage!: File;
   isUpdating: boolean = false;
 
+  
+  selectedRole: string | null = null;
+  roledropdownOpen: boolean = false;
+
+  @ViewChild('roleDropdown') roleDropdown!: ElementRef<HTMLDivElement>;
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
   constructor(
@@ -40,6 +47,7 @@ export class EmployeeDetailsRevampComponent {
     });
   }
   ngOnInit(): void {
+ 
     this.employeeService.selectedEmployee$.subscribe((employee) => {
       if (employee) {
         this.showEmployeeDetails(employee);
@@ -49,6 +57,10 @@ export class EmployeeDetailsRevampComponent {
     this.updateEmployeeForm.valueChanges.subscribe(() => {
       this.checkFormChanges();
     });
+
+     // Synchronize selectedRole with form control value
+     this.selectedRole = this.updateEmployeeForm.get('role')?.value;
+
   }
 
   loadEmployeeDetails(userId: string): void {
@@ -79,20 +91,27 @@ export class EmployeeDetailsRevampComponent {
   }
 
   showEmployeeDetails(employee: Employee): void {
-    console.log("patching values: ", employee)
+    console.log("patching values: ", employee);
     console.log(employee);
+  
     this.currentName = employee.fullname;
     this.currentEmail = employee.email;
+  
+    // Patch the employee details into the form
     this.updateEmployeeForm.patchValue({
       fullname: employee.fullname,
       email: employee.email,
-      role: employee.role,
+      role: employee.role, // This is important for role
       phone: employee.phone,
       rfidtag: employee.rfidtag,
       fingerprint1: employee.fingerprint1,
       fingerprint2: employee.fingerprint2,
       branch: employee.branch
     });
+  
+    // Assign the role from the employee data to selectedRole
+    this.selectedRole = employee.role; // This ensures it is displayed
+  
     this.employeeDetails = employee;
 
     const fingerprint2Value = this.updateEmployeeForm.get('fingerprint2')?.value;
@@ -120,6 +139,33 @@ export class EmployeeDetailsRevampComponent {
       }
     }
   }
+
+  resetForm(): void {
+    if (this.employeeDetails) {
+        // Patch the form with the employee details
+        this.updateEmployeeForm.patchValue({
+            fullname: this.employeeDetails.fullname,
+            email: this.employeeDetails.email,
+            role: this.employeeDetails.role, // This will set the role to the registered one
+            phone: this.employeeDetails.phone,
+            rfidtag: this.employeeDetails.rfidtag,
+            fingerprint1: this.employeeDetails.fingerprint1,
+            fingerprint2: this.employeeDetails.fingerprint2,
+            branch: this.employeeDetails.branch,
+        });
+
+        // Optionally reset the selected role display
+        this.selectedRole = this.employeeDetails.role;
+
+        // Reset photoSrc to null or original image if needed
+        this.photoSrc = null; // Or revert to the original image source if applicable
+
+        // Reset the form's dirty state
+        this.updateEmployeeForm.markAsPristine();
+    }
+}
+
+  
 
   updateEmployee(event: Event): void {
     event.preventDefault(); // Prevent the default form submission behavior
@@ -182,4 +228,51 @@ export class EmployeeDetailsRevampComponent {
       }
     }
   }
+
+  isDropdownOpen = false;
+
+  onBranchChange() {
+    // Set isDropdownOpen to false when an item is selected
+    this.isDropdownOpen = false;
+  }
+
+  roles: string[] = [
+    'Admin Aide', 'Administrative Assistant', 'Administrative Officer', 'Back End Developer',
+    'Bubble Developer', 'CAD Operator', 'Cebu Branch Manager', 'Chief Executive Officer',
+    'Chief Finance Officer', 'Co-CEO', 'Database Administrator', 'Developer', 'DevOps Engineer',
+    'Digital Creative Marketing', 'Driver/ Maintenance', 'Front-end Developer', 'Full Stack Developer',
+    'Guest', 'HR and Recruitment Assistant', 'HR Consultant', 'Intern', 'Internal Finance', 'IT Administrator',
+    'Junior Full Stack Developer', 'Lead UI/UX Designer', 'Liaison Officer', 'Logistics', 'Logistics Assistant',
+    'Maintenance Worker', 'PMO Manager', 'Principal Development Supervisor', 'Product Design Manager',
+    'Product Owner', 'Project Coordinator', 'Project Manager', 'QA Manager', 'Quality Assurance Specialist',
+    'Quality Assurance Specialist - Team Lead', 'Quality Automation Supervisor', 'Scrum Master',
+    'Scrum Master/Product Owner', 'Software Development Manager', 'Sr. Full Stack Developer', 'TVI Head', 
+    'UI/UX Designer'
+  ];
+  // Add the HostListener for detecting clicks outside the role dropdown
+  @HostListener('document:click', ['$event'])
+  handleClickOutside(event: Event) {
+    if (this.roledropdownOpen && this.roleDropdown) {
+      const clickedInside = this.roleDropdown.nativeElement.contains(event.target as Node);
+      if (!clickedInside) {
+        this.roledropdownOpen = false;
+      }
+    }
+  }
+
+  toggleDropdown() {
+    this.roledropdownOpen = !this.roledropdownOpen;
+  }
+
+  selectRole(role: string) {
+    this.selectedRole = role;
+    this.roledropdownOpen = false; // Close the dropdown
+    
+    const roleControl = this.updateEmployeeForm.get('role');
+    roleControl?.setValue(role); // Set the value of the role control
+    roleControl?.markAsDirty(); // Mark the control as dirty (optional)
+    console.log('Role selected:', role);
+    console.log('Form value:', this.updateEmployeeForm.value);
+    console.log('Form dirty:', this.updateEmployeeForm.dirty);
+  }  
 }

@@ -39,7 +39,7 @@
     width: 387px;
 
     border-radius: 3px;
-    border: 1px solid #CFE0FC;
+    border: 2px solid #CFE0FC;
     background: #F6F6F6;
     box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.05);
 
@@ -59,114 +59,157 @@
     }
 
 
+
+
+    /** start of left div **/
+
+    .dropdown-option:hover {
+      background-color: #4173c3;
+      color: white;
+    }
+  
+      .drop-down {
+      position: relative;
+      align-items: center;
+      gap: 136px;
+      }    
+  
+      .dropdown-container {
+        position: relative;
+    }
+  
+  
+      select { 
+        cursor: pointer;
+      }
+  
+  
+    .custom-dropdown {
+      position: relative;
+      width: 387px;
+      border-radius: 3px;
+      border: 2px solid #CFE0FC;
+      background: #F6F6F6;
+      box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.05);
+      cursor: pointer;
+    }
+
+    .custom-dropdown.filled {
+      border-radius: 3px !important;
+      border: 2px solid #A5C8FF !important;
+      background: #FBFBFB!important;
+      box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.05);
+    }
+
+    .custom-dropdown.focus {
+      border-radius: 3px !important;
+      border: 2px solid #A5C8FF !important;
+      background: #FBFBFB!important;
+      box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.05);
+    }
     
-    select:focus {
-    border-radius: 3px;
-    border: 2px solid #5984C8;
-    background: var(--white-900, #FFF);
-    box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.05);
+  
+    .selected-option {
+      padding: 10px;
     }
 
+    
 
-    /** start of right div **/
-
-    .drop-down {
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: 136px;
-    }    
-
-
-    #addRole:focus,#addBranch:focus {
-    border-radius: 3px;
-    border: 2px solid #5984C8;
-    background: var(--white-900, #FFF);
-    box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.05);
+    .dropdown-options {
+      position: absolute;
+      width: 387px!important;
+      border-radius: 3px;
+      border: 2px solid #CFE0FC;
+      background: #F6F6F6;
+      box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.05);
+      overflow-y: auto;
+      max-height: 287px!important;
+      appearance: none;
+      z-index: 1;
     }
-
-
-    #addRole {
-    font-family: 'Poppins', sans-serif;
-    font-size: 16px;
-    padding: 10px 16px;
-    border-radius: 3px;
-    border: 1px solid #CFE0FC;
-    background: #F6F6F6;
-    box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.05);
-    width: 387px; /* Full width of the container */
-    box-sizing: border-box; /* Includes padding and border in width and height */
-    appearance: none; /* Remove default dropdown arrow */
-    z-index: 1; /* Ensure dropdown options appear above other content */
-    height: auto;
-    overflow-y: hidden;
+    
+    .dropdown-option {
+      padding: 10px;
+      cursor: pointer;
     }
-
-
-    .custom-arrow {
-    position: absolute;
-    top: 50%;
-    right: 16px; /* Adjust to ensure it is inside the select box */
-    transform: translateY(-50%);
-    pointer-events: none; /* Allows clicks to pass through */
-    display: flex;
-    align-items: center;
-    z-index: 2; /* Ensure the arrow is above other content */
+    
+      .custom-arrow {
+      position: absolute;
+      top: 50%;
+      right: 16px; /* Adjust to ensure it is inside the select box */
+      transform: translateY(-50%);
+      pointer-events: none; /* Allows clicks to pass through */
+      display: flex;
+      align-items: center;
+  
+      transition: ease 0.3s;
+  
+      }
+  
+    .custom-arrow.rotated {
+      transform: rotate(180deg);
+      position: absolute;
+      top: 30%;
+      right: 16px; /* Adjust to ensure it is inside the select box */
+      pointer-events: none; /* Allows clicks to pass through */
+      display: flex;
+      align-items: center;
     }
+      
+  
+      .branch-RFID-container {
+      display: flex;
+      align-items: center;
+      gap: 21px;
+      align-self: stretch;
+      width: 183px;
+  
+      }
+  
+      .input-wrapper {
+      position: relative;
+      display: inline-block;
+      }
+  
+      .rfid-icon {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+      }
+  
+      input {
+      padding-right: 30px; /* Adjust padding to make room for the SVG */
+      }
+  
+  
+      #addBranch {
+      font-family: 'Poppins', sans-serif;
+      font-size: 16px;
+      padding: 10px 16px;
+      border-radius: 3px;
+      border: 2px solid #CFE0FC;
+      background: #F6F6F6;
+      box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.05);
+      width: 183px; /* Full width of the container */
+      box-sizing: border-box; /* Includes padding and border in width and height */
+      appearance: none; /* Remove default dropdown arrow */
+      }
+  
+  
+      .branch-container, .rfid-container {
+      display: flex;
+      width: 183px;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+      }
+  
+      #addRFID {
+      width: 183px;
+      }
 
-
-    .branch-RFID-container {
-    display: flex;
-    align-items: center;
-    gap: 21px;
-    align-self: stretch;
-    width: 183px;
-
-    }
-
-    .input-wrapper {
-    position: relative;
-    display: inline-block;
-    }
-
-    .rfid-icon {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    pointer-events: none;
-    }
-
-    input {
-    padding-right: 30px; /* Adjust padding to make room for the SVG */
-    }
-
-
-    #addBranch {
-    font-family: 'Poppins', sans-serif;
-    font-size: 16px;
-    padding: 10px 16px;
-    border-radius: 3px;
-    border: 1px solid #CFE0FC;
-    background: #F6F6F6;
-    box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.05);
-    width: 183px; /* Full width of the container */
-    box-sizing: border-box; /* Includes padding and border in width and height */
-    appearance: none; /* Remove default dropdown arrow */
-    }
-
-
-    .branch-container, .rfid-container {
-    display: flex;
-    width: 183px;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-    }
-
-    #addRFID {
-    width: 183px;
-    }
 
     .fingerprint-1-container {
     display: flex;
@@ -221,7 +264,7 @@
     width: 183px;
 
     border-radius: 3px;
-    border: 1px solid #CFE0FC;
+    border: 2px solid #CFE0FC;
     background: #F6F6F6;
     }
 
@@ -378,6 +421,12 @@
     background: #F7F7F7;
     }
 
+    .clear-btn:hover {
+      background-color: #E2E2E2; /* Lighter background on hover */
+      color: #313131; /* Darker text color on hover */
+      
+  }
+
     .submit-btn {
 
     color: var(--white-900, #FFF);
@@ -395,14 +444,18 @@
     gap: 10px;
     background: rgba(33, 101, 201, 0.60);
 
-
+    }
+    
+    .btn-active:hover {
+      background-color: #1A4A8E; /* Darker background on hover */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow effect on hover */
     }
 
     /* Styles for the submit button when all required fields are filled */
     .btn-active {
     border-radius: 3px;
     background: #2165C9!important;
-    color: var(--white-900, #FFF) !important;
+    color: var(--white-900, #ffffff) !important;
     font-family: Poppins;
     font-size: 16px;
     font-style: normal;
@@ -412,14 +465,14 @@
 
     input.filled {
         border-radius: 3px !important;
-        border: 1px solid #A5C8FF !important;
+        border: 2px solid #A5C8FF !important;
         background: #FBFBFB!important;
         box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.05);
       }
 
     select.filled {
         border-radius: 3px !important;
-        border: 1px solid #A5C8FF !important;
+        border: 2px solid #A5C8FF !important;
         background: #FBFBFB!important;
         box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.05);
     }
