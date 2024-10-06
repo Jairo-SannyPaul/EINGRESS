@@ -163,6 +163,7 @@ export class EmployeeDetailsRevampComponent {
       else if(fileType === 'fpFile2'){
         this.selectedFingePrintFile2 = file;
       }
+      this.updateEmployeeForm.markAsDirty();
 
     }
   }

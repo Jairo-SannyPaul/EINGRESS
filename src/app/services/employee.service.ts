@@ -104,7 +104,7 @@ export class EmployeeService {
       formData.append('fingerprintfile2', fingerprint2);
     }
     const updateEmployeeUrl = `${this.apiUrl}/${id}/fingerprintFiles`;
-    return this.http.post<any>(updateEmployeeUrl, formData);
+    return this.http.patch<any>(updateEmployeeUrl, formData);
   }
 
   searchEmployee(searchInputValue: string): Observable<Employee[]> {
