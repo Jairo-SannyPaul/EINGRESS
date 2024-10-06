@@ -215,8 +215,8 @@ export class EmployeeDetailsRevampComponent {
 
       const fingerprint1 = this.updateEmployeeForm.get('fingerprint1')?.value;  //this is for fingerprint id not related of fingerprint file
       const fingerprint2 = this.updateEmployeeForm.get('fingerprint2')?.value; //this is for fingerprint id not related of fingerprint file
-      const fingerprintFile1 = this.selectedFingePrintFile1; //this is for fingerprint file
-      const fingerprintFile2 = this.selectedFingePrintFile2; //this is for fingerprint file
+      const fingerprintfile1 = this.selectedFingePrintFile1; //this is for fingerprint file
+      const fingerprintfile2 = this.selectedFingePrintFile2; //this is for fingerprint file
 
       if (fingerprint1 && fingerprint2 && fingerprint1 === fingerprint2) {
         // this.dialogService.openAlertDialog('Fingerprint1 and Fingerprint2 cannot be the same.');
@@ -248,8 +248,8 @@ export class EmployeeDetailsRevampComponent {
           handleError
         );
       } 
-      else if (!file && (fingerprintFile1 || fingerprintFile2)) {
-        this.employeeService.uploadFingerPrints(id, fingerprint1, fingerprint2).subscribe(
+      else if (!file && (fingerprintfile1 || fingerprintfile2)) {
+        this.employeeService.uploadFingerPrints(id, fingerprintfile1, fingerprintfile2).subscribe(
           (response) => {
             this.employeeService.setPopupVisibility(true);
             this.employeeService.closeUpdateModal();
