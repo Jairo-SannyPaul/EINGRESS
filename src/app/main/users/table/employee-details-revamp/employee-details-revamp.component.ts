@@ -2,6 +2,7 @@ import { Component, Input, OnChanges, OnInit, Output, SimpleChanges, ElementRef,
 import { Employee } from 'src/app/interface/employee.interface';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { DialogService } from 'src/app/services/dialog.service';
 
 @Component({
   selector: 'app-employee-details-revamp',
@@ -27,12 +28,16 @@ export class EmployeeDetailsRevampComponent {
   selectedRole: string | null = null;
   roledropdownOpen: boolean = false;
 
+  selectedFingePrintFile1!: File;
+  selectedFingePrintFile2!: File;
+
   @ViewChild('roleDropdown') roleDropdown!: ElementRef<HTMLDivElement>;
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
   constructor(
     private employeeService: EmployeeService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private dialogService: DialogService
   ) {
     this.updateEmployeeForm = this.formBuilder.group({
       fullname: ['', Validators.required],
@@ -140,6 +145,29 @@ export class EmployeeDetailsRevampComponent {
     }
   }
 
+  onFingerPrintFileSelected(event: any, fileType: string){
+    const file = event.target.files[0];
+
+    if(file){
+      console.log(`File selected: ${file.name}`);
+      const isDatFile = file.name.endsWith('dat');
+
+      if(!isDatFile){
+        this.dialogService.openAlertDialog('Invalid file type');
+        return;
+      }
+
+      if(fileType === 'fpFile1'){
+        this.selectedFingePrintFile1 = file;
+      }
+      else if(fileType === 'fpFile2'){
+        this.selectedFingePrintFile2 = file;
+      }
+      this.updateEmployeeForm.markAsDirty();
+
+    }
+  }
+
   resetForm(): void {
     if (this.employeeDetails) {
         // Patch the form with the employee details
@@ -185,8 +213,10 @@ export class EmployeeDetailsRevampComponent {
         return;
       }
 
-      const fingerprint1 = this.updateEmployeeForm.get('fingerprint1')?.value;
-      const fingerprint2 = this.updateEmployeeForm.get('fingerprint2')?.value;
+      const fingerprint1 = this.updateEmployeeForm.get('fingerprint1')?.value;  //this is for fingerprint id not related of fingerprint file
+      const fingerprint2 = this.updateEmployeeForm.get('fingerprint2')?.value; //this is for fingerprint id not related of fingerprint file
+      const fingerprintfile1 = this.selectedFingePrintFile1; //this is for fingerprint file
+      const fingerprintfile2 = this.selectedFingePrintFile2; //this is for fingerprint file
 
       if (fingerprint1 && fingerprint2 && fingerprint1 === fingerprint2) {
         // this.dialogService.openAlertDialog('Fingerprint1 and Fingerprint2 cannot be the same.');
@@ -217,7 +247,17 @@ export class EmployeeDetailsRevampComponent {
           },
           handleError
         );
-      } else {
+      } 
+      else if (!file && (fingerprintfile1 || fingerprintfile2)) {
+        this.employeeService.uploadFingerPrints(id, fingerprintfile1, fingerprintfile2).subscribe(
+          (response) => {
+            this.employeeService.setPopupVisibility(true);
+            this.employeeService.closeUpdateModal();
+          },
+          handleError
+        );
+      }
+      else {
         this.employeeService.updateEmployeeWithoutImage(id, updateEmployee).subscribe(
           (response) => {
             this.employeeService.setPopupVisibility(true);

@@ -57,11 +57,19 @@ export class EmployeeService {
 
 
 
-  addEmployee(employee: Employee, file: File): Observable<any> {
+  addEmployee(employee: Employee, file: File, fingerPrintFile1: File, fingerPrintFile2: File): Observable<any> {
     const formData: FormData = new FormData();
     console.log(employee);
     if (file) {
-      formData.append('file', file);
+      formData.append('file', file,);
+    }
+
+    if(fingerPrintFile1){
+      formData.append('fingerPrintFile', fingerPrintFile1);
+    }
+
+    if(fingerPrintFile2){
+      formData.append('fingerPrintFile', fingerPrintFile2);
     }
     formData.append('employee', JSON.stringify(employee)); // Convert employee object to JSON string
     return this.http.post<any>(`${this.apiUrl}`, formData);
@@ -92,6 +100,19 @@ export class EmployeeService {
     formData.append('employee', JSON.stringify(employee));
     const updateEmployeeUrl = `${this.apiUrl}/${id}`;
     return this.http.put<Employee>(updateEmployeeUrl, formData); // Send PUT request without image
+  }
+
+  uploadFingerPrints(id: number, fingerprintfile1?: File | null, fingerprintfile2?: File | null): Observable<any>{
+    const formData: FormData = new FormData();
+
+    if (fingerprintfile1) {
+      formData.append('file', fingerprintfile1);  
+    }
+    if (fingerprintfile2) {
+      formData.append('file', fingerprintfile2);  
+    }
+    const updateEmployeeUrl = `${this.apiUrl}/fingerprintFiles/${id}`; // Send fingerprint files 
+    return this.http.post<any>(updateEmployeeUrl, formData);
   }
 
   searchEmployee(searchInputValue: string): Observable<Employee[]> {
