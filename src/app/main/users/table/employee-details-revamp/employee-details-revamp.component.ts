@@ -154,7 +154,7 @@ export class EmployeeDetailsRevampComponent {
 
       if(!isDatFile){
         this.dialogService.openAlertDialog('Invalid file type');
-        return
+        return;
       }
 
       if(fileType === 'fpFile1'){

@@ -97,14 +97,14 @@ export class EmployeeService {
   uploadFingerPrints(id: number, fingerprintfile1?: File | null, fingerprintfile2?: File | null): Observable<any>{
     const formData: FormData = new FormData();
 
-    if(fingerprintfile1){
-      formData.append('fingerprintfile1', fingerprintfile1);
+    if (fingerprintfile1) {
+      formData.append('file', fingerprintfile1);  
     }
-    if(fingerprintfile2){
-      formData.append('fingerprintfile2', fingerprintfile2);
+    if (fingerprintfile2) {
+      formData.append('file', fingerprintfile2);  
     }
-    const updateEmployeeUrl = `${this.apiUrl}/${id}/fingerprintFiles`;
-    return this.http.patch<any>(updateEmployeeUrl, formData);
+    const updateEmployeeUrl = `${this.apiUrl}/fingerprintFiles/${id}`; // Send fingerprint files 
+    return this.http.post<any>(updateEmployeeUrl, formData);
   }
 
   searchEmployee(searchInputValue: string): Observable<Employee[]> {
