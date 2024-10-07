@@ -18,6 +18,9 @@ export class AddUserModalComponent {
   userForm: FormGroup;
   selectedImage!: File;
   fileSelect: boolean = false;
+  selectedFingerprintFile1!: File;
+  selectedFingerprintFile2!: File;
+  allowedFile = ['application/octet-stream'];
   isPopupVisible: boolean = false; // Popup visibility flag
 
   constructor(private formBuilder: FormBuilder, private employeeService: EmployeeService, private dialogService: DialogService) {
@@ -134,6 +137,26 @@ export class AddUserModalComponent {
     }
   }
 
+  onFingerPrintFileSelected(event: any, fileType: string){
+    const file = event.target.files[0];
+
+    if(file){
+      const isDatFile = file.name.endsWith('.dat');
+
+      if(!isDatFile){
+        this.dialogService.openAlertDialog('Invalid file type, Please upload a .dat file')
+      }
+
+      if(fileType === 'fingerprintFile1'){
+        this.selectedFingerprintFile1 = file;
+      }
+      else if(fileType === 'fingerprintFile2'){
+        this.selectedFingerprintFile2 = file;
+      }
+
+    }
+  }
+
   // Submit the form data
   onSubmit(): void {
     this.userForm.markAllAsTouched();
@@ -159,9 +182,9 @@ export class AddUserModalComponent {
   }
 
   submitEmployee(): void {
-    if (this.fileSelect) {
+    if (this.fileSelect || this.selectedFingerprintFile1 || this.selectedFingerprintFile2) {
       const newEmployee = this.userForm.value;
-      this.employeeService.addEmployee(newEmployee, this.selectedImage)
+      this.employeeService.addEmployee(newEmployee, this.selectedImage, this.selectedFingerprintFile1, this.selectedFingerprintFile2)
         .subscribe(
           response => {
             this.employeeService.closeModal(); // Close the modal

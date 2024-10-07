@@ -22,7 +22,7 @@ import { DeleteBtnComponent } from './main/users/delete-btn/delete-btn.component
 import { CheckboxComponent } from './main/users/checkbox/checkbox.component';
 import { TableComponent } from './main/users/table/table.component';
 import { UserSelectionComponent } from './main/users/table/user-selection/user-selection.component';
-import { AddUserFormComponent } from './main/users/add-user-form/add-user-form.component';
+
 import { Table1Component } from './main/reports/table1/table1.component';
 import { UserDetailsComponent } from './main/reports/user-details/user-details.component';
 import { LoginSessionsComponent } from './main/reports/login-sessions/login-sessions.component';
@@ -83,7 +83,7 @@ const routes: Routes = [
     CheckboxComponent,
     TableComponent,
     UserSelectionComponent,
-    AddUserFormComponent,
+    
     Table1Component,
     UserDetailsComponent,
     LoginSessionsComponent,
