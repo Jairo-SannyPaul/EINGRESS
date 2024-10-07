@@ -119,7 +119,7 @@
 
                             <div class="fingerprint-1-container">
                                 <p><span class="notRequired">*</span> Fingerprint Template 1</p>
-                                <input type="text" id="addFinger-1" name="fingerprint-1" placeholder="Fingerprint Code">
+                                <input type="file" (change)="onFingerPrintFileSelected($event,'fpFile1')" id="addFinger-1" name="fingerprint-1" placeholder="Fingerprint File">
                             </div>
 
                         </div>
@@ -154,7 +154,7 @@
 
                             <div class="fingerprint-2-container">
                                 <p><span class="notRequired">*</span>Fingerprint Template 2</p>
-                                <input type="text" id="addFinger-2" name="fingerprint-2" placeholder="Fingerprint Code">
+                                <input type="file" (change)="onFingerPrintFileSelected($event,'fpFile2')" id="addFinger-2" name="fingerprint-2" placeholder="Fingerprint File">
                             </div>  
                         </div>
                     </div>

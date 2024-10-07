@@ -102,6 +102,19 @@ export class EmployeeService {
     return this.http.put<Employee>(updateEmployeeUrl, formData); // Send PUT request without image
   }
 
+  uploadFingerPrints(id: number, fingerprintfile1?: File | null, fingerprintfile2?: File | null): Observable<any>{
+    const formData: FormData = new FormData();
+
+    if (fingerprintfile1) {
+      formData.append('file', fingerprintfile1);  
+    }
+    if (fingerprintfile2) {
+      formData.append('file', fingerprintfile2);  
+    }
+    const updateEmployeeUrl = `${this.apiUrl}/fingerprintFiles/${id}`; // Send fingerprint files 
+    return this.http.post<any>(updateEmployeeUrl, formData);
+  }
+
   searchEmployee(searchInputValue: string): Observable<Employee[]> {
     return this.getEmployee().pipe(
       map(employees => {
