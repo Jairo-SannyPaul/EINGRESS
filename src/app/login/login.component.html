@@ -37,15 +37,17 @@
     </div>    
 </div> -->
 
-<div class="relative h-screen w-full">
+<div class="relative h-screen w-full flex flex-col lg:flex-row">
   <!-- Background Image -->
-  <div class="absolute left-0 top-0 bottom-0 w-1/2 bg-[#EDF4FF]">
+  <div class="hidden lg:block absolute left-0 top-0 bottom-0 w-1/2 bg-[#EDF4FF]"></div>
     <!-- Centering Container Inside White Background -->
-    <div class="flex items-center justify-center h-full">
+     <div class="flex flex-col items-center justify-center h-full w-full lg:w-1/2 p-6">
       <!-- Content -->
-      <div [ngClass]="{'h-[572px]': !isForgotPassword && !isVerification, 'h-[766px]': isForgotPassword}" class="absolute top-[100px] bg-[#EDF4FF] rounded-lg w-[512px] transition-all duration-300">
+      <div [ngClass]="{'h-[572px]': !isForgotPassword && !isVerification, 'h-[766px]': isForgotPassword}" 
+      class="relative p-4 bg-[#EDF4FF] rounded-lg w-full max-w-[512px] transition-all duration-300">
+        
         <!-- Logo -->
-        <div class="flex items-center mb-[126px]">
+        <div class="flex items-center mb-[126px]"> <!--flex-col-->
           <img src="/assets/images/jairo-logo.png" class="h-9" alt="Jairo Logo">
           <p class="text-[#6E6E6E] text-xl ml-3 font-semibold leading-7 tracking-[20%]">J A I R O S O F T</p>
           <p class="text-[#6E6E6E] text-xl ml-3 font-semibold leading-7 tracking-[20%]">E I N G R E S S</p>
@@ -303,7 +305,7 @@
   </div>
 
   <!-- Background Image -->
-  <img src="/assets/images/BG_Login.svg" class="absolute right-0 top-0 bottom-0 object-cover w-1/2 h-full" alt="Background Image">
+  <img src="/assets/images/BG_Login.svg"  class="hidden lg:block absolute right-0 top-0 bottom-0 object-cover w-1/2 h-full" alt="Background Image">
 
  <!-- Notification Popup -->
 <div *ngIf="isNotificationPopup" class="fixed bottom-10 right-10 bg-white text-[#4f4f4f] w-[362px] h-[64px] font-normal text-sm p-4 rounded-lg flex items-center">
@@ -312,5 +314,3 @@
   <button (click)="closeNotification()" class="bg-transparent border-none text-[#4f4f4f] text-lg ml-auto">&times;</button>
 </div>
 
-
-</div>
