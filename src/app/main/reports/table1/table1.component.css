@@ -1,6 +1,6 @@
 .table {
     display: grid;
-    width: 100%;
+
     height: 100%;
     grid-template-rows: 60px auto;
     padding-bottom: 60px;  
@@ -23,14 +23,15 @@
 }
 
 .table-body{
-    height: calc(100% - 40px);
+
+    max-height: calc(100% - 1px);
     overflow-y: auto;
     border-radius: 5px;
     background: rgba(255, 255, 255, 0.60);
 }
 
 .table-body.filter-active {
-    height: calc(100% - 80px); /* Adjusted when filter is active */
+    height: calc(100% - 170px); /* Adjusted when filter is active */
   }
 
 
